@@ -1,0 +1,228 @@
+
+{% extends 'temp/main_template.html' %}
+
+{% block content %}
+
+    <div class="container mt-5 h-screen bg-teal-50">
+  
+  
+<div id="offcanvas-usage" uk-offcanvas>
+    <div class="uk-offcanvas-bar">
+
+        <button class="uk-offcanvas-close" type="button" uk-close></button>
+
+        <h3>Title</h3>
+
+        <div >
+            <ul class="uk-subnav uk-subnav-pill" uk-switcher>
+                <li><a href="#">International</a></li>
+                <li><a href="#">Regional</a></li>
+                <li><a href="#">Assistant</a></li>
+                
+            </ul>
+            
+            <ul class="uk-switcher uk-margin">
+                <li>
+                    <span class="text-sm text-center ml-5">International Construction News</span>
+                    <a href="#" uk-switcher-item="2"></a>
+                    <div class="h-96 p-5 overflow-y-auto bg-gray-50 text-xs text-gray-500">
+                        {% include 'news/rss/news-international.xml' %}
+                    </div>
+                </li>
+                <li>
+                    <span>Engineering Materials News</span>
+                    
+                    <div class="h-96 p-5 overflow-y-auto bg-gray-50 text-xs text-gray-500">
+                        {% include 'news/rss/news-engineering.xml' %}
+                    </div>
+                </li>
+                <li>
+                    <label class="btn btn-primary" 
+                    hx-get="/ai_assistant"
+                    hx-target="#aiassist"
+                    hx-indicator=""
+                    
+                    >Ai Assistant</label>
+                    <div id="aiassist"></div>
+                </li>
+                <li>
+                    <label class="btn btn-primary" for="modal-2">Open Modal</label>
+
+                    <input class="modal-state" id="modal-2" type="checkbox" />
+                    <div class="modal w-screen">
+                        <label class="modal-overlay" for="modal-2"></label>
+                        <div class="modal-content flex flex-col gap-5 max-w-3xl">
+                            <label for="modal-2" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</label>
+                            <h2 class="text-xl">Modal title 2</h2>
+                            <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur dolorum voluptate ratione dicta. Maxime cupiditate, est commodi consectetur earum iure, optio, obcaecati in nulla saepe maiores nobis iste quasi alias!</span>
+                            <div class="flex gap-3">
+                                <button class="btn btn-error btn-block">Delete</button>
+                                <button class="btn btn-block">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                    Local Construction News 
+                    <a href="#" uk-switcher-item="previous">Previous item</a>
+                    <div class="dropdown">
+                        <label class="btn btn-solid-primary my-2" tabindex="0">Click</label>
+                        <div class="dropdown-menu dropdown-menu-bottom-right">
+                            <a class="dropdown-item text-sm">Profile</a>
+                            <a tabindex="-1" class="dropdown-item text-sm">Account settings</a>
+                            <a tabindex="-1" class="dropdown-item text-sm">Subscriptions</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+           
+        
+           
+        </div>
+    </div>
+</div>
+       
+        <div id="dash_message"></div>
+        <div class="flex flex-row">
+            
+            <div class="side flex flex-col p-2 m-2">
+
+                <div id="dash-left-pane" class="bg-gray-100">
+                    
+                    
+                
+                </div> 
+    
+            </div>
+            <div class="mainc flex flex-col p-3 mt-2">
+
+                <div id="dash-content-pane" class="bg-gray-50">
+                    <div class="mx-5 p-2">
+                        <div class="uk-flex">
+                            <div class="uk-card uk-margin-left">
+                                <span class="text-xs text-left text-yellow-500 font-bold">Recent Projects</span>
+                                <ul class="text-sm">
+                                    <li>
+                                        <div class="card">
+                                            <div class="card-body">Edit Bill-13</div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="card">
+                                            <div class="card-body">Add New Employee</div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                
+                            </div>
+                            <div class="uk-card uk-margin-left">
+                                <span class="text-xs text-left text-yellow-500 font-bold">Latest Activity</span>
+                                <ul class="text-sm">
+                                    <li>
+                                        <div class="card">
+                                            <div class="card-body">Edit Bill-13</div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="card">
+                                            <div class="card-body">Add New Employee</div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                
+                            </div>
+                            <div class="uk-card uk-margin-left">
+                                <span class="text-xs text-left text-yellow-500 font-bold">Goals</span>
+                                <ul class="text-sm">
+                                    <li>
+                                        <div class="card">
+                                            <div class="card-body">Edit Bill-13</div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="card">
+                                            <div class="card-body">Add New Employee</div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                
+                            </div>
+
+                            <div class="uk-card text-sm rounded-md">
+                                <h5 class="p-2 text-center">Resources</h5>
+                                <table class="uk-table uk-table-divider">
+                                    <thead>
+                                        <tr>
+                                            <th>Utility</th>
+                                            <th>Description</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><a href="https://www.starlette.io/" target="_blank"><img width="100px" src="https://www.starlette.io/img/starlette.png" alt=""></a></td>
+                                            <td>Asgi Http Application Kit</td>
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td><a href="https://getuikit.com/" target="_blank">Uikit</a></td>
+                                            <td>User interface</td>
+                                           
+                                        </tr>
+                                        <tr>
+                                            <td><a href="https://www.ripple-ui.com/" target="_blank">Ripple Ui</a></td>
+                                            <td>User interface</td>
+                                           
+                                        </tr>
+                                        <tr>
+                                            <td><a href="https://tailwindcss.com/" target="_blank">Tailwindcss</a></td>
+                                            <td>User interface</td>
+                                           
+                                        </tr>
+                                        <tr>
+                                            <td><a href="https://htmx.org/" target="_blank"><img width="100px" src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRtuBGxzjdmU-YyeNJd1y-yvZ9Om7bkFk2S9EaqWqff9_j-dERP" alt=""></a></td>
+                                            <td>Networking</td>
+                                        </tr>
+                                        <tr>
+                                            <td><a href="https://app.apitally.io/apps" target="_blank">
+                                                ApiTally</a></td>
+                                            <td>Traffic Metrics</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+        
+                            
+                            </div>                         
+                            
+                        </div>
+                        
+                        
+
+                    </div>
+                </div>
+            
+            </div>
+        
+        </div>          
+    </div>
+   
+{% endblock content %}
+
+
+{% block extra_script %}
+
+<script>
+    function ready() {
+        lastUser = localStorage.getItem('SESSION_USER')
+        if(lastUser){
+            alert(JSON.stringify(lastUser))
+        }else {
+            alert('You Should LOgin')
+            
+        }
+    }
+
+    
+
+</script>
+
+{% endblock extra_script %}
+   

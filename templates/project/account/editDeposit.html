@@ -1,0 +1,38 @@
+<div class="uk-alert-primary" uk-alert hx-confirm="Are you sure you want to proceed with this action?">
+   
+<form hx-put="/update_account_deposit/{{id}}" 
+        hx-target="this" 
+        hx-swap="outerHTML"
+        >
+    <div class="uk-card uk-card-default uk-card-body">
+        <h3 class="uk-card-title">Edit Account DSeposit</h3>
+        <div class="flex flex-col">
+            <div class="flex flex-row my-2">
+                <label>Id</label>
+                
+                <input class="bg-gray-200 px-3 py-2 ml-2 rounded-md"  type="text" name="id" value="{{ d.id }}">
+            </div>
+            <div class="form-group flex flex-row my-2">
+                <label>Refference</label>
+                <input class="bg-gray-200 px-3 py-2 ml-2 rounded-md"  type="text" name="ref" value="{{ d.ref }}">
+            </div>
+            <div class="form-group flex flex-row my-2">
+                <label>Date</label>
+                <input class="bg-gray-200 px-3 py-2 ml-2 rounded-md" name="date" type="date" value="{{ d.date }}">
+            </div>
+            <div class="form-group flex flex-row my-2">
+                <label>Amount</label>
+                <input class="bg-gray-200 px-3 py-2 ml-2 rounded-md"  type="number" name="amount" value="{{ d.amount }}">
+            </div>
+
+            <div class="form-group flex flex-row my-2">
+                <label>Payee</label>
+                <input class="bg-gray-200 px-3 py-2 ml-2 rounded-md"  type="text" name="payee" value="{{ d.payee }}">
+            </div>
+        </div>
+        <button class="btn btn-primary">Submit</button>
+        <button class="btn btn-primary uk-alert-close" uk-close >Close  .</button>
+    </div>
+</form>
+
+</div>

@@ -1,0 +1,73 @@
+<div class="uk-card uk-card-default uk-width-2-3@m">
+    <div class="uk-card-header">
+        <a class="navbar-item"><p class="uk-text-meta uk-margin-remove-top"><span class="uk-badge">ID   {{ rate.get('_id')  }}</span> Category  {{ rate.get("category")  }}</p></a>
+              
+        <div class="navbar">
+            <div class="navbar-start">
+                <a class="navbar-item"> {{ rate.get("title")  }}</a>
+            </div>
+            <div class="navbar-end">
+                <a class="navbar-item btn btn-primary" type="button"  uk-toggle="target: #add-to-project">Add to Project</a>
+                
+
+            </div>
+        </div>
+        
+    </div>
+    <div class="uk-card-body">
+        <p> {{ rate.get("description")  }}</p>
+
+        <hr class="uk-divider-small" />
+
+    <div class="uk-child-width-expand@s uk-text-center" uk-grid>
+        <div>
+            <div class="uk-card uk-card-default uk-card-body">
+                {% include '/project/task/metricProperties.html' %}
+               
+            </div>
+        </div>
+        <div>
+            <div class="uk-card uk-card-default uk-card-body">
+                {% include '/project/task/imperialProperties.html' %}
+                
+            </div>
+        </div>
+        
+    </div>
+
+
+
+</div>
+
+
+<div class="uk-card-footer">
+<a href="#" class="uk-button uk-button-text">Read more</a>
+ <p class="uk-text-meta uk-margin-remove-top">Created <time datetime="2016-04-01T19:00"> {{ rate.get("metadata", {} ).get('created')  }}</time></p>
+</div>
+</div>
+
+<!-- This is the modal -->
+<div id="add-to-project"  uk-modal>
+    <div class="uk-modal-dialog uk-modal-body bg-yellow-300 rounded-lg">
+        <h4 class="uk-modal-title text-sm">Select a Project to Add {{ rate.get("title")  }} To.</h4>
+       
+        <select 
+        class="mx-5 my-3 rounded-md"
+        name="project_id" 
+        hx-post="/add_project_rate/{{rate._id}}"
+        hx-target="#message"
+        aria-label="Custom controls"
+        >
+            <option value="">Active Projects</option>
+           
+            {% for project in projects %}
+                <option class="uk-modal-close" value="{{project.id}}">{{ project.value.name }}</option>
+            {% endfor %}
+        </select>
+
+        <p class="uk-text-right">
+            <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+           
+        </p>
+    </div>
+</div>

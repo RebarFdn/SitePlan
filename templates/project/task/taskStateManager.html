@@ -1,0 +1,189 @@
+<p class="text-lg text-center font-semibold">{{ task.name}}  Active State</p>
+
+
+    <div class="flex w-full overflow-x-auto">
+        <table class="table-compact table max-w-4xl">
+            <thead>
+                <tr>
+                    <th>State </th>
+                    <th></th>
+                    <th>Event Date</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                
+            {% if not task.state.terminated %}
+                <tr>
+                    <th>
+                        {% if task.state.paused %}
+                        <a 
+                            href="#"
+                            hx-post="/task_state/{{task._id}}-resume"                               
+                            hx-target="#project_properties"
+                            hx-trigger="click"
+                            class="uk-display-block uk-card uk-card-body uk-link-toggle uk-width-medium p-1">
+                            <h4 class="uk-card-title"><span class="uk-link-heading">Resume</span></h4>
+                            <p>task has been on hold since.</p>
+                        </a>
+                        {% else %}
+                        
+                            
+                                {% if task.state.active %}
+                                <h4 class="uk-card-title"><span class="uk-link-heading">Active</span></h4>
+                                <div class="flex flex-row">
+                                    <p class="mx-5">task is live and running !</p>
+                                    <div class="progress progress-success progress-indeterminate">
+                                </div>
+                                </div>
+                                {% else %}
+                                <a 
+                                href="#"                   
+                                hx-post="/task_state/{{task._id}}-activate"                               
+                                hx-target="#project_properties"
+                                hx-trigger="click"
+                                class="uk-display-block uk-card uk-link-toggle uk-width-medium">
+                                <h4 class="uk-card-title"><span class="uk-link-heading">Start</span></h4>
+                                    <p>Activate The task.</p>
+                                </a>
+                                {% endif %}
+                      
+                        {% endif %}
+                    
+                    </th>
+                    <td>{{ task.state.active }}</td>
+                    <td>
+                        
+                        {% if task.event.started %}
+                            {{ task.event.started | convert_timestamp }} 
+                        {% endif %}
+                    </td>
+                    
+                </tr>
+            {% endif %} 
+            {% if task.state.active %}
+                <tr>
+                    <th>
+                        {% if task.state.completed %}
+                        <a href class="uk-display-block uk-card uk-card-body uk-link-toggle uk-width-medium p-1">
+                            <h4 class="uk-card-title"><span class="uk-link-heading">Completed</span></h4>
+                            <p>task is complete.</p>
+                        </a>
+                        {% else %}
+                        <a 
+                            href="#"
+                            hx-post="/task_state/{{task._id}}-complete"                               
+                            hx-target="#project_properties"
+                            hx-trigger="click"
+                            class="uk-display-block uk-card uk-link-toggle uk-width-medium">
+                            <h4 class="uk-card-title"><span class="uk-link-heading">Complete</span></h4>
+                                
+                                    <p>Complete the task.</p>
+                               
+                        </a>
+                        {% endif %}
+                    
+                    </th>
+                    <td>{{ task.state.completed }}</td>
+                    <td>{% if task.event.completed  %}
+                        {{ task.event.completed | convert_timestamp }} 
+                    {% endif %} </td>
+                    
+                </tr>
+            
+                <tr>
+                    <th>
+                        {% if task.state.paused %}
+                        <a href class="uk-display-block uk-card uk-card-body uk-link-toggle uk-width-medium p-1">
+                            <h4 class="uk-card-title"><span class="uk-link-heading">Paused</span></h4>
+                            <p>task has been put on hold.</p>
+                        </a>
+                        {% else %}
+                            {% if task.state.active %}
+
+                                <a 
+                                    href="#"
+                                    hx-post="/task_state/{{task._id}}-pause"                               
+                                    hx-target="#project_properties"
+                                    hx-trigger="click"
+                                    class="uk-display-block uk-card uk-link-toggle uk-width-medium">
+                                    <h4 class="uk-card-title"><span class="uk-link-heading">Pause</span></h4>                                
+                                    <p>Put the task on Hold.</p>
+                                    
+                                </a>
+
+                            {% endif %}
+                        {% endif %}
+                    
+                    </th>
+                    <td>{{ task.state.paused }}</td>
+                    <td>
+                        
+                        
+                        <span class="uk-margin-small-right" style="color: crimson;" uk-icon="history" type="button"></span>
+                        <div class="uk-width-large" uk-dropdown>
+                            <div class="uk-drop-grid uk-child-width-1-2@m" uk-grid>
+                                <div>
+                                    <ul class="uk-nav uk-dropdown-nav">
+                                        <li class="uk-nav-header">Paused Dates</li>
+                                        <li class="uk-nav-divider"></li>
+                                        {% for paused in task.event.paused %}
+                                            <li><a href="#">{{ paused | convert_timestamp }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                <div>
+                                    <ul class="uk-nav uk-dropdown-nav">
+                                        <li class="uk-nav-header">Resumption Dates</li>
+                                        <li class="uk-nav-divider"></li>
+                                        {% for date in task.event.restart %}
+                                            <li><a href="#">{{ date | convert_timestamp }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    
+                </tr>
+            {% endif %}   
+                <tr>
+                    <th>
+                        {% if task.state.terminated %}
+                        <a href class="uk-display-block uk-card uk-card-body uk-link-toggle uk-width-medium p-1">
+                            <h4 class="uk-card-title"><span class="uk-link-heading">Terminated</span></h4>
+                            <p>task has been Discontinued.</p>
+                        </a>
+                        {% else %}
+                        <a 
+                            href="#" 
+                            hx-post="/task_state/{{task._id}}-terminate"                               
+                            hx-target="#project_properties"
+                            hx-trigger="click"  
+                            class="uk-display-block uk-card uk-link-toggle uk-width-medium">
+                            <h4 class="uk-card-title"><span class="uk-link-heading">Terminate</span></h4>
+                                
+                            <p>Discontinue The task.</p>
+                               
+                        </a>
+                        {% endif %}
+                    
+                    </th>
+                    <td>{{ task.state.terminated }}</td>
+                    <td>
+                        {% if task.event.terminated  %}
+                            {{task.event.terminated | convert_timestamp }} 
+                        {% endif %}
+                    
+                    </td>
+                    
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="text-xs flex flex-col">
+        <p>{{ task.state }}</p>
+        <p>{{ task.event }}</p>
+
+    </div>
+    <p class="text-xs text-center">Location ptoject/task/taskStateManager.html</p>

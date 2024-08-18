@@ -1,0 +1,151 @@
+{% macro jobstate ( state ) -%}
+   {% if state.active %}
+   <span class="text-lg text-green-500 font-semibold" style="color: green;">Active</span>
+   {% elif state.complete %}
+   <span class="text-lg text-green-500 font-semibold" style="color: rgba(12, 86, 224, 0.973);">Completed</span>
+   {% elif state.pause %}
+   <span class="text-lg text-green-500 font-semibold" style="color: rgba(250, 214, 9, 0.993);">Paused</span>
+   {% elif state.terminate %}
+   <span class="text-lg text-green-500 font-semibold" style="color: rgba(241, 5, 5, 0.973);">Terminated</span>
+
+   {% endif %}
+{%- endmacro %}
+
+<div class="bg-gray-50 p-5 my-5 border rounded">            
+    <div class="uk-child-width-expand@s uk-text-left uk-grid-responsive" uk-grid>
+        <div>
+            <p class="text-lg font-semibold"> <span class="text-sm font-semibold mx-8">Job Id </span><span class="uk-badge">{{  job._id }}</span> </p>
+            <p class="text-lg font-semibold"> <span class="text-sm font-semibold mx-8">Job Title </span>  {{ job.title }}</p>
+            <p> <span class="font-semibold mx-8">Creation Date </span>{{ job.event.created }} </p>
+            <p> <span class="font-semibold mx-8">Start Date </span>{{ job.event.started | convert_timestamp }} </p>
+             <p> <span class="font-semibold mx-8">State </span>{{ jobstate(job.state) }} </p>
+        </div>
+        <div>
+            <div class="flex flex-col text-sm">
+                <p><span class="font-semibold mx-8">ProjectPhase</span> 
+                    {% if job.get('projectPhase') %}
+                     {{ job.projectPhase }}
+                     {% else %}
+                     <form>
+                        <div class="uk-margin">
+                            <div uk-form-custom="target: > * > span:first-child">
+                                <select 
+                                name="projectphase" 
+                                hx-post="/update_job_phase/{{job._id}}"
+                                hx-target="#message"
+                                aria-label="Custom controls"
+                                >
+                                    <option value="">Please select...</option>
+                                    {% for phase in project_phases %}
+                                        <option value="{{phase}}">{{ phase }}</option>
+                                    {% endfor %}
+                                </select>
+                                <button class="uk-button uk-button-default" type="submit" tabindex="-1"                                                  
+                                    
+                                
+                                >
+                                    <span></span>
+                                    <span uk-icon="icon: chevron-down"></span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                    
+                    </form>
+                    {% endif %}
+                </p>
+                <p> <span class="font-semibold mx-8">Crew </span>{{ job.get('crew').get('name') }} </p>
+                <p> <span class="font-semibold mx-8">Crew Members</span> <span class="uk-badge font-semibold">{{ crew_members }} </span></p>
+                <p> <span class="font-semibold mx-8">All Tasks</span> <span class="uk-badge font-semibold">{{ job.tasks | length }} </span></p>
+                <p class="my-2"> <span class="font-semibold mx-8">Progress</span> <progress class="progress progress-secondary" value="{{ job.progress }}" max="100"></progress> <span class="uk-badge font-semibold">{{ job.progress }} % </span></p>
+        
+           
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="uk-card-body p-3">
+            
+    <p class="text-md"><span class="font-semibold mx-8">Job Description </span>
+    {{ job.get('description') }}    
+    </p>
+    <hr class="uk-divider-icon">
+    {% if job.get('cost').get('task') > 0 %}
+        <p class="text-lg text-center font-bold">Job Costs Settlement</p>
+        <table class="uk-table uk-table-responsive uk-table-divider uk-table-small">
+            
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Tasks</th>
+                    <th>Contractor</th>
+                    <th>Miscellaneous</th>
+                    <th>Insurance</th>
+                    <th>Overhead</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>Charges</th>
+                    <td></td>
+                    <td> {{ job.get('fees').get('contractor')}} <span class="text-lg font-semibold">%</span></td>
+                    <td>{{ job.get('fees').get('misc')}}<span class="text-lg font-semibold">%</span></td>
+                    <td> {{ job.get('fees').get('insurance')}}<span class="text-lg font-semibold">%</span></td>
+                    <td>{{ job.get('fees').get('overhead')}}<span class="text-lg font-semibold">%</span></td>
+                    
+                </tr>
+                <tr>
+                    <th>Fees</th>
+                    <td>{{ job['cost']['task'] | to_dollars }}</td>
+                    <td>{{ job['cost']['contractor'] | to_dollars }}</td>
+                    <td>{{ job['cost']['misc'] | to_dollars }} </td>
+                    <td>{{ job['cost']['insurance'] | to_dollars }} </td>
+                    <td>{{ job['cost']['overhead'] | to_dollars }} </td>
+                    
+                </tr>
+            
+                <tr>
+                    <th>Total Job Cost</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{{ job['cost']['total']['metric'] | to_dollars }}</td>
+                </tr>
+                <tr>
+                    <th>Payment Settled</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{{ job['result']['paid'] }}</td>
+                </tr>
+                {% if job['result']['paid'] %}
+                <tr>
+                    <th>Amount Paid </th>
+                    <td>{{ job['result']['paydate'] }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{{ job['result']['payamount'] | to_dollars }}</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="text-lg text-center text-gray-500 font-bold">Not Enough Data To Process Costs Settlement</p>
+    {% endif %}
+    <!--ul class="uk-list">
+    {% for key, value in job.items()%}
+    <li><span class="text-xs"><strong>{{ key }}</strong> ____________ {{ value }}</span></li>
+    {% endfor %}
+    </ul-->
+    <div class="card-footer">
+        <button class="btn-secondary btn">Learn More</button>
+    </div>
+</div>
+    
+<p class="text-xs text-center">Location: /templates/project/job/jobHomeConsole.html</p>
+               
+ 

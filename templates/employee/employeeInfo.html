@@ -1,0 +1,165 @@
+<div id="employee-info">    
+    <p class="text-lg text-center font-semibold my-5"> Employee Information Interface</p>  
+    
+    
+    <div class="uk-text-center" uk-grid>
+        <div class="uk-width-auto@m">
+            <div id="employee-profile" class="uk-card uk-card-default uk-card-body">
+                <div  class="uk-width-auto">
+                    
+                    <img class="uk-border-square" width="86" height="86" src="{{ employee.imgurl }}" alt="Avatar">
+                    <span class="text-center text-xs">{{ employee.oc }}</span>
+                </div>
+            </div>
+            <div class="uk-inline">
+                <button class="uk-button uk-button-default  uk-button-small" type="button">Update Profile</button>
+                <div uk-dropdown="mode: click">
+                    <form id='form' hx-encoding='multipart/form-data' hx-post='/upload_employee_profile/{{employee._id}}' hx-target="#employee-profile">
+                        <div class="flex flex-col">
+                            <input type='file' name='profile'>
+                            <button class="uk-button uk-button-primary uk-button-small uk-margin">Upload Profile</button>
+                            <!--progress id='progress' value='0' max='100'></progress-->
+                        </div>
+                    </form>                    
+                </div>
+            </div>
+            
+        
+        </div>
+        <div class="uk-width-1-3@m">
+            <div class="uk-card uk-card-default uk-card-body">
+                <ul class="uk-list uk-list-striped text-sm text-left">
+                    <li>Id. <span>{{ employee._id }}</span></li>
+                    <li>Name <span>{{ employee.name }}</span></li>
+                    <li>Alias <span>{{ employee.oc }}</span></li>
+                    <li>Sex <span>{{ employee.sex }}</span></li>
+                    <li>D.O.B <span>{{ employee.dob }}</span></li>
+                    <li>Height<span>{{ employee.height }}</span> CM</li>
+                </ul>
+                
+            </div>
+        </div>
+        <div class="uk-width-expand@m">
+            <div class="uk-card uk-card-default uk-card-body text-sm">
+               
+                <!--ul class="uk-list uk-list-striped" uk-accordion>
+                    <li class="uk-open">
+                        <a class="uk-accordion-title text-sm" href>Identity</a>
+                        <div class="uk-accordion-content">
+                           
+                                <ul class="uk-list uk-list-striped text-sm text-left">
+                                    <li>Identity <span>{{ employee.identity }}</span></li>
+                                    <li>Id Type <span>{{ employee.id_type }}</span></li>
+                                    <li>Occupation <span>{{ employee.occupation }}</span></li>
+                                    <li>Rating <span>{{ employee.rating }}</span></li>
+                                    
+                                </ul>
+                            
+                        </div>
+                    </li>
+                    <li>
+                        <a class="uk-accordion-title text-sm" href>Contact</a>
+                        <div class="uk-accordion-content">
+                            <div class="bg-gray-300 p-5 border rounded">{{ employee.get('contact') }}</div> 
+                        </div>
+                    </li>
+                    <li >
+                        <a class="uk-accordion-title text-sm"  href>Address</a>
+                        <div class="uk-accordion-content">
+                            <div class="bg-gray-300 p-5 border rounded">{{ employee.get('address') }}</div>
+                        </div>
+                    </li>
+                    <li>
+                        <a class="uk-accordion-title text-sm" href>Next of Kin</a>
+                        <div class="uk-accordion-content">
+                            <div class="bg-gray-300 p-5 border rounded">{{ employee.get('nok') }}</div> 
+                        </div>
+                    </li>
+                    <li>
+                        <a class="uk-accordion-title text-sm" href>State</a>
+                        <div class="uk-accordion-content">
+                            <div class="bg-gray-300 p-5 border rounded">{{ employee.get('state') }}</div> 
+                        </div>
+                    </li>
+                    <li>
+                        <a class="uk-accordion-title text-sm" href>Event</a>
+                        <div class="uk-accordion-content">
+                            <div class="bg-gray-300 p-5 border rounded">{{ employee.get('event') }}</div> 
+                        </div>
+                    </li>
+                </ul-->
+
+                <div class="accordion-group accordion-group-hover">
+                    <div class="accordion" tabindex="0">
+                        <input type="checkbox" id="id" class="accordion-toggle" />
+                        <label for="id" class="accordion-title text-sm">Identity </label>
+                        <div class="accordion-content">
+                            <div class="min-h-0"> 
+                                <ul class="uk-list uk-list-striped text-sm text-left">
+                                    <li>Identity <span>{{ employee.identity }}</span></li>
+                                    <li>Id Type <span>{{ employee.id_type }}</span></li>
+                                    <li>Occupation <span>{{ employee.occupation }}</span></li>
+                                    <li>Rating <span>{{ employee.rating }}</span></li>
+                                    
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion" tabindex="0">
+                        <input type="checkbox" id="contact" class="accordion-toggle" />
+                        <label for="contact" class="accordion-title">Contact</label>
+                        <div class="accordion-content">
+                            <div class="min-h-0">
+                                <div class="bg-gray-300 p-5 border rounded">{{ employee.get('contact') }}</div> 
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion" tabindex="0">
+                        <input type="checkbox" id="address" class="accordion-toggle" />
+                        <label for="address" class="accordion-title">Address</label>
+                        <div class="accordion-content">
+                            <div class="min-h-0">
+                                <div class="bg-gray-300 p-5 border rounded">{{ employee.address }}</div> 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion" tabindex="0">
+                        <input type="checkbox" id="nok" class="accordion-toggle" />
+                        <label for="nok" class="accordion-title">Next of Kin</label>
+                        <div class="accordion-content">
+                            <div class="min-h-0">
+                                <div class="bg-gray-300 p-5 border rounded">{{ employee.nok }}</div> 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion" tabindex="0">
+                        <input type="checkbox" id="state" class="accordion-toggle" />
+                        <label for="state" class="accordion-title">State</label>
+                        <div class="accordion-content">
+                            <div class="min-h-0">
+                                <div class="bg-gray-300 p-5 border rounded">{{ employee.state }}</div> 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion" tabindex="0">
+                        <input type="checkbox" id="event" class="accordion-toggle" />
+                        <label for="event" class="accordion-title">Event</label>
+                        <div class="accordion-content">
+                            <div class="min-h-0">
+                                <div class="bg-gray-300 p-5 border rounded">{{ employee.event }}</div> 
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            
+            </div>
+        </div>
+    </div>
+  
+   
+   
+</div> 

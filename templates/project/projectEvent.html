@@ -1,0 +1,67 @@
+<p class="text-lg text-center font-semibold my-5">{{ project.name}}  Event Manager</p>
+
+<div class="flex w-full overflow-x-auto">
+    <table class="table-compact table max-w-4xl">
+        <thead>
+            <tr>
+                <th>Event </th>
+                <th>Action</th>
+                <th>Event Date</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for key, value in project.event.items() %}
+            <tr>
+                <td>{{ key | capitalize }}</td>
+                <td><input type="date" name="{{key}}" hx-post="/project_event/{{project._id}}" hx-target="#project_properties" hx-trigger="change"></td>
+                <td>
+                    {% if key == "paused" %}
+                    <div class="flex flex-row items-inline space-x-5">
+                    <span class="uk-margin-small-right" style="color: hsl(214, 73%, 49%);" uk-icon="history" type="button"></span>
+                    <div class="uk-width-large" uk-dropdown>
+                        <ul class="uk-nav uk-dropdown-nav">
+                            <li class="uk-nav-header">Paused Dates</li>
+                            <li class="uk-nav-divider"></li>
+                            {% for paused in value %}
+                                <li><a href="#">{{ paused | convert_timestamp }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div> 
+                    {% if project.event.paused | length > 0 %}
+                        <p class="text-xs">Most Recent {{ project.event.paused[-1] | convert_timestamp }}</p>
+                    {% endif %}
+                    </div>
+
+                    {% elif key == "restart" %}
+                    <div class="flex flex-row items-inline space-x-5">
+                    <span class="uk-margin-small-right" style="color: rgba(46, 139, 3, 0.788);" uk-icon="future" type="button"></span>
+                    <div class="uk-width-large" uk-dropdown>
+
+                        <ul class="uk-nav uk-dropdown-nav">
+                            <li class="uk-nav-header">Resumption Dates</li>
+                            <li class="uk-nav-divider"></li>
+                            {% for date in value %}
+                                <li><a href="#">{{ date | convert_timestamp }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% if project.event.restart | length > 0 %}
+                        <p class="text-xs">Most Recent {{ project.event.restart[-1] | convert_timestamp }}</p>
+                    {% endif %}
+                </div>
+                    {% else %}
+                        {% if value == 0 or value == None %}
+                            <span class="uk-margin-small-right" style="color: rgba(17, 17, 16, 0.795);" uk-icon="clock"></span>
+                        {% else %}
+                            {{ value | convert_timestamp }}
+                        {% endif %}
+                    {% endif %}
+
+                </td>
+                
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

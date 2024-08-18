@@ -1,0 +1,114 @@
+<div class="flex flex-col bg-gray-50 text-gray-900 space-y-1.5">
+    <div class="border-b-2 border-gray-200 dark:border-gray-700 ml-5">
+        <nav class="-mb-0.5 flex space-x-6">
+            <a 
+            class="py-4 px-1 inline-flex items-center gap-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600" 
+            href="#"
+            hx-get="/project_account/{{id}}"
+            hx-target="#project_properties"
+            hx-trigger="click"                
+            >
+            <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            Account
+            </a>
+            <a 
+            class="py-4 px-1 inline-flex items-center gap-2 border-b-2 border-blue-500 text-sm font-medium whitespace-nowrap text-blue-600 focus:outline-none focus:text-blue-800" 
+            href="#" aria-current="page"
+            hx-get="/project_workers/{{id}}/all"
+            hx-target="#project_properties"
+            hx-trigger="click"
+            >
+            <span uk-icon="users"></span> Workers
+            </a>
+            <a 
+            class="py-4 px-1 inline-flex items-center gap-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600"
+            href="#"
+            hx-get="/project_jobs/{{id}}"
+            hx-target="#project_properties"
+            hx-trigger="click"
+            >
+            <span uk-icon="cog"></span>Jobs
+            </a>
+            <a 
+            class="py-4 px-1 inline-flex items-center gap-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600"
+            href="#"
+            hx-get="/project_days/{{id}}"
+            hx-target="#project_properties"
+            hx-trigger="click"
+            >Daywork</a>
+            <a 
+            class="py-4 px-1 inline-flex items-center gap-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600"
+            href="#"
+            hx-get="/project_rates/{{id}}"
+            hx-target="#project_properties"
+            hx-trigger="click"
+            >Rates</a>
+            <a 
+            class="py-4 px-1 inline-flex items-center gap-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600"
+            href="#"
+            hx-get="/project_event/{{id}}"
+            hx-target="#project_properties"
+            hx-trigger="click"
+            ><span uk-icon="future"></span>Events</a>
+            <a 
+            class="py-4 px-1 inline-flex items-center gap-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600"
+            href="#"
+            hx-get="/project_state/{{id}}-state"
+            hx-target="#project_properties"
+            hx-trigger="click"
+            >State</a>
+            <a 
+            class="py-4 px-1 inline-flex items-center gap-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600"
+            href="#"
+            hx-get="/project_activity/{{id}}"
+            hx-target="#project_properties"
+            hx-trigger="click"
+            ><span uk-icon="list"></span>Logs</a>
+        </nav>
+    </div>
+    <div id="project_properties">
+        <div class="bg-gray-100 p-5 border rounded">
+            <div class="uk-child-width-expand@s uk-text-center" uk-grid>
+                <div>
+                    <div class="uk-card uk-card-default uk-card-body">
+                        {{ p.name }}
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-card uk-card-default uk-card-body">
+                        Category {{ p.category }}</div>
+                </div>
+                <div>
+                    <div class="uk-card uk-card-default uk-card-body">
+                        <form action="">
+                            <div class="flex flex-row space-x-2">
+                                <label>Standard</label>: 
+                                <span id="project-standard" class="mx-2">{{ p.standard }} </span> 
+                                {% if p.standard == 'metric' %}
+                                    <input type="checkbox" class="switch switch-primary" name="standard" checked 
+                                    hx-post="/update_project_standard/{{p._id}}"
+                                    hx-target="#project-standard"
+                                    hx-trigger="change"
+                                    />
+                                {% else %}
+                                    <input type="checkbox" class="switch switch-primary" name="standard" unchecked 
+                                        hx-post="/update_project_standard/{{p._id}}"
+                                        hx-target="#project-standard"
+                                        hx-trigger="change"
+                                        />
+                                {% endif %}
+                               
+                            </div>
+                        </form> 
+                        
+                    </div>
+                </div>
+            </div>
+                      
+        </div>
+                    
+        <div class="bg-gray-300 p-5 border rounded">{{ p.owner }}</div>
+        <div class="bg-gray-300 p-5 border rounded">{{ p.address }}</div>
+    </div>
+                     
+</div> 

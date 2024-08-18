@@ -1,0 +1,26 @@
+
+
+<table class="uk-table uktable-small">
+    <thead>
+        <th>Id</th>
+        <th>description</th>
+        <th>Unit</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Cost/Total</th>
+    </thead>
+    <tbody id="paybill-items">
+        {% for item in bill_items %}
+        <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.description }} {{ item.title}} </td>
+            <td>{{ item.metric.unit }}</td>
+            <td>{{ item.metric.quantity }}</td>
+            <td>{{ item.metric.price | to_dollars }}</td>
+            <td> {{ item.metric.cost | to_dollars }}/{{ item.metric.total | to_dollars }}</td>
+        </tr>
+        {% endfor %}
+        <tr ></tr>
+    </tbody>
+</table>
+

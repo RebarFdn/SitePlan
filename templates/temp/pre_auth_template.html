@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SitePlan</title>
+    <script src="/static/js/htmx.min.js"></script>
+    <link href="/static/css/app.css" rel="stylesheet">
+    
+   
+</head>
+<body class="bg-gray-200">
+    <header>
+        <h1 class="text-teal-500 text-center font-bold mx-10 my-10">
+            {% block header %}{% endblock %}
+        </h1>
+    </header>
+    <div class="text-center items-center">
+        <p id="message"></p>
+        {% block content %}{% endblock %}
+
+    </div>
+    
+    <footer>
+        {% block footer %} {% endblock %}
+        <p class="text-xs text-teal-600 m-5">{{ request.headers }}</p>
+    </footer>
+
+    <script src="/static/node_modules/lodash/lodash.min.js"></script>   
+    <script src="/static/node_modules/preline/dist/preline.js"></script>
+   
+</body>
+</html>

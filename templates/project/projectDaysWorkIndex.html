@@ -1,0 +1,131 @@
+<div class="flex flex-col space-y-1.5">
+    <div class="navbar">
+        <div class="navbar-start">
+                <a class="navbar-item"><span>{{ project.name }} Days Work Index </span></a>
+        </div>
+        <div class="navbar-center">
+                <!--ul class="uk-subnav uk-subnav-pill" uk-switcher="connect: #job-properties">
+                    <li><a href="#" class="navbar-item">Home</a></li>
+                    <li><a href="#" class="navbar-item">Tasks</a></li>
+                    <li><a href="#" class="navbar-item">Crew</a></li>
+                    
+                
+                </ul-->
+                
+                 <button class="uk-button uk-button-primary uk-button-small uk-margin-small-right navbar-item" type="button" uk-toggle="target: #add-day-modal">Add Day Work</button>
+
+        </div>
+        <div class="navbar-end">                
+                <form hx-post="/filter_days_work/{{project._id}}" hx-target="#days-workindex" hx-trigger="submit"> 
+                    <ul class="uk-navbar-nav">
+                       
+                        <li class="uk-active">
+                            <div class="flex flex-col">
+                                <input class="uk-input" type="date" name="filter_start">
+                                <span class="text-xs">Period Start</span>
+                            </div>
+                        
+                        </li>
+                        <li class="uk-parent"> 
+                            <div class="flex flex-col">
+                                <input class="uk-input" type="date" name="filter_end">
+                                <span class="text-xs">Period Ending</span>
+                            </div>
+                        </li>
+                        <li>
+                            <button class="uk-button uk-buton-small uk-button-primary text-xs rounded" type="submit">Filter By Date</button>
+                        </li>
+                       
+                    </ul> 
+                </form>                
+        </div>
+    </div>
+    <div id="daywork-result" ></div>                    
+    <div class="bg-gray-300 p-5 border rounded">
+       
+        <div id="days-workindex" class="uk-overflow-auto" style="height: 580px;">
+            <table class="uk-table uk-table-small">
+                <caption>Days work Index </caption>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Worker</th>
+                        <th>Time Start</th>
+                        <th>Draw Off</th>
+                        <th>Description</th>
+                        <th>Resolved</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in  project.daywork | reverse %}
+                    <tr>
+                        <td>{{item.date}}</td>
+                        <td>{{item.worker_name.split('_')[0] }}</td>
+                        <td>{{item.start}}</td>
+                        <td>{{item.end}}</td>
+                        <td>{{item.description}}</td>
+                        <td>
+                            {% if item.payment.paid %}
+                            <span>{{item.payment.amount | to_dollars }}</span>
+                            {% else %}
+                            <span>{{ item.payment.paid }}</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    
+    </div>
+</div> 
+
+<p class="text-xs">location. project/projectDaysWorkIndex.html</p>
+            <!-- This is the modal -->
+<div id="add-day-modal" uk-modal>
+                <div class="uk-modal-dialog uk-modal-body bg-gray-200">
+                    <h2 class="text-xl text-center font-semibold mb-5">{{ project.name }} Days Work Record</h2>
+                    <form 
+                    hx-post="/add_daywork/{{project._id}}"
+                    hx-target="#daywork-result"
+                    hx-trigger="submit"   
+                    class="uk-grid-small" uk-grid
+                    >
+                        <div class="uk-width-1-1 text-xs">
+                            <p class="text-xs">Select Worker</p>
+                            <select class="uk-select" placeholder="Worker's Name" name="worker_name">
+                                {% for worker in workers %}
+                                <option>{{ worker.value.name }}_{{worker.id}}</option>
+                                {% endfor %}
+                                
+                            </select>
+                        </div>
+                        <div class="uk-width-1-2@s">
+                            <label for="date" class="text-xs">Work Day:</label>
+                            <input id="date" class="uk-input" type="date" placeholder="Date" aria-label="Date" name="date">
+                        </div>
+                        <div class="uk-width-1-4@s">
+                            
+                            <label for="start" class="text-xs">Work Start at:</label>
+                            <input class="uk-input" type="time" id="start" name="start" min="08:00" max="18:00" required />
+                            <small>Work hours are 8am to 6pm</small>
+
+                        </div>
+                        <div class="uk-width-1-4@s">                            
+                            <label for="end" class="text-xs">Draw Off:</label>
+                            <input class="uk-input" type="time" id="end" name="end" min="08:00" max="18:00" required />
+                            <small>Work hours ends at 6pm</small>
+                        </div>
+                        <div class="uk-width-2@s">
+                            <input class="uk-input" type="textarea" placeholder="Description" name="description">
+                        </div>
+                        
+                         <p class="uk-text-right">
+                        <button class="uk-button uk-button-default uk-modal-close" type="button">Close</button>
+                        <button class="uk-button uk-button-primary" type="submit" uk-modal-close>Save</button>
+                        </p>
+                    </form>            
+               
+                </div>
+</div>
+    

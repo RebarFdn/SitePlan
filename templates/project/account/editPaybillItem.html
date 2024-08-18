@@ -1,0 +1,73 @@
+<form >
+    <table>
+        <caption>editing Paybill {{ bill_ref}} Item {{bill_item.id}}</caption>
+        <tr>
+            <td><input class="uk-input" type="text" name="id" value="{{  bill_item.get('id') }}" placeholder="Item Id."></td>
+            {% if bill_item.get('description') %}
+
+                <td><input class="uk-input" type="text" name="description" value="{{ bill_item.get('description')}}" placeholder="Description" ></td>
+            {% else %}
+                <td><input class="uk-input" type="text" name="title" value="{{ bill_item.get('title')}}" placeholder="Title"></td>
+            {% endif %}
+            <td><input class="uk-input" type="text" name="metric_unit" value="{{ bill_item.get('metric').get('unit')}}" placeholder="Metric Unit"></td></td>
+            <td>
+                <input class="input input-solid-secondary" type="number" name="metric_quantity" step="0.01" value="{{ bill_item.get('metric').get('quantity')}}"  placeholder="Secondary" />
+            </td>
+            <td> <input class="uk-input" type="number" name="metric_price" step="0.01" value="{{ bill_item.get('metric').get('price') }}" placeholder="Metric Price"></td>
+            <td>
+                <div class="flex flex-row">
+                <button 
+                    class="uk-button-primary uk-small"
+                    type="button" 
+                    uk-toggle="target: #pay-worker-modal"
+                    >Pay worker
+                </button>
+                <button class="uk-button-primary uk-small mx-2"
+                hx-post="/edit_paybill_item/{{bill_ref}}_{{bill_item.id}}"                                   
+                hx-target="#account" >Submit
+            </button>
+            </div>
+            </td>
+        </tr>
+    </table>
+</form>
+
+
+<!-- This is the modal -->
+<div id="pay-worker-modal" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <h2 class="uk-modal-title">Employee Job Task Payment</h2>
+        <div id="worker-pay-item">
+        <div class="uk-child-width-expand@s uk-text-center" uk-grid>
+            <div>
+                <form>
+                    <h4 class="text-sm">Select Worker to Pay</h4>
+                    <select 
+                    class="uk-select" 
+                    name="worker"
+                    hx-post="/get_worker_pay_item/{{bill_ref}}_{{bill_item.id}}"
+                    hx-target="#worker-pay-item"
+                    hx-trigger="change"
+                    >
+                        <option> Worker </option>
+                        {% for worker in bill_item.assignedto %}
+                        <option>{{ worker }}</option>
+                        {% endfor %}
+                        
+                    </select>
+                   
+                </form>
+            </div>
+            <div>
+                <div>Pay Item</div>
+            </div>
+            
+        </div>
+        </div>
+        <p class="text-xs">{{bill_item}}</p>
+        <p class="uk-text-right">
+            <button class="uk-button uk-button-default uk-modal-close" type="button">Close</button>
+           
+        </p>
+    </div>
+</div>

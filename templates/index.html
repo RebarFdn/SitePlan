@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SitePlan</title>
+    <script src="/static/js/htmx.min.js"></script>
+    <link href="/static/css/app.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+    <div class="text-center items-center">
+    <h1 class="text-teal-500 font-bold mx-10 my-10">Site Planner</h1>
+    <button type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+        Small
+      </button>
+    <button 
+    class="bg-blue-500 py-2 px-3 text-white border rounded"
+    hx-get="/tags"
+    hx-trigger="mouseover"
+    hx-target="#tags"
+    >Tags</button>
+    <button 
+    class="bg-blue-500 py-2 px-3 text-white border rounded"
+    hx-get="/users"
+    hx-trigger="click"
+    hx-target="#users"
+    >Load Users</button>
+</div>
+<div class="grid grid-cols-4 grid-flow-row gap-4">
+    <div id="tags"></div>
+    <div id="users"></div>
+    <div id="user"></div>
+  </div>
+  <div class="animate-spin inline-block size-6 border-[3px] border-current border-t-transparent text-blue-600 rounded-full dark:text-blue-500" role="status" aria-label="loading">
+    <span class="sr-only">Loading...</span>
+  </div>
+  <div class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7]">
+    <img class="w-full h-auto rounded-t-xl" src="https://images.unsplash.com/photo-1680868543815-b8666dba60f7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2532&q=80" alt="Image Description">
+    <div class="p-4 md:p-5">
+      <h3 class="text-lg font-bold text-gray-800 dark:text-white">
+        Card title
+      </h3>
+      <p class="mt-1 text-gray-500 dark:text-gray-400">
+        Some quick example text to build on the card title and make up the bulk of the card's content.
+      </p>
+      <a class="mt-2 py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#">
+        Go somewhere
+      </a>
+    </div>
+  </div>
+
+    <script src="/static/node_modules/preline/dist/preline.js"></script>
+</body>
+</html>

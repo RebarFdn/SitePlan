@@ -1,0 +1,208 @@
+
+<div class="navbar">
+	<div class="navbar-start">
+		<h3>{{task.title}}</h3>
+        
+	</div>
+	<div class="navbar-end">
+		
+        <span class="badge badge-secondary navbar-item"><strong>Project Standard:</strong>{{ standard }}</span>
+	</div>
+</div>
+
+
+<hr class="uk-divider">
+<section class="bg-white p-5 rounded-md shadow-md ">
+    <div class="uk-child-width-expand@s uk-text-left" uk-grid>
+        <div>
+            <h3><strong>Job Id:</strong> {{job_id}}</h3>
+            <h3><strong>Task Id:</strong> {{task._id}}</h3>
+            <h3><strong> Title:</strong> {{task.title}}</h3>
+            <h4><strong>Description:</strong> {{task.description}}</h4>
+            <div>
+                <p><strong> State:</strong></p>
+                {% if task.state.active %}
+                        
+                        <div class="uk-inline">
+                          <span class="badge badge-success" type="button">Active</span>
+                            <div class="bg-red-400 text-white rounded-md hover:bg-red-400" uk-dropdown="mode: click">
+                                <ul>
+                                    <li><span class="text-xs">{{ task._id }}</span></li>
+                                    <li><a href="#" id="href">Complete</a> </li>
+                                    <li><a href="#" id="href">Pause</a> </li>
+                                    <li><a href="#" id="href">Terminate</a> </li>
+                                </ul>
+                                
+                            </div>
+                        </div>
+                    {% elif task.state.complete %}
+                        <span class="badge badge-primary">Completed</span>
+                    {% elif task.state.pause %}
+                        
+                        <div class="uk-inline">
+                            <span class="badge badge-warning" type="button">Paused</span>
+                              <div class="bg-red-400 text-white rounded-md hover:bg-red-400" uk-dropdown="mode: click">
+                                  <ul>
+                                      <li><span class="text-xs">{{ task._id }}</span></li>
+                                      <li><a href="#" id="href">Resume</a> </li>                                     
+                                      <li><a href="#" id="href">Terminate</a> </li>
+                                  </ul>
+                                  
+                              </div>
+                          </div>
+                    {% elif task.state.terminate %}
+                        <span class="badge badge-error">Terminated</span>
+                    {% else %}
+                       
+                        <div class="uk-inline">
+                            <span class="badge badge-primary" type="button">Set State</span>
+                              <div class="bg-red-400 text-white rounded-md" uk-dropdown="mode: click">
+                                  <ul>
+                                      <li><span class="text-xs">{{ task._id }}</span></li>
+                                      <li><a href="#" id="href">Active</a> </li>
+                                      <li><a href="#" id="href">Complete</a> </li>
+                                      <li><a href="#" id="href">Pause</a> </li>
+                                      <li><a href="#" id="href">Terminate</a> </li>
+                                  </ul>
+                                  
+                              </div>
+                          </div>
+                    {% endif %}
+                    
+            </div>
+            {% if task.assigned %}
+            <h4 id="task-assignment"><strong>Assignment:</strong> {{task.assignedto}}</h4>
+            <div class="uk-inline">
+                <button class="uk-button uk-button-default" type="button">Assigned</button>
+                <div class="uk-card uk-card-body uk-card-default" uk-drop>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>
+            </div>
+            <div class="bg-gray-400 text-gray-900 p-1">
+                <p class="text-xs">Add Worker</p>
+                <form>
+                    <div class="flex flex-row">
+                    <select 
+                    class="select" 
+                    name="crew_member" 
+                    hx-post="/assign_task/{{job_id}}_{{task._id}}"
+                    hx-target="#message"
+                    
+                    >
+                    <option>Add Crew </option>
+                    {% for member in crew  %}   
+                                     
+                            <option> {{ member.id }} {{ member.value.oc}}</option>
+                        
+                    {% endfor %}
+                    </select>
+                    
+                    <button 
+                    class="btn btn-error mx-2"
+                    hx-post="/clear_task_assignment/{{job_id}}_{{task._id}}"
+                    hx-confirm="Are you sure you wish to delete all crew members from this task?"
+                    hx-target="#task-assignment"
+                    >Clear Crew</button>
+                    </div>
+                </form>
+            </div>
+            {% else %}
+            <div class="flex flex-col p-2">
+                <h3>Assign to Crew</h3>
+                <form>
+                    <select 
+                    class="select" 
+                    name="crew_member" 
+                    hx-post="/assign_task/{{job_id}}_{{task._id}}"
+                    hx-target="#message"
+                    
+                    >
+                    <option>Select Crew </option>
+                    {% for member in crew %}                    
+                        <option> {{ member.id }} {{ member.value.oc}}</option>
+                    {% endfor %}
+                    </select>
+                </form>
+            </div>
+            {% endif %}
+
+        </div>
+
+        <div>
+            <p><strong>Category:</strong> {{ task.category }}</p>
+            <p><strong> Project Phase:</strong> {{ task.phase }}</p>
+           <p><strong>Progress:</strong> <span id="task-progress">{{ task.progress }}</span>%
+            <form><input 
+                            type="range" 
+                            class="range range-secondary" 
+                            name="task_progress"
+                            min="0"
+                            max="100"
+                            step="5"
+                            value="{{ task.progress }}"
+                            hx-post="/update_task_progress/{{job_id}}_{{task._id}}"
+                            hx-target="#task-progress"
+                            hx-trigger="change"
+                            />
+                        </form>
+            </p>
+
+            <ul class="bg-blue-300" uk-accordion>
+                <li class="uk-open">
+                    <a class="uk-accordion-title" href>
+                            <p class="flex flex-col p-1">
+                            <strong>Payment:</strong>
+                            {% if not task.paid %}
+                            <h3 class="text-gray-500 font-semibold">Unsettled</h3>
+                            {% else %}
+                            <span class="text-xs">{{task.paid.value}} {{task.paid.unit}}</span>
+                             <h4>{{task.paid.value}}<strong>{{task.paid.unit}}</strong> <span>Amount paid {{ task.paid.amount | to_dollars }}</span></h4>
+                             {% endif %}
+                           
+                        </p>
+                    </a>
+                    <div class="uk-accordion-content">
+                     
+                </div>
+                </li>
+                <li>
+                    <a class="uk-accordion-title" href><strong>Event</strong></a>
+                    <div class="uk-accordion-content">
+                         
+                        {% include 'project/task/taskEventManager.html' %}
+                    </div>
+                </li>
+                <li>
+                    <a class="uk-accordion-title" href><strong>State</strong></a>
+                    <div class="uk-accordion-content">
+                        {% include 'project/task/taskStateManager.html' %}
+                    </div>
+                </li>
+            </ul>
+            
+        </div>
+    </div>
+  
+   <div class="uk-child-width-expand@s uk-text-center" uk-grid>
+        <div>
+            {% include '/project/task/metricProperties.html' %}
+        
+        <p><strong>Output:</strong> {{task.output.metric}}/{{task.metric.unit}} per Day</p>
+        </div>
+    
+        <div>
+        
+            {% include '/project/task/imperialProperties.html' %}
+                <p><strong>Output:</strong> {{task.output.imperial}}/{{task.imperial.unit}} per Day</p>
+                
+        
+        </div>
+    
+</div>
+<p><strong>Remarks:</strong> {{ task.comments }}</p>
+</section>
+
+<p class="text-xs font-fine">Database Revision No: {{ task._rev}} | Created: {{ task.timestamp }} </p>
+<p class="text-xs text-red font-fine">{{ contact.ADMIN_EMAIL }}</p>
+<p class="text-xs text-red font-fine">{{ display  }}</p>
+
+<p class="text-xs">{{ task }}</p>
+<p class="text-xs text-center">Location ptoject/jobTask.html</p>

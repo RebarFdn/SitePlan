@@ -1,0 +1,7 @@
+{% extends 'temp/pre_auth_template.html' %}
+{% block header %}Welcome to Site Planner {% endblock %}
+{% block content %}
+<h1>ADMIN Page</h1>
+<p class="text-md">You are an admin and logged in as {{request.user.username}}</p>
+
+{% endblock %}

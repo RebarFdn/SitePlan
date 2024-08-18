@@ -1,0 +1,12 @@
+<div hx-target="this" hx-swap="outerHTML">
+    <div class="uk-card uk-card-default uk-card-body">
+        <h3 class="uk-card-title">Imperial Properties</h3>
+        <div><label class="font-semibold">Unit</label>: {{ form.get('unit') }}</div>
+        <div><label class="font-semibold">Quantity</label>:  {{ form.get('quantity') }}</div>
+        <div><label class="font-semibold">Price</label>:  {{ form.get('price') }}</div>
+        <div><label class="font-semibold">Total</label>:  {{ total }}</div>
+        <button hx-get="/edit_task_properties/{{id}}/imperial" class="btn btn-primary">
+        Click To Edit
+        </button>
+    </div>
+</div>

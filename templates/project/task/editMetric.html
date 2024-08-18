@@ -1,0 +1,22 @@
+
+<form hx-put="/update_task_properties/{{job_id}}_{{task._id}}/metric" hx-target="#project-job-properties">
+    <div class="uk-card uk-card-default uk-card-body">
+        <h3 class="uk-card-title">Metric Properties</h3>
+        <div class="flex flex-col">
+            <div class="flex flex-row my-2">
+                <label>Unit</label>
+                <input class="bg-gray-200 px-3 py-2 ml-2 rounded-md" type="text" name="unit" value="{{ task.metric.unit }}">
+            </div>
+            <div class="form-group flex flex-row my-2">
+                <label>Quantity</label>
+                <input class="bg-gray-200 px-3 py-2 ml-2 rounded-md"  type="number" step="0.01" name="quantity" value="{{ task.metric.quantity }}">
+            </div>
+            <div class="form-group flex flex-row my-2">
+                <label>Price</label>
+                <input class="bg-gray-200 px-3 py-2 ml-2 rounded-md"  type="number" name="price" value="{{ task.metric.price }}">
+            </div>
+        </div>
+        <button class="btn btn-primary">Submit</button>
+        <button class="btn btn-primary" hx-get="/task_properties/{{job_id}}_{{task._id}}/metric">Cancel</button>
+    </div>
+</form>

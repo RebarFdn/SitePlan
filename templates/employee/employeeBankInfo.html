@@ -1,0 +1,17 @@
+<p class="text-gray-500 text-xl text-center font-bold">Banking Information</p>
+      
+<div class="uk-child-width-expand@s uk-text-center" uk-grid>
+    <div>
+        <div class="uk-card uk-card-default uk-card-body">
+           <p> Bank    {{ account.get('bank', {}).get('name') }}</p>
+           <p> Branch    {{ account.get('bank', {}).get('branch') }}</p>
+        </div>
+    </div>
+    <div>
+        <div class="uk-card uk-card-default uk-card-body">
+            <p> Account Type {{ account.get('bank', {}).get('account_type') }}</p>
+           <p> Account No.    {{ account.get('bank', {}).get('account') }}</p>
+        </div>
+    </div>
+   
+</div>

@@ -1,0 +1,103 @@
+<nav class="uk-navbar-container" style="background-color: #1C2833 ;">
+    <div class="uk-container">
+        <div uk-navbar>
+
+            <div class="uk-navbar-left">
+                <div class="flex flex-1 items-center  sm:items-stretch sm:justify-start">
+         
+                    <div class="flex flex-shrink-0 items-center mx-5 justify-start">
+                      <span class="mx-1 font-bold text-2xl text-blue-500"
+                      hx-get="/zen"
+                      hx-trigger="every 1800s"
+                      hx-target="#platform"
+                      > Site Planner </span>
+                      <a href="#offcanvas-usage" uk-toggle>
+                      <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company">
+                        </a>
+                    </div>
+                </div>
+                <div class="uk-navbar-center"></div>
+
+                <ul class="uk-navbar-nav" style="color:aliceblue">
+                    <li ><a href="/dash"> <button 
+                        class="uk-button uk-button-secondary uk-border-rounded"
+                        
+                        >Dashboard</button></a></li>
+                    <li>
+                        <a href="#">Team</a>
+                        <div class="uk-navbar-dropdown uk-border-rounded">
+                            <ul class="uk-nav uk-navbar-dropdown-nav">
+                                <li><a href="#">Crews</a></li>
+                                <li><a href="#">Staff</a></li>
+                                <li><a 
+                                    href="#"
+                                    hx-get="/team"
+                                    hx-target="#dash-left-pane"
+                                    hx-trigger="click"
+                        
+                                    >Workers</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li><a 
+                        href="#"
+                        hx-get="/projects"
+                        hx-target="#dash-left-pane"
+                        hx-trigger="click"
+                        
+                        >Projects</a></li>
+                </ul>
+
+            </div>
+
+            <div class="uk-navbar-right">
+
+                <ul class="uk-navbar-nav">
+                    <li >
+                        <a href="#">Rates</a>                        
+                        <div class="uk-navbar-dropdown uk-border-rounded">
+                            <ul class="uk-nav uk-navbar-dropdown-nav">
+                                <li><a href="#"
+                                    hx-get="/rates_html_index"
+                                    hx-target="#dash-left-pane"
+                                    hx-trigger="click"  
+                                    >Rates Index</a></li>
+                                <li><a 
+                                    hx-get="/industry_rates/all"
+                                    hx-target="#dash-content-pane"
+                                    hx-trigger="click"                        
+                                    href="#">Rates Table</a></li>
+                                
+                            </ul>
+                        </div>
+                    </li>
+                    <li><a href="#"
+                        hx-get="/suppliers_html_index"
+                        hx-target="#dash-left-pane"
+                        hx-trigger="click"   
+                        >Suppliers</a></li>
+                    <li><a href="#">Tools</a></li>
+                    <li><a href="#"                        
+                        >To Do</a></li>
+                    
+                    <li>
+                        <a href="#"><img class="uk-preserve-width uk-border-circle" src="/static/imgs/users/{{request.user.username}}.png" width="40" height="40" alt=""></a>
+                        <div class="uk-navbar-dropdown uk-border-rounded" >
+                            <ul class="uk-nav uk-navbar-dropdown-nav">
+                                <li class="uk-active"><a href="#">Active User {{request.user.username}}</a></li>
+                                <li><a href="#">Settings</a></li>
+                                <li><a href="/logout">Logout</a></li>
+                               
+                                
+                            </ul>
+                        </div>
+                    </li>
+                    <li><a href="#">Hi {{request.user.username}}</a></li>
+                   
+                </ul>
+
+            </div>
+
+        </div>
+    </div>
+</nav>

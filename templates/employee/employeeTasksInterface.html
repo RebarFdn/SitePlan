@@ -1,0 +1,41 @@
+<div>
+    <p class="text-lg text-center font-semibold my-5"> Employee Tasks Interface</p>
+    <div class="flex w-full overflow-x-auto">
+        <table class="table-hover table">
+            <thead>
+                <tr>
+                    <th>Task Id</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Unit </th>
+                    <th>Quantity</th>
+                    <th>Progress</th>
+                    <th>Shared</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in tasks %}
+                <tr>
+                    <td>{{ task._id }}</td>
+                    <td>{{ task.category }}</td>
+                    <td>{{ task.description }}</td>
+                    <td>{{ task.metric.unit }}</td>
+                    <td>{{ task.metric.quantity }}</td>
+                    <td>{{ task.progress }}</td>
+                    <td>
+                        {% if task.assignedto | length > 1 %}
+                        <span>True</span>
+                        {% else %}
+                        <span>False</span>
+                        {% endif %}
+                    
+                    </td>
+                    
+                </tr>
+                {% endfor %}
+               
+            </tbody>
+        </table>
+    </div>
+</div>

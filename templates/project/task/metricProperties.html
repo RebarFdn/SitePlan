@@ -1,0 +1,12 @@
+<div hx-target="this" hx-swap="outerHTML">
+    <div class="uk-card uk-card-default uk-card-body">
+        <h3 class="uk-card-title">Metric Properties</h3>
+        <div><label>Unit</label>: {{ task.metric.unit}}</div>
+        <div><label>Quantity</label>:  {{ task.get('metric').get('quantity') | float  }}</div>
+        <div><label>Price</label>:  {{  task.metric.price | to_dollars }}</div>
+        <div><label class="font-semibold">Total</label>:  {{ task.metric.total | to_dollars }}</div>
+        <button hx-get="/edit_task_properties/{{job_id}}_{{task._id}}/metric" class="btn btn-primary">
+        Click To Edit
+        </button>
+    </div>
+</div>

@@ -1,0 +1,209 @@
+<nav class="uk-navbar-container">
+    <div class="uk-container">
+        <div uk-navbar>
+
+            <div class="uk-navbar-left">
+
+                <ul class="uk-navbar-nav">
+                    <li class="uk-active"><a href="#">{{ p.get('name') }} Workers Index</a> </li>
+                    <li>
+                        <a href="#">{{ filter}}</a>
+                        
+                    </li>
+                    <li>
+                        <a href><span uk-drop-parent-icon></span></a>
+        <div uk-dropdown="pos: bottom-center">
+        <ul class="uk-nav uk-dropdown-nav">
+         <li class="uk-nav-header">Filter Workers</li>
+         <li><a 
+                    href="#"
+                    hx-get="/project_workers/{{ id }}/all"
+                    hx-target="#project_properties"
+                    hx-trigger="click"                                 
+                    >All Workers</a>
+            </li>
+        {% for item in categories %}    
+
+
+     <li>
+                    <a 
+                    href="#"
+                    hx-get="/project_workers/{{ id }}/{{ item }}"
+                    hx-target="#project_properties"
+                    hx-trigger="click"                                 
+                    >{{ item }}</a></li>
+    {% endfor %}
+           
+            
+</ul></div>
+                    
+                    </li>
+                </ul>
+
+            </div>
+
+            <div class="uk-navbar-right">
+
+                <ul class="uk-navbar-nav">
+                    <li class="uk-active">
+                        <a  href="#modal-container" uk-toggle>Add Worker</a></li>
+                    <li>
+                        <a href="#">Print Index</a>
+                        
+                    </li>
+                    
+                </ul>
+
+            </div>
+
+        </div>
+    </div>
+</nav>
+{% if filter %}
+<div class="flex flex-row bg-gray-300 py-3 px-4 items-inline text-center rounded">
+    <span class="cursor-pointer" uk-toggle="target: #new-employee-modal"uk-icon="plus"></span>
+                      
+        <span class="bg-gray-50 py-1 px-2 border rounded-full mx-10">{{ filtered | length }}<span>   
+          <a href><span uk-drop-parent-icon></span></a>
+        <div uk-dropdown="pos: bottom-center">
+        <ul class="uk-nav uk-dropdown-nav">
+         <li class="uk-nav-header">Filter Workers</li>
+         <li><a 
+                    href="#"
+                    hx-get="/project_workers/{{ id }}/all"
+                    hx-target="#project_properties"
+                    hx-trigger="click"                                 
+                    >All Workers</a>
+            </li>
+            
+
+    {% for item in categories %}
+        <li>
+                    <a 
+                    href="#"                               
+                    hx-get="/project_workers/{{ id }}/{{ item }}"
+                    hx-target="#project_properties"
+                    hx-trigger="click"                                 
+                    >{{ item }}</a>
+        </li>
+    {% endfor %}
+ </ul>
+</div>
+        </div>
+    <table class="uk-table uk-table-small uk-table-hover uk-table-divider text-teal-800">
+    <thead>
+        <tr class="uk-text-primary">
+            <th></th>
+            <th>Id</th>
+            <th>Name</th>
+            <th>OC</th>
+            <th>Occupation</th>
+            <th>Rating</th>
+             <th>Contact</th>
+        </tr>
+    </thead>
+    <tbody> 
+        {% for e in filtered %}
+
+        <tr
+                hx-get="/team/{{ e.get('id').split('-')[1] }}"
+                hx-target="#project_properties"
+                hx-trigger="click"
+                >
+            <td><img class="h-12 w-12 rounded-full" src="{{ e.get('value').get('imgurl') }}" alt="P"></td>
+            <td>{{ e.get('id') }}</td>
+            <td>{{ e.get("value").get('name') }}</td>
+            <td>{{ e.get("value").get('oc') }}</td>
+            <td>{{ e.get("value").get('occupation') }}</td>    
+            <td>{{ e.get("value").get('rating') }}</td>  
+            <td>
+            <div class="flex flex-col text-xs">
+           <span>Email. {{ e.get("value").get('email') }}</span>
+            <span>Mobile {{ e.get("value").get('mobile') }}<span>
+            
+             </div>
+
+            </td>                   
+            
+        </tr>             
+        {% endfor %}
+    </tbody></table>
+{% else %}
+
+<div class="flex flex-row bg-gray-300 py-3 px-4 items-inline text-center rounded">
+    <span class="cursor-pointer" uk-toggle="target: #new-employee-modal"uk-icon="plus"></span>
+        <p class="mx-5">{{ p.get('name') }} Workers Index</>                
+        <span class="bg-gray-50 py-1 px-2 border rounded-full">{{ workers | length  }}<span>   
+          <a href><span uk-drop-parent-icon></span></a>
+        <div uk-dropdown="pos: bottom-center">
+        <ul class="uk-nav uk-dropdown-nav">
+         <li class="uk-nav-header">Filter Workers</li>
+         <li><a 
+                    href="#"
+                    hx-get="/project_workers/{{ id }}/all"
+                    hx-target="#project_properties"
+                    hx-trigger="click"                                 
+                    >All Workers</a>
+            </li>
+        {% for item in categories %}    
+
+
+     <li>
+                    <a 
+                    href="#"
+                    hx-get="/project_workers/{{ id }}/{{ item }}"
+                    hx-target="#project_properties"
+                    hx-trigger="click"                                 
+                    >{{ item }}</a></li>
+    {% endfor %}
+           
+            
+</ul></div>
+        </div>
+    <table class="uk-table uk-table-small uk-table-hover uk-table-divider text-teal-800">
+    <thead>
+        <tr class="uk-text-primary">
+            <th>Id</th>
+            <th>Name</th>
+            <th>Occupation</th>
+        </tr>
+    </thead>
+    <tbody> 
+ {% for e in workers %}
+    <tr
+                hx-get="/team/{{ e.get('_id').split('-')[1] }}"
+                hx-target="#project_properties"
+                hx-trigger="click"
+                >
+            <td>{{ e.get('_id') }}</td>
+            <td>{{ e.get('name') }}</td>
+            <td>{{ e.get('occupation') }}</td>                   
+            
+        </tr>             
+        {% endfor %}
+</tbody></table>
+{% endif %}
+
+
+<div id="modal-container" class="uk-modal-container" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <h2 class="uk-modal-title">Employees Index</h2>
+
+        <ul>
+            {% for e in employees.rows %}
+            <li>
+                <div class="flex py-2 px-4 text-sm"> 
+                <input  class="mx-5"
+                        type="checkbox" 
+                        value="{{ p._id + '-' + e.id }}" 
+                        name="employee" 
+                        hx-post="/add_worker_to_project" 
+                        hx-target="#project_properties" >
+                        {{ e.value.name }} <span class="uk-badge">{{ e.value.occupation }}</span></div>
+                        
+                    </li>
+            {% endfor %}
+        </ul>
+        </div>
+</div>

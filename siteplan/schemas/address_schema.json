@@ -1,0 +1,65 @@
+
+
+Withrwal = {
+    "id": 1665678178000,
+    "date": "2022-07-14",
+    "type": "Withdraw",
+    "amount": 5037,
+    "recipient": {
+      "name": "C.A. PARCHMENT & SON LTD."
+    },
+    "ref": "858161"
+}
+
+InvoiceItem = {
+    itemno: "1",
+    description: "CONDUIT 2\"  50mm",
+    quantity: "3",
+    unit: "length",
+    price: "1269"
+}
+Invoice = {
+    supplier: {
+      _id: "",
+      name: "",
+      taxid: ""
+    },
+    invoiceno: "858161",
+    datetime: "2022-07-14",
+    items: [
+      {
+        itemno: "1",
+        description: "CONDUIT 2\"  50mm",
+        quantity: "3",
+        unit: "length",
+        price: "1269"
+      },
+      {
+        itemno: 2,
+        description: "BEND 2\" 50mm ELECTRICAL",
+        quantity: "1",
+        unit: "each",
+        price: "490"
+      },
+      {
+        itemno: 3,
+        description: "COUPLING  2\" 50mm Electrical",
+        quantity: "1",
+        unit: "each",
+        price: "84"
+      }
+    ],
+    tax: "657",
+    total: "5037"
+  }
+
+const ProjectWorker = {
+    id: "LT68090",
+    key: "LT68090",
+    value: {
+      name: "",
+      oc: "",
+      occupation: "",
+      added: null
+    }
+}

@@ -1,0 +1,179 @@
+
+
+<!-- This is the modal -->
+<div id="add-paybill" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <p class="text-lg font-semibold">New Pay Bill for {{ p.name }}</p>
+
+        
+        <form class="uk-form-stacked"
+        
+        >
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Date</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="form-stacked-text" type="date" placeholder="Bill Date" name="date">
+                </div>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Period Start</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="form-stacked-text" type="date" placeholder="Bill Date" name="date_starting">
+                </div>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Period Ending</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="form-stacked-text" type="date" placeholder="Bill Date" name="date_ending">
+                </div>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Reference</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="form-stacked-text" type="text" placeholder="Bill-01" name="ref" value="{{p.new_billref}}">
+                </div>
+            </div>
+
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Title</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="form-stacked-text" type="text" placeholder="Bill Title" name="mainTitle">
+                </div>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">SubTitle</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="form-stacked-text" type="text" placeholder="Bill SubTitle" name="subTitle"
+                    >
+                </div>
+            </div>
+           
+
+        
+            <p class="uk-text-right">
+                <button class="uk-button uk-button-default uk-modal-close" type="button">Close</button>
+                <input class="uk-button uk-button-primary uk-modal-close" type="submit" value="Create New Paybill"
+                hx-post="/new_paybill/{{p._id}}"
+                hx-target="#paybills"
+                
+                >
+            </p>
+        
+        </form>
+        
+    </div>
+</div>
+
+
+<!-- This is the page navigator -->
+<nav class="uk-navbar-container" uk-navbar>
+    <div class="uk-navbar-left">
+
+        <ul class="uk-navbar-nav">
+            <li class="uk-active"><a href="#">Project Paybills</a></li>
+            <li>
+                <a href="#">Filter</a>
+                <div class="uk-navbar-dropdown">
+                    <ul class="uk-nav uk-navbar-dropdown-nav">
+                        <li ><a href="#">Active</a></li>
+                        <li><a href="#">Item</a></li>
+                        <li><a href="#">Item</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li class="uk-active"><a href="#add-paybill" uk-toggle>New Paybill</a></li>
+        </ul>
+
+    </div>
+    <div class="uk-navbar-center">
+        <ul class="uk-navbar-nav">
+            <li class="uk-active">
+                <p 
+                    class="badge badge-outline-primary"
+                    hx-get="/project_paybills_cost/{{p._id}}"
+                    hx-trigger="every 2s"
+
+                    >
+                    Paybills
+                </p>
+            </li>
+        </ul>
+
+    </div>
+
+
+</nav>
+
+<div class="uk-overflow-auto">
+    <div id="paybills" class="text-xs">
+        <table class="uk-table uk-table-small uk-table-divider">
+            <thead>
+                <tr>
+                    <th>Refference</th>
+                    <th>Date</th>            
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Total</th>
+                    <th>Manage</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for bill in p.account.records.paybills %}
+                <tr>
+                    <td>
+                        <label><input 
+                            class="uk-radio" 
+                            type="radio" 
+                            name="current-bill" 
+                            value="{{ bill.ref }}"
+                            hx-post="/current_paybill/{{bill.ref}}"
+                            hx-target="#message"
+                            
+                            > {{ bill.ref }}</label>
+                        
+                        
+                    </td>
+                    <td>
+                    
+                        {{ bill.date }}
+                    </td>
+                    
+                    <td>{{ bill.mainTitle }}</td>
+                    <td>{{ bill.subTitle }}</td>
+                    <td>{{ bill.total | to_dollars }}</td>
+                    <td>
+                        <button class="uk-button uk-button-primary uk-button-small rounded-md" type="button">Manage</button>
+                        <div uk-dropdown>
+                            <ul class="uk-nav uk-dropdown-nav">
+                                <li class="uk-active"><a 
+                                    href="#"
+                                    hx-get="/paybill/{{bill.ref}}"
+                                    hx-target="#account"
+                                    >Edit</a></li>
+                                <li><a href="#">Share</a></li>
+                                
+                                <li class="uk-nav-divider"></li>
+                                <li><button 
+                                    class="uk-button uk-button-danger uk-button-small rounded"
+                                    hx-post="/delete_paybill/{{bill.ref}}"
+                                    hx-confirm="Are you sure you wish to delete {{ bill.ref }}?"
+                                    hx-target="#message"
+                                    
+                                    >Delete</button></li>
+                            </ul>
+                        </div>
+                        
+                    
+                    </td>
+                </tr>
+                {% endfor %}
+                
+                
+            </tbody>
+        </table>
+    </div>
+</div>
+
+ 
+<p class="text-xs text-center">Location: /templates/project/account/projectPayBIlls.html</p>
+                

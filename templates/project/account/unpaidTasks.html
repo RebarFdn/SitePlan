@@ -1,0 +1,42 @@
+<div>
+    
+    <h3  class="font-semi-bold">Available Unpaid Job Tasks</h3>
+    <p>Bill with Ref .</p>
+    <div class="text-xs">
+        <table class="uk-table uk-table-striped uk-table-small">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Job Id</th>
+                    <th>Task Id</th>
+                    <th>Title</th>
+                    <th>Assigned To</th>
+                    <th>Progress</th>
+                    <th>Paid</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in unpaid_tasks %}
+
+                
+                <tr>
+                    <td><input 
+                        type="checkbox" 
+                        value="{{ task.job_id }}_{{ task._id }}" 
+                        name="task" 
+                        hx-post="/add_task_to_bill/{{bill_ref}}" 
+                        hx-target="#account" >
+                    </td>
+                    <td>{{task.job_id}}</td>
+                    <td>{{task._id}}</td>
+                    <td>{{task.title}}</td>
+                    <td>{{task.assignedto}}</td>
+                    <td>{{task.progress}}</td>
+                    <td>{{task.paid}}</td>
+                    
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

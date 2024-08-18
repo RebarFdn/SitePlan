@@ -1,0 +1,219 @@
+
+
+<nav class="uk-navbar-container" uk-navbar>
+    <div class="uk-navbar-left">
+
+        <ul class="uk-navbar-nav">
+            <li class="uk-active"><a href="#">Project Salaries</a></li>
+            <li>
+                <a href="#">Filter</a>
+                <div class="uk-navbar-dropdown">
+                    <ul class="uk-nav uk-navbar-dropdown-nav">
+                        <li >
+                            <button class="uk-button uk-button-default" type="button">By Date</button>
+                            <div class="uk-card uk-card-body uk-card-default uk-width-large" uk-drop="pos: top-center">
+                                <div class="uk-drop-grid uk-child-width-1-2@m" uk-grid>
+                                    <div>
+                                        <div class="flex flex-col p-5">
+                                            <input type="date" name="date_range_start" />
+                                            <p class="text-xs">Start Period</p>
+
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="flex flex-col p-5">
+                                            <input type="date" name="date_range_end" />
+                                            <p class="text-xs">End Period</p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </li>
+                        <li><hr class="uk-divider"></li>
+                        <li>
+                            
+                            <span class="flex flex-col">
+                                <a href="#">By Name </a>
+                                <input type="text" name="name_filter" />
+
+                            </span>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </li>
+            
+        </ul>
+
+    </div>
+    <div class="uk-navbar-center">
+        <ul class="uk-navbar-nav">
+            <li class="uk-active"><a href="#add-salary" uk-toggle>New Salary Statement</a></li>
+            <li class="uk-active">
+                <p 
+                   
+                    hx-get="/project_salaries_total/{{id}}"
+                    hx-trigger="every 2s"
+
+                    >
+                    
+                </p>
+            </li>
+        </ul>
+
+    </div>
+
+
+</nav>
+
+<div class="uk-overflow-auto">
+    <div id="salaries" class="text-xs">
+        <table class="uk-table uk-table-small uk-table-divider">
+            <thead>
+                <tr>
+                    <th>Ref</th>
+                    <th>PayBill Id</th>
+                    <th>Date</th>            
+                    <th>Employee Id</th>
+                    <th>Employee</th>
+                    <th>Paid</th>
+                    <th>Manage</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for bill in salaries %}
+                <tr>
+                    <td>
+                        <label> {{ bill.ref }}</label>
+                        
+                        
+                    </td>
+                    <td>
+                        <label> {{ bill.jobid }}</label>
+                        
+                        
+                    </td>
+                    <td>
+                    
+                        {{ bill.date }}
+                    </td>
+                    
+                    <td>{{ bill.employeeid }}</td>
+                    <td>{{ bill.name }}</td>
+                    <td>{{ bill.total | to_dollars }}</td>
+                    <td>
+                        <button class="uk-button uk-button-primary uk-button-small rounded-md" type="button">Manage</button>
+                        <div uk-dropdown>
+                            <ul class="uk-nav uk-dropdown-nav">
+                                
+                               
+                                <li>
+                                    <a 
+                                        href="#edit-salary" 
+                                        
+                                        hx-get="/edit_salary/{{id}}_{{bill.ref}}"
+                                        hx-target="#salary-statement"
+                                        hx-trigger="click"
+                                        uk-toggle
+                                        >Manage salary</a></li>
+                                        <li><a href="#">Share</a></li>
+                                
+                                <li class="uk-nav-divider"></li>
+                                <li><button 
+                                    class="uk-button uk-button-danger uk-button-small rounded"
+                                    hx-post="/delete_paybill/{{bill.ref}}"
+                                    hx-confirm="Are you sure you wish to delete {{ bill.ref }}?"
+                                    hx-target="#message"
+                                    
+                                    >Delete</button></li>
+                            </ul>
+                        </div>
+                        
+                    
+                    </td>
+                </tr>
+                {% endfor %}
+                
+                
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+<!-- This is the modal -->
+<div id="add-salary" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <h2 class="uk-modal-title">New Salary Statement</h2>
+
+        
+        <form class="uk-form-stacked"
+        
+        >
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Date</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="form-stacked-text" type="date" placeholder="Bill Date" name="date">
+                </div>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Period Start</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="form-stacked-text" type="date" placeholder="Bill Date" name="date_starting">
+                </div>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Period Ending</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="form-stacked-text" type="date" placeholder="Bill Date" name="date_ending">
+                </div>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Reference</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="form-stacked-text" type="text" placeholder="Bill-01" name="ref" >
+                </div>
+            </div>
+
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Title</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="form-stacked-text" type="text" placeholder="Bill Title" name="mainTitle">
+                </div>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">SubTitle</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="form-stacked-text" type="text" placeholder="Bill SubTitle" name="subTitle"
+                    >
+                </div>
+            </div>
+           
+
+        
+            <p class="uk-text-right">
+                <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                <input class="uk-button uk-button-primary uk-modal-close" type="submit"
+                hx-post="/new_paybill/{{id}}"
+                hx-target="#paybills"
+                
+                >
+            </p>
+        
+        </form>
+        
+    </div>
+</div>
+
+<div id="edit-salary" class="uk-modal-container" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <h2 class="uk-modal-title">Manage Salary Statement</h2>
+        <div id="salary-statement">
+            Statement
+        </div> 
+    </div>
+</div

@@ -1,0 +1,57 @@
+/**** Table cell word wrap ******/
+th,
+td {
+        
+        text-align: left;
+        word-wrap: break-word;
+    }
+
+/***** MODAL DIALOG ****/
+.acc {
+	width: 75vw;
+}
+.side {
+	width: 22vw;
+	
+}
+.mainc { width: 78vw;}
+
+/* Makes the animation pause on hover */
+.moving-text:hover{
+	animation-play-state: paused;
+}
+
+@keyframes fadeIn {
+	0% {opacity: 0;}
+	100% {opacity: 1;}
+} 
+
+@keyframes fadeOut {
+	0% {opacity: 1;}
+	100% {opacity: 0;}
+} 
+
+@keyframes zoomIn {
+	0% {transform: scale(0.9);}
+	100% {transform: scale(1);}
+} 
+
+@keyframes zoomOut {
+	0% {transform: scale(1);}
+	100% {transform: scale(0.9);}
+} 
+
+
+
+/* The animation */
+@keyframes marquee{
+	0%{transform: translateX(100%);}
+	100%{transform: translateX(-100%);}
+}
+
+/* media query to enable animation for only those who want it */
+@media (prefers-reduced-motion: no-preference) {
+	.moving-text{
+		animation: marquee 15s linear infinite;
+	}
+}

@@ -1,0 +1,29 @@
+<table class="uk-table uk-table-small">
+    <caption>Days work Index </caption>
+    <thead>
+        <tr>
+            <th>Date</th>                        
+            <th>Time Start</th>
+            <th>Draw Off</th>
+            <th>Description</th>
+            <th>Resolved</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in  employee.get('days') | reverse %}
+        <tr>
+            <td>{{item.date}}</td>                        
+            <td>{{item.start}}</td>
+            <td>{{item.end}}</td>
+            <td>{{item.description}}</td>
+            <td>
+                {% if item.payment.paid %}
+                <span>{{item.payment.amount | to_dollars }}</span>
+                {% else %}
+                <span>{{ item.payment.paid }}</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>

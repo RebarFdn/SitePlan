@@ -1,0 +1,207 @@
+<div>    
+    <div class="uk-grid-small uk-child-width-expand@s uk-text-center" uk-grid>
+        <div>
+            <div class="flex flex-row">
+                <span class="font-bold text-lg mx-2">                   
+                    <div class="dropdown">
+                        <label class="font-bold text-lg mx-2 pointer" tabindex="0">{{ employee.name }}  Home Page</label>
+                        <div class="dropdown-menu">                            
+                            <div class="uk-width-1-2@s uk-width-2-5@m">
+                                <ul class="uk-nav-default" uk-nav="multiple: true" uk-switcher="#employee-properties">
+                                    <li class="uk-active"><a href="#">Home</a></li>
+                                    <li class="uk-parent">
+                                        <a href="#">Account <span uk-nav-parent-icon></span></a>                                       
+                                        <ul class="uk-subnav uk-subnav-pill" uk-switcher="connect: #employee-account-properties"> 
+                                            <li><a href="#" class="navbar-item">Banking Info</a></li>
+                                            <li><a href="#" class="navbar-item">Payments</a></li>
+                                            <li><a href="#" class="navbar-item">Loans</a></li>
+                                            <li><a href="#" class="navbar-item">Analytics</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#" class="navbar-item">Jobs</a></li>
+                                    <li><a href="#" class="navbar-item">Tasks</a></li>                                  
+                                    <li><a href="#" class="navbar-item">Days </a></li>  
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </span>
+                <h5>{{ employee.sex }} | {{ employee.occupation }}</h5>
+                <h3 class="font-bold mx-2">ID <span class="uk-badge">{{ employee.get('_id') }}</span></h3>
+            </div>
+        </div>
+        <div>
+            <nav class="uk-navbar-container">
+                <div class="uk-container">
+                    <div uk-navbar>
+            
+                        <div class="uk-navbar-left">
+            
+                            <a class="uk-navbar-item uk-logo" href="#" aria-label="Back to Home">{{ employee.get('oc') }}</a>
+            
+                            <ul class="uk-navbar-nav">
+                                <li>
+                                    <a href="#" class="uk-button uk-button-text uk-button-small rounded" type="button">Manage</a>
+                            <div uk-dropdown>
+                                <ul class="uk-nav uk-dropdown-nav">
+                                    <li class="uk-active"><a href="#payment-modal" uk-toggle>Add Payment</a></li>
+                                    <li><a href="#loan-modal" uk-toggle>Record Loans</a></li>
+                                    <li class="uk-nav-header">Admin</li>
+                                    
+                                    <li class="uk-nav-divider"></li>
+                                    <li><a href="#">Delete</a></li>
+                                </ul>
+                            </div>
+                                </li>
+                            </ul>
+            
+                            <div class="uk-navbar-item">
+                                <div><img
+                                    class="uk-border-circle" 
+                                    src="{{  employee.get('imgurl') }}" 
+                                    alt="img" 
+                                    width="56" 
+                                    height="56"
+                                    /></div>
+                            </div>
+            
+                           
+            
+                        </div>
+            
+                    </div>
+                </div>
+            </nav>
+            
+        </div>
+        
+    </div> 
+ 
+
+    <div id="employee-properties" class="uk-switcher uk-margin">
+        <div id="home">Home
+            <div id="worker-console" class="bg-gray-300 p-5 border rounded">
+                <div id="about">
+                <div class="bg-gray-300 p-5 border rounded">{{ employee.get('address') }}</div>
+                                            
+                </div>
+                <div id="contact">
+                <div class="bg-gray-300 p-5 border rounded">{{ employee.get('contact') }}</div>
+                </div>
+            
+                {{ employee }}
+            
+            </div>                                    
+        </div>
+        
+        <div id="account">Account            
+            {% include "employee/employeeAccountInterface.html" %}
+        </div>
+
+        <div id="jobs">Jobs            
+            {% include "employee/employeeJobsInterface.html" %}        
+        </div>
+        <div id="tasks">Tasks
+            {{ employee.get('tasks') }}
+        </div>
+        <div id="days">days
+            
+            <table class="uk-table uk-table-small">
+                <caption>Days work Index </caption>
+                <thead>
+                    <tr>
+                        <th>Date</th>                        
+                        <th>Time Start</th>
+                        <th>Draw Off</th>
+                        <th>Description</th>
+                        <th>Resolved</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in  employee.get('days')  %}
+                    <tr>
+                        <td>{{item.date}}</td>                        
+                        <td>{{item.start}}</td>
+                        <td>{{item.end}}</td>
+                        <td>{{item.description}}</td>
+                        <td>
+                            {% if item.payment.paid %}
+                            <span>{{item.payment.amount | to_dollars }}</span>
+                            {% else %}
+                            <span>{{ item.payment.paid }}</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                </table>
+        
+        </div>
+
+        
+    </div>
+   
+</div>
+
+
+
+<!-- This is the modal -->
+<div id="loan-modal" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <h2 class="uk-modal-title">Employee Loan Record</h2>
+        <p>Record  Loans</p>
+        <form hx-post="/record_employee_loan/{{ employee._id }}" 
+        hx-target="#message" 
+        
+        >
+            <div class="uk-card uk-card-default uk-card-body">
+                
+                <div class="flex flex-col">
+                    <div class="flex flex-row my-2">
+                        <label>Ref</label>
+                        
+                        <input class="bg-gray-200 px-3 py-2 ml-2 rounded-md"  type="ref" name="ref" value="CASHLOAN-{{ employee.account.loans | length +1}}">
+                    </div>
+                    <div class="form-group flex flex-row my-2">
+                        <label>Date</label>
+                        <input class="bg-gray-200 px-3 py-2 ml-2 rounded-md" name="date" type="date" >
+                    </div>
+                    <div class="form-group flex flex-row my-2">
+                        <label>Employee Name</label>
+                        <input class="bg-gray-200 px-3 py-2 ml-2 rounded-md"  type="text" name="name" value="{{ employee.name}}">
+                    </div>
+                   
+                    <div class="form-group flex flex-row my-2">
+                        <label>Amount</label>
+                        <input class="bg-gray-200 px-3 py-2 ml-2 rounded-md"  type="number" step="0.01" name="amount" >
+                    </div>
+                    <div class="form-group flex flex-row my-2">
+                        <label>About</label>
+                        <input class="bg-gray-200 px-3 py-2 ml-2 rounded-md" name="about" type="textarea" >
+                    </div>
+
+                   
+                </div>
+                <button class="btn btn-primary">Submit</button>
+                <button class="btn btn-primary uk-alert-close" uk-close >Close  .</button>
+            </div>
+        </form>
+        <p class="uk-text-right">
+            <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+            <button class="uk-button uk-button-primary" type="button">Save</button>
+        </p>
+    </div>
+</div>
+
+
+<!-- This is the payment modal -->
+<div id="payment-modal" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <h2 class="uk-modal-title">Employee Payment Record</h2>
+        <p>Record  Payments</p>
+        <p class="uk-text-right">
+            <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+            <button class="uk-button uk-button-primary" type="button">Save</button>
+        </p>
+    </div>
+</div>

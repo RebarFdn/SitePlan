@@ -1,0 +1,20 @@
+<div>
+    <table class="uk-table uk-table-divider">
+        <thead>
+            <tr>
+                <th>Refference</th>
+                <th>Date</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pay in account.payments %}
+            <tr>
+                <td>{{pay.ref}}</td>
+                <td>{{pay.date | convert_timestamp}}</td>
+                <td>{{pay.total | to_dollars }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,23 @@
+<h2 class="text-lg text-center font-bold my-5">Project Activity Logs</h2>
+<div class="flex w-full overflow-x-auto text-sm p-5 mx-3">
+	<table class="uk-table uk-table-justify uk-table-divider">
+		<thead>
+            <tr>
+                <th>Time Stamp</th>
+                <th>Title</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in activity_log | reverse %}
+            <tr>
+                <td>{{ log.id | convert_timestamp }}</td>
+                <td>{{ log.title }}</td>
+                <td>{{ log.description }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+    
+

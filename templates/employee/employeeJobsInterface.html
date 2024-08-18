@@ -1,0 +1,26 @@
+<div>
+    <p class="text-lg text-center font-semibold my-5"> Employee Jobs Interface</p>
+    <div class="flex w-full overflow-x-auto">
+        <table class="table-hover table">
+            <thead>
+                <tr>
+                    <th>Job Id</th>
+                    <th>Project</th>
+                    <th>Job </th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for job in jobs %}
+                <tr>
+                    <th>{{ job.job_id }}</th>
+                    <td>{{ job.project }}</td>
+                    <td>{{ job.title }}</td>
+                    
+                </tr>
+                {% endfor %}
+               
+            </tbody>
+        </table>
+    </div>
+</div>

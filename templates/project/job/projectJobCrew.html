@@ -1,0 +1,61 @@
+<p class="text-lg">Crew {{ crew.get('name') }} Rating {{ crew.get('rating') }}</p>
+
+<div class="text-sm uk-overflow-auto">
+    <table class="uk-table uk-table-small uk-table-divider">
+        
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Oc</th>
+            <th>Role</th>
+            <th>Rating</th>            
+            <th>Jobs</th>
+            <th></th>
+
+        </tr>
+    </thead>
+    <tbody>
+        {% if crew.get('members', []) | length > 0%}
+            {% for team in crew.get('members', []) %}
+            <tr>
+                <td>{{team.id}}</td>
+                <td>{{team.value.name}}</td>
+                <td>{{team.value.oc}}</td>
+                <td>{{team.value.occupation}}</td>
+                <td>{{team.value.rating}}</td>            
+                <td>               
+                    <button class="uk-badge uk-button-default" type="button"> {{ team.get('tasks', []) | length}}</button>
+                    <div uk-dropdown>
+                        <ul class="uk-nav uk-dropdown-nav">
+                            <li class="uk-nav-header">{{ team.oc }} assigned Tasks</li>
+                            {% for task in team.tasks %}
+                            
+                            <li class="uk-nav-header">{{ task }}</li>
+                            
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </td>
+                <td><a href="#" hx-delete="/jobcrew_member/{{job._id}}_{{team.id}}" hx-target="#project-job-properties" uk-icon="icon: trash" uk-tooltip="Remove {{team.value.oc}} from Team"></a></td>
+            </tr>
+            {% endfor %}
+        {% else %}
+        <tr>
+            <td></td>
+            <td></td>
+            <td>The Crew has no workers yet!</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        {% endif %}
+        
+    </tbody>
+</table>
+
+</div>
+ 
+<p class="text-xs text-center">Location: /templates/project/job/jobCrew.html</p>
+                
+<div class="text-xs">{{ crew }}</div>

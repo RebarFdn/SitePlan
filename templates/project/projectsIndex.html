@@ -1,0 +1,140 @@
+<div>
+    
+    <div class="bg-gray-400 px-2 py-2 text-left rounded">
+           
+          
+           
+            <nav class="uk-navbar-container bg-gray-300" uk-navbar>  
+                    <ul class="uk-navbar-nav">
+                        <li class="uk-active"><a href="#"> Projects Index</a></li>
+                        <li>
+                            <a href="#">  <span class="bg-gray-50 ml-10 py-1 px-2 border rounded-full"> {{ projects | length }}<span></a>
+                            
+                        </li>
+                        <li class="uk-active"><a href="#new-project" uk-toggle>New Project</a></li>
+                    </ul>
+            </nav>
+        </div>        
+    <ul class="mx-2 h-96 overflow-y-auto">'
+    
+        {% for project in projects %}
+
+        <li>
+        <div 
+        class="flex flex-col text-sm bg-gray-300 py-2 px-3 my-2 border rounded cursor-pointer hover:bg-gray-100"
+        hx-get="/project/{{project.id }}"
+        hx-target="#dash-content-pane"
+        hx-trigger="click"
+        >
+        <h1>{{ project.id }} {{ project.get('value').get('name') }}</h1>
+        <span 
+            class="inline-flex items-center gap-x-1.5 py-1 px-2 rounded-full text-xs w-auto max-w-32 font-medium bg-yellow-300 text-gray-600"
+            >{{ project.get('value').get('category') }}
+        </span>
+
+
+        </div>
+        </li> 
+        {% endfor %}
+    </ul>
+
+
+<!-- This is the modal -->
+<div id="new-project" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <h2 class="uk-modal-title">New Construction Project</h2>
+
+        
+        <form class="uk-form-stacked"
+        
+        >
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Date</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="form-stacked-text" type="date" placeholder="Project Creation Date" name="date">
+                </div>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Project Name</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="form-stacked-text" type="text" placeholder="Project Name" name="name">
+                </div>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Category </label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="form-stacked-text" type="text" placeholder="Category" name="category">
+                </div>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Standard</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="form-stacked-text" type="text" placeholder="Standard" name="standard" >
+                </div>
+            </div>
+
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Address Lot</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="form-stacked-text" type="text" placeholder="Lot" name="lot">
+                </div>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Street</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="form-stacked-text" type="text" placeholder="Street" name="street"
+                    >
+                </div>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Town</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="form-stacked-text" type="text" placeholder="Town" name="town"
+                    >
+                </div>
+            </div>
+
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">City or Parish</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="form-stacked-text" type="text" placeholder="City/ Parish" name="city_parish"
+                    >
+                </div>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Country</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="form-stacked-text" type="text" placeholder="Country" name="country"
+                    >
+                </div>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Owner's Name</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="form-stacked-text" type="text" placeholder="Owner" name="owner"
+                    >
+                </div>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Lead</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="form-stacked-text" type="text" placeholder="Head Person" name="lead"
+                    >
+                </div>
+            </div>
+           
+
+        
+            <p class="uk-text-right">
+                <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                <input class="uk-button uk-button-primary uk-modal-close" type="submit"
+                hx-post="/new_project"
+                hx-target="#dash-content-pane"
+                
+                >
+            </p>
+        
+        </form>
+        
+    </div>
+</div>

@@ -1,0 +1,198 @@
+<nav class="uk-navbar-container" uk-navbar>
+    <div class="uk-navbar-left">
+        <ul class="uk-navbar-nav">
+            <li class="uk-active"><a href="#">Project Purchases</a></li>
+            <li>
+                <a href="#">Filter</a>
+                <div class="uk-navbar-dropdown">
+                    <ul class="uk-nav uk-navbar-dropdown-nav">
+                        <li >
+                            <button class="uk-button uk-button-default" type="button">By Date</button>
+                            <div class="uk-card uk-card-body uk-card-default uk-width-large" uk-drop="pos: top-center">
+                                <div class="uk-drop-grid uk-child-width-1-2@m" uk-grid>
+                                    <div>
+                                        <div class="flex flex-col p-5">
+                                            <input type="date" name="date_range_start" />
+                                            <p class="text-xs">Date</p>
+
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            
+                        </li>
+                        <li><hr class="uk-divider"></li>
+                        <li>
+                            
+                            <span class="flex flex-col">
+                                <a href="#">By Name </a>
+                                <input type="text" name="name_filter" />
+
+                            </span>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </li>
+            
+        </ul>
+
+    </div>
+    <div class="uk-navbar-center">
+        <ul class="uk-navbar-nav">
+            <li class="uk-active"><a href="#add-invoice" uk-toggle>New Invoice Record</a></li>
+            <li class="uk-active">
+                <p 
+                   
+                    hx-get="/project_purchase_total/{{project._id}}"
+                    hx-trigger="every 3s"
+
+                    >
+                    
+                </p>
+            </li>
+        </ul>
+
+    </div>
+
+
+</nav>
+
+<div class="uk-overflow-auto">
+    <div id="invoices" class="text-xs">
+        <table class="uk-table uk-table-small uk-table-divider">
+            <thead>
+                <tr>
+                    <th>Invoice No.</th>
+                    <th>Date</th>
+                    <th>Supplier</th>            
+                    <th>Tax</th>
+                    <th>Total</th>                    
+                    <th>Manage</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for invoice in project.account.records.invoices %}
+                 
+                <tr>
+                    <td><label> {{ invoice.invoiceno }}</label></td>
+                    <td><label> {{ invoice.datetime }}</label></td>
+                    <td>{{ invoice.supplier.name }}</td>                    
+                    <td>{{ invoice.tax |float | to_dollars }}</td>                    
+                    <td>{{ invoice.total | float | to_dollars }}</td>
+                    
+                    <td>
+                        <button class="uk-button uk-button-primary uk-button-small rounded-md" type="button">Manage</button>
+                        <div uk-dropdown>
+                            <ul class="uk-nav uk-dropdown-nav">
+                                
+                               
+                                <li>
+                                    <a 
+                                        href="#edit-invoice" 
+                                        
+                                        hx-get="/edit_invoice/{{project._id}}_{{invoice.invoiceno}}"
+                                        hx-target="#edit-invoice-record"
+                                        hx-trigger="click"
+                                        uk-toggle
+                                        >Manage Invoice</a></li>
+                                        <li><a href="#">Share</a></li>
+                                
+                                <li class="uk-nav-divider"></li>
+                                <li><button 
+                                    class="uk-button uk-button-danger uk-button-small rounded"
+                                    hx-post="/delete_invoice/{{project._id}}_{{invoice.invoiceno}}"
+                                    hx-confirm="Are you sure you wish to delete Invoice {{ invoice.invoiceno}}?"
+                                    hx-target="#message"
+                                    
+                                    >Delete</button></li>
+                            </ul>
+                        </div>
+                        
+                    
+                    </td>
+                </tr>
+                {% endfor %}
+                
+                
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+<!-- This is the add invoicemodal -->
+<div id="add-invoice" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <p class="text-lg font-semibold">New Invoice Record</p>
+
+        
+        <form class="uk-form-stacked"
+        
+        >
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Date</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="form-stacked-text" type="date" placeholder="Bill Date" name="date">
+                </div>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Invoice No</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="form-stacked-text" type="number" placeholder="Invoice No." name="invoice_no">
+                </div>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Supplier</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="form-stacked-text" type="text" placeholder="Supplier's Name" name="supplier">
+                </div>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Invoice Items</label>
+                <div class="uk-form-controls">
+                    <button class="uk-button uk-button-primary uk-button-small rounded-md"  >Add Item</button>
+                </div>
+            </div>
+
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Tax</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="form-stacked-text" type="number" step="0.01" placeholder="Tax" name="tax">
+                </div>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Total</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="form-stacked-text" type="number" step="0.01" placeholder="Total" name="total">
+                </div>
+            </div>
+           
+
+        
+            <p class="uk-text-right">
+                <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                <input class="uk-button uk-button-primary uk-modal-close" type="submit" value="Save Invoice"
+                hx-post="/new_invoice/{{project._id}}"
+                hx-target="#invoices"
+                
+                >
+            </p>
+        
+        </form>
+        
+    </div>
+</div>
+
+<!-- Edit invoice modal -->
+<div id="edit-invoice" class="uk-modal-container" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <h2 class="uk-modal-title">Manage Invoice Record</h2>
+        <div id="edit-invoice-record">
+            Invoice
+        </div> 
+    </div>
+</div

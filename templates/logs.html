@@ -1,0 +1,21 @@
+{% extends 'temp/main_template.html' %}
+
+{% block content %}
+
+<div class="m-5 p-5">
+    <div id="logs"></div>
+    </div>
+
+    <script>
+        var ws_log = new WebSocket("ws://localhost:8004/ws");
+
+        ws_log.onmessage = function (event) {
+            var logs = document.getElementById("logs");
+            
+            var log_data = event.data;
+            logs.innerHTML = log_data;
+            };
+    </script>
+    
+
+{% endblock content %}

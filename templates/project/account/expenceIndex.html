@@ -1,0 +1,212 @@
+
+
+<nav class="uk-navbar-container" uk-navbar>
+    <div class="uk-navbar-left">
+
+        <ul class="uk-navbar-nav">
+            <li class="uk-active"><a href="#">Project Expences</a></li>
+            <li>
+                <a href="#">Filter</a>
+                <div class="uk-navbar-dropdown">
+                    <ul class="uk-nav uk-navbar-dropdown-nav">
+                        <li >
+                            <button class="uk-button uk-button-default" type="button">By Date</button>
+                            <div class="uk-card uk-card-body uk-card-default uk-width-large" uk-drop="pos: top-center">
+                                <div class="uk-drop-grid uk-child-width-1-2@m" uk-grid>
+                                    <div>
+                                        <div class="flex flex-col p-5">
+                                            <input type="date" name="date_range_start" />
+                                            <p class="text-xs">Start Period</p>
+
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="flex flex-col p-5">
+                                            <input type="date" name="date_range_end" />
+                                            <p class="text-xs">End Period</p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </li>
+                        <li><hr class="uk-divider"></li>
+                        <li>
+                            
+                            <span class="flex flex-col">
+                                <a href="#">By Name </a>
+                                <input type="text" name="name_filter" />
+
+                            </span>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </li>
+            
+        </ul>
+
+    </div>
+    <div class="uk-navbar-center">
+        <ul class="uk-navbar-nav">
+            <li class="uk-active"><a href="#add-expence" uk-toggle>New Expence</a></li>
+            <li class="uk-active">
+                <p 
+                   
+                    hx-get="/project_expence_total/{{id}}"
+                    hx-trigger="every 2s"
+
+                    >
+                    
+                </p>
+            </li>
+        </ul>
+
+    </div>
+
+
+</nav>
+
+<div class="uk-overflow-auto">
+    <div id="expences" class="text-xs">
+        <table class="uk-table uk-table-small uk-table-divider">
+            <thead>
+                <tr>
+                    <th>Ref</th>                    
+                    <th>Date</th>            
+                    <th>Description</th>
+                    <th>Claimant</th>
+                    <th>Payment Method</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for expence in expences %}
+                <tr>
+                    <td>
+                        <label> {{ expence.ref }}</label>
+                        
+                        
+                    </td>
+                    <td>
+                        <label> {{ expence.date }}</label>
+                        
+                        
+                    </td>
+                    <td>
+                    
+                        {{ expence.description }}
+                    </td>
+                    
+                    <td>{{ expence.claimant }}</td>
+                    <td>{{ expence.method}}</td>
+                    <td>{{ expence.total | to_dollars }}</td>
+                    <td>
+                        <button class="uk-button uk-button-primary uk-button-small rounded-md" type="button">Manage</button>
+                        <div uk-dropdown>
+                            <ul class="uk-nav uk-dropdown-nav">
+                                
+                               
+                                <li>
+                                    <a 
+                                        href="#edit-expence" 
+                                        
+                                        hx-get="/edit_expence/{{id}}_{{expence.ref}}"
+                                        hx-target="#expence-record"
+                                        hx-trigger="click"
+                                        uk-toggle
+                                        >Manage Expence</a></li>
+                                        <li><a href="#">Share</a></li>
+                                
+                                <li class="uk-nav-divider"></li>
+                                <li><button 
+                                    class="uk-button uk-button-danger uk-button-small rounded"
+                                    hx-post="/delete_expence/{{id}}_{{expence.ref}}"
+                                    hx-confirm="Are you sure you wish to delete {{ expence.ref }}?"
+                                    hx-target="#message"
+                                    
+                                    >Delete</button></li>
+                            </ul>
+                        </div>
+                        
+                    
+                    </td>
+                </tr>
+                {% endfor %}
+                
+                
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+<!-- This is the modal -->
+<div id="add-expence" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <p class="text-lg font-semibold">New Project Expence Record</p>
+
+        
+        <form class="uk-form-stacked"
+        
+        >
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Date</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="form-stacked-text" type="date" placeholder="Date" name="date">
+                </div>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Description</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="form-stacked-text" type="textarea" placeholder="Description" name="description">
+                </div>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Claimant</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="form-stacked-text" type="text" placeholder="Jane Doe" name="claimant">
+                </div>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Method</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="form-stacked-text" type="text" placeholder="Cash" name="method" >
+                </div>
+            </div>
+
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Amount</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="form-stacked-text" type="number" step="0.01" placeholder="$Amount" name="total">
+                </div>
+            </div>
+            
+           
+
+        
+            <p class="uk-text-right">
+                <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                <input class="uk-button uk-button-primary uk-modal-close" type="submit" value="Create Record"
+                hx-post="/new_expence/{{id}}"
+                hx-target="#account"
+                
+                >
+            </p>
+        
+        </form>
+        
+    </div>
+</div>
+
+<div id="edit-expence" class="uk-modal-container" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <h2 class="uk-modal-title">Manage Expence</h2>
+        <div id="expence-record">
+            Expence Record
+        </div> 
+    </div>
+</div

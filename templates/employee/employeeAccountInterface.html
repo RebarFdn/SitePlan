@@ -1,0 +1,134 @@
+<div class="navbar">   
+    <ul class="uk-subnav uk-subnav-pill" uk-switcher="connect: #employee-account-properties"> 
+        <li><a href="#" class="navbar-item">Banking Info</a></li>
+        <li><a href="#" class="navbar-item">Payments</a></li>
+        <li><a href="#" class="navbar-item">Loans</a></li>
+        <li><a href="#" class="navbar-item">Analytics</a></li>                                  
+        
+    </ul>
+</div>
+<p class="text-lg text-center font-semibold my-5"> Employee Accounting Interface</p>
+<div id="employee-account-properties" class="uk-switcher uk-margin">
+    <div id="bank">
+        {% include '/employee/employeeBankInfo.html' %}
+    </div>
+    <div id="payments">
+        <p class="text-gray-500 text-xl text-center font-bold">Account Payments</p>
+        
+        {% include '/employee/accountPaymentRecords.html' %}
+    </div>
+    <div id="loans">
+        <p class="text-gray-500 text-xl text-center font-bold">Loans Records</p>
+
+        <div id="loan-editor" class="flex flex-row"></div>
+
+        <table class="uk-table uk-table-striped uk-table-small">
+            <thead>
+                <tr>
+                    <th>ref</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>About</th>
+                    <th>Repaid</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for loan in account.get('loans') %}
+                    <tr>
+                        <td>{{ loan.ref }}/ {{ loan.id}} </td>
+                        <td>{{ loan.date }}</td>
+                        <td>{{ loan.amount | to_dollars }}</td>
+                        <td>{{ loan.about }}</td>
+                        <td>
+                            <div class="uk-inline">
+                                {% if loan.repayment | length == 0 %}
+                                <a 
+                                href="#" 
+                                hx-get="/repay_employee_loan/{{employee._id}}_{{loan.id}}"
+                                hx-target="#loan-editor"
+                                >Repay</a>
+                                {% else %}
+                                <button class="uk-button uk-button-default" type="button">Paid</button>
+                                <div uk-dropdown>
+                                    {% for payment in  loan.repayment %}
+                                     {% if payment.amount == loan.amount %}
+                                     <p>Resolved in full on {{ payment.date }}</p>
+                                     {% else %}
+                                     <p> Unresolved payment Date: {{ payment.date }} {{ payment.amount }} Ballance {{ loan.amount - payment.amount }}
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <td>Total Loans</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Total Repaid</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="analytics">
+        <p class="text-gray-300 text-xl text-center font-bold">DATA UNAVAILABLE</p>
+    </div>
+</div>
+
+
+
+<!-- This is the modal -->
+<div id="repay-loan" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <h2 class="uk-modal-title">Account Receivables</h2>
+        <form class="mx-auto flex w-full max-w-lg flex-col rounded-xl border border-border bg-backgroundSecondary p-4 sm:p-20">
+           
+          
+            <div class="form-group">
+                <div class="flex w-full flex-col gap-2">
+                    <div class="form-field">
+                        <label class="form-label">Date</label>
+            
+                        <input type="date"  name="date" class="input max-w-full" />
+                        <label class="form-label">
+                            <span class="form-label-alt">Please enter a valid date.</span>
+                        </label>
+                    </div>
+                    <div class="form-field">
+                        <label class="form-label">
+                            <span>Amount</span>
+                        </label>
+                        <div class="form-control">
+                            <input placeholder="Amount here" type="number" step="0.01" name="amount" class="input max-w-full" />
+                        </div>
+                    </div>
+                    <div class="form-field pt-5">
+                        <div class="form-control justify-between">
+                            <button 
+                                type="button" 
+                                class="btn btn-primary w-full uk-modal-close"
+                                hx-post="/repay_employee_loan/{{account._id}}"
+                            >Pay Amount</button>
+                        </div>
+                    </div>
+                </div>
+        </form>
+        <p class="uk-text-right">
+            <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+            
+        </p>
+    </div>
+</div>
+
+        

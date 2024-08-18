@@ -1,0 +1,233 @@
+<div class="flex flex-col space-y-1.5">
+    <p class="text-sm">Current Paybill {{ current_paybill}}</p>
+    <div class="navbar">
+        <div class="navbar-start">
+            <a class="navbar-item text-sm"><span>{{ p.name }} / {{ job.title }} </span></a>
+        </div>
+        <div class="navbar-center">
+            <ul class="uk-subnav " uk-tab>
+                <li class="uk-active">
+                    <a 
+                    href="#" 
+                    class="navbar-item"
+                    hx-get="/project_job_home/{{ job._id }}"
+                    hx-target="#project-job-properties"
+                    >Home</a>
+                </li>
+                <li><a href="#" 
+                    class="navbar-item"
+                    hx-get="/project_job_tasks/{{ job._id }}"
+                    hx-target="#project-job-properties"                    
+                    >Tasks</a>
+                </li>
+                <li>
+                    <a href="#"  
+                    class="navbar-item"                  
+                    hx-get="/project_jobcrew/{{ job._id }}"
+                    hx-target="#project-job-properties" 
+                                       
+                    >Crew</a>
+                </li>
+                <li><a href="#" target="_blank" rel="noopener noreferrer"></a></li>
+            
+            </ul>            
+        </div>
+        <div class="navbar-end">
+            <a href="#add-job-task-modal" uk-toggle class="navbar-item">Add Task</a>
+            <a href="#add-crew-member-modal" uk-toggle class="navbar-item">Add Crew</a>
+            
+            
+            <div id="state" class="dropdown">
+                <label class="btn btn-solid-primary my-2" tabindex="0">Set State</label>
+                <div class="dropdown-menu">
+                    <a 
+                    class="dropdown-item text-sm"
+                    href="#"                
+                    >Job State</a>
+                    <a 
+                    tabindex="-1" 
+                    class="dropdown-item text-sm"
+                    hx-get="/update_project_job_state/{{ job._id }}/active"
+                    hx-target="#project_properties"
+                    >Active</a>
+                    <a 
+                    tabindex="-1" 
+                    class="dropdown-item text-sm"
+                    hx-get="/update_project_job_state/{{ job._id  }}/completed"
+                    hx-target="#project_properties"
+                    >Completed</a>
+                    <a 
+                    tabindex="-1" 
+                    class="dropdown-item text-sm"
+                    hx-get="/update_project_job_state/{{ job._id  }}/paused"
+                    hx-target="#project_properties"                            
+                    >Paused</a>
+                    <a 
+                    tabindex="-1" 
+                    class="dropdown-item text-sm"
+                    hx-get="/update_project_job_state/{{ job._id  }}/resume"
+                    hx-target="#project_properties"                            
+                    >Resume</a>
+                    <a 
+                    tabindex="-1" 
+                    class="dropdown-item text-sm"
+                    hx-get="/update_project_job_state/{{ job._id }}/terminated"
+                    hx-target="#project_properties"                           
+                    >Terminated</a>
+                </div>
+            </div> 
+        </div>
+    </div>
+</div> 
+
+        
+<div id="project-job-properties">
+    {% include '/project/job/jobHomeConsole.html' %}
+</div>
+  
+<p class="text-xs text-center text-gray-500">Location: /templates/project/job/jobPage.html</p>
+                
+        
+
+
+    <!-- This is the add task to job modal -->
+<div id="add-job-task-modal" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <h4 class="text-lg font-semibold text-center my-5">Add to {{ job.title }} Tasks Queue</h4>
+        <div class="flex flex-row">
+                <span class="font-semibold mx-5 mb-5">Project Tasks Index</span>
+                <select 
+                class="mx-5 rounded-md"
+                name="task_category" 
+                hx-post="/filter_job_rate/{{job._id}}"
+                hx-target="#job-rates"
+                aria-label="Custom controls"
+                >
+                    <option value="">Filter Tasks</option>
+                    <option value="{{'all'}}">All</option>
+                    {% for cat in categories %}
+                        <option value="{{cat}}">{{ cat }}</option>
+                    {% endfor %}
+                </select>
+
+        </div>
+
+        <div class="uk-child-width-1-3@s" uk-grid>
+                <div >
+                    
+                    <form>
+                        <div id="job-rates">
+                        <table class="uk-table uk-table-divider">
+                            <thead>
+                        <tr>
+                            <th></th>
+                            <th>Id</th>
+                            <th>Title</th>
+                            <th class="uk-table-expand">Description</th>
+                            <th>Category</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            
+                       
+                    
+                    {% for task_rate in p.get("rates") %}
+                        <tr>
+                            <td><input 
+                                type="checkbox" 
+                                value="{{ task_rate.get('_id') + '-' + job.get('_id') }}" 
+                                name="task" 
+                                hx-post="/add_job_task" 
+                                hx-target="#project-job-properties" >
+                            </td>
+                            <td>{{ task_rate.get("_id") }}</td>
+                            <td> {{ task_rate.get("title") }}</td>
+                            <td> {{ task_rate.get("description") }}</td>
+                            <td> {{ task_rate.get("category") }}</td>
+
+                        </tr>
+
+                    {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                    </form>
+                </div>
+        </div>
+
+        <p class="uk-text-right">
+                <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                <button class="uk-button uk-button-primary" type="button">Save</button>
+        </p>
+    </div>
+</div>
+
+    <!-- This is the add crew member modal -->
+<div id="add-crew-member-modal" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body">           
+            
+            <div class="flex flex-row">
+                <span class="mx-5">Add Crew Member to Job {{ job._id }}</span>
+                <select 
+                class="mx-5 rounded-md"
+                name="crew_occupation" 
+                hx-post="/filter_crew_occupation/{{job._id}}"
+                hx-target="#job-workers"
+                aria-label="Custom controls"
+                >
+                    <option value="">Filter Role</option>
+                    <option value="{{'all'}}">All</option>
+                    {% for roll in job_roles %}
+                        <option value="{{roll}}">{{ roll }}</option>
+                    {% endfor %}
+                </select>
+
+            </div>
+            
+            <form>
+                <div id="job-workers">
+                <table class="uk-table uk-table-divider">
+                    <thead>
+                <tr>
+                    <th></th>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Oc</th>
+                    <th>Role</th>
+                    <th>Rating</th>
+                </tr>
+                </thead>
+                <tbody>
+                    
+               
+            
+            {% for worker in p.workers %}
+                <tr>
+                    <td><input 
+                        class="uk-radio" 
+                        type="radio"                       
+                        value="{{ worker.id + '_' + job._id }}" 
+                        name="worker" 
+                        hx-post="/add_worker_to_job_crew" 
+                        hx-target="#project-job-properties" >
+                    </td>
+                    <td>{{ worker.id }}</td>
+                    <td> {{ worker.value.name }}</td>
+                    <td> {{ worker.value.oc }}</td>
+                    <td> {{ worker.value.occupation }}</td>
+                    <td> {{ worker.value.rating }}</td>
+
+                </tr>
+
+            {% endfor %}
+                </tbody>
+            </table>
+                </div>
+            </form>
+            <p class="uk-text-right">
+                <button class="uk-button uk-button-default uk-modal-close" type="button">Close</button>
+                
+            </p>
+        </div>
+</div>
+        
