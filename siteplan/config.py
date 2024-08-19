@@ -4,9 +4,6 @@ from pathlib import Path
 from starlette.config import Config
 from starlette.datastructures import CommaSeparatedStrings, Secret
 from starlette.templating import Jinja2Templates
-
-
-
 from modules.utils import convert_timestamp, to_dollars
 
 

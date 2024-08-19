@@ -1,0 +1,168 @@
+<div class="bg-gray-100 p-5 border rounded">
+    <div class="uk-child-width-expand@s uk-text-center" uk-grid>
+        <div class="uk-text-left"><span class="text-sm font-semibold mx-3">Project</span>{{ project.name }} </div>
+        <div><span class="text-sm font-semibold mx-3">Category</span>{{ project.category }}</div>        
+        <div>
+             <form action="">
+                    <div class="flex flex-row space-x-2">
+                        <label class="font-semibold">Standard</label> 
+                        <span id="project-standard" class="mx-2">{{ project.standard }} </span> 
+                        {% if project.standard == 'metric' %}
+                            <input type="checkbox" class="switch switch-primary" name="standard" checked 
+                            hx-post="/update_project_standard/{{project._id}}"
+                            hx-target="#project-standard"
+                            hx-trigger="change"
+                            />
+                        {% else %}
+                            <input type="checkbox" class="switch switch-primary" name="standard" unchecked 
+                                hx-post="/update_project_standard/{{project._id}}"
+                                hx-target="#project-standard"
+                                hx-trigger="change"
+                                />
+                        {% endif %}
+                       
+                    </div>
+                </form> 
+        </div>
+    </div>
+              
+</div>
+      
+<div class="uk-child-width-expand@s uk-text-center" uk-grid>
+    <div>
+        <div class="accordion-group">
+            <div class="accordion">
+                <input type="checkbox" id="accordion-1" class="accordion-toggle" />
+                <label for="accordion-1" class="accordion-title">Owner/ Client</label>
+                <div class="accordion-content">
+                    <div class="min-h-0">
+                        <div class="uk-child-width-expand@s uk-text-left text-xs" uk-grid>
+                            <div>
+                                <ul class="uk-list uk-list-striped">
+                                    <li><span class="text-sm font-semibold mx-3">Name</span>{{ project.owner.name }}</li>
+                                    {% if project.owner.contact %}
+                                        {% for key, value in project.get('owner',{}).get('contact', {}).items() %}
+                                        <li><span class="text-sm font-semibold mx-3">{{ key }}</span>{{value}}</li>
+                                        {% endfor %}
+                                    {% else %}
+                                    <li><span class="text-xl text-gray-500 font-semibold">Contact Unavailable</li>
+                                    {% endif %}
+                                    
+                                </ul>
+                                
+                               
+                            </div>
+                            <div>
+                                {% if project.owner.address %}
+                                    <ul class="uk-list uk-list-striped">
+                                    {% for key, value in project.get('owner',{}).get('address', {}).items() %}
+                                        <li><span class="text-sm font-semibold mx-3">{{ key }}</span>{{value}}</li>
+                                    {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </div>
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+            <div class="accordion">
+                <input type="checkbox" id="accordion-2" class="accordion-toggle" />
+                <label for="accordion-2" class="accordion-title">Project Address /Location</label>
+                <div class="accordion-content text-left">
+                    <div class="min-h-0">
+                        
+                        {% if project.address %}
+                        <ul class="uk-list uk-list-striped">
+                        {% for key, value in project.get('address', {}).items() %}
+                            <li><span class="text-sm font-semibold mx-3">{{ key }}</span>{{value}}</li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="accordion-group">
+            <div class="accordion">
+                <input type="checkbox" id="accordion-3" class="accordion-toggle" />
+                <label for="accordion-3" class="accordion-title">Admin Staff</label>
+                <div class="accordion-content text-left">
+                    <div class="min-h-0">
+                        {% if project.admin %}
+                        <ol class="steps steps-vertical">
+                            {% for key, value in project.get('admin', {}).items() %}
+                            {% if key == 'staff' %}
+                            <li class="step">
+                                <div class="step-circle">{{ key }}</div>
+                                <ol class="steps steps-vertical">
+                                    {% for key2, value2 in project.get('admin', {}).get('staff').items() %}
+                                    <li class="step">
+                                        <div class="step-circle">{{ key2 }}</div>
+                                        <h3>{{value2}}</h3>
+                                    </li>
+                                    {% endfor %}
+                                </ol>
+                                    
+                            </li>
+
+                            {% else %}
+                            <li class="step">
+                                <div class="step-circle">{{ key }}</div>
+                                <h3>{{value}}</h3>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                            
+                        </ol>
+                        {% endif %}
+
+                       
+                  
+                    </div>
+                </div>
+            </div>
+            <div class="accordion">
+                <input type="checkbox" id="accordion-4" class="accordion-toggle" />
+                <label for="accordion-4" class="accordion-title">Statistics</label>
+                <div class="accordion-content text-left text-xs">
+                    <div class="min-h-0">
+                        
+                        <ul class="uk-list uk-list-striped">
+                            {% for key, value in project.meta_data.items() %}
+                                {% if key == 'created' %}
+                                <li><span class="text-sm font-semibold mx-3">{{ key }}</span>{{value | convert_timestamp }}</li>
+                                {% elif key == 'database' %}
+                                <li>
+                                    <span class="text-sm font-semibold mx-3">{{ key }}</span>
+                                    {% for key3, value3 in value.items() %}
+                                    <a class="text-sm"><span class="font-semibold mx-3">{{ key3 }}</span>{{ value3 }}</a>
+                                    {% endfor %}
+                                </li>
+                                {% elif key == 'properties' %}
+                                <li>
+                                    <span class="text-sm font-semibold mx-3">{{ key }}</span>
+                                    {% for item in value %}
+                                    <a class="text-sm">{{item }},</a>
+                                    {% endfor %}
+                                </li>
+                                {% elif key == 'updated' %}
+                                <li><span class="text-sm font-semibold mx-3">{{ key }}</span>{{value | convert_timestamp }}</li>
+                                {% else %}
+                                <li><span class="text-sm font-semibold mx-3">{{ key }}</span>{{value}}</li>
+                                {% endif %}
+                            {% endfor %}
+                            </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="bg-gray-300 p-5 border rounded text-xs">
+    location project/projectHome.html
+</div>

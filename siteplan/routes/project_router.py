@@ -110,8 +110,52 @@ async def get_project(request):
                                       {
                                           "request": request, 
                                           "id": id, 
-                                          "p": p
+                                          "project": {
+                                              "_id": p.get("_id"),
+                                              "name": p.get("name"),
+                                              "category": p.get("category"),
+                                              "standard": p.get("standard"),
+                                              "owner": p.get("owner"),
+                                              "address": p.get("address"),
+                                              "admin": p.get("admin"),
+                                              "meta_data": p.get("meta_data"),
+                                                                                           
+                                              
+                                              }
                                           })
+
+
+@router.get('/project_home/{id}')
+@login_required
+async def project_home(request):
+    id = request.path_params.get('id')
+    p = await Project().get(id=id)
+    return TEMPLATES.TemplateResponse('/project/projectHome.html', 
+                                      {
+                                          "request": request, 
+                                          "id": id,                                           
+                                          "project": {
+                                              "_id": p.get("_id"),
+                                              "name": p.get("name"),
+                                              "category": p.get("category"),
+                                              "standard": p.get("standard"),
+                                              "owner": p.get("owner"),
+                                              "address": p.get("address"),
+                                              "admin": p.get("admin"),
+                                              "meta_data": p.get("meta_data"),
+                                                                                           
+                                              
+                                              }
+                                          })
+
+
+
+@router.get('/project_api/{id}')
+async def project_api(request):
+    id = request.path_params.get('id')
+    p = await Project().get(id=id)
+    return JSONResponse(p)
+
 
 
 
@@ -405,13 +449,13 @@ async def update_project_standard(request):
     try:
         async with request.form() as form:
             standard = form.get('standard')
-        if standard == None:
+        if standard == 'on':
             p['standard'] = "metric"
             changed = "Metric"
             
         else:
-            p['standard'] = standard
-            changed = standard
+            p['standard'] = "imperial"
+            changed = "Imperial"
         p['activity_log'].append(
                     {
                         "id": timestamp(),

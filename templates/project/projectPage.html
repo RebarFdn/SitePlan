@@ -4,11 +4,20 @@
             <a 
             class="py-4 px-1 inline-flex items-center gap-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600" 
             href="#"
-            hx-get="/project_account/{{id}}"
+            hx-get="/project_home/{{id}}"
             hx-target="#project_properties"
             hx-trigger="click"                
             >
             <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            Home
+            </a>
+            <a 
+            class="py-4 px-1 inline-flex items-center gap-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600" 
+            href="#"
+            hx-get="/project_account/{{id}}"
+            hx-target="#project_properties"
+            hx-trigger="click"                
+            >
             Account
             </a>
             <a 
@@ -67,48 +76,7 @@
         </nav>
     </div>
     <div id="project_properties">
-        <div class="bg-gray-100 p-5 border rounded">
-            <div class="uk-child-width-expand@s uk-text-center" uk-grid>
-                <div>
-                    <div class="uk-card uk-card-default uk-card-body">
-                        {{ p.name }}
-                    </div>
-                </div>
-                <div>
-                    <div class="uk-card uk-card-default uk-card-body">
-                        Category {{ p.category }}</div>
-                </div>
-                <div>
-                    <div class="uk-card uk-card-default uk-card-body">
-                        <form action="">
-                            <div class="flex flex-row space-x-2">
-                                <label>Standard</label>: 
-                                <span id="project-standard" class="mx-2">{{ p.standard }} </span> 
-                                {% if p.standard == 'metric' %}
-                                    <input type="checkbox" class="switch switch-primary" name="standard" checked 
-                                    hx-post="/update_project_standard/{{p._id}}"
-                                    hx-target="#project-standard"
-                                    hx-trigger="change"
-                                    />
-                                {% else %}
-                                    <input type="checkbox" class="switch switch-primary" name="standard" unchecked 
-                                        hx-post="/update_project_standard/{{p._id}}"
-                                        hx-target="#project-standard"
-                                        hx-trigger="change"
-                                        />
-                                {% endif %}
-                               
-                            </div>
-                        </form> 
-                        
-                    </div>
-                </div>
-            </div>
-                      
-        </div>
-                    
-        <div class="bg-gray-300 p-5 border rounded">{{ p.owner }}</div>
-        <div class="bg-gray-300 p-5 border rounded">{{ p.address }}</div>
+        {% include 'project/projectHome.html' %}
     </div>
                      
 </div> 
