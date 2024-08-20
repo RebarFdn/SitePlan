@@ -962,7 +962,7 @@ async def project_jobs_total(request):
             "request": request, 
             "jobs_tasks_total": sum(jobs_tasks_total), 
             "jobs_costs_total": sum(jobs_costs_total),
-            "title": "Jobs Total"
+            "title": "Jobs Tasks Total Cost"
         }
         )
 

@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "buildcss": "npx tailwindcss -i css/input.css -o css/app.css --watch",
+    "updatebrowser": "npx update-browserslist-db@latest",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Moncrieffe",
