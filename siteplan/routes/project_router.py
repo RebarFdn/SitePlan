@@ -291,6 +291,7 @@ async def get_project_jobs(request):
         { "request": request, "p": p, "jobs": jobs }
         )
 
+
 # jobs_report/{{p._id}}"
 @router.get('/jobs_report/{id}')
 @login_required
@@ -301,8 +302,27 @@ async def get_jobs_report(request):
     
     return TEMPLATES.TemplateResponse(
         '/project/job/jobsReport.html', 
-        { "request": request, "p": p, "jobs": jobs }
+        { "request": request, "p": {"_id": p.get('_id'), "name": p.get('name')}, "jobs": jobs }
         )
+
+
+# jobs_report/{{p._id}}"
+@router.get('/jobs_tasks_report/{id}')
+@login_required
+async def get_jjobs_tasks_report(request):
+    id = request.path_params.get('id')
+    p = await Project().get(id=id)
+    jobs = p.get('tasks')
+    
+    return TEMPLATES.TemplateResponse(
+        '/project/job/jobsTasksReport.html', 
+        { 
+            "request": request, 
+            "p": {"_id": p.get('_id'), "name": p.get('name')}, 
+            "jobs": jobs 
+        }
+    )
+
 
 
 @router.get('/project_days/{id}')

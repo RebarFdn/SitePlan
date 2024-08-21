@@ -26,7 +26,7 @@ from routes.project_accounting_router import router as accounting_router
 from routes.project_jobs_task_router import router as project_jobstask_router
 from routes.team_router import router as team_router
 from routes.base_router import router as base_router
-from modules.supplier import supplier_router 
+from routes.supplier_router import router as supplier_router 
 from routes.estimator_router import router as estimate_router
 from modules.platformuser import user_list
 from modules.decorator import admin_only

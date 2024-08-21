@@ -1,84 +1,97 @@
-<div id="jobs-queue" class="flex flex-col space-y-1.5">
+<div class="flex flex-col space-y-1.5">
                        
     <div class="navbar">
         <div class="navbar-start">
-            <a class="navbar-task"><span>{{ p.name }} Job Queue </span></a>
+            <a class="navbar-task"><span>{{ p.name }} Jobs Tasks Report </span></a>
         </div>
-        <div class="navbar-center">
-            <a href="#"
-        class="uk-link"  
-        style="color: green;"        
-        hx-get="/jobs_tasks_report/{{p._id}}"
-        hx-target="#jobs-queue"
-        ><span uk-icon="icon: nut; ratio: .75" ></span>Jobs Tasks Report</a>
-        
-        </div>
+        <div class="navbar-center"></div>
         <div class="navbar-end">
-            <a href="#"
-            class="uk-link" 
-            style="color: rgb(150, 11, 138);" 
-        hx-get="/jobs_report/{{p._id}}"
-        hx-target="#jobs-queue"
-        ><span uk-icon="icon: cog; ratio: .75" style="color: rgb(150, 11, 138);"></span>Jobs Report</a>
-            
+          
         <button 
-        class="uk-button uk-button-primary uk-button-small uk-margin-small-right navbar-task rounded-full mx-2" 
+        class="uk-button uk-button-primary uk-button-small uk-margin-small-right navbar-task rounded-full" 
         style="background: rgb(150, 11, 138);"
         type="button" 
-        uk-toggle="target: #new-job-modal">Create New Job</button>
+        uk-toggle="target: #new-job-modal">Print Report</button>
 
         </div>
     </div>
     
-    <div class="uk-overflow-auto" >
+    <div id="jobs-queue" class="text-xs uk-overflow-auto" >
    
         <table class="uk-table uk-table-striped uk-table-hover uk-table-small uk-table-divider">
             <thead>
                 <tr>
-                   
+                    <th>Id</th>
                     <th>Title</th>
                     <th>Description</th>
-                    <th>Phase</th>
-                    <th>Crew</th>
-                    <th>Tasks</th>
-                    <th>State</th>
-                    <th>Progress</th>
+                    <th>Metric Quantity</th>
+                    <th>Metric Price</th>
+                    <th>Imperial Quantity</th>
+                    <th>Imperial Price</th>
+                    <th>Total</th>
+                   
                    
                 </tr>
             </thead>
             <tbody>
 
             {% for job in jobs %}
-                
                 <tr 
                 class="cursor-pointer"
                 hx-get="/project_job/{{ job._id }}"
                 hx-target="#project_properties"
                 hx-trigger="click"  
                 >
-                    <td>{{ job.title }}</td>
-                    <td class="uk-text-wrap">{{ job.description }}</td>
-                    <td>{{ job.projectPhase }}</td>
-                    <td>{{ job.crew.name }}</td>
-                    <td>{{ job.tasks | length() }}</td>
-                    <td>
-                        {% if job.state.active %}
-                            <span class="badge badge-success">Active</span>
-                        {% elif job.state.complete %}
-                            <span class="badge badge-primary">Completed</span>
-                        {% elif job.state.pause %}
-                            <span class="badge badge-warning">Paused</span>
-                        {% elif job.state.terminate %}
-                            <span class="badge badge-error">Terminated</span>
-                        {% else %}
-                            <span>Set State</span>
-                        {% endif %}
-                        
-                    </td>
-                    <td><span class="uk-badge">{{ job.get('progress') }}% </span></td>
+                    <td>Job</td>                   
+                    <td>Id. {{ job._id }}</td>
+                    <td class="text-md text-gray-700 font-semibold">{{ job.title }} </td>
+                    <td></td>
+                    <td></td>
+                    <td></td> 
+                    <td></td>
+                    <td></td>           
+                    
 
                 </tr>
+                {% for task in job.tasks %}
+                <tr 
+                class="cursor-pointer"
+                hx-get="/project_job/{{ job._id }}"
+                hx-target="#project_properties"
+                hx-trigger="click"  
+                >
+                    <td>{{ task._id }}</td>                   
+                    <td>{{ task.title }} </td>
+                    <td class="uk-text-wrap">{{ task.description }} </td>
+                    <td>{{ task.metric.quantity }}/ {{ task.metric.unit }} </td>
+                    <td>{{ task.metric.price | to_dollars }}</td>
+                    <td>{{ task.imperial.quantity }}/ {{ task.imperial.unit }} </td>
+                    <td>{{ task.imperial.price | to_dollars }}</td>
+                    <td>{{ task.metric.total | to_dollars }}</td>           
+                    
+
+                </tr>
+                
                 {% endfor %}
+                
+                {% endfor %}
+                <tr>
+                    <td></td>                   
+                    <td></td>
+                    <td><p 
+                      
+                        hx-get="/project_jobs_total/{{p._id}}"
+                        hx-trigger="every 2.5s"
+                        >
+                        
+                    </p></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+               
             </tbody>
         </table>
     </div>
