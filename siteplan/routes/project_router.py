@@ -325,34 +325,6 @@ async def get_jjobs_tasks_report(request):
 
 
 
-@router.get('/project_days/{id}')
-async def get_project_days(request):
-    id = request.path_params.get('id')
-    p = await Project().get(id=id)
-    #e = await Employee().all_workers()
-    try:
-        return TEMPLATES.TemplateResponse('/project/projectDaysWorkIndex.html',
-            {
-                "request": request,
-                "project": {
-                    "_id": id,
-                    "name": p.get('name'),
-                    "daywork": p.get('daywork')
-                },
-                "workers": p.get('workers')
-            })
-    except Exception as e:
-        return HTMLResponse(f"""<div class="uk-alert-warning" uk-alert>
-                                    <a href class="uk-alert-close" uk-close></a>
-                                    <p>{str(e)}</p>
-                                </div>
-                            """)
-    finally:
-        del(p)
-        del(id)
-
-
-
 @router.get('/project_workers/{id}/{filter}')
 async def get_project_workers(request):
     id = request.path_params.get('id')
@@ -506,6 +478,35 @@ async def update_project_standard(request):
         
 
 
+
+@router.get('/project_days/{id}')
+async def get_project_days(request):
+    id = request.path_params.get('id')
+    p = await Project().get(id=id)
+    #e = await Employee().all_workers()
+    try:
+        return TEMPLATES.TemplateResponse('/project/projectDaysWorkIndex.html',
+            {
+                "request": request,
+                "project": {
+                    "_id": id,
+                    "name": p.get('name'),
+                    "daywork": p.get('daywork')
+                },
+                "workers": p.get('workers')
+            })
+    except Exception as e:
+        return HTMLResponse(f"""<div class="uk-alert-warning" uk-alert>
+                                    <a href class="uk-alert-close" uk-close></a>
+                                    <p>{str(e)}</p>
+                                </div>
+                            """)
+    finally:
+        del(p)
+        del(id)
+
+
+
 # Days Work Filter
 @router.post('/filter_days_work/{id}')
 async def filter_days_work(request):
@@ -526,7 +527,16 @@ async def filter_days_work(request):
         start_date = form.get('filter_start')
         end_date = form.get('filter_end')
     days = [day_work for day_work in p.get('daywork', []) if filter(date=day_work.get('date'), start=start_date, end=end_date ) ]
-    #days = sorted(days)
+    day_workers = set()#days = sorted(days)
+    print(days)
+    worker_occurence = [ item.get('worker_name').split('_')[0] for item in days ]
+    for day_worker in worker_occurence:
+        day_workers.add(day_worker)
+    workers = []
+    for worker in list(day_workers):
+        workers.append({"name": worker, "days": worker_occurence.count(worker)})
+
+        
     
     return TEMPLATES.TemplateResponse(
         '/project/dayworkIndex.html', 
@@ -535,7 +545,9 @@ async def filter_days_work(request):
             "project": {
                 "daywork": days,
                 "start": start_date,
-                "end": end_date
+                "end": end_date,                
+                "workers":  workers,
+                "days_tally": len(worker_occurence) 
             }
 
         })
