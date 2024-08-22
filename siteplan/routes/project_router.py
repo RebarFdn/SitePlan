@@ -518,9 +518,6 @@ async def filter_days_work(request):
             return True
         else:
             return False
-
-
-
     id = request.path_params.get('id')
     p = await Project().get(id=id)
     async with request.form() as form:
@@ -528,16 +525,14 @@ async def filter_days_work(request):
         end_date = form.get('filter_end')
     days = [day_work for day_work in p.get('daywork', []) if filter(date=day_work.get('date'), start=start_date, end=end_date ) ]
     day_workers = set()#days = sorted(days)
-    print(days)
-    worker_occurence = [ item.get('worker_name').split('_')[0] for item in days ]
+    
+    worker_occurence = [ item.get('worker_name') for item in days ]
     for day_worker in worker_occurence:
         day_workers.add(day_worker)
     workers = []
     for worker in list(day_workers):
-        workers.append({"name": worker, "days": worker_occurence.count(worker)})
-
-        
-    
+        name = json.loads(json.dumps(worker.split('_')))
+        workers.append({"id": name[1], "name": name[0], "days": worker_occurence.count(worker)})    
     return TEMPLATES.TemplateResponse(
         '/project/dayworkIndex.html', 
         {

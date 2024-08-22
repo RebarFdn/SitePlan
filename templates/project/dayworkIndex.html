@@ -1,5 +1,26 @@
+<ul class="uk-subnav uk-subnav-pill" uk-switcher>
+    <li><a href="#">Index</a></li>
+    <li><a href="#">Summary</a></li>
+    
+</ul>
+<div class="uk-switcher uk-margin">
+    <div>
+
+
 <table class="uk-table uk-table-small">
-    <caption>Days work Index </caption>
+    <caption>Days work Index <div class="uk-inline">
+        <a href="#" class="uk-link">Summary</a>
+        <div uk-dropdown="mode: click">
+            <dl class="uk-description-list">
+                <dt>Days Tally</dt>
+                <dd>{{ project.days_tally }} Days For Workers</dd>
+                {% for worker in project.workers %}
+                    <dt>{{worker.name}}</dt>
+                    <dd>Days Worked in Period {{worker.days}}</dd>
+                {% endfor %}
+            </dl>
+        </div>
+    </div></caption>
     <thead>
         <tr>
             <th>Date</th>
@@ -29,5 +50,33 @@
         {% endfor %}
     </tbody>
 </table>
+    </div>
+    <div>
+        <table class="uk-table uk-table-small">
+            <p class="text-lg text-gray-800 font-semibold">{{ project.days_tally }} Days Work Summary</p>
+            <p class="text-xs">For Period Starting {{ project.start }} To Period ending {{ project.end }}  </p>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Worker</th>
+                    <th>Days Worked</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for worker in project.workers %}
+                <tr>
+                <td><span class="text-xs text-gray-800">{{worker.id}}</span></td>
+                <td>{{worker.name}}</td>
+                <td>{{worker.days}}</td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+    </div>
+   
+</div>
+
 <p class="text-xs">start {{project.start}} end {{project.end}}</p>
-<p class="text-xs">{{  project.workers }} days {{ project.days_tally }}</p>
+<p class="text-xs">{{  project.workers }} days </p>
