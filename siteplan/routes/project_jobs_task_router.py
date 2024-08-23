@@ -215,7 +215,7 @@ async def project_job_home(request):
     job_taskscost = []
     for task in job.get('tasks', []):
         # convert imperial units and quantities
-        converter = loads(dumps(convert_unit(unit=task.get('metric').get('unit'), value=float(task.get('metric').get('quantity', 0.01)))))
+        converter = convert_unit(unit=task.get('metric').get('unit'), value=task.get('metric').get('quantity'))
         price_converter = loads(dumps(convert_price_by_unit(unit=task.get('metric').get('unit'), value=float(task.get('metric').get('price', 0.01)))))
         task['imperial']['unit'] = converter.get('unit')
         task['imperial']['quantity'] = converter.get('value')
@@ -332,7 +332,7 @@ async def project_jobcrew(request):
         job = jb[0] 
     else:
         job={}
-    crew_ratings_tally = sum( [ int(member.get('value').get('rating')) for member in job.get('crew', {}).get('members', [])])
+    crew_ratings_tally = sum( [ int(member.get('value', {}).get('rating', 0)) for member in job.get('crew', {}).get('members', [])])
     crew_members = len(job.get('crew', {}).get('members', []))
     job['crew']['rating'] = round(crew_ratings_tally / crew_members, 2)
 

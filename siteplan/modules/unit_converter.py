@@ -1,6 +1,9 @@
 # unit converter 
 
 def convert_unit(unit:str=None, value:float=None):
+    if value:
+        value = float(value)
+    else: value = 0.01
     unitvalue = {
         # metric units
         "m": {"unit": 'ft', "value": value * 3.28084},
