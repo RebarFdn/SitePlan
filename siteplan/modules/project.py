@@ -819,7 +819,11 @@ class Project:
             project = await self.get(id=id) 
             flg = data.get('title', 'p j')
             flg = flg.split(' ')
-            jid = self.generate_id( line_1=flg[0], line_2=flg[1]) 
+            if len(flg) > 1:
+                jid = self.generate_id( line_1=flg[0], line_2=flg[1]) 
+            else:
+                jid = self.generate_id( line_1=flg[0], line_2=flg[0]) 
+
             data['_id'] = f"{id}-{jid}"                
             project['tasks'].append( data )
             try:
