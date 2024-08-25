@@ -8,6 +8,7 @@
             </div>
             <div class="navbar-end">
                 <a class="navbar-item btn btn-primary" type="button"  uk-toggle="target: #add-to-project">Add to Project</a>
+                <a class="navbar-item btn btn-secondary" type="button"  uk-toggle="target: #clone-rate">Clone</a>
                 
 
             </div>
@@ -64,6 +65,122 @@
                 <option class="uk-modal-close" value="{{project.id}}">{{ project.value.name }}</option>
             {% endfor %}
         </select>
+
+        <p class="uk-text-right">
+            <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+           
+        </p>
+    </div>
+</div>
+
+
+<!-- This is the clone rate  modal -->
+<div id="clone-rate"  uk-modal>
+    <div class="uk-modal-dialog uk-modal-body bg-blue-300 rounded-lg">
+        <h4 class="text-lg text-center font-semibold"> Clone {{ rate.get("title")  }} </h4>
+       
+        <div class="text-xs">
+            {{ rate }}
+            <form class="mx-auto flex w-full max-w-lg flex-col rounded-xl border border-border bg-backgroundSecondary p-4 sm:p-20" prevent-default>
+                <div class="form-group">
+                    <div class="flex w-full flex-col gap-2">
+                        <div class="form-field">
+                            <label class="form-label">Title </label>            
+                            <input type="text"  name="title" value="{{rate.title}}" class="input max-w-full" />                        
+                        </div>
+                        <div class="form-field">
+                            <label class="form-label">
+                                <span>Description</span>
+                            </label>
+                            <div class="form-control">
+                                <input placeholder="Description here" type="textarea"  name="description" value="{{rate.description}}" class="input max-w-full" />
+                            </div>
+                        </div>
+                        <div class="form-field">
+                            <label class="form-label">
+                                <span>Category</span>
+                            </label>
+                            <div class="form-control">
+                                <input id="rcat" placeholder="Category here" type="textarea" name="category" class="input max-w-full" value="{{rate.category}}"/>
+                                <select class="select select-secondary" name="category" value="{{rate.category}}"  oninput="this.form.rcat.value=this.value" >
+                                    <option>Select Category</option>
+                                    {% for category in rate_categories %}
+                                    <option>{{ category }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="flex flex-row">
+                            <div class="flex flex-col mx-2 my-5">
+                                <p class="text-xs">Metric Properties</p>
+                                <div class="form-field">
+                                    <label class="form-label">
+                                        <span>Unit</span>
+                                    </label>
+                                    <div class="form-control">
+                                        <input placeholder="Metric Unit here" type="text" name="metric_unit" value="{{rate.metric.unit}}" class="input max-w-full" />
+                                    </div>
+                                </div>
+                                <div class="form-field">
+                                    <label class="form-label">
+                                        <span>Price Per Unit</span>
+                                    </label>
+                                    <div class="form-control">
+                                        <input placeholder="Price here" type="number" step="0.01" name="metric_price" value="{{rate.metric.price}}" class="input max-w-full" />
+                                    </div>
+                                </div>
+                                <div class="form-field">
+                                    <label class="form-label">
+                                        <span>Output</span>
+                                    </label>
+                                    <div class="form-control">
+                                        <input placeholder="Output here" type="number" step="0.01" name="metric_output" value="{{rate.output.metric}}" class="input max-w-full" />
+                                    </div>
+                                </div>
+                                
+    
+                            </div>
+                            <div class="flex flex-col mx-2 my-5">
+                                <p class="text-xs">Imperial Properties</p>
+                                <div class="form-field">
+                                    <label class="form-label">
+                                        <span>Unit</span>
+                                    </label>
+                                    <div class="form-control">
+                                        <input placeholder="Imperial Unit here" type="text" name="imperial_unit" value="{{rate.imperial.unit}}" class="input max-w-full" />
+                                    </div>
+                                </div>
+                                <div class="form-field">
+                                    <label class="form-label">
+                                        <span>Price Per Unit</span>
+                                    </label>
+                                    <div class="form-control">
+                                        <input placeholder="Price here" type="number" step="0.01" name="imperial_price" value="{{rate.imperial.price}}" class="input max-w-full" />
+                                    </div>
+                                </div>
+                                <div class="form-field">
+                                    <label class="form-label">
+                                        <span>Output</span>
+                                    </label>
+                                    <div class="form-control">
+                                        <input placeholder="Output here" type="number" step="0.01" name="imperial_output" value="{{rate.output.imperial}}" class="input max-w-full" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-field pt-5">
+                            <div class="form-control justify-between">
+                                <button 
+                                    type="button" 
+                                    class="btn btn-secondary w-full uk-modal-close"
+                                    hx-post="/clone_rate"
+                                    hx-target="#dash-content-pane"
+                                >Clone Rate</button>
+                            </div>
+                        </div>
+                    </div>
+            </form>
+        </div>
 
         <p class="uk-text-right">
             <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>

@@ -51,6 +51,7 @@ async def industry_rates(request):
     filter = request.path_params.get('filter')
     rates = await Rate().all_rates()
     categories = {rate.get('category') for rate in rates }
+    rate_categories = Rate().categories
     if filter:
         store_room['filter'] = filter
         if filter == 'all' or filter == 'None':            
@@ -63,7 +64,8 @@ async def industry_rates(request):
         "rates": rates,
         "categories": categories,
         "filtered": filtered,
-        "store_room":  store_room
+        "store_room":  store_room,
+        "rate_categories": list(rate_categories.keys())
 
     }
                                       )
@@ -85,12 +87,14 @@ async def get_rate(request):
     projects = await Project().all()
     id = request.path_params.get('id')
     rate = await Rate().get(id=id)
+    rate_categories = Rate().categories
     try:
         return TEMPLATES.TemplateResponse('/rate/industryRate.html', {
             "request": request, 
             "rate": rate, 
             "task": rate,
-            "projects": projects.get('rows')
+            "projects": projects.get('rows'),
+            "rate_categories": list(rate_categories.keys())
             } )
     except Exception as e:
         return HTMLResponse(f"""

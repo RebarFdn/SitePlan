@@ -503,4 +503,19 @@ class Rate:
             """
        
 
+    @property
+    def categories(self):
+        return {
+            "excavation": "Excavation",
+            "steelwork": "Steelwork",
+            "masonry": "Masonry",
+            "carpentry": "Carpentry",
+            "joinery": "Joinery",
+            "painting": "Painting",
+            "plumbing": "Plumbing",
+            "scaffolding": "Scaffolding",
+            "tiling": "Tiling",
+            "welding": "Welding",
+            "electrical": "electrical"
+        }
 

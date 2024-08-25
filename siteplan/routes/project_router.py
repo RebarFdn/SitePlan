@@ -403,7 +403,12 @@ async def add_project_rate(request):
 
                 )
             await Project().update(data=project)
-        return RedirectResponse( url=f"/project_rates/{project.get('_id')}", status_code=302 )
+        return HTMLResponse(
+            f"""<div class="uk-alert-success" uk-alert>
+                    <a href class="uk-alert-close" uk-close></a>
+                    <p>{rate.get('title')} was added to {project.get('name')}'s Rates Index </p>
+                </div> """
+        )
     except Exception as e:
         return HTMLResponse(
             f"""<div class="uk-alert-danger" uk-alert>

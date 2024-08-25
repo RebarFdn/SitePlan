@@ -1503,6 +1503,11 @@ html {
   width: 100%;
 }
 
+.select-secondary {
+  --tw-border-opacity: 1;
+  border-color: rgb(var(--secondary)/var(--tw-border-opacity));
+}
+
 .select::-moz-placeholder {
   --tw-text-opacity: 1;
   color: rgb(var(--content3)/var(--tw-text-opacity));
