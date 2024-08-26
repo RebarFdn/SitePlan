@@ -20,7 +20,9 @@ td {
 .moving-text:hover{
 	animation-play-state: paused;
 }
-
+.pointer {
+	cursor: pointer;
+}
 
 @keyframes fadeIn {
 	0% {opacity: 0;}

@@ -72,7 +72,7 @@
     </thead>
     <tbody>
     {% for rate in filtered %}
-    <tr
+    <tr         class="pointer"
                 hx-get="/rate/{{rate.get('_id') }}"
                 hx-target="#dash-content-pane"
                 hx-trigger="click"
@@ -137,6 +137,7 @@
     <tbody> 
     {% for rate in rates %}
     <tr
+        class="pointer"
                 hx-get="/rate/{{ rate.get('_id') }}"
                 hx-target="#dash-content-pane"
                 hx-trigger="click"

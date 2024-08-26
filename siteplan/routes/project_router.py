@@ -360,19 +360,41 @@ async def get_project_rates(request):
     from modules.rate import Rate        
     industry_rates = await Rate().all_rates()
     p = await Project().get(id=id)
-    task = BackgroundTask(update_projectrates_task, id=id)
-    
-    
+    categories = set()
+    rates_category =  [rate.get('category') for rate in p.get('rates', [])]
+    for rate in rates_category:
+        categories.add(rate)
+    task = BackgroundTask(update_projectrates_task, id=id)   
     return TEMPLATES.TemplateResponse('/project/rates/projectRates.html', 
         {
             "request": request,
             "p": {
                 "_id": p.get('_id'),
                 "name": p.get('name'),
-                "rates": p.get('rates', [])
+                "rates": p.get('rates', []),
+                "categories": list( categories)
             },
             "industry_rates": industry_rates
         }, background=task)
+
+
+# PROCESS RATES
+@router.get('/project_rates_filtered/{id}')
+async def get_project_rates_filtered(request):
+    idd = request.path_params.get('id')
+    idd = idd.split('_')    
+    p = await Project().get(id=idd[0])   
+    return TEMPLATES.TemplateResponse('/project/rates/projectRatesTable.html', 
+        {
+            "request": request,
+            "p": {
+                "_id": p.get('_id'),
+                "name": p.get('name'),
+                "rates": [ rate for rate in p.get('rates', []) if rate.get('category') == idd[1]],
+                "categories": [rate.get('category') for rate in p.get('rates', [])]
+            }
+        })
+
 
 
 @router.post('/add_project_rate/{rate_id}')

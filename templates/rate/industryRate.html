@@ -7,8 +7,15 @@
                 <a class="navbar-item"> {{ rate.get("title")  }}</a>
             </div>
             <div class="navbar-end">
-                <a class="navbar-item btn btn-primary" type="button"  uk-toggle="target: #add-to-project">Add to Project</a>
-                <a class="navbar-item btn btn-secondary" type="button"  uk-toggle="target: #clone-rate">Clone</a>
+                <a class="navbar-item btn btn-primary  btn-sm" type="button"  uk-toggle="target: #add-to-project">Add to Project</a>
+                <a class="navbar-item btn btn-secondary  btn-sm" type="button"  uk-toggle="target: #clone-rate">Clone</a>
+                <a 
+                class="navbar-item btn btn-error  btn-sm" 
+                type="button"  
+                hx-delete="/industry_rate/{{rate._id}}" 
+                hx-target="#dash-content-pane" 
+                hx-confirm="Are you shure you want to DELETE RATE {{rate.title}}"
+                >Delete</a>
                 
 
             </div>
@@ -80,10 +87,14 @@
         <h4 class="text-lg text-center font-semibold"> Clone {{ rate.get("title")  }} </h4>
        
         <div class="text-xs">
-            {{ rate }}
+            
             <form class="mx-auto flex w-full max-w-lg flex-col rounded-xl border border-border bg-backgroundSecondary p-4 sm:p-20" prevent-default>
                 <div class="form-group">
                     <div class="flex w-full flex-col gap-2">
+                        <div class="form-field hidden">
+                            <label class="form-label">Id </label>            
+                            <input type="text"  name="_id" value="{{rate._id}}" class="input max-w-full" />                        
+                        </div>
                         <div class="form-field">
                             <label class="form-label">Title </label>            
                             <input type="text"  name="title" value="{{rate.title}}" class="input max-w-full" />                        
@@ -101,13 +112,8 @@
                                 <span>Category</span>
                             </label>
                             <div class="form-control">
-                                <input id="rcat" placeholder="Category here" type="textarea" name="category" class="input max-w-full" value="{{rate.category}}"/>
-                                <select class="select select-secondary" name="category" value="{{rate.category}}"  oninput="this.form.rcat.value=this.value" >
-                                    <option>Select Category</option>
-                                    {% for category in rate_categories %}
-                                    <option>{{ category }}</option>
-                                    {% endfor %}
-                                </select>
+                                <input id="category" placeholder="Category here" type="text" name="category" class="input max-w-full" value="{{rate.category}}"/>
+                                
                             </div>
                         </div>
                         <div class="flex flex-row">
@@ -176,15 +182,12 @@
                                     hx-post="/clone_rate"
                                     hx-target="#dash-content-pane"
                                 >Clone Rate</button>
+                                <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
                             </div>
                         </div>
                     </div>
             </form>
         </div>
 
-        <p class="uk-text-right">
-            <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-           
-        </p>
     </div>
 </div>

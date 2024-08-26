@@ -40,6 +40,28 @@ async def new_industry_rate(request):
     return RedirectResponse(url=f"/industry_rates/{rate.get('category')}", status_code=302)
 
 
+@router.post('/clone_rate')
+@login_required
+async def clone_industry_rate(request):
+    rate = Rate().model
+    username = request.user.username
+    async with request.form() as form:
+        rate['title'] = form.get('title')
+        rate['description'] = form.get('description')
+        rate['category'] = form.get('category')
+        rate['metric']['unit'] = form.get('metric_unit')
+        rate['metric']['price'] = float(form.get('metric_price'))
+        rate['imperial']['unit'] = form.get('imperial_unit')
+        rate['imperial']['price'] = float(form.get('imperial_price'))
+        rate['output']['metric'] = float(form.get('metric_output'))
+        rate['output']['imperial'] = float(form.get('imperial_output'))
+    
+    clone_rate = Rate(data=rate)
+    clone_rate.data['metadata']['created_by'] = username
+    clone_rate.data['metadata']['created'] = timestamp()
+    clone_rate.data['metadata']['cloned'] = {"from": form.get('_id')}
+    await clone_rate.save()
+    return RedirectResponse(url=f"/industry_rates/{rate.get('category')}", status_code=302)
 
 @router.get('/rates_html_table/')
 async def rates_html_table(request):
@@ -108,6 +130,18 @@ async def get_rate(request):
         del(projects)
         
 
+
+@router.delete('/industry_rate/{id}')
+async def delete_rate(request): 
+    try:
+        await Rate().delete(id=request.path_params.get('id'))
+        return RedirectResponse(url=f"/industry_rates/all", status_code=302)
+    except Exception as e:
+        return HTMLResponse(f"""
+            <div class="uk-alert-danger" uk-alert>
+                <a href class="uk-alert-close" uk-close></a>
+                <p>{ str(e) }</p>
+            </div>""")
     
 
 @router.post('/add_industry_rate/{id}')
