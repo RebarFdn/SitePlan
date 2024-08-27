@@ -9,7 +9,7 @@ from starlette_login.decorator import login_required
 from decoRouter import Router
 from modules.project import Project
 from modules.employee import Employee
-from modules.utils import timestamp, to_dollars, convert_timestamp
+from modules.utils import timestamp, to_dollars, convert_timestamp, filter_dates
 from config import TEMPLATES
 from routes.project_router import today
 
@@ -308,6 +308,19 @@ async def get_paybill(request):
                     bill_payees.add(f"{statement.get('employee')}-{statement.get('employee_id')}")
 
     items_total = 0
+    
+    days = [day_work for day_work in project.get('daywork', []) if filter_dates(date=day_work.get('date'), start=bill.get('date_starting'), end=bill.get('date_ending') ) ]
+    day_workers = set()#days = sorted(days)
+    
+    worker_occurence = [ item.get('worker_name') for item in days ]
+    for day_worker in worker_occurence:
+        day_workers.add(day_worker)
+    workers = []
+    for worker in list(day_workers):
+        name = json.loads(json.dumps(worker.split('_')))
+        workers.append({"id": name[1], "name": name[0], "days": worker_occurence.count(worker)})   
+    bill["days_work"] = days
+    bill["day_workers"] = workers
     try:
         if bill.get('expence'):
             pass
@@ -338,7 +351,7 @@ async def get_paybill(request):
             {
                 "request": request, 
                 "bill": bill, 
-                "bill_payees": bill_payees,
+                "bill_payees": bill_payees,               
                 "items_count": len(bill.get('items')) 
                 })
         else:

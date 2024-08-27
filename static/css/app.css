@@ -1272,15 +1272,6 @@ html {
   outline-color: rgb(var(--error));
 }
 
-.btn-warning {
-  --tw-bg-opacity: 1;
-  background-color: rgb(var(--warning)/var(--tw-bg-opacity));
-}
-
-.btn-warning:focus-visible {
-  outline-color: rgb(var(--warning));
-}
-
 .btn-sm {
   border-radius: .5rem;
   height: 2rem;
@@ -2730,6 +2721,29 @@ html:has(.modal-state:checked) {
   transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
+.divider:not(:empty) {
+  gap: 1rem;
+}
+
+.divider {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  height: 1rem;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  white-space: nowrap;
+}
+
+.divider-horizontal:after,.divider-horizontal:before,.divider:after,.divider:before {
+  --tw-bg-opacity: 1;
+  --tw-content: "";
+  background-color: rgb(var(--gray-6)/var(--tw-bg-opacity));
+  content: var(--tw-content);
+  height: 1px;
+  width: 100%;
+}
+
 .pagination .btn {
   border-color: transparent;
   border-width: 1px;
@@ -3195,6 +3209,260 @@ html:has(.modal-state:checked) {
   display: flex;
   flex-direction: column;
   gap: .5rem;
+}
+
+.popover {
+  display: inline-block;
+  position: relative;
+  text-align: left;
+  width: -moz-max-content;
+  width: max-content;
+}
+
+.popover-trigger {
+  display: inline-flex;
+}
+
+.popover-content {
+  --tw-translate-y: -0.5rem;
+  --tw-translate-x: -50%;
+  --tw-scale-x: .95;
+  --tw-scale-y: .95;
+  --tw-bg-opacity: 1;
+  --tw-shadow: 0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -4px rgba(0,0,0,.1);
+  --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color),0 4px 6px -4px var(--tw-shadow-color);
+  background-color: rgb(var(--gray-3)/var(--tw-bg-opacity));
+  border-color: transparent;
+  border-radius: .75rem;
+  border-width: 1px;
+  box-shadow: var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow);
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  padding: .5rem;
+  position: absolute;
+  transition-duration: .15s;
+  transition-property: transform,opacity,visibility;
+  transition-timing-function: cubic-bezier(.4,0,.2,1);
+  width: 14rem;
+  will-change: transform;
+  z-index: 49;
+}
+
+.popover-bottom-center,.popover-content {
+  left: 50%;
+  right: 100%;
+  transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  transform-origin: top;
+  visibility: hidden;
+}
+
+.popover .popover-trigger:focus~.popover-content,.popover-hover:hover .popover-trigger~.popover-content,.popover-hover:hover .popover-trigger~.popover-content.popover-bottom-center,.popover-open .popover-bottom-center,.popover-open .popover-content,.popover-trigger:focus~.popover-content.popover-bottom-center,.popover:not(.popover-hover) .popover-bottom-center:where(:focus,:focus-within,:focus-visible),.popover:not(.popover-hover) .popover-content:where(:focus,:focus-within,:focus-visible) {
+  --tw-translate-x: -50%;
+  --tw-translate-y: 0px;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  opacity: 1;
+  transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  visibility: visible;
+}
+
+.popover-hover:hover .popover-trigger~.popover-content.popover-top-center,.popover-open .popover-top-center,.popover-trigger:focus~.popover-content.popover-top-center,.popover:not(.popover-hover) .popover-top-center:where(:focus,:focus-within,:focus-visible) {
+  --tw-translate-x: -50%;
+  --tw-translate-y: 0px;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  opacity: 1;
+  transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  visibility: visible;
+}
+
+.popover-hover:hover .popover-trigger~.popover-content.popover-bottom-right,.popover-open .popover-bottom-right,.popover-trigger:focus~.popover-content.popover-bottom-right,.popover:not(.popover-hover) .popover-bottom-right:where(:focus,:focus-within,:focus-visible) {
+  --tw-translate-x: 0px;
+  --tw-translate-y: 0px;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  opacity: 1;
+  transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  visibility: visible;
+}
+
+.popover-hover:hover .popover-trigger~.popover-content.popover-bottom-left,.popover-open .popover-bottom-left,.popover-trigger:focus~.popover-content.popover-bottom-left,.popover:not(.popover-hover) .popover-bottom-left:where(:focus,:focus-within,:focus-visible) {
+  --tw-translate-x: 0px;
+  --tw-translate-y: 0px;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  opacity: 1;
+  transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  visibility: visible;
+}
+
+.popover-hover:hover .popover-trigger~.popover-content.popover-left,.popover-open .popover-left,.popover-trigger:focus~.popover-content.popover-left,.popover:not(.popover-hover) .popover-left:where(:focus,:focus-within,:focus-visible) {
+  --tw-translate-x: 0px;
+  --tw-translate-y: -50%;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  bottom: auto;
+  left: auto;
+  opacity: 1;
+  top: 50%;
+  transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  visibility: visible;
+}
+
+.popover-hover:hover .popover-trigger~.popover-content.popover-right,.popover-open .popover-right,.popover-trigger:focus~.popover-content.popover-right,.popover:not(.popover-hover) .popover-right:where(:focus,:focus-within,:focus-visible) {
+  --tw-translate-x: 0px;
+  --tw-translate-y: -50%;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  bottom: auto;
+  opacity: 1;
+  right: auto;
+  top: 50%;
+  transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  visibility: visible;
+}
+
+.popover-hover:hover .popover-trigger~.popover-content.popover-left-bottom,.popover-hover:hover .popover-trigger~.popover-content.popover-right-bottom,.popover-open .popover-left-bottom,.popover-open .popover-right-bottom,.popover-trigger:focus~.popover-content.popover-left-bottom,.popover-trigger:focus~.popover-content.popover-right-bottom,.popover:not(.popover-hover) .popover-left-bottom:where(:focus,:focus-within,:focus-visible),.popover:not(.popover-hover) .popover-right-bottom:where(:focus,:focus-within,:focus-visible) {
+  --tw-translate-x: 0px;
+  --tw-translate-y: -2.5rem;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  opacity: 1;
+  transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  visibility: visible;
+}
+
+.popover-hover:hover .popover-trigger~.popover-content.popover-left-top,.popover-hover:hover .popover-trigger~.popover-content.popover-right-top,.popover-open .popover-left-top,.popover-open .popover-right-top,.popover-trigger:focus~.popover-content.popover-left-top,.popover-trigger:focus~.popover-content.popover-right-top,.popover:not(.popover-hover) .popover-left-top:where(:focus,:focus-within,:focus-visible),.popover:not(.popover-hover) .popover-right-top:where(:focus,:focus-within,:focus-visible) {
+  --tw-translate-x: 0px;
+  --tw-translate-y: 1.25rem;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  opacity: 1;
+  transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  visibility: visible;
+}
+
+.popover-hover:hover .popover-trigger~.popover-content.popover-top-left,.popover-hover:hover .popover-trigger~.popover-content.popover-top-right,.popover-open .popover-top-left,.popover-open .popover-top-right,.popover-trigger:focus~.popover-content.popover-top-left,.popover-trigger:focus~.popover-content.popover-top-right,.popover:not(.popover-hover) .popover-top-left:where(:focus,:focus-within,:focus-visible),.popover:not(.popover-hover) .popover-top-right:where(:focus,:focus-within,:focus-visible) {
+  --tw-translate-x: 0px;
+  --tw-translate-y: 0px;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  opacity: 1;
+  transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  visibility: visible;
+}
+
+.popover-arrow {
+  --tw-bg-opacity: 1;
+  background-color: rgb(var(--gray-3)/var(--tw-bg-opacity));
+  border-color: transparent;
+  height: .7rem;
+  position: absolute;
+  width: .7rem;
+}
+
+.popover-border .popover-content,.popover-border .popover-content .popover-arrow {
+  --tw-border-opacity: 1;
+  border-color: rgb(var(--border)/var(--tw-border-opacity));
+}
+
+.popover-bottom-center .popover-arrow,.popover-content:not(.popover-bottom-center,.popover-top-center,.popover-bottom-right,.popover-bottom-left,.popover-left,.popover-right,.popover-left-bottom,.popover-right-bottom,.popover-left-top,.popover-right-top,.popover-top-right,.popover-top-left) .popover-arrow {
+  border-left-width: 1px;
+  border-top-width: 1px;
+  left: 50%;
+  top: 0;
+  transform: translate(-50%,-50%) rotate(45deg);
+}
+
+.popover-top-center .popover-arrow {
+  border-bottom-width: 1px;
+  border-right-width: 1px;
+  bottom: -.75rem;
+  left: 50%;
+  transform: translate(-50%,-50%) rotate(45deg);
+}
+
+.popover-bottom-right .popover-arrow {
+  border-left-width: 1px;
+  border-top-width: 1px;
+  left: 1rem;
+  top: 0;
+  transform: translate(50%,-50%) rotate(45deg);
+}
+
+.popover-bottom-left .popover-arrow {
+  border-left-width: 1px;
+  border-top-width: 1px;
+  right: 1rem;
+  top: 0;
+  transform: translate(-50%,-50%) rotate(45deg);
+}
+
+.popover-left .popover-arrow {
+  border-right-width: 1px;
+  border-top-width: 1px;
+  right: 0;
+  top: 50%;
+  transform: translate(50%,-50%) rotate(45deg);
+}
+
+.popover-right .popover-arrow {
+  border-bottom-width: 1px;
+  border-left-width: 1px;
+  left: 0;
+  top: 50%;
+  transform: translate(-50%,-50%) rotate(45deg);
+}
+
+.popover-left-bottom .popover-arrow {
+  border-right-width: 1px;
+  border-top-width: 1px;
+  right: 0;
+  top: 1rem;
+  transform: translate(50%,50%) rotate(45deg);
+}
+
+.popover-right-bottom .popover-arrow {
+  border-bottom-width: 1px;
+  border-left-width: 1px;
+  left: 0;
+  top: 1rem;
+  transform: translate(-50%,50%) rotate(45deg);
+}
+
+.popover-left-top .popover-arrow {
+  border-right-width: 1px;
+  border-top-width: 1px;
+  bottom: 1rem;
+  right: 0;
+  transform: translate(50%,-50%) rotate(45deg);
+}
+
+.popover-right-top .popover-arrow {
+  border-bottom-width: 1px;
+  border-left-width: 1px;
+  bottom: 1rem;
+  left: 0;
+  transform: translate(-50%,-50%) rotate(45deg);
+}
+
+.popover-top-right .popover-arrow {
+  border-bottom-width: 1px;
+  border-right-width: 1px;
+  bottom: -.75rem;
+  left: 1rem;
+  transform: translate(50%,-50%) rotate(45deg);
+}
+
+.popover-top-left .popover-arrow {
+  border-bottom-width: 1px;
+  border-right-width: 1px;
+  bottom: -.75rem;
+  right: 1rem;
+  transform: translate(-50%,-50%) rotate(45deg);
 }
 
 @keyframes rotate {

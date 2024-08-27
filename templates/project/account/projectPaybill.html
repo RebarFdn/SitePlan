@@ -45,9 +45,44 @@ uk-modal
                         </ul>
                     </div>
                 </li>
-                <li><a href="#">Resolve Paybill</a></li>
                 <li>
-                    <div class="uk-inline">
+                    <a href="#">Process Day Workers</a>
+                    <div class="uk-navbar-dropdown text-xs">
+                        <ul class="uk-nav uk-navbar-dropdown-nav">
+                            <li>For Day Worker </li>
+                            {% for worker in bill.day_workers %}
+                            <li>
+                                <a  href="#modal-center" uk-toggle>{{ worker.name }} For {{ worker.days}} Days</a>
+
+                                <div id="modal-center" class="uk-flex-top" uk-modal>
+                                    <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+
+                                        <button class="uk-modal-close-default" type="button" uk-close></button>
+
+                                        <a href="#"
+                                        hx-get="/process_dayworker_salary/{{worker}}_{{bill.ref}}"
+                                        hx-target="#account"
+                                        
+                                        >{{ worker.name }} For {{ worker.days}} Days</a>
+                                    </div>
+                                </div>
+                            
+                            </li>
+                                <li><div class="divider"></div></li>
+                            {% endfor %}
+                            
+                        </ul>
+                    </div>
+                </li>
+                <li><a href="#">Resolve Paybill</a></li>
+               
+            </ul>
+    
+        </div>
+        <div class="uk-navbar-right">
+            <ul class="uk-navbar-nav">
+                <li>
+                   
                     <a href="#">Paid Workers</a>
                     <div uk-dropdown>
                         {% for worker in bill_payees %}
@@ -55,10 +90,12 @@ uk-modal
                        <hr class="uk-divider-small">
                         {% endfor %}
                     </div>
-                    </div>
+                    
+                </li>
+                <li>
+
                 </li>
             </ul>
-    
         </div>
     </nav>
     <div class="uk-card uk-card-hover uk-card-body">
@@ -314,6 +351,7 @@ uk-modal
                
     </div>
 </div>
+<p class="text-xs text-center bg-blue-300 rounded p-5">{{ bill }}</p>
 <p class="text-xs text-center">Location: /templates/project/account/projectPaybill.html</p>
 
 

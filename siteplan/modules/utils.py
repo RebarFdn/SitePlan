@@ -31,6 +31,14 @@ def convert_timestamp(timestamp:int=None):
     date = datetime.datetime.fromtimestamp(int(timestamp/1000))
     return date.strftime('%Y-%m-%d %H:%M:%S')
 
+def filter_dates(date:str=None, start:str=None, end:str=None):
+        day = datetime.datetime.strptime(date, "%Y-%m-%d")
+        period_start = datetime.datetime.strptime(start, "%Y-%m-%d")
+        period_end = datetime.datetime.strptime(end, "%Y-%m-%d")
+        if day.date() >= period_start.date() and day.date() < period_end.date():
+            return True
+        else:
+            return False
     
 #----------------------------- ID Generation Service ----------------------------------
 
