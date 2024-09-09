@@ -1,0 +1,107 @@
+<div class="my-10">
+    <p class="text-lg text-center font-semibold my-5">{{ employee.name }} Home Page</p>
+    <p class="text-xs">Location: /employee/projectEmployeePage.html</p>
+    <nav class="uk-navbar-container">
+        <div class="uk-container">
+            <div>
+                <ul class="uk-child-width-expand" uk-tab>
+                    <li class="uk-active"><a href="#" hx-get="/employee_info/{{employee._id}}" hx-target="#employee-home">Home</a></li>
+                    <li>
+                        <a href="#" hx-get="/employee_account/{{employee._id}}" hx-target="#employee-home">Account <span uk-icon="icon: triangle-down"></span></a>
+                        <!--div uk-dropdown="mode: click">
+                            <ul class="uk-nav uk-dropdown-nav">
+                                <li class="uk-active uk-nav-header"><a href="#">Banking Info</a></li>
+                                <li><a href="#">Job Payments</a></li>                               
+                                <li><a href="#">Loans</a></li>
+                                <li class="uk-nav-divider"></li>
+                                <li><a href="#">Analytics</a></li>
+                            </ul>
+                        </div-->
+                    </li>
+                    <li><a href="#" hx-get="/employee_jobs/{{employee._id}}" hx-target="#employee-home">Jobs<span class="badge badge-sm badge-outline-secondary">{{employee.jobs}}</span></a></li>
+                    <li><a href="#" hx-get="/employee_days/{{employee._id}}" hx-target="#employee-home">Days<span class="badge badge-sm badge-outline-secondary">{{employee.days}}</span></a></li>
+                    <li><a href="#" hx-get="/employee_reports/{{employee._id}}" hx-target="#employee-home">Reports<span class="badge badge-sm badge-outline-secondary">{{employee.reports}}</span></a></li>
+                    <li>
+                            <a href="#" class="uk-button uk-button-text uk-button-small rounded" type="button">Manage</a>
+                            <div uk-dropdown>
+                                <ul class="uk-nav uk-dropdown-nav">
+                                    <li class="uk-active"><a href="#payment-modal" uk-toggle>Add Payment</a></li>
+                                    <li><a href="#loan-modal" uk-toggle>Record Loans</a></li>
+                                    <li class="uk-nav-header">Admin</li>
+                                    
+                                    <li class="uk-nav-divider"></li>
+                                    <li><a href="#">Delete</a></li>
+                                </ul>
+                            </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div id="employee-home">
+        {% include '/employee/employeeInfo.html' %}
+    </div>
+      
+
+</div>
+
+<!-- This is the modal -->
+<div id="loan-modal" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <h2 class="uk-modal-title">Employee Loan Record</h2>
+        <p>Record  Loans</p>
+        <form hx-post="/record_employee_loan/{{ employee._id }}" 
+        hx-target="#message" 
+        prevent-default
+        >
+            <div class="uk-card uk-card-default uk-card-body">
+                
+                <div class="flex flex-col">
+                    <div class="flex flex-row my-2">
+                        <label>Ref</label>
+                        
+                        <input class="bg-gray-200 px-3 py-2 ml-2 rounded-md"  type="ref" name="ref" value="CASHLOAN-{{ employee.account.loans | length +1 }}">
+                    </div>
+                    <div class="form-group flex flex-row my-2">
+                        <label>Date</label>
+                        <input class="bg-gray-200 px-3 py-2 ml-2 rounded-md" name="date" type="date" >
+                    </div>
+                    <div class="form-group flex flex-row my-2">
+                        <label>Employee Name</label>
+                        <input class="bg-gray-200 px-3 py-2 ml-2 rounded-md"  type="text" name="name" value="{{ employee.name}}">
+                    </div>
+                   
+                    <div class="form-group flex flex-row my-2">
+                        <label>Amount</label>
+                        <input class="bg-gray-200 px-3 py-2 ml-2 rounded-md"  type="number" step="0.01" name="amount" >
+                    </div>
+                    <div class="form-group flex flex-row my-2">
+                        <label>About</label>
+                        <input class="bg-gray-200 px-3 py-2 ml-2 rounded-md" name="about" type="textarea" >
+                    </div>
+
+                   
+                </div>
+                <button class="btn btn-primary">Submit</button>
+                <button class="btn btn-primary uk-alert-close" uk-close >Close  .</button>
+            </div>
+        </form>
+        <p class="uk-text-right">
+            <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+            <button class="uk-button uk-button-primary" type="button">Save</button>
+        </p>
+    </div>
+</div>
+<p class="text-xs">Location: /employee/projectEmployeePage.html</p>
+
+<!-- This is the payment modal -->
+<div id="payment-modal" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <h2 class="uk-modal-title">Employee Payment Record</h2>
+        <p>Record  Payments</p>
+        <p class="uk-text-right">
+            <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+            <button class="uk-button uk-button-primary" type="button">Save</button>
+        </p>
+    </div>
+</div>

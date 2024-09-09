@@ -25,62 +25,20 @@ uk-modal
  <!-- This is the paybills console -->
  <div>
     <nav class="uk-navbar-container" uk-navbar>
+        
         <div class="uk-navbar-left">
-    
-            <ul class="uk-navbar-nav">
-                <li class="uk-active"><a href="#add-billitem" uk-toggle>Add To Bill</a></li>
-                <li>
-                    <a href="#">Process Salary</a>
-                    <div class="uk-navbar-dropdown">
-                        <ul class="uk-nav uk-navbar-dropdown-nav">
-                            <li>For Worker </li>
-                            {% for worker in bill_payees %}
-                            <li><a href="#"
-                                hx-get="/process_employee_salary/{{worker}}_{{bill.ref}}"
-                                hx-target="#account"
-                                
-                                >{{ worker }}</a></li>
-                            {% endfor %}
-                            
-                        </ul>
-                    </div>
-                </li>
-                <li>
-                    <a href="#">Process Day Workers</a>
-                    <div class="uk-navbar-dropdown text-xs">
-                        <ul class="uk-nav uk-navbar-dropdown-nav">
-                            <li>For Day Worker </li>
-                            {% for worker in bill.day_workers %}
-                            <li>
-                                <a  href="#modal-center" uk-toggle>{{ worker.name }} For {{ worker.days}} Days</a>
-
-                                <div id="modal-center" class="uk-flex-top" uk-modal>
-                                    <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-
-                                        <button class="uk-modal-close-default" type="button" uk-close></button>
-
-                                        <a href="#"
-                                        hx-get="/process_dayworker_salary/{{worker}}_{{bill.ref}}"
-                                        hx-target="#account"
-                                        
-                                        >{{ worker.name }} For {{ worker.days}} Days</a>
-                                    </div>
-                                </div>
-                            
-                            </li>
-                                <li><div class="divider"></div></li>
-                            {% endfor %}
-                            
-                        </ul>
-                    </div>
-                </li>
+            <ul class="uk-subnav uk-subnav-pill" uk-switcher="connect: .switcher-container">
+                <li><a href="#">Bill Home</a></li>
+                <li><a href="#">Process Salary</a></li>
+                <li><a href="#">Process Day Workers</a></li>
                 <li><a href="#">Resolve Paybill</a></li>
-               
             </ul>
-    
+            
+           
         </div>
         <div class="uk-navbar-right">
             <ul class="uk-navbar-nav">
+                <li class="uk-active"><a href="#add-billitem" uk-toggle>Add To Bill</a></li>
                 <li>
                    
                     <a href="#">Paid Workers</a>
@@ -98,260 +56,311 @@ uk-modal
             </ul>
         </div>
     </nav>
-    <div class="uk-card uk-card-hover uk-card-body">
+   
+            
+    <div class="uk-switcher switcher-container uk-margin">
+        <div>
+            <div class="uk-card uk-card-hover uk-card-body">
            
-            <div class="uk-child-width-expand@s uk-text-center" uk-grid>
-                <div>
-                   
-                    <div class="card">
-                        <div class="card-body">
-                            <h2 class="card-header">Project Paybill {{bill.ref}}</h2>
-                            <p class="text-content2">{{bill.mainTitle}}</p>
-                            <div>                               
-                                <p class="text-content2">Date {{bill.date}}</p>                                
-                                <p class="text-sm">{{bill.subTitle}}</p>
-                              
-                            </div>
-                            <div class="card-footer">
-                               
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                
-                    <div class="card">
-                        <div class="card-body">
-                            <h2 class="card-header">Bill Total {{bill.total | to_dollars }}</h2>
-                            <p class="text-content2">Bill Items Total {{bill.itemsTotal | to_dollars}}</p>
-                            <p class="text-content2">Renumeration / Expences Total {{ bill.expence.total  | to_dollars}}</p>
-                            <div class="card-footer">
-                               
-                                <a class="btn-secondary btn" href="#add-billitem" uk-toggle>Add Item To Bill</a>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-            <section class="text-xs">
-               
-                <div id="paybill-item" class="bg-yellow-50 text-blue-600 py-1 px-5 border border-yellow-600">
-                   
-                     <nav class="uk-navbar-container" uk-navbar>
-                        <div class="uk-navbar-left">
-                            
-                            <label><input 
-                                class="uk-radio" 
-                                type="radio" 
-                                name="current-bill" 
-                                value="{{ bill.ref }}"
-                                hx-post="/current_paybill/{{bill.ref}}"
-                                hx-target="#message"
-                                
-                                > Make Bill Current</label>
-                        </div>
-                        <div class="uk-navbar-center">
-                    
-                            <ul class="uk-navbar-nav">
-                                
-                                
-                                <li>
-                                    <a href="#" ><p class="moving-text"> 
-                                    For Period Start 
-                                    <span class="badge-sm badge-success">{{ bill.date_starting }}</span> 
-                                    To  Ending 
-                                    <span class="badge-xs badge-secondary">{{ bill.date_ending }}</span>
-                                </p>
-                                </a></li>
-                            </ul>
-                    
-                        </div>
-                    </nav>
-                </div>
-                
-                <div  id="paybill-items">
-                   
-                    <table class="uk-table uktable-small">
-                        <thead>
-                            <th>Id</th>
-                            <th>description</th>
-                            <th>Unit</th>
-                            <th>Quantity</th>
-                            <th>Price</th>
-                            <th>Cost/Total</th>
-                        </thead>
-                        <tbody>
-                            {% for item in bill.get('items') %}
-                            <tr id="{{item.id}}"
-                                
-                            >
-                                <td>
-                                    {% if item.paid %}
-                                     <div class="uk-inline">
-                                        <span class="cursor-pointer" style="color: green;" uk-tooltip="Paid  out to {{item.paid | length }} employee." uk-icon="happy" type="button"></span>
+                <div class="uk-child-width-expand@s uk-text-center" uk-grid>
+                    <div>
+                       
+                        <div class="card">
+                            <div class="card-body">
+                                <h2 class="card-header">Project Paybill {{bill.ref}}</h2>
+                                <p class="text-content2">{{bill.mainTitle}}</p>
+                                <div>                               
+                                    <p class="text-content2">Date {{bill.date}}</p>                                
+                                    <p class="text-sm">{{bill.subTitle}}</p>
+                                  
+                                </div>
+                                <div class="card-footer">
                                    
-                                        <div class="uk-card uk-card-body uk-card-default bg-teal-200" uk-drop>
-                                            <p class="my-2">This Item has been Paid out to {{item.paid | length }} of {{item.assignedto | length }} Employee.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                    
+                        <div class="card">
+                            <div class="card-body">
+                                <h2 class="card-header">Bill Total {{bill.total | to_dollars }}</h2>
+                                <p class="text-content2">Bill Items Total {{bill.itemsTotal | to_dollars}}</p>
+                                <p class="text-content2">Renumeration / Expences Total {{ bill.expence.total  | to_dollars}}</p>
+                                <div class="card-footer">
+                                   
+                                    <a class="btn-secondary btn" href="#add-billitem" uk-toggle>Add Item To Bill</a>
+    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <section class="text-xs">
+                   
+                    <div id="paybill-item" class="bg-yellow-50 text-blue-600 py-1 px-5 border border-yellow-600">
+                       
+                         <nav class="uk-navbar-container" uk-navbar>
+                            <div class="uk-navbar-left">
+                                
+                                <label><input 
+                                    class="uk-radio" 
+                                    type="radio" 
+                                    name="current-bill" 
+                                    value="{{ bill.ref }}"
+                                    hx-post="/current_paybill/{{bill.ref}}"
+                                    hx-target="#message"
+                                    
+                                    > Make Bill Current</label>
+                            </div>
+                            <div class="uk-navbar-center">
+                        
+                                <ul class="uk-navbar-nav">
+                                    
+                                    
+                                    <li>
+                                        <a href="#" ><p class="moving-text"> 
+                                        For Period Start 
+                                        <span class="badge-sm badge-success">{{ bill.date_starting }}</span> 
+                                        To  Ending 
+                                        <span class="badge-xs badge-secondary">{{ bill.date_ending }}</span>
+                                    </p>
+                                    </a></li>
+                                </ul>
+                        
+                            </div>
+                        </nav>
+                    </div>
+                    
+                    <div  id="paybill-items">
+                       
+                        <table class="uk-table uktable-small">
+                            <thead>
+                                <th>Id</th>
+                                <th>description</th>
+                                <th>Unit</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Cost/Total</th>
+                            </thead>
+                            <tbody>
+                                {% for item in bill.get('items') %}
+                                <tr id="{{item.id}}"
+                                    
+                                >
+                                    <td>
+                                        {% if item.paid %}
+                                         <div class="uk-inline">
+                                            <span class="cursor-pointer" style="color: green;" uk-tooltip="Paid  out to {{item.paid | length }} employee." uk-icon="happy" type="button"></span>
+                                       
+                                            <div class="uk-card uk-card-body uk-card-default bg-teal-200" uk-drop>
+                                                <p class="my-2">This Item has been Paid out to {{item.paid | length }} of {{item.assignedto | length }} Employee.</p>
+                                               
+                                                <ul>
+                                                    {% for item in item.paid %}
+                                                    <li>
+                                                       <span>{{ item.employee }}:  {{ item.metric.quantity }} {{ item.metric.unit }} totalling  {{ item.metric.total | to_dollars }}</span>
+                                                       <hr class="uk-divider-small">
+                                                    </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        {% else %}
+                                        <span class="cursor-pointer" style="color: red;" uk-tooltip="Unpaid to be Resolved." uk-icon="info" type="button"></span>
+                                        <div class="uk-card uk-card-body uk-card-default bg-red-200" uk-drop>
+                                            <p class="my-2">This Item is to be Paid out to {{item.assignedto | length }} Employee.</p>
                                            
                                             <ul>
-                                                {% for item in item.paid %}
+                                                {% for item in item.assignedto %}
                                                 <li>
-                                                   <span>{{ item.employee }}:  {{ item.metric.quantity }} {{ item.metric.unit }} totalling  {{ item.metric.total | to_dollars }}</span>
+                                                   <span>Employee {{ item }}</span>
                                                    <hr class="uk-divider-small">
                                                 </li>
                                                 {% endfor %}
                                             </ul>
                                         </div>
-                                    </div>
-                                    {% else %}
-                                    <span class="cursor-pointer" style="color: red;" uk-tooltip="Unpaid to be Resolved." uk-icon="info" type="button"></span>
-                                    <div class="uk-card uk-card-body uk-card-default bg-red-200" uk-drop>
-                                        <p class="my-2">This Item is to be Paid out to {{item.assignedto | length }} Employee.</p>
-                                       
-                                        <ul>
-                                            {% for item in item.assignedto %}
-                                            <li>
-                                               <span>Employee {{ item }}</span>
-                                               <hr class="uk-divider-small">
-                                            </li>
-                                            {% endfor %}
-                                        </ul>
-                                    </div>
-                                    {% endif %}
-                                    {{ item.id }} 
-                                </td> 
-
-                                <td  class="cursor-pointer" uk-tooltip="Click to edit"
-                                hx-get="/edit_paybill_item/{{bill.ref}}_{{item.id}}"
-                                hx-target="#paybill-item"
-                                
-                                >
-                                {% if item.get('description') %}
-                                {{ item.description }} 
-                                {% else %}
-                                {{ item.title }}
-                                 {% endif %}
-                                </td>
-                                <td>{{ item.metric.unit }}</td>
-                                <td>{{ item.metric.quantity }}</td>
-                                <td>{{ item.metric.price | to_dollars }}</td>
-                                <td> {{ item.metric.cost | to_dollars }}/{{ item.metric.total | to_dollars }}</td>
-                            </tr>
-                            {% endfor %}
-                            
-                            <tr > <td>ITALLY</td>
-                                <td>Bill items Total </td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>{{ bill.itemsTotal  | to_dollars}}</td></tr>
-                                
-                            <tr>
-                                <td>CRX</td>
-                                <td>Contractor Charges </td>
-                                <td>{{bill.fees.unit}}</td>
-                                <td>
-                                    <div 
-                                        id="contractor-percent"
-                                        class="cursor-pointer" 
-                                        uk-tooltip="Click to adjust contractor percent"
-                                    >
-                                        <button 
-                                            hx-get="/update_contractor_fee/{{bill.ref}}"  
-                                            hx-target="#contractor-percent"                                  
-                                        >{{bill.fees.contractor}}
-                                        </button>
-                                    </div>
-                                </td> 
-                                <td></td>
-                                <td>{{ bill.expence.contractor | to_dollars}}</td>
-                            </tr>
-                            <tr>
-                                <td>INS</td>
-                                <td>Insurance </td>
-                                <td>{{bill.fees.unit}}</td>
-                                <td>
+                                        {% endif %}
+                                        {{ item.id }} 
+                                    </td> 
+    
+                                    <td  class="cursor-pointer" uk-tooltip="Click to edit"
+                                    hx-get="/edit_paybill_item/{{bill.ref}}_{{item.id}}"
+                                    hx-target="#paybill-item"
                                     
-                                    <div 
-                                        id="insurance-percent"
-                                        class="cursor-pointer" 
-                                        uk-tooltip="Click to adjust insurance percent"
                                     >
-                                        <button 
-                                            hx-get="/update_insurance_fee/{{bill.ref}}"  
-                                            hx-target="#insurance-percent"                                  
-                                        >{{bill.fees.insurance}}
-                                        </button>
-                                    </div>
+                                    {% if item.get('description') %}
+                                    {{ item.description }} 
+                                    {% else %}
+                                    {{ item.title }}
+                                     {% endif %}
+                                    </td>
+                                    <td>{{ item.metric.unit }}</td>
+                                    <td>{{ item.metric.quantity }}</td>
+                                    <td>{{ item.metric.price | to_dollars }}</td>
+                                    <td> {{ item.metric.cost | to_dollars }}/{{ item.metric.total | to_dollars }}</td>
+                                </tr>
+                                {% endfor %}
                                 
-                                </td>
-                                <td></td>
-                                <td>{{ bill.expence.insurance | to_dollars}}</td>
-                            </tr>
-                            <tr>
-                                <td>MSC</td>
-                                <td>Micellaneous </td>
-                                <td>{{bill.fees.unit}}</td>
-                                <td>
-                                    <div 
-                                        id="misc-percent"
-                                        class="cursor-pointer" 
-                                        uk-tooltip="Click to adjust Micellaneous percent"
-                                    >
-                                        <button 
-                                            hx-get="/update_misc_fee/{{bill.ref}}"  
-                                            hx-target="#misc-percent"                                  
-                                        >{{bill.fees.misc}}
-                                        </button>
-                                    </div>
-                                </td>
-                                <td></td>
-                                <td>{{ bill.expence.misc | to_dollars}}</td>
-                            </tr>
-                            <tr>
-                                <td>OVR</td>
-                                <td>Overhead </td>
-                                <td>{{bill.fees.unit}}</td>
-                                <td>
-                                    <div 
-                                        id="overhead-percent"
-                                        class="cursor-pointer" 
-                                        uk-tooltip="Click to adjust overhead percent"
-                                    >
-                                        <button 
-                                            hx-get="/update_overhead_fee/{{bill.ref}}"  
-                                            hx-target="#overhead-percent"                                  
-                                        >{{bill.fees.overhead}}
-                                        </button>
-                                    </div>
-                                </td>
-                                <td></td>
-                                <td>{{ bill.expence.overhead | to_dollars}}</td>
-                            </tr>
-                            <tr > <td>ETALLY</td>
-                                <td>Expences Total </td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>{{ bill.expence.total  | to_dollars}}</td></tr>
-                            <tr > <td>Grand</td>
-                                    <td>Grand Total </td>
+                                <tr > <td>ITALLY</td>
+                                    <td>Bill items Total </td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <td>{{ bill.total  | to_dollars}}</td></tr>
-                        </tbody>
-                    </table>
+                                    <td>{{ bill.itemsTotal  | to_dollars}}</td></tr>
+                                    
+                                <tr>
+                                    <td>CRX</td>
+                                    <td>Contractor Charges </td>
+                                    <td>{{bill.fees.unit}}</td>
+                                    <td>
+                                        <div 
+                                            id="contractor-percent"
+                                            class="cursor-pointer" 
+                                            uk-tooltip="Click to adjust contractor percent"
+                                        >
+                                            <button 
+                                                hx-get="/update_contractor_fee/{{bill.ref}}"  
+                                                hx-target="#contractor-percent"                                  
+                                            >{{bill.fees.contractor}}
+                                            </button>
+                                        </div>
+                                    </td> 
+                                    <td></td>
+                                    <td>{{ bill.expence.contractor | to_dollars}}</td>
+                                </tr>
+                                <tr>
+                                    <td>INS</td>
+                                    <td>Insurance </td>
+                                    <td>{{bill.fees.unit}}</td>
+                                    <td>
+                                        
+                                        <div 
+                                            id="insurance-percent"
+                                            class="cursor-pointer" 
+                                            uk-tooltip="Click to adjust insurance percent"
+                                        >
+                                            <button 
+                                                hx-get="/update_insurance_fee/{{bill.ref}}"  
+                                                hx-target="#insurance-percent"                                  
+                                            >{{bill.fees.insurance}}
+                                            </button>
+                                        </div>
+                                    
+                                    </td>
+                                    <td></td>
+                                    <td>{{ bill.expence.insurance | to_dollars}}</td>
+                                </tr>
+                                <tr>
+                                    <td>MSC</td>
+                                    <td>Micellaneous </td>
+                                    <td>{{bill.fees.unit}}</td>
+                                    <td>
+                                        <div 
+                                            id="misc-percent"
+                                            class="cursor-pointer" 
+                                            uk-tooltip="Click to adjust Micellaneous percent"
+                                        >
+                                            <button 
+                                                hx-get="/update_misc_fee/{{bill.ref}}"  
+                                                hx-target="#misc-percent"                                  
+                                            >{{bill.fees.misc}}
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td></td>
+                                    <td>{{ bill.expence.misc | to_dollars}}</td>
+                                </tr>
+                                <tr>
+                                    <td>OVR</td>
+                                    <td>Overhead </td>
+                                    <td>{{bill.fees.unit}}</td>
+                                    <td>
+                                        <div 
+                                            id="overhead-percent"
+                                            class="cursor-pointer" 
+                                            uk-tooltip="Click to adjust overhead percent"
+                                        >
+                                            <button 
+                                                hx-get="/update_overhead_fee/{{bill.ref}}"  
+                                                hx-target="#overhead-percent"                                  
+                                            >{{bill.fees.overhead}}
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td></td>
+                                    <td>{{ bill.expence.overhead | to_dollars}}</td>
+                                </tr>
+                                <tr > <td>ETALLY</td>
+                                    <td>Expences Total </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>{{ bill.expence.total  | to_dollars}}</td></tr>
+                                <tr > <td>Grand</td>
+                                        <td>Grand Total </td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>{{ bill.total  | to_dollars}}</td></tr>
+                            </tbody>
+                        </table>
+                       
+                    </div>
+                </section>
+                
                    
-                </div>
-            </section>
+        </div>
+        </div>
+        <div>
             
+                <p >Process Salary</p>
+                <div >
+                    <ul class="uk-list">
+                        <li>For Worker </li>
+                        {% for worker in bill_payees %}
+                        <li><a href="#"
+                            hx-get="/process_employee_salary/{{worker}}_{{bill.ref}}"
+                            hx-target="#account"
+                            
+                            >{{ worker }}</a></li>
+                        {% endfor %}
+                        
+                    </ul>
+                </div>
+           
+        </div>
+        <div>  
+            <p class="text-lg text-center font-semibold mb-2">Process Day Workers</p>
+            <div class="text-xs">
+                <div class="uk-child-width-expand@s uk-text-center ml-2" uk-grid>
+                    
+                    <div class="uk-width-1-3@s uk-width-1-3@m bg-gray-100 rounded">
+                        <ul class="uk-nav uk-nav-default">
+                            {% for worker in bill.day_workers %}
+                            <li><a href="#"
+                                hx-get="/process_paybill_dayworker/{{bill.ref}}_{{worker.name}}@{{bill.date_starting}}&{{bill.date_ending}}"
+                                hx-target="#days-work-statement"
+                                >{{ worker.name }} For {{ worker.days}} Days</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div>
+                        <div id="days-work-statement">Days Work Statement</div>
+                    </div>
+                    
+                </div>
                
+                
+              
+            </div>
+        </div>
     </div>
+   
 </div>
-<p class="text-xs text-center bg-blue-300 rounded p-5">{{ bill }}</p>
+<!--p class="text-xs text-center bg-blue-300 rounded p-5">{{ bill }}</p-->
 <p class="text-xs text-center">Location: /templates/project/account/projectPaybill.html</p>
 
 

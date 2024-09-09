@@ -106,7 +106,7 @@
         {% for e in filtered %}
 
         <tr
-                hx-get="/team/{{ e.get('id').split('-')[1] }}"
+                hx-get="/project_team/{{ e.get('id').split('-')[1] }}"
                 hx-target="#project_properties"
                 hx-trigger="click"
                 >

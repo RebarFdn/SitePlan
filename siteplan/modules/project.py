@@ -6,7 +6,7 @@
 import json
 
 #from pympler import asizeof
-from modules.utils import timestamp
+from modules.utils import timestamp, filter_dates
 from database import Recouch, RedisCache
 from modules.employee import Employee
 from schemas.schema_api import project_schema as schema, validate
@@ -309,6 +309,50 @@ class Project:
             else:
                 return '-${:,.2f}'.format(-amount)
 
+    async def daywork_hash_table(self, id:str=None):
+        project = await self.get(id=id)
+        hash_table = set()
+        for day in project.get('daywork'):
+            if day.get('hash_key'):
+                hash_table.add(day.get('hash_key'))
+            else:
+                day['hash_key'] = self.hash_data(data={
+                    'worker_name': day.get('worker_name'), 
+                    'date': day.get('date'), 
+                    'start': day.get('start'), 
+                    'end': day.get('end'), 
+                    'description': day.get('description') 
+                    })
+                hash_table.add(day.get('hash_key'))
+        await self.update(data=project)
+        return hash_table
+    
+    
+    def hash_data(self, data:dict=None):
+        import hashlib
+        from json import dumps
+        try:            
+            return hashlib.md5(dumps(data).encode()).hexdigest()
+        except Exception as e:
+            return str(e)
+        finally:
+            del(hashlib)
+            del(dumps)
+
+    
+    def validate_hash_data(self, hash_key:bytes=None, data:dict=None):
+        import hashlib
+        from json import dumps
+        try:
+            hash_obj = hashlib.md5(dumps(data).encode()).hexdigest()           
+            return hash_key == hash_obj
+        except Exception as e:
+            return str(e)
+        finally:
+            del(hashlib)
+            del(dumps)
+
+
     ## CRUD OPERATIONS
     async def all(self):
         try:
@@ -526,6 +570,7 @@ class Project:
             return {'error': str(e)}
         finally:
             del(project)
+            
 
     async def getExpences(self, id:str=None):        
         project = await self.get(id=id)
@@ -630,6 +675,17 @@ class Project:
             print('ID', id)
            
     
+    async def process_paybill_dayworker(self, bill_ref:str=None, worker:str=None, start_date:str=None, end_date:str=None):
+        project = await self.get(id=bill_ref.split('-')[0])
+        if start_date and end_date:
+            days = [day_work for day_work in project.get('daywork', []) if filter_dates(date=day_work.get('date'), start=start_date, end=end_date ) ]
+            days = [item for item in days if item.get('worker_name').split('_')[0] == worker]
+            return days
+        else:
+            return []
+        
+
+
     ## PROJECT WORKERS
     async def addWorkers(self, id:str=None, data:list=None):
         '''Requires a list of workers. Enshure the following JSON data format

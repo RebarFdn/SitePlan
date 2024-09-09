@@ -1,5 +1,6 @@
 ## Project router
 # This route handles all project related requests 
+import hashlib 
 import datetime
 from json import ( loads, dumps )
 from asyncio import sleep
@@ -887,7 +888,9 @@ async def add_worker_to_job_crew(request):
 @login_required
 async def add_daywork(request):
     id = request.path_params.get('id')
+    hash_table = await Project().daywork_hash_table(id=id)
     p = await Project().get(id=id)
+   
     payload = {
         "id": timestamp(),
         "project_id": id,
@@ -896,34 +899,52 @@ async def add_daywork(request):
             "amount": 0
         }
     }
+    hash_obj = {}
+   
     try:
         async with request.form() as form:    
             #payload["form_data"] = form         
             for key in form.keys():
                 payload[key] = form.get(key) 
-        p['daywork'].append(payload)
-        p['activity_log'].append(
-                    {
-                        "id": timestamp(),
-                        "title": "Add Days Work Record",
-                        "description": f"""Day Work for {payload.get('worker_name')} on Project {p.get('name')} was recorded by {request.user.username} """
-                    }
-
-                )
-        employee_id = payload.get("worker_name")
-        employee_id = employee_id.split('-')[1]
-        employee = await Employee().get_worker(id=employee_id)
-        employee['days'].append(payload)
-        await Employee().update(data=employee)
-        await Project().update(data=p) 
-        return HTMLResponse(f"""
+                hash_obj[key] = form.get(key) 
+                
+        payload['hash_key'] = Project().hash_data(data=hash_obj)
+        #await sleep(1)   
+        if payload.get('hash_key') in list(hash_table):
+            return HTMLResponse(f"""
                             
-                            <div class="uk-alert-primary" uk-alert>
+                            <div class="uk-alert-danger" uk-alert>
                             <a href class="uk-alert-close" uk-close></a>
-                            <p>{payload}.</p>
+                            <p>Record already exists! </p>
                         </div>
                             
                             """)
+        else:
+            p['daywork'].append(payload)
+            p['activity_log'].append(
+                        {
+                            "id": timestamp(),
+                            "title": "Add Days Work Record",
+                            "description": f"""Day Work for {payload.get('worker_name')} on Project {p.get('name')} was recorded by {request.user.username} """
+                        }
+
+                    )
+            await Project().update(data=p)         
+
+            employee_id = payload.get("worker_name")
+            employee_id = employee_id.split('-')[1]
+            employee = await Employee().get_worker(id=employee_id)
+            employee['days'].append(payload)
+            await Employee().update(data=employee)
+        
+            return HTMLResponse(f"""
+                                
+                                <div class="uk-alert-primary" uk-alert>
+                                <a href class="uk-alert-close" uk-close></a>
+                                <p>{payload}</p>
+                            </div>
+                                
+                                """)
     except Exception as e:
         return HTMLResponse(f"""<p class="bg-red-400 text-red-800 text-2xl font-bold py-3 px-4"> An error occured! ---- {str(e)}</p> """)
 

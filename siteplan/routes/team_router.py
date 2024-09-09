@@ -138,6 +138,58 @@ async def team_member(request):
         '/employee/employeePage.html', 
         {
             "request": request, 
+            "id": id,
+            "employee": await Employee().get_worker_info(id=request.path_params.get('id')) 
+        })
+
+
+
+@router.get('/project_team/{id}')
+async def project_team_member(request): 
+    id=request.path_params.get('id')
+    e = await Employee().get_worker(id=request.path_params.get('id')) 
+    jobs = []
+    tasks = []
+    async def get_jobs_details(job_id):
+        if '-' in job_id:
+            idd = job_id.split('-')
+            project = await Project().get(id=idd[0])
+            _job = [job for job in project.get('tasks') if job.get('_id') == job_id]
+            if len(_job) > 0:
+                _job = _job[0]
+                _tasks = [task for task in _job.get('tasks') if task.get('_id') in e.get('tasks')]
+                if len(_tasks) > 0:
+                    for task in _tasks:
+                        tasks.append(task)
+
+                return  {
+                        "project": project.get('name'),
+                        "job_id": _job.get('_id'),
+                        "title": _job.get('title')
+                    }
+            else:
+                return None
+        else:
+            return None
+        
+    for item in e.get('jobs', []):
+        jobs_item = await get_jobs_details(job_id=item)
+        if jobs_item:
+            jobs.append(
+               jobs_item
+                 
+                 )
+    if len(jobs) > 0:
+        e['jobs'] = jobs
+    
+    if len(tasks) > 0:
+        e['tasks'] = tasks
+
+    return TEMPLATES.TemplateResponse(
+        '/employee/projectEmployeePage.html', 
+        {
+            "request": request, 
+            "id": id,
             "employee": await Employee().get_worker_info(id=request.path_params.get('id')) 
         })
 
@@ -148,6 +200,18 @@ async def team_json(request):
   return JSONResponse( await Employee().get_worker(id=request.path_params.get('id')))
 
 
+@router.get('/team_by_name/{name}')
+async def team_by_name(request):  
+  #index = await Employee().get_name_index()
+  return JSONResponse( await Employee().get_by_name(name=request.path_params.get('name')))
+
+
+
+@router.get('/team_name_index')
+async def team_name_index(request):  
+  return JSONResponse( await Employee().get_name_index())
+
+ 
 @router.get('/employee_info/{id}')
 async def employee_info(request):   
     #employee = await Employee().get_worker_info(id=request.path_params.get('id')) 
@@ -255,7 +319,7 @@ async def employee_days(request):
     employee = await Employee().get_worker(id=request.path_params.get('id')) 
     return TEMPLATES.TemplateResponse(
         "/employee/employeeDaysworkIndex.html",
-        {"request": request, "employee": {"days": employee.get('days') }})
+        {"request": request, "employee": {"days": employee.get('days') }, "id":request.path_params.get('id')})
 
 
 

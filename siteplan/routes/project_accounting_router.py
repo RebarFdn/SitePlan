@@ -308,19 +308,25 @@ async def get_paybill(request):
                     bill_payees.add(f"{statement.get('employee')}-{statement.get('employee_id')}")
 
     items_total = 0
+    if bill.get('date_starting') and bill.get('date_ending'):
+        days = [day_work for day_work in project.get('daywork', []) if filter_dates(date=day_work.get('date'), start=bill.get('date_starting'), end=bill.get('date_ending') ) ]
+    else:
+        days = []
+    if len(days) > 0:
+        day_workers = set()#days = sorted(days)
     
-    days = [day_work for day_work in project.get('daywork', []) if filter_dates(date=day_work.get('date'), start=bill.get('date_starting'), end=bill.get('date_ending') ) ]
-    day_workers = set()#days = sorted(days)
-    
-    worker_occurence = [ item.get('worker_name') for item in days ]
-    for day_worker in worker_occurence:
-        day_workers.add(day_worker)
-    workers = []
-    for worker in list(day_workers):
-        name = json.loads(json.dumps(worker.split('_')))
-        workers.append({"id": name[1], "name": name[0], "days": worker_occurence.count(worker)})   
-    bill["days_work"] = days
-    bill["day_workers"] = workers
+        worker_occurence = [ item.get('worker_name') for item in days ]
+        for day_worker in worker_occurence:
+            day_workers.add(day_worker)
+        workers = []
+        for worker in list(day_workers):
+            name = json.loads(json.dumps(worker.split('_')))
+            workers.append({"id": name[1], "name": name[0], "days": worker_occurence.count(worker)})  
+        bill["days_work"] = days
+        bill["day_workers"] = workers
+    else:
+        bill["days_work"] = []
+        bill["day_workers"] = []
     try:
         if bill.get('expence'):
             pass
@@ -415,7 +421,8 @@ async def get_paybill(request):
         return HTMLResponse(f"""<p class="bg-red-400 text-red-800 text-2xl font-bold py-3 px-4"> An error occured! ---- {str(e)}</p> """)
 
     finally:
-        print(f'Done GET /paybill/{id}')
+        del(project)
+        del(bill)
        
             
 
@@ -432,8 +439,7 @@ async def get_project_account_withdrawals(request):
 @login_required
 async def current_paybill(request):
     id = request.path_params.get('id')    
-    try:
-        await RedisCache().set(key="CURRENT_PAYBILL", val=id)       
+    try:            
           
         return HTMLResponse(f"""<div uk-alert>
                             <a href class="uk-alert-close" uk-close></a>
@@ -515,6 +521,195 @@ async def add_task_to_bill(request):
 
     finally:
         del(id)
+
+
+@router.get('/process_paybill_dayworker/{id}')
+async def process_paybill_dayworker(request):
+    id = request.path_params.get('id')
+    idds = id.split('_')
+    nid = idds[1].split('@')
+    dts = nid[1]
+    dts = dts.split('&')
+    bref = idds[0]
+    wname = nid[0]
+    start = dts[0]
+    end = dts[1]
+
+    project = await Project().get(id=id.split('-')[0])
+     
+    days = await Project().process_paybill_dayworker( bill_ref=bref, worker=wname, start_date=start, end_date=end)
+    
+    return TEMPLATES.TemplateResponse(
+        "/project/account/paybillDayworkerStatement.html", 
+        {
+            "request": request,
+            "id": id,
+            "project": project.get('name'),
+            "days_worked": days,
+            "worker": wname,
+            "start": start,
+            "end": end
+
+                                    }
+        )
+
+
+@router.post('/set_days_rate/{id}')
+@login_required
+async def set_days_rate(request):
+    id = request.path_params.get('id')
+    idds = id.split('_')
+    nid = idds[1].split('@')
+    dts = nid[1]
+    dts = dts.split('&')
+    bref = idds[0]
+    wname = nid[0]
+    start = dts[0]
+    end = dts[1]
+
+    project = await Project().get(id=id.split('-')[0])
+    
+    
+    data = {}
+    async with request.form() as form:
+        for key in form.keys():
+            data[key] = form.get(key)
+    if start and end:
+        days = [day_work for day_work in project.get('daywork', []) if filter_dates(date=day_work.get('date'), start=start, end=end ) ]
+        days = [item for item in days if item.get('worker_name').split('_')[0] == wname]
+        for daywork in days:
+            daywork['payment']['rate'] = data.get('day_rate')
+            #daywork['payment']['amount'] = float(data.get('day_rate'))
+        await Project().update(data=project)
+            
+    else:
+        days = []
+
+    
+    return TEMPLATES.TemplateResponse(
+        "/project/account/paybillDaysWorkTable.html",
+        {
+            "request": request,
+            "id": id,
+            "days_worked": days,
+            "data": data
+        }
+    ) 
+  
+
+
+@router.post('/apply_paybill_daysrate/{id}')
+@login_required
+async def apply_paybill_daysrate(request):
+    id = request.path_params.get('id')
+    idds = id.split('_')
+    nid = idds[1].split('@')
+    dts = nid[1]
+    dts = dts.split('&')
+    bref = idds[0]
+    wname = nid[0]
+    start = dts[0]
+    end = dts[1]
+
+    project = await Project().get(id=id.split('-')[0])
+    
+    data = {}
+    async with request.form() as form:
+        for key in form.keys():
+            data[key] = form.get(key)
+    if start and end:
+        total_days_pay = 0
+        days = [day_work for day_work in project.get('daywork', []) if filter_dates(date=day_work.get('date'), start=start, end=end ) ]
+        days = [item for item in days if item.get('worker_name').split('_')[0] == wname]
+        for daywork in days:
+            #form_date = [day_item for day_item in data if day_item.get("id") == daywork.get('id')][0]
+            await Employee().process_days_work(name=wname, date_id=daywork.get('id'), paid=True, amount= float(daywork.get('payment').get('rate')))
+            if data.get(daywork.get('id')):
+                
+                daywork['payment']['amount'] = float(data.get(daywork.get('id')))
+            else:                
+                daywork['payment']['amount'] = float(daywork.get('payment').get('rate'))
+            daywork['payment']['paid'] = True
+
+            total_days_pay += daywork['payment']['amount'] 
+        average_day_pay = total_days_pay / len(days)
+        bill_item = {
+                "id": f"{ id.split('-')[0] }-{ timestamp() }",
+                "job_id": None,
+                "title": f"Dayworks for { wname }",
+                "description": f"Dayworks for { wname } for Period Starting { start } and ending { end }",
+                "metric": {
+                    "unit": "day",
+                    "quantity": len(days),
+                    "price": float(average_day_pay),
+                    "total": float(total_days_pay)
+                },
+                "imperial":{
+                    "unit": "day",
+                    "quantity": len(days),
+                    "price": float(average_day_pay),
+                    "total": float(total_days_pay)
+                },
+                "assignedto": wname,
+                "paidout": {
+                "unit": "%",
+                "value": 100,
+                "amount": float(total_days_pay),
+                "totalPaidOut": float(total_days_pay)
+              },
+                "paid": [
+                {
+                  "job_ref": "",
+                  "bill_ref": bref,
+                  "bill_item_id": f"{ id.split('-')[0] }-{ timestamp() }",
+                  "employee_id": "",
+                  "employee": wname,
+                  "date": timestamp(),
+                  "metric": {
+                    "unit": "day",
+                    "price": float(average_day_pay),
+                    "quantity": len(days),
+                    "total": float(total_days_pay)
+                  },
+                  "imperial": {
+                    "unit": "day",
+                    "price": float(average_day_pay),
+                    "quantity": len(days),
+                    "total": float(total_days_pay)
+                  },
+                  "total": float(total_days_pay)
+                }],
+                "phase": "n/a",
+                "progress": "100",
+                "category": "labour"
+                } 
+        for bill in project.get('account').get('records').get('paybills'):
+            if bill.get('ref').strip() == idds[0].strip():
+                bill['items'].append(bill_item)
+        project['activity_log'].append(
+            {
+                "id": timestamp(),
+                "title": "Add Days Work Item to Paybill",
+                "description": f"""Daywork Summary {bill_item.get('id')} for {wname} was added to Paybill {bill.get('ref')} by 
+                            {request.user.username}."""
+            })  
+        
+        await Project().update(data=project)
+            
+    else:
+        days = []
+
+    
+    return TEMPLATES.TemplateResponse(
+        "/project/account/paybillDaysWorkTable.html",
+        {
+            "request": request,
+            "id": id,
+            "days_worked": days,
+            "data": data
+        }
+    ) 
+ 
 
 
 @router.get('/edit_paybill_item/{id}')
@@ -1276,6 +1471,25 @@ async def get_project_account_expences(request):
             "expences": project.get('account').get('expences', [])
          }
                                       )
+
+
+@router.post('/new_expence/{id}')
+@login_required
+async def new_expence_record(request):
+    expence = {
+        "ref": f"EXP-{timestamp()}",
+        "date": "",
+        "description": "",
+        "claimant": "",
+        "method": "",
+        "total": 0
+      }
+    async with request.form() as form:
+        for key, value in form.items():
+            expence[key] = value    
+    await Project().addExpence(id=request.path_params.get('id'), data=expence)    
+    return RedirectResponse(url=f"/project_account_expences/{ request.path_params.get('id') }", status_code=302)
+
 
 
 @router.get('/project_account_purchases/{id}')

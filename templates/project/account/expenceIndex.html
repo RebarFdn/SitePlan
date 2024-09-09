@@ -82,7 +82,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for expence in expences %}
+                {% for expence in expences | reverse %}
                 <tr>
                     <td>
                         <label> {{ expence.ref }}</label>

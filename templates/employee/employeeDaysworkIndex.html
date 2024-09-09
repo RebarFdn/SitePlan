@@ -1,8 +1,9 @@
 <table class="uk-table uk-table-small">
-    <caption>Days work Index </caption>
+    <caption>{{id}} Days work Index </caption>
     <thead>
         <tr>
-            <th>Date</th>                        
+            <th>Date</th>    
+            <th>Project</th>                        
             <th>Time Start</th>
             <th>Draw Off</th>
             <th>Description</th>
@@ -12,7 +13,8 @@
     <tbody>
         {% for item in  employee.get('days') | reverse %}
         <tr>
-            <td>{{item.date}}</td>                        
+            <td>{{item.date}}</td>  
+            <td>{{item.project_id}}</td>                        
             <td>{{item.start}}</td>
             <td>{{item.end}}</td>
             <td>{{item.description}}</td>

@@ -1,8 +1,12 @@
 #modeler.py
 import json
 from starlette.responses import HTMLResponse, RedirectResponse, JSONResponse, StreamingResponse
-from modules.utils import timestamp
+
 from database import Recouch
+try:
+    from modules.utils import timestamp
+except Exception as e:
+    from utils import timestamp
 
 class Employee:
     instances = 0
@@ -125,10 +129,19 @@ class Employee:
             del(res); del(worker)       
 
 
-    async def get_elist(self):
-        await self.all_workers()
-        return self.workers 
+    async def get_name_index(self):    
+        employees =  await self.all_workers()
+        employees = employees.get('rows')  
+        return [{"name": item.get('value').get('name'), "id": item.get('id')} for item in employees]
         
+
+    async def get_by_name(self, name:str=None) -> dict:
+        index = await self.get_name_index()
+        id = [item.get('id') for item in index if item.get('name') == name]
+        if len(id) > 0:
+            id=id[0]
+        return await self.get_worker(id=id)
+    
 
     def generate_id(self):
         ''' Generates a unique Worker id, also updates the worker data''' 
@@ -148,7 +161,18 @@ class Employee:
         finally:           
             del(gen)
             del(GenerateId)
- 
+    
+
+    async def process_days_work(self, name:str=None, date_id:str=None, paid:bool=False, amount:float=None):        
+        employee = await self.get_by_name(name=name)
+        for daywork in employee.get('days'):
+            if daywork.get('id') == date_id:
+                daywork['payment']['amount'] = amount
+                daywork['payment']['paid'] = paid
+        await self.update(data=employee)
+        
+
+
 
     @property
     def processAccountTotals(self):
@@ -208,6 +232,7 @@ class Employee:
         e['days'].append(data)
         await self.update(data=e)
         return e.get('days')
+    
     
     # Html Responses
     async def team_index_generator(self):
