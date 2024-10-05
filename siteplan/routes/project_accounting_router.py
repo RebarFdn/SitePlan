@@ -9,6 +9,7 @@ from starlette_login.decorator import login_required
 from decoRouter import Router
 from modules.project import Project
 from modules.employee import Employee
+from modules.supplier import Supplier
 from modules.utils import timestamp, to_dollars, convert_timestamp, filter_dates
 from config import TEMPLATES
 from routes.project_router import today
@@ -1219,19 +1220,19 @@ async def delete_paybill(request):
     id = request.path_params.get('id')
     idd = id.split('-')
     project = await Project().get(id=idd[0])
-    try:
-        for bill in project.get('account').get('records').get('paybills'):
-            if bill.get('ref') == id:
-                project['activity_log'].append(
-                    {
-                        "id": timestamp(),
-                        "title": "Record Deletion",
-                        "description": f"""Project Paybill with refference {bill.ref} was deleted by 
-                                        {username} on {today()}"""
-                    }
+    try:           
+        project['account']['records']['paybills'] = [bill for bill in project.get('account').get('records').get('paybills') if not bill.get('ref').strip() == id.strip()]
+                        
+        project['activity_log'].append(
+                            {
+                                "id": timestamp(),
+                                "title": "Record Deletion",
+                                "description": f"""Project Paybill with refference { id } was deleted by 
+                                                {username} """
+                            }
 
-                )
-                project['account']['records']['paybills'].remove(bill)
+                        )
+                
 
         await Project().update(data=project)
         return HTMLResponse(f"""<div uk-alert>
@@ -1470,7 +1471,7 @@ async def get_project_account_expences(request):
             "id": id,
             "expences": project.get('account').get('expences', [])
          }
-                                      )
+    )
 
 
 @router.post('/new_expence/{id}')
@@ -1497,11 +1498,13 @@ async def new_expence_record(request):
 async def get_project_account_purchases(request):
     id = request.path_params.get('id')
     project = await Project().get(id=id)
+    suppliers = await Supplier().nameIndex()
     
     return TEMPLATES.TemplateResponse(
         "/project/account/purchasesIndex.html",
         {
             "request": request, 
+            "suppliers": suppliers,
             "project": {
                 "_id": project.get('_id'),
                 "name": project.get('name'),
@@ -1514,4 +1517,115 @@ async def get_project_account_purchases(request):
             }
         }
     )
+
+
+@router.post('/new_invoice/{id}')
+@login_required
+async def save_invoice(request):
+    id = request.path_params.get('id')
+    project = await Project().get(id=id)
+    suppliers = await Supplier().nameIndex()
+    
+    async with request.form() as form:
+        invoice = {
+          "supplier": {
+            "_id": None,
+            "name": form.get('supplier'),
+            "taxid": None
+          },
+          "invoiceno": form.get('invoice_no'),
+          "datetime": form.get('date'),
+          "items": [
+            
+            
+          ],
+          "tax": form.get('tax'),
+          "total": form.get('total')
+        }
+    
+    supplier = [item for item in suppliers if item.get('name') == invoice.get('supplier').get('name') ]
+    
+    if len(supplier) > 0:
+        supplier = supplier[0]
+        invoice['supplier']['_id'] = supplier.get('_id')
+        invoice['supplier']['taxid'] = supplier.get('taxid')
+
+        
+     
+    if len(project.get('account').get('records', {}).get('invoices', [])) > 1:
+        for item in project.get('account').get('records', {}).get('invoices', []): # Check for duplicate
+            if item.get("invoiceno") == invoice.get("invoiceno") and item.get('supplier').get('name') == invoice.get('supplier').get('name'):     
+                return HTMLResponse(f"""<div class="uk-alert-warning" uk-alert>
+                        <a href class="uk-alert-close" uk-close></a>
+                        <p>Invoice {invoice.get("invoiceno")} already exists!</p>
+                    </div>"""
+                )
+            else:                    
+                project['account']['records']['invoices'].append(invoice) # Append to occupied list
+                project['activity_log'].append(
+                    {
+                        "id": timestamp(),
+                        "title": "Record Invoice",
+                        "description": f"""Invoice {invoice.get("invoiceno")} from  {invoice.get('supplier').get('name')} was Saved by {request.user.username} """
+                    }
+
+                )
+                await Project().update(data=project)
+                return HTMLResponse(f"""<div class="uk-alert-success" uk-alert>
+                        <a href class="uk-alert-close" uk-close></a>
+                        <p>Invoice {invoice.get("invoiceno")} from  {invoice.get('supplier').get('name')} was saved successfully!</p>
+                    </div>"""
+                )
+    else:                
+        project['account']['records']['invoices'].append(invoice) # Append to empty list
+        project['activity_log'].append(
+                    {
+                        "id": timestamp(),
+                        "title": "Record Invoice",
+                        "description": f"""Invoice {invoice.get("invoiceno")} from from  {invoice.get('supplier').get('name')} was Saved by {request.user.username} """
+                    }
+
+                )
+        await Project().update(data=project)
+        return HTMLResponse(f"""<div class="uk-alert-success" uk-alert>
+                        <a href class="uk-alert-close" uk-close></a>
+                        <p>Invoice {invoice.get("invoiceno")} was saved successfully!</p>
+                    </div>"""
+                )
+        
+
+@router.post('/add_invoice_item/{id}')
+@login_required
+async def add_invoice_item(request):
+    """ request id shall be if format /project_id/invoiceno/suppliername"""
+    id = request.path_params.get('id')
+    idds = id.split('-')
+    project = await Project().get(id=idds[0])
+    invoice = [item for item in project.get('account').get('records', {}).get('invoices', []) if item.get('invoiceno') == idds[1]  and item.get('supplier').get('name') == idds[2] ]
+    if len(invoice) > 0:
+        invoice = invoice[0]
+        async with request.form() as form:
+            invoice_item = {
+              "itemno": len(invoice.get('items')) + 1,
+              "description": form.get("description"),
+              "quantity": form.get("quantity"),
+              "unit": form.get("unit"),
+              "price": form.get("price"),
+            }
+        invoice['items'].append(invoice_item)
+        await Project().update(data=project)
+        return HTMLResponse(f"""<div class="uk-alert-success" uk-alert>
+                        <a href class="uk-alert-close" uk-close></a>
+                        <p>Item {invoice_item.get('description')} was successfully added to Invoice { invoice.get('invoiceno')}!</p>
+                    </div>"""
+                )
+    else:
+        return HTMLResponse(f"""<div class="uk-alert-warning" uk-alert>
+                        <a href class="uk-alert-close" uk-close></a>
+                        <p>Invoice does not exist!</p>
+                    </div>"""
+                )
+
+        
+
 

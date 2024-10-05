@@ -1,5 +1,6 @@
 #encoding=utf-8
 #supplier.py
+
 from modules.utils import timestamp
 from modules.project import Project
 from database import Recouch

@@ -1,7 +1,9 @@
 from starlette.responses import HTMLResponse, RedirectResponse, JSONResponse, StreamingResponse
 from decoRouter import Router
 from modules.project import Project
-from modules.estimator.wall import Wall
+from modules.estimate import Estimate,  EstimateModel
+
+from modules.Estimate.walls import Wall
 from modules.estimator.column import Column
 from modules.utils import timestamp, to_dollars
 from config import (TEMPLATES,LOG_PATH ,SYSTEM_LOG_PATH ,SERVER_LOG_PATH, APP_LOG_PATH )
@@ -13,144 +15,130 @@ from config import (TEMPLATES,LOG_PATH ,SYSTEM_LOG_PATH ,SERVER_LOG_PATH, APP_LO
 router = Router()
 
 @router.GET('/estimate')
-async def get_estimates(request):
-    context = {"title": "Siteplanner Estimator"}
+async def get_estimate_index(request):
+    projects_index = await Project().nameIndex()
+    context = { 
+        "title": "Siteplanner Estimator",
+        "projects": projects_index,
+        "estimates": Estimate().all()
+        }
     return TEMPLATES.TemplateResponse("estimator.html", {"request": request, "context": context})       
+
+
+@router.GET('/estimates')
+async def get_estimates(request):
+    
+    context = { 
+        "title": "Siteplanner Estimator",
+        "estimates": Estimate().all()
+        }
+    return HTMLResponse( 
+        f"""<div class="uk-alert-success" uk-alert>
+            <a href class="uk-alert-close" uk-close></a>
+            <p class="text-xs">{ context}</p>
+         </div>"""
+    )             
+
+
+@router.GET('/estimate/{project}')
+async def get_estimate(request):
+    projects_index = await Project().nameIndex()
+    context = { 
+        "title": "Siteplanner Estimator",
+        "estimate": Estimate().get(project=request.path_params.get('project'))
+        }
+    return HTMLResponse( 
+        f"""<div class="uk-alert-success" uk-alert>
+            <a href class="uk-alert-close" uk-close></a>
+            <p class="text-xs">{ context}</p>
+         </div>"""
+    )       
+
+
+ 
+
+@router.POST('/estimate')
+async def new_estimates(request):
+    data = {}
+    async with request.form() as form:
+        for key in form.keys():
+            data[key] = form.get(key) 
+            
+    data['created_by'] = request.user.username
+    e = Estimate( data=data )
+    e.save()
+
+    return HTMLResponse(f"""<div class="uk-alert-success" uk-alert>
+            <a href class="uk-alert-close" uk-close></a>
+            <p class="text-xs">{dict(e.estimate.model_dump())}</p>
+         </div>"""
+    )
+
 
 @router.get('/wall')
 async def get_wall(request):
-    return HTMLResponse(f"""<div class="text-xl font-semibold bg-gray-300 mb-1">Wall Estimator</div>
-                        <section class="bg-gray-2 rounded-xl">
-                            <div class="p-8 shadow-lg">
-                                <form 
-                                    class="space-y-4" 
-                                   
-                                >
-                        <ul class="uk-subnav uk-subnav-pill" uk-switcher>
-                            <li><a href="#">Data</a></li>
-                            <li><a href="#">Rebar</a></li>
-                            <li><a href="#">Opening</a></li>
-                        </ul>
-
-                        <div class="uk-switcher uk-margin">
-                            <div> <div class="w-full">
-                                        <label class="sr-only" for="tag">Tag</label>
-                                        <input class="input input-solid max-w-full" placeholder="Wall Tag" type="text" id="tag" name="tag" />
-                                    </div>
-                                    <div class="w-full">
-                                        <label class="sr-only" for="type">Type</label>
-                                        <input class="input input-solid max-w-full" placeholder="Wall Type" type="text" id="type" name="type" />
-                                    </div>
-
-
-                                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                                        <div>
-                                            <label class="sr-only" for="unit">Unit</label>
-                                            <input class="input input-solid" placeholder="Unit of measurement" type="text" id="unit" name="unit" />
-                                        </div>
-                                        <div>
-                                            <label class="sr-only" for="thickness">Thickness</label>
-                                            <input class="input input-solid" placeholder="Thickness of the wall" type="number" step="0.1" id="thickness" name="thickness" />
-                                        </div>
-                                        <div>
-                                            <label class="sr-only" for="length">Length</label>
-                                            <input class="input input-solid" placeholder="Length of the wall" type="number" step="0.1" id="length" name="length" />
-                                        </div>
-
-                                        <div>
-                                            <label class="sr-only" for="height">Height</label>
-                                            <input class="input input-solid" placeholder="Height of the wall" type="number" step="0.1" id="height" name="height" />
-                                       </div>
-                                    </div>
-
-                                    <div class="w-full">
-                                        <label class="sr-only" for="message">Message</label>
-
-                                        <textarea class="textarea textarea-solid max-w-full" placeholder="Message" rows="3" id="message" name="message"></textarea>
-                                    </div>
-                                </div>
-                            <div>
-                                    
-                                  
-   
-                                        
-                        
-                                            <div class="card">
-                                            <div class="card-body">
-                                                <h2 class="card-header">Vertical Bars </h2>
-                                                <div>
-                                                    <label class="sr-only" for="v-bartype">Vertical Bar Type</label>
-                                                    <input class="input input-solid max-w-full" placeholder="Bar Type" type="text" id="vbartype" name="vbar_type" />
-                                                </div>
-                                                <div>
-                                                        <label class="sr-only" for="v-barspacing">Spacing</label>
-                                                        <input class="input input-solid" placeholder="Bar Spacing" type="number" step="0.1" id="vbar_spacing" name="vbar_spacing" />
-                                                </div>
-		
-                                            </div>
-                                        </div>
-
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <h2 class="card-header">Horizontal Bars </h2>
-                                                <div>
-                                                    <label class="sr-only" for="h-bartype">Horizontal Bar Type</label>
-                                                    <input class="input input-solid max-w-full" placeholder="Bar Type" type="text" id="hbartype" name="hbar_type" />
-                                                </div>
-                                                <div>
-                                                        <label class="sr-only" for="h-barspacing">Spacing</label>
-                                                        <input class="input input-solid" placeholder="Bar Spacing" type="number" step="0.1" id="hbar_spacing" name="hbar_spacing" />
-                                                </div>
-		
-                                            </div>
-                                        </div>
-                        
-                        
-
-
-                        
-
-                                        
-                                    
-                        </div>
-                            <div>Bazinga!</div>
-                        </div>
-                                   
-                                    <div class="mt-4">
-                                        <button 
-                                        type="button" 
-                                        class="rounded-lg btn btn-primary btn-block"
-                                         hx-post="/wall"
-                                        hx-target="#e-content"
-                                        >Send Enquiry</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </section>
-                        
-                        """)
+    return TEMPLATES.TemplateResponse('/estimate/wallDataEntry.html', {"request": request}) 
 
 
 @router.post('/wall')
 async def process_wall(request):
        
     payload = {}
+    rebars = {
+    "v": {"type": 'm12', "spacing": 0.4, "unit": 'm'},
+    "h": {"type": 'm10', "spacing": 0.6, "unit": 'm'}
+
+    }
     try:
         async with request.form() as form:            
             payload['tag'] = form.get('tag')        
             payload['type'] = form.get('type')  
             payload['unit'] = form.get('unit') 
-            payload['thickness'] = float(form.get('thickness'))         
-            payload['length'] = float(form.get('length'))
-            payload['height'] = form.get('height')
+            payload['thickness'] = (form.get('thickness'))         
+            payload['length'] = (form.get('length'))
+            payload['height'] = (form.get('height'))
+            rebars['v']['type'] = form.get("vbar_type")
+            rebars['v']['spacing'] = (form.get("vbar_spacing"))
+            rebars['v']['unit'] = payload['unit']
+            rebars['h']['type'] = form.get("hbar_type")
+            rebars['h']['spacing'] = (form.get("hbar_spacing"))
+            rebars['h']['unit'] = payload['unit']
+        payload["rebars"] = rebars
+        print(form)    
         wall = Wall(data=payload)
-        await wall.load_wall_system
-        await wall.generate_report
        
-        return HTMLResponse(f""" <div class="uk-alert-success" uk-alert>
+       
+        return TEMPLATES.TemplateResponse('/estimate/wallEstimateResult.html', {"request": request, "wall": wall }) 
+    except Exception as e:
+        return HTMLResponse(f"""
+                            <div class="uk-alert-warning" uk-alert>
                                 <a href class="uk-alert-close" uk-close></a>
-                                <p>{wall.report}  </p>
-                                </div>""")
+                                <p>{str(e)}</p>
+                            </div>
+                            """)
+
+
+
+
+@router.post('/opening')
+async def add_opening(request):       
+    payload = {}    
+    try:
+        async with request.form() as form:  
+            wall_tag = form.get('wall_tag')   
+            payload['walltag'] = wall_tag         
+            payload['tag'] = form.get('otag')           
+            payload['unit'] = form.get('ounit') 
+            payload['height'] = (form.get('oheight'))
+            payload['width'] = (form.get('owidth'))
+            payload['amt'] = (form.get('oamt'))
+        print(payload)
+        return HTMLResponse(f"""
+                            <div class="uk-alert-success" uk-alert>
+                                <a href class="uk-alert-close" uk-close></a>
+                                <p>{payload}</p>
+                            </div>
+                            """)
     except Exception as e:
         return HTMLResponse(f"""
                             <div class="uk-alert-warning" uk-alert>

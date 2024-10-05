@@ -1,0 +1,267 @@
+<div class="text-xl font-semibold bg-gray-300 mb-1">CMU Wall Estimator</div>
+<section class="bg-gray-2 rounded-xl">
+    <div class="p-8 shadow-lg">
+        <form 
+            class="space-y-4" 
+           
+        >
+
+<nav class="uk-navbar-container" uk-navbar></nav>
+    <div class="uk-navbar-left">
+        <ul class="uk-subnav uk-subnav-pill" uk-switcher="connect: .wall-props">
+            <li><a href="#">Wall Data</a></li>
+            <li><a href="#">Rebar</a></li>
+            <li><a href="#">Openings</a></li>
+           
+        </ul>
+        
+        <label class="btn btn-primary" for="modal-3">Add Opening</label>
+    </div>
+   
+</nav>
+
+<div class="uk-switcher uk-margin wall-props">
+    <div> <div class="w-full">
+                <label class="text-sm" for="tag">Tag</label>
+                <input class="input input-solid max-w-full" placeholder="CMU-001" type="text" id="tag" name="tag" value="CMU-15" />
+            </div>
+            <div class="w-full">
+                <label class="text-sm" for="type">Type</label>
+                <input class="input input-solid max-w-full" placeholder="CMU" type="text" id="type" name="type" value="cmu"/>
+            </div>
+
+
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div>
+                    <label class="text-sm" for="unit">Unit</label>
+                    <select class="input input-solid" placeholder="m" type="select" id="unit" name="unit" >
+                        <option>m</option>
+                        <option>ft</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-sm" for="thickness">Thickness</label>
+                    <input class="input input-solid" placeholder="0.15" type="number" step="0.1" id="thickness" name="thickness" value="0.15"/>
+                </div>
+                <div>
+                    <label class="text-sm" for="length">Length</label>
+                    <input class="input input-solid" placeholder="50" type="number" step="0.1" id="length" name="length" value="50"/>
+                </div>
+
+                <div>
+                    <label class="text-sm" for="height">Height</label>
+                    <input class="input input-solid" placeholder="5.5" type="number" step="0.1" id="height" name="height" value="5.5"/>
+               </div>
+            </div>
+
+            <div class="w-full">
+                <label class="text-sm" for="message">Message</label>
+
+                <textarea class="textarea textarea-solid max-w-full" placeholder="Message" rows="3" id="message" name="message"></textarea>
+            </div>
+        </div>
+    <div>
+            
+          
+
+                
+
+                    <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-header">Vertical Bars </h2>
+                        <div>
+                            <label class="text-sm" for="v-bartype">Vertical Bar Type</label>
+                            <select class="input input-solid max-w-full" placeholder="Select Bar Type" type="select" id="vbartype" name="vbar_type" >
+                                <option>m10</option>
+                                <option selected>m12</option>
+                                <option>m16</option>
+                                <option>m20</option>
+
+                            </select>
+                        </div>
+                        <div>
+                                <label class="text-sm" for="v-barspacing">Spacing</label>
+                                <input class="input input-solid" placeholder="Bar Spacing" type="number" step="0.1" id="vbar_spacing" name="vbar_spacing" value="0.4"/>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-header">Horizontal Bars </h2>
+                        <div>
+                            <label class="text-sm" for="h-bartype">Horizontal Bar Type</label>
+                            <select  class="input input-solid max-w-full" placeholder="Select Bar Type" type="text" id="hbartype" name="hbar_type">
+                                <option>m6</option>
+                                <option selected>m10</option>
+                                <option>m12</option>
+                                <option>m16</option>
+                            </select>
+                        </div>
+                        <div>
+                                <label class="text-sm" for="h-barspacing">Spacing</label>
+                                <input class="input input-solid" placeholder="Bar Spacing" type="number" step="0.1" id="hbar_spacing" name="hbar_spacing" value="0.6"/>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+
+
+
+                
+            
+</div>
+    <div>
+        <div>
+           
+           
+        </div>
+        <div id="wall-openings">Opening</div>
+
+    </div>
+</div>
+           
+            <div class="mt-4">
+                <button 
+                type="button" 
+                class="rounded-lg btn btn-primary btn-block"
+                 hx-post="/wall"
+                hx-target="#e-content"
+                >Send Enquiry</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+
+
+<input class="modal-state" id="modal-3" type="checkbox" />
+<div class="modal">
+	<label class="modal-overlay"></label>
+	<div class="modal-content flex flex-col gap-5">
+		<label for="modal-3" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</label>
+		<h2 class="text-lg">Wall Opening </h2>
+		<form  
+                                hx-post="/opening"
+                                hx-target="#wall-openings"
+                               
+                                >
+                <div class="text-center text-xs items center">  
+                    <label class="text-sm" for="tag">Wall Id</label>
+                    <input class="input input-solid max-w-full" placeholder="window-10" type="text" id="wall_tag" name="wall_tag" onchange="SetWallId"/>
+                </div>
+                <div class="uk-child-width-expand@s uk-text-center" uk-grid>
+                    <div>
+                       
+                        <label class="text-sm" for="tag">Tag</label>
+                        <input class="input input-solid max-w-full" placeholder="window-10" type="text" id="otag" name="otag" value="window-15" />
+                    </div>
+                    <div>
+                        <label class="text-sm" for="tag">Unit</label>
+                        <select class="input input-solid max-w-full" placeholder="Select Unit" type="text" id="ounit" name="ounit">
+                            <option selected>m</option>
+                            <option>ft</option>
+                        </select>
+                    </div>
+                   
+                </div>
+                <div class="uk-child-width-expand@s uk-text-center" uk-grid>
+                    <div>
+                        <label class="text-sm" for="width">Width</label>
+                        <input class="input input-solid" placeholder="1.2" type="number" step="0.1" id="owidth" name="owidth" value="1.2"/>
+                    </div>
+                    <div>
+                        <label class="text-sm" for="width">Height</label>
+                        <input class="input input-solid" placeholder="1.2" type="number" step="0.1" id="oheight" name="oheight" value="1.2"/>
+                    </div>
+                </div>
+                <div class="uk-child-width-expand@s uk-text-center" uk-grid>
+                    <div>
+                          
+                        <label class="text-sm" for="width">Amount</label>
+                        <input class="input input-solid" placeholder="2" type="number" id="oamt" name="oamt" value="2"/>
+                    </div>
+                    <div>
+                        <button 
+                        type="submit" 
+                        class="rounded-lg btn btn-primary btn-block"                       
+                        >Add Opening</button>
+                    </div>
+                </div>
+            </form>
+            <div class="flex gap-3">
+			<button class="btn btn-error btn-block">Delete</button>
+			<button class="btn btn-block">Cancel</button>
+		</div>
+	</div>
+</div>
+
+
+<script>    
+    function SetWallId(){
+        var Tag = document.getElementById('tag')
+        var wallTag = document.getElementById('wall_tag')
+        wallTag.value = Tag.value
+
+    }
+   
+    UIkit.util.on('#js-modal-confirm', 'click', function (e) {
+        e.preventDefault();
+        e.target.blur();
+        UIkit.modal.confirm(` <form  
+                                hx-post="/opening"
+                                hx-target="#wall-openings"
+                                >
+                <div class="text-center text-xs items center">  
+                    <label class="text-sm" for="tag">Wall Id</label>
+                    <input class="input input-solid max-w-full" placeholder="window-10" type="text" id="wall_tag" name="wall_tag" value="${wallTag.value}" />
+                </div>
+                <div class="uk-child-width-expand@s uk-text-center" uk-grid>
+                    <div>
+                       
+                        <label class="text-sm" for="tag">Tag</label>
+                        <input class="input input-solid max-w-full" placeholder="window-10" type="text" id="otag" name="otag" value="window-15" />
+                    </div>
+                    <div>
+                        <label class="text-sm" for="tag">Unit</label>
+                        <select class="input input-solid max-w-full" placeholder="Select Unit" type="text" id="ounit" name="ounit">
+                            <option selected>m</option>
+                            <option>ft</option>
+                        </select>
+                    </div>
+                   
+                </div>
+                <div class="uk-child-width-expand@s uk-text-center" uk-grid>
+                    <div>
+                        <label class="text-sm" for="width">Width</label>
+                        <input class="input input-solid" placeholder="1.2" type="number" step="0.1" id="owidth" name="owidth" value="1.2"/>
+                    </div>
+                    <div>
+                        <label class="text-sm" for="width">Height</label>
+                        <input class="input input-solid" placeholder="1.2" type="number" step="0.1" id="oheight" name="oheight" value="1.2"/>
+                    </div>
+                </div>
+                <div class="uk-child-width-expand@s uk-text-center" uk-grid>
+                    <div>
+                          
+                        <label class="text-sm" for="width">Amount</label>
+                        <input class="input input-solid" placeholder="2" type="number" id="oamt" name="oamt" value="2"/>
+                    </div>
+                    <div>
+                        <button 
+                        type="submit" 
+                        class="rounded-lg btn btn-primary btn-block"                       
+                        >Add Opening</button>
+                    </div>
+                </div>
+            </form>`).then(function () {
+            console.log('Confirmed.', wallTag.value)
+        }, function () {
+            console.log('Rejected.', wallTag.value)
+        });
+    });
+</script>

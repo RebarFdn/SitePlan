@@ -5,8 +5,54 @@ from starlette_login.decorator import login_required
 from decoRouter import Router
 from modules.project import Project
 from modules.employee import Employee
+from models.human_resource_models import BaseEmployee
 from config import TEMPLATES
 from modules.utils import timestamp
+from time import sleep
+import asyncio
+
+
+
+def convert_empty_string(t_string:str=None):
+    if t_string == None:
+        pass
+    elif not t_string.strip():        
+        return None
+    else:
+        return t_string
+           
+                
+
+        
+
+async def datavet():
+    
+    #data = await Employee().get_name_index()
+    
+    #employee = Employee( ** dict(name='Jack Price', oc='Big Jack', sex='male', occupation='plumber') )
+    #for item in data:
+    worker = await Employee().get_by_name('Anuk Moncrieffe') 
+    e = BaseEmployee( ** worker )       
+        
+    #c = worker.get('address')
+        #c.get('email')
+    #for item in c:
+    #    c[item] = convert_empty_string(t_string= c.get(item))      
+    #
+    sleep(0.1)
+    #e.account.bank.branch = "OLD HARBOUR"
+    #worker['account'] = e.account.json()
+    
+    e.department = 'CONSTRUCTION'
+    e.role = 'STAFF'
+    #worker = worker | e.model_dump() 
+    #await Employee().update(data=worker)
+    print(e)
+    
+
+
+ 
+#asyncio.run(datavet())
 
 router = Router()
 

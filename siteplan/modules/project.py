@@ -362,6 +362,7 @@ class Project:
             return str(e)
         finally: del(r)
 
+   
     async def all_raw(self):
         try:
             r = await self.conn.get(_directive="_design/project-index/_view/all-raw") 
@@ -370,12 +371,13 @@ class Project:
             return str(e)
         finally: del(r)
 
+    
     async def nameIndex(self):
         def processIndex(p):
-            return  p.get('value')
+            return  { "_id": p.get('id'), "name": p.get('value').get('name')}
         try:
             r = await self.conn.get(_directive="_design/project-index/_view/name-view") 
-            return list(map( processIndex,  r.json().get('rows')))            
+            return list(map( processIndex,  r.get('rows')))            
         except Exception as e:
             return str(e)
         finally: del(r)

@@ -45,6 +45,7 @@ LOG_PATH = Path.joinpath(BASE_PATH, 'logs')
 SYSTEM_LOG_PATH = Path.joinpath(LOG_PATH, 'system.log')
 SERVER_LOG_PATH = Path.joinpath(LOG_PATH, 'server.log')
 APP_LOG_PATH = Path.joinpath(LOG_PATH, 'app.log')
+DATA_PATH = Path.joinpath(BASE_PATH, 'data')
 
 env = TEMPLATES.env
 env.filters['to_dollars'] = to_dollars

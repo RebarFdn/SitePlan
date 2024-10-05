@@ -1,4 +1,4 @@
-<nav class="uk-navbar-container" style="background-color: #1C2833 ;">
+<nav class="uk-navbar-container" style="background-color: #041a49 ;">
     <div class="uk-container">
         <div uk-navbar>
 
@@ -10,49 +10,22 @@
                       hx-get="/zen"
                       hx-trigger="every 1800s"
                       hx-target="#platform"
-                      > Site Planner </span>
+                      > Site Estimate </span>
                       <a href="#offcanvas-usage" uk-toggle>
                       <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company">
                         </a>
                     </div>
                 </div>
-                <div class="uk-navbar-center"></div>
+                <div class="uk-navbar-center">
+                    <form > 
+                        <div class="flex flex-row">
+                        <input class="uk-input" id="estimate-search" type="text" placeholder="Search" name="project"> <a href="#" hx-get="/estimate/HT21143 Horseshoe Townhomes" hx-target="#message"><span uk-icon="search"></span></a>
+                        </div>
+                    </form>
+                    <button class="btn btn-sm btn-primary" hx-get="/estimates" hx-target="#message">Estimates</button>
+                </div>
 
                 <ul class="uk-navbar-nav" style="color:aliceblue">
-                    <li ><a href="/dash"> <button 
-                        class="uk-button uk-button-secondary uk-border-rounded"
-                        
-                        >Dashboard</button></a></li>
-                    <li>
-                        <a href="#">Team</a>
-                        <div class="uk-navbar-dropdown uk-border-rounded">
-                            <ul class="uk-nav uk-navbar-dropdown-nav">
-                                <li><a href="#">Crews</a></li>
-                                <li><a href="#">Staff</a></li>
-                                <li><a 
-                                    href="#"
-                                    hx-get="/team"
-                                    hx-target="#dash-left-pane"
-                                    hx-trigger="click"
-                        
-                                    >Workers</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li><a 
-                        href="#"
-                        hx-get="/projects"
-                        hx-target="#dash-left-pane"
-                        hx-trigger="click"
-                        
-                        >Projects</a></li>
-                </ul>
-
-            </div>
-
-            <div class="uk-navbar-right">
-
-                <ul class="uk-navbar-nav">
                     <li >
                         <a href="#">Rates</a>                        
                         <div class="uk-navbar-dropdown uk-border-rounded">
@@ -71,11 +44,20 @@
                             </ul>
                         </div>
                     </li>
-                    <li><a href="#"
-                        hx-get="/suppliers_html_index"
-                        hx-target="#dash-content-pane"
-                        hx-trigger="click"   
-                        >Suppliers</a></li>
+                    <li >
+                        <a href="#new-estimate" uk-toggle> Create Estimate</a>  
+                    </li>
+                       
+                    
+                </ul>
+
+            </div>
+
+            <div class="uk-navbar-right">
+
+                <ul class="uk-navbar-nav">
+                   
+                   
                     <li>
                         <a href="#">Tools</a>
                         <div uk-dropdown>
@@ -112,3 +94,43 @@
         </div>
     </div>
 </nav>
+
+<!-- This is the modal -->
+<div id="new-estimate" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <h2 class="text-lg font-semibold text-center">Crate New Quantity Estimate</h2>
+        <form >
+        <div class="text-xs">
+            <input class="uk-input" type="text" name="title" placeholder="Title.">
+            <input class="uk-input" type="text" name="sub_title" placeholder="Sub Title.">
+            <div class="flex flex-row">
+                <div>
+                    <p>Project </p>
+                    <input class="uk-input" type="text" name="project" placeholder="Project.">
+                </div>
+                <div>
+                    <p>Select Project </p>
+                    <select class="uk-select" name="project" placeholder="Project">
+                        <option>select From Projects</option>
+                        {% for item in context.projects %}
+                        <option>{{item._id}} {{item.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+           
+
+            
+        </div> 
+        <p class="uk-text-right">
+            <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+            <button 
+                class="uk-button uk-button-primary uk-modal-close" 
+                type="button"
+                hx-post="/estimate"
+                hx-target="#message"
+            >Save</button>
+        </p>
+    </form>
+    </div>
+</div>

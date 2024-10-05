@@ -28,9 +28,11 @@ from routes.team_router import router as team_router
 from routes.base_router import router as base_router
 from routes.supplier_router import router as supplier_router 
 from routes.estimator_router import router as estimate_router
+from api.team_api import router as employee_api
+
 from modules.platformuser import user_list
 from modules.decorator import admin_only
-#from modules.aiAssistant import AiAssistant
+
 
 
 
@@ -163,6 +165,7 @@ routes.extend([route for route in team_router])
 routes.extend([route for route in base_router])
 routes.extend([route for route in supplier_router])
 routes.extend([route for route in estimate_router])
+routes.extend([route for route in employee_api])
 
 
 def startApp():

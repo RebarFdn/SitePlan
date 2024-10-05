@@ -502,7 +502,10 @@ async def delete_jobtask(request):
     task = [t for t in job.get('tasks') if t.get('_id') == idd[1] ][0]
     job['tasks'].remove(task)
     await Project().update(data=p)
-    return HTMLResponse(f"<div>{ task.get('title')} was Removed from Job {job.get('title')}</div>")
+    return HTMLResponse(f"""<div class="uk-alert-success" uk-alert>
+            <a href class="uk-alert-close" uk-close></a>
+            <p>{ task.get('title')} was Removed from Job {job.get('title')}.</p>
+        </div>""")
     
 
 

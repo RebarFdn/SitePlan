@@ -1,0 +1,94 @@
+<div class="uk-alert-success" uk-alert>
+    <a href class="uk-alert-close" uk-close></a>
+    <table class="uk-table uk-table-small">
+        <caption>Wall Estimate Result</caption>
+        <thead>
+            
+            <tr>
+                <th>Tag</th>
+                <th>Length</th>
+                <th>Height</th>
+                <th>Area</th>
+                <th>Cmu Units</th>
+               
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ wall.tag }}</td>
+                <td>{{ wall.length.value }} {{ wall.length.unit }}</td>
+                <td>{{ wall.height.value }} {{ wall.height.unit }}</td>
+                <td>{{ wall.area.value }} {{ wall.area.unit }}</td>
+                <td>{{ wall.blocks.value }} {{ wall.blocks.unit }}</td>
+               
+            </tr>
+        </tbody>
+    </table>
+    
+    <table class="uk-table uk-table-small">
+    <caption>Wall Finishes </caption>
+        <thead>           
+            <tr>
+                <th>Type</th>
+                <th>Area</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Rough Cast</td>
+                <td>{{ wall.rough_cast.value}} {{ wall.rough_cast.unit}}</td>                
+               
+            </tr>
+            <tr>
+                <td>Render</td>
+                <td>{{ wall.render.value}} {{ wall.render.unit }}</td>                
+               
+            </tr>
+        </tbody>
+    </table>
+    
+    <table class="uk-table uk-table-small">
+            <caption>Vertical and Horizontal Rebars Result</caption>
+            <thead>
+                <tr>
+                    
+                    <th>Type</th>
+                    <th>Placement</th>
+                    <th>Amount</th>
+                    <th>Cut Length</th>
+                    <th>Spacing</th>
+                    <th>Bars</th>
+                    <th>Weight</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><p class="text-xs">{{ wall.rebars.vertical.bars.rebars.type }}</p></td>
+                    <td>Vertical</td>
+                    <td>{{ wall.rebars.vertical.amt }}</td>
+                    <td><span> {{ wall.rebars.vertical.cut_length.value }} {{ wall.rebars.vertical.cut_length.unit }}</span>
+                       
+                    </td>
+                    <td>{{ wall.rebars.vertical.spacing }} {{ wall.rebars.vertical.unit }}</td>
+                    <td><p class="text-xs"> {{ wall.rebars.vertical.bars.rebars.value }} {{ wall.rebars.vertical.bars.rebars.unit }} </p></td>
+                    <td><p class="text-xs"> {{ wall.rebars.vertical.bars.weight.value }} {{ wall.rebars.vertical.bars.weight.unit }} </p></td>
+                    
+
+                </tr>
+                <tr>
+                    <td><p class="text-xs">{{ wall.rebars.horizontal.bars.rebars.type}}</p></td>
+                    <td>Horizontal</td>
+                    <td>{{ wall.rebars.horizontal.amt }}</td>
+                    <td>{{ wall.rebars.horizontal.cut_length.value }} {{ wall.rebars.horizontal.cut_length.unit }}</td>
+                    <td>{{ wall.rebars.horizontal.spacing }} {{ wall.rebars.horizontal.unit }}</td>
+                    <td><p class="text-xs"> {{ wall.rebars.horizontal.bars.rebars.value }} {{ wall.rebars.horizontal.bars.rebars.unit }} </p></td>
+                    <td><p class="text-xs"> {{ wall.rebars.horizontal.bars.weight.value }} {{ wall.rebars.horizontal.bars.weight.unit }} </p></td>
+                    
+
+                </tr>
+            </tbody>
+        </table>
+
+    
+    </div>

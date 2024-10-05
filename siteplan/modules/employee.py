@@ -298,9 +298,7 @@ class Employee:
                                             <option>Female</option>
                                             <option>Machine</option>
                                         </select>
-                                    </div>
-
-                                    
+                                    </div>                                    
 
                                     <div class="uk-width-1-4@s">
                                       <label class="uk-form-label">Date Of Birth</label>

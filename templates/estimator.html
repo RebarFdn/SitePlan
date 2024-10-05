@@ -1,7 +1,7 @@
-{% extends 'temp/main_template.html' %}
+{% extends 'temp/chart_template.html' %}
 
 {% block content %}
-<div class="container mt-5 h-screen bg-teal-100">
+<div class="container mt-1 mx-5 h-screen">
     <div class="flex flex-row">
         <div class="side flex flex-col p-2 m-2">
 
@@ -39,10 +39,10 @@
                     
                         <div class="uk-card uk-card-default uk-card-body">
                             <a 
-                            href="#"
+                            href="#b-component" 
+                            uk-toggle
                             hx-get="/wall"
-                            hx-target="#e-console"
-
+                            hx-target="#c-component"
                             >Wall</a>
                         </div>
                    
@@ -59,63 +59,14 @@
         <div class="mainc flex flex-col p-3 mt-2">
 
             <div id="e-content" class="bg-gray-200">
+                <p class="text-lg text-center">SitePlaner Estimating</p>
 
-                <ul uk-accordion="multiple: true">
-                    <li class="uk-open">
-                        <a class="uk-accordion-title" href>SitePlaner Estimating</a>
-                        <div class="uk-accordion-content">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                        </div>
-                    </li>
-                    <li>
-                        <a class="uk-accordion-title" href>New</a>
-                        <div class="uk-accordion-content">
-                            <form>
-                                <fieldset class="uk-fieldset">
-                            
-                                    <legend class="uk-legend">Legend</legend>
-                            
-                                    <div class="uk-margin">
-                                        <input class="uk-input" type="text" placeholder="Input" aria-label="Input">
-                                    </div>
-                            
-                                    <div class="uk-margin">
-                                        <select class="uk-select" aria-label="Select">
-                                            <option>Option 01</option>
-                                            <option>Option 02</option>
-                                        </select>
-                                    </div>
-                            
-                                    <div class="uk-margin">
-                                        <textarea class="uk-textarea" rows="5" placeholder="Textarea" aria-label="Textarea"></textarea>
-                                    </div>
-                            
-                                    <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-                                        <label><input class="uk-radio" type="radio" name="radio2" checked> A</label>
-                                        <label><input class="uk-radio" type="radio" name="radio2"> B</label>
-                                    </div>
-                            
-                                    <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-                                        <label><input class="uk-checkbox" type="checkbox" checked> A</label>
-                                        <label><input class="uk-checkbox" type="checkbox"> B</label>
-                                    </div>
-                            
-                                    <div class="uk-margin">
-                                        <input class="uk-range" type="range" value="2" min="0" max="10" step="0.1" aria-label="Range">
-                                    </div>
-                            
-                                </fieldset>
-                            </form>  </div>
-                    </li>
-                    <li>
-                        <a class="uk-accordion-title" href>Open</a>
-                        <div class="uk-accordion-content">
-                            <p>Boq</p>   </div>
-                    </li>
-                </ul>
-
-
-              
+               <ul>
+                <li>Current Estimates</li>
+                {% for item in context.estimates %}
+                <li>Title {{ item.title }} | Project {{ item.project }}</li>
+                {% endfor %}
+               </ul>
              
             </div>
         
@@ -126,6 +77,26 @@
    
 
 
+<!-- This is the modal -->
+<div id="b-component" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        
+
+        <div id="c-component"></div>
+
+        
+        <p class="uk-text-right">
+            <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+            <input class="uk-button uk-button-primary uk-modal-close" type="submit"
+            hx-post="/new_project"
+            hx-target="#dash-content-pane"
+            
+            >
+        </p>
+    
+   
+</div>
+</div>
 
 
 

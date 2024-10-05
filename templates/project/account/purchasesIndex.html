@@ -120,7 +120,7 @@
         </table>
     </div>
 </div>
-
+<p class="text-xs">{{ suppliers }}</p>
 
 
 <!-- This is the add invoicemodal -->
@@ -141,13 +141,21 @@
             <div class="uk-margin">
                 <label class="uk-form-label" for="form-stacked-text">Invoice No</label>
                 <div class="uk-form-controls">
-                    <input class="uk-input" id="form-stacked-text" type="number" placeholder="Invoice No." name="invoice_no">
+                    <input class="uk-input" id="form-stacked-text" type="text" placeholder="Invoice No." name="invoice_no">
+                    
                 </div>
             </div>
             <div class="uk-margin">
                 <label class="uk-form-label" for="form-stacked-text">Supplier</label>
                 <div class="uk-form-controls">
-                    <input class="uk-input" id="form-stacked-text" type="text" placeholder="Supplier's Name" name="supplier">
+                    
+                    <select class="uk-select" placeholder="Supplier's Name" name="supplier">
+                        <option>Select Supplier</option>
+                        {% for item in suppliers %}                        
+                        <option>{{ item.name }}</option>
+                        {% endfor %}
+                        
+                    </select>
                 </div>
             </div>
             <div class="uk-margin">
@@ -176,7 +184,7 @@
                 <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
                 <input class="uk-button uk-button-primary uk-modal-close" type="submit" value="Save Invoice"
                 hx-post="/new_invoice/{{project._id}}"
-                hx-target="#invoices"
+                hx-target="#message"
                 
                 >
             </p>
@@ -196,3 +204,5 @@
         </div> 
     </div>
 </div
+
+ 
