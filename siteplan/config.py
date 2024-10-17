@@ -8,6 +8,8 @@ from modules.utils import convert_timestamp, to_dollars
 
 
 # Directory Paths
+
+PARENT_PATH = Path(__file__).parent.parent.parent
 BASE_PATH = Path(__file__).parent.parent
 HOME_PATH = Path(__file__).parent
 STATIC_PATH = Path.joinpath(BASE_PATH, 'static')
@@ -16,6 +18,7 @@ DOCUMENT_PATH = Path.joinpath(STATIC_PATH, 'docs')
 IMAGES_PATH = Path.joinpath(STATIC_PATH, 'imgs')
 PROFILES_PATH = Path.joinpath(IMAGES_PATH, 'workers')
 
+DATA_PATH = Path.joinpath(PARENT_PATH, 'siteplanData')
 
 # File Paths
 ENV_PATH = Path.joinpath(BASE_PATH, '.env') 
@@ -45,7 +48,7 @@ LOG_PATH = Path.joinpath(BASE_PATH, 'logs')
 SYSTEM_LOG_PATH = Path.joinpath(LOG_PATH, 'system.log')
 SERVER_LOG_PATH = Path.joinpath(LOG_PATH, 'server.log')
 APP_LOG_PATH = Path.joinpath(LOG_PATH, 'app.log')
-DATA_PATH = Path.joinpath(BASE_PATH, 'data')
+
 
 env = TEMPLATES.env
 env.filters['to_dollars'] = to_dollars

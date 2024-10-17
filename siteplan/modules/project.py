@@ -9,7 +9,7 @@ import json
 from modules.utils import timestamp, filter_dates
 from database import Recouch, RedisCache
 from modules.employee import Employee
-from schemas.schema_api import project_schema as schema, validate
+#from schemas.schema_api import project_schema as schema, validate
 from config import DOCUMENT_PATH, IMAGES_PATH
 from config import SYSTEM_LOG_PATH as SYSTEM_LOG, APP_LOG_PATH as APP_LOG
 from logger import logger

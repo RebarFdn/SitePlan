@@ -2,11 +2,22 @@ from starlette.responses import HTMLResponse, RedirectResponse, JSONResponse, St
 from decoRouter import Router
 from modules.project import Project
 from modules.estimate import Estimate,  EstimateModel
-
 from modules.Estimate.walls import Wall
+from modules.Estimate.opening import Opening
+from modules.Estimate.column import RCColumn
+from modules.Estimate.elibrary import Library
+
+
 from modules.estimator.column import Column
+
 from modules.utils import timestamp, to_dollars
-from config import (TEMPLATES,LOG_PATH ,SYSTEM_LOG_PATH ,SERVER_LOG_PATH, APP_LOG_PATH )
+from config import (TEMPLATES,LOG_PATH ,SYSTEM_LOG_PATH ,SERVER_LOG_PATH, APP_LOG_PATH, DATA_PATH)
+
+
+from pathlib import Path
+from tinydb import TinyDB, Query
+
+db = TinyDB(Path.joinpath(DATA_PATH, "wall_openings.json"))
 
 
 
@@ -104,8 +115,9 @@ async def process_wall(request):
             rebars['h']['spacing'] = (form.get("hbar_spacing"))
             rebars['h']['unit'] = payload['unit']
         payload["rebars"] = rebars
-        print(form)    
+        payload['openings'] = Opening().get(wall_tag=payload.get('tag'))  
         wall = Wall(data=payload)
+        
        
        
         return TEMPLATES.TemplateResponse('/estimate/wallEstimateResult.html', {"request": request, "wall": wall }) 
@@ -123,22 +135,21 @@ async def process_wall(request):
 @router.post('/opening')
 async def add_opening(request):       
     payload = {}    
+    
     try:
         async with request.form() as form:  
             wall_tag = form.get('wall_tag')   
-            payload['walltag'] = wall_tag         
+            payload['wall_tag'] = wall_tag         
             payload['tag'] = form.get('otag')           
             payload['unit'] = form.get('ounit') 
             payload['height'] = (form.get('oheight'))
             payload['width'] = (form.get('owidth'))
             payload['amt'] = (form.get('oamt'))
-        print(payload)
-        return HTMLResponse(f"""
-                            <div class="uk-alert-success" uk-alert>
-                                <a href class="uk-alert-close" uk-close></a>
-                                <p>{payload}</p>
-                            </div>
-                            """)
+        opening = Opening( data=payload )
+        result = opening.save        
+        #alldocs = Opening().all
+        
+        return TEMPLATES.TemplateResponse('/estimate/wallOpenings.html', {"request": request, "openings": result}) 
     except Exception as e:
         return HTMLResponse(f"""
                             <div class="uk-alert-warning" uk-alert>
@@ -150,27 +161,70 @@ async def add_opening(request):
 
 @router.get('/column')
 async def get_column(request):
+    lib = Library()
+    rebar_types = lib.rebarnotes
+    
+    concrete_types = lib.concrete_types
+    concrete_types =  list(concrete_types.keys())
+    concrete_types.remove('legend')
+    
+
     try:
-        html = await Column().html_ui()
-        return HTMLResponse( html )
+        
+        return TEMPLATES.TemplateResponse('/estimate/columnDataEntry.html', {
+            'request': request,
+            'concrete_types': concrete_types,
+            'rebar_types': list(rebar_types.keys())
+            })
     except Exception as e:
         return HTMLResponse(f"""<p class="bg-red-400 text-red-800 text-2xl font-bold py-3 px-4"> An error occured! ---- {str(e)}</p> """)
 
-    finally:
-        del(html)
+   
 
 
 @router.post('/column')
 async def process_column(request):
        
-    payload = {}
+    payload = {
+        'rebars': {}
+    }
+    rebars = {
+        'main': {},
+        'stirup': {}
+    }
     try:
         async with request.form() as form:            
-            for key in form:
-                payload[key] = form.get(key) 
-        column = Column(data=payload)        
-        report = await column.html_report()       
-        return HTMLResponse(report)
+            payload['id'] = form.get('tag') 
+            payload['height'] = form.get('height') 
+            payload['width'] = form.get('width') 
+            payload['bredth'] = form.get('bredth') 
+            payload['amt'] = form.get('amount') 
+            payload['unit'] = form.get('unit') 
+            payload['ctype'] = form.get('concrete') 
+            rebars['main']['type'] = form.get('mb_type') 
+            rebars['main']['amt'] = form.get('mb_amount')
+            rebars['stirup']['type'] = form.get('st_type') 
+            rebars['stirup']['spacing'] = form.get('st_spacing') 
+            rebars['stirup']['span'] = form.get('st_span') 
+            rebars['stirup']['support_spacing'] = form.get('ovr_spacing') 
+        rebars['main']['unit'] = payload.get('unit') 
+        rebars['main']['length'] = payload.get('height') 
+        rebars['stirup']['unit'] = payload.get('unit')
+        rebars['stirup']["clm_width"] = payload.get('width')
+        rebars['stirup']["clm_bredth"] = payload.get('bredth')
+        rebars['stirup']["clm_height"] = payload.get('height')
+        if len(rebars['stirup']['span']) > 0:
+            rebars['stirup']['span'] = float(rebars['stirup']['span'])
+        else:
+            rebars['stirup']['span'] = None
+        if len(rebars['stirup']['support_spacing']) > 0:
+            rebars['stirup']['support_spacing'] = float(rebars['stirup']['support_spacing'])
+        else:
+            rebars['stirup']['support_spacing'] = None
+        payload['rebars'] = rebars
+        column = RCColumn(data=payload)        
+              
+        return TEMPLATES.TemplateResponse('/estimate/columnEstimateResult.html', {"request": request, "column": column.report})
     except Exception as e:
         return HTMLResponse(f"""<p class="bg-red-400 text-red-800 text-2xl font-bold py-3 px-4"> An error occured! ---- {str(e)}</p> """)
 
@@ -181,102 +235,5 @@ async def process_column(request):
 
 @router.get('/beam')
 async def get_beam(request):
-    return HTMLResponse(f"""<div class="text-xl font-semibold bg-gray-300 mb-1">Beam Estimator</div>
-                        <section class="bg-gray-2 rounded-xl">
-                        <ul class="uk-subnav uk-subnav-pill" uk-switcher>
-                            <li><a href="#">Data</a></li>
-                            <li><a href="#">Reinforcement</a></li>
-                            
-                        </ul>
-
-                        <div class="uk-switcher uk-margin">
-                            <div class="p-5 shadow-lg">
-                                <form 
-                                    class="space-y-4 uk-form-stacked" 
-                                   
-                                >
-                                    <div class="w-full">
-                                        <label class="sr-only uk-form-label" for="tag">Tag</label>
-                                        <input class="input input-solid max-w-full" placeholder="Beam Tag" type="text" id="tag" name="tag" />
-                                    </div>
-                                    <div class="w-full">
-                                        <label class="sr-only uk-form-label" for="type">Type</label>
-                                        <input class="input input-solid max-w-full" placeholder="Beam  Type" type="text" id="type" name="type" />
-                                    </div>
-
-
-                                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                                        <div>
-                                            <label class="sr-only" for="unit">Unit</label>
-                                            <input class="input input-solid" placeholder="Unit of measurement" type="text" id="unit" name="unit" />
-                                        </div>
-                                        <div>
-                                            <label class="sr-only" for="thickness">Bredth</label>
-                                            <input class="input input-solid" placeholder="Bredth of the Beam " type="number" step="0.1" id="bredth" name="bredth" />
-                                        </div>
-                                        <div>
-                                            <label class="sr-only" for="length">Length</label>
-                                            <input class="input input-solid" placeholder="Length of the Column" type="number" step="0.1" id="length" name="length" />
-                                        </div>
-
-                                        <div>
-                                            <label class="sr-only" for="depth">Depth>
-                                            <input class="input input-solid" placeholder="Depth of the Column" type="number" step="0.1" id="depth" name="depth" />
-                                       </div>
-                                    </div>
-
-                                    <div class="w-full">
-                                        <label class="sr-only" for="message">Message</label>
-
-                                        <textarea class="textarea textarea-solid max-w-full" placeholder="Message" rows="3" id="message" name="message"></textarea>
-                                    </div>
-
-                                    <div class="mt-4">
-                                        <button 
-                                        type="button" 
-                                        class="rounded-lg btn btn-primary btn-block"
-                                         hx-post="/column"
-                                        hx-target="#e-content"
-                                        >Send Enquiry</button>
-                                    </div>
-                                </form>
-                            </div>
-                            <div>
-                        
-                        <form class="uk-form-stacked">
-
-    <div class="uk-margin">
-        <label class="uk-form-label" for="form-stacked-text">Text</label>
-        <div class="uk-form-controls">
-            <input class="uk-input" id="form-stacked-text" type="text" placeholder="Some text...">
-        </div>
-    </div>
-
-    <div class="uk-margin">
-        <label class="uk-form-label" for="form-stacked-select">Select</label>
-        <div class="uk-form-controls">
-            <select class="uk-select" id="form-stacked-select">
-                <option>Option 01</option>
-                <option>Option 02</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="uk-margin">
-        <div class="uk-form-label">Radio</div>
-        <div class="uk-form-controls">
-            <label><input class="uk-radio" type="radio" name="radio1"> Option 01</label><br>
-            <label><input class="uk-radio" type="radio" name="radio1"> Option 02</label>
-        </div>
-    </div>
-
-</form>
-                        
-                        </div>
-                            
-                        </div>
-                            
-                        </section>
-                        
-                        """)
+    return TEMPLATES.TemplateResponse('/estimate/beamDataEntry.html', {'request': request})
 

@@ -48,7 +48,7 @@
     </table>
     
     <table class="uk-table uk-table-small">
-            <caption>Vertical and Horizontal Rebars Result</caption>
+            <caption>Vertical and Horizontal Rebars</caption>
             <thead>
                 <tr>
                     
@@ -89,6 +89,44 @@
                 </tr>
             </tbody>
         </table>
+        <table class="uk-table uk-table-divider uk-table-small">
+            <caption>Wall Openings</caption>
+            <thead>
 
+                <tr>
+                    <th>Tag</th>
+                    <th>Unit</th>
+                    <th>Width</th>
+                    <th>Height</th>
+                    <th>Amount</th>
+                    <th>Area</th>
+                    <th>Jamb</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in wall.openings %}
+                <tr>
+                    <td>{{ item.tag }} </td>
+                    <td>{{ item.unit }} </td>
+                    <td>{{ item.width }} </td>
+                    <td>{{ item.height }} </td>
+                    <td>{{ item.amt }} </td>
+                    <td>{{ item.area }} </td>
+                    <td>{{ wall.jamb }} {{ item.unit }} </td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td>Totals </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td>{{ wall.openings | length }}</td>
+                    <td>{{ wall.cut_out.value }} {{ wall.cut_out.unit }}  </td>
+                    <td>{{ wall.flat_jamb.value }} {{ wall.flat_jamb.unit }} </td>
+                </tr>
+            </tbody>
+        </table>
+        
     
     </div>
+   
