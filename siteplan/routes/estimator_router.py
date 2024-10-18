@@ -222,9 +222,17 @@ async def process_column(request):
         else:
             rebars['stirup']['support_spacing'] = None
         payload['rebars'] = rebars
-        column = RCColumn(data=payload)        
+        column = RCColumn(data=payload)    
+        concrete_specs = Library().concrete_types    
               
-        return TEMPLATES.TemplateResponse('/estimate/columnEstimateResult.html', {"request": request, "column": column.report})
+        return TEMPLATES.TemplateResponse('/estimate/columnEstimateResult.html', 
+                {
+                    "request": request, 
+                    "column": column.report, 
+                    'dataclass': column,
+                    'concrete_specs': concrete_specs.get(column.concrete_type)
+                    
+                })
     except Exception as e:
         return HTMLResponse(f"""<p class="bg-red-400 text-red-800 text-2xl font-bold py-3 px-4"> An error occured! ---- {str(e)}</p> """)
 

@@ -1,4 +1,285 @@
 <div class="uk-alert-primary" uk-alert>
     <a href class="uk-alert-close" uk-close></a>
-    <p>{{ column }}</p>
+    <div class="text-xs">
+   
+    <table class="uk-table uk-table-small">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Width</th>
+                <th>Bredth</th>
+                <th>Height</th>
+                <th>Amount</th>
+                <th>Unit</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{column.column.id }}</td>
+                <td>{{column.column.width }}</td>
+                <td>{{column.column.bredth }}</td>
+                <td>{{column.column.height }}</td>
+                <td>{{column.column.amt }}</td>
+                <td>{{column.column.unit }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <hr class="uk-divider">
+    <table class="uk-table uk-table-divider uk-table-small">
+            <caption>Reinforcements</caption>
+                <thead>
+                    <tr>
+                        <th>Class</th>
+                        <th>Bar Type</th>
+                        <th>Cut Length</th>
+                        <th>Bar Count</th>
+                        <th>Steel Quantity</th>
+                        <th>Steel Weight</th>
+                    </tr>
+                </thead>
+            <tr>
+                <th>Main Bars</th>
+                
+                <td>{{ column.rebars.main.rebars.type }}</td>
+                <td>{{ column.rebars.main.data.length }} {{ column.rebars.main.data.unit }} </td>
+                <td>{{ column.rebars.main.data.amt }} </td>
+
+                <td>{{ column.rebars.main.rebars.value }} {{ column.rebars.main.rebars.unit }}</td>
+                <td>{{ column.rebars.main.weight.value }} {{ column.rebars.main.weight.unit }}</td>
+               
+                
+            </tr>
+            <tr>
+                <th>Stirup Bars</th>
+                
+                <td>{{ column.rebars.stirups.rebars.type }}</td>
+                <td>{{ column.rebars.stirups.data.cut_length }} {{ column.rebars.stirups.data.unit }} </td>
+                <td>{{ column.rebars.stirups.data.amount}} </td>
+
+                <td>{{ column.rebars.stirups.rebars.value }} {{ column.rebars.stirups.rebars.unit }}</td>
+                <td>{{ column.rebars.stirups.weight.value }} {{ column.rebars.stirups.weight.unit }}</td>
+               
+                
+            </tr>
+
+        </table>
+        <hr class="uk-divider">
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div class="uk-overflow-auto">
+                <table class="uk-table uk-table-divider uk-table-small">
+                    <caption>Concrete</caption>
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Quantity</th>
+                            <th>Unit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Formwork</th>
+                            <td>{{ column.formwork.value}}</td>
+                            <td>{{ column.formwork.unit}}</td>
+                        </tr>
+                        <tr>
+                            <th>Concrete Type</th>
+                            <td>{{ dataclass.concrete_type}}</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>Dry Volume</th>
+                            <td>{{ column.concrete.dry_volume.value }}</td>
+                            <td>{{ column.concrete.dry_volume.unit }}</td>
+                        </tr>
+                        <tr>
+                            <th>Wet Volume</th>
+                            <td>{{ column.concrete.wet_volume.value }}</td>
+                            <td>{{ column.concrete.wet_volume.unit }}</td>
+                        </tr>
+                        <tr>
+                            <th>Cement</th>
+                            <td>{{ column.concrete.cement.value }}</td>
+                            <td>{{ column.concrete.cement.unit }}</td>
+                        </tr>
+                        <tr>
+                            <th>Cement Bag</th>
+                            <td>{{ column.concrete.cement.bag.value }}</td>
+                            <td>{{ column.concrete.cement.bag.unit }}</td>
+                        </tr>
+                        <tr>
+                            <th>Fine Aggregate</th>
+                            <td>{{ column.concrete.fine_agg.value }}</td>
+                            <td>{{ column.concrete.fine_agg.unit }}</td>
+                        </tr>
+                        <tr>
+                            <th>Course Aggregate</th>
+                            <td>{{ column.concrete.course_agg.value }}</td>
+                            <td>{{ column.concrete.course_agg.unit }}</td>
+                        </tr>
+                        <tr>
+                            <th>Water</th>
+                            <td>{{ column.concrete.water.value }}</td>
+                            <td>{{ column.concrete.water.unit }}</td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+            <div class="bg-blue-800 text-gray-200 m-5 p-2 rounded">
+                <p class="text-lg text-center">Specifications</p>
+               
+                <ul>
+                    <li>
+                        <div class="flex flex-col">
+                            
+                            <table class="uk-table uk-table-small">
+                                <caption>Main Bars</caption>
+                                <thead>
+                                    <tr>
+                                        <th>
+            
+                                        </th>
+                                        <th>Metric Values</th>
+                                        <th>Imperial Values</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>Size</th>
+                                        <td>{{ dataclass.mainbars.data.size}}</td>
+                                        <td>{{ dataclass.mainbars.data.insize}} inch</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Diameter</th>
+                                        <td>{{ dataclass.mainbars.data.diameter.metric.value}} {{ dataclass.mainbars.data.diameter.metric.unit}}</td>
+                                        <td>{{ dataclass.mainbars.data.diameter.imperial.value}} {{ dataclass.mainbars.data.diameter.imperial.unit}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Area</th>
+                                        <td>{{ dataclass.mainbars.data.area.metric.value}} {{ dataclass.mainbars.data.area.metric.unit}}</td>
+                                        <td>{{ dataclass.mainbars.data.area.imperial.value}} {{ dataclass.mainbars.data.area.imperial.unit}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Standard Length</th>
+                                        <td>{{ dataclass.mainbars.data.standard_length.metric.value}} {{ dataclass.mainbars.data.standard_length.metric.unit}}</td>
+                                        <td>{{ dataclass.mainbars.data.standard_length.imperial.value}} {{ dataclass.mainbars.data.standard_length.imperial.unit}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>weight</th>
+                                        <td>{{ dataclass.mainbars.data.weight.metric.value}} {{ dataclass.mainbars.data.weight.metric.unit}}</td>
+                                        <td>{{ dataclass.mainbars.data.weight.imperial.value}} {{ dataclass.mainbars.data.weight.imperial.unit}}</td>
+                                    </tr>
+                                </tbody>
+            
+                            </table>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="flex flex-col">
+                            
+                            <table class="uk-table uk-table-small">
+                                <caption>Stirups</caption>
+                                <thead>
+                                    <tr>
+                                        <th>
+            
+                                        </th>
+                                        <th>Metric Values</th>
+                                        <th>Imperial Values</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>Size</th>
+                                        <td>{{ dataclass.stirups.data.size}}</td>
+                                        <td>{{ dataclass.stirups.data.insize}} inch</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Diameter</th>
+                                        <td>{{ dataclass.stirups.data.diameter.metric.value}} {{ dataclass.stirups.data.diameter.metric.unit}}</td>
+                                        <td>{{ dataclass.stirups.data.diameter.imperial.value}} {{ dataclass.stirups.data.diameter.imperial.unit}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Area</th>
+                                        <td>{{ dataclass.stirups.data.area.metric.value}} {{ dataclass.stirups.data.area.metric.unit}}</td>
+                                        <td>{{ dataclass.stirups.data.area.imperial.value}} {{ dataclass.stirups.data.area.imperial.unit}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Standard Length</th>
+                                        <td>{{ dataclass.stirups.data.standard_length.metric.value}} {{ dataclass.stirups.data.standard_length.metric.unit}}</td>
+                                        <td>{{ dataclass.stirups.data.standard_length.imperial.value}} {{ dataclass.stirups.data.standard_length.imperial.unit}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>weight</th>
+                                        <td>{{ dataclass.stirups.data.weight.metric.value}} {{ dataclass.stirups.data.weight.metric.unit}}</td>
+                                        <td>{{ dataclass.stirups.data.weight.imperial.value}} {{ dataclass.stirups.data.weight.imperial.unit}}</td>
+                                    </tr>
+                                </tbody>
+            
+                            </table>
+                        </div>
+                       
+                    </li>
+                    <li>
+                        <div class="flex flex-col">
+                           
+                           
+                            <table class="uk-table uk-table-small">
+                                <caption class="text-center">Concrete</caption>
+                                <thead>
+                                    <tr>
+                                        <th>
+            
+                                        </th>
+                                        <th>Metric Values</th>
+                                        <th>Imperial Values</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>Type</th>
+                                        <td>{{ concrete_specs.type }}</td>
+                                        <td>{{ concrete_specs.mix_ratio }} <span class="sm-text">Mix Ratio</span>
+                                             </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Compresive Strength</th>
+                                        <td>{{ concrete_specs.cs.metric[0] }} {{ concrete_specs.cs.metric[1] }}</td>
+                                        <td>{{ concrete_specs.cs.imperial[0] }} {{ concrete_specs.cs.imperial[1] }}  </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Cement </th>
+                                        <td>{{ concrete_specs.material.cement[0] }} {{ concrete_specs.material.cement[1] }}</td>
+                                        <td> </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Fine Aggregate </th>
+                                        <td>{{ concrete_specs.material.fine_agg[0] }} {{ concrete_specs.material.fine_agg[1] }}</td>
+                                        <td> </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Course Aggregate </th>
+                                        <td>{{ concrete_specs.material.course_agg[0] }} {{ concrete_specs.material.course_agg[1] }}</td>
+                                        <td> </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Water </th>
+                                        <td></td>
+                                        <td> </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+        <hr class="uk-divider">
+
+    
+    <p class="text-xs text-gray-800">{{ column }}</p>
 </div>

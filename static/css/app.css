@@ -4170,6 +4170,21 @@ html:has(.modal-state:checked) {
   background-color: rgb(254 252 232 / var(--tw-bg-opacity));
 }
 
+.bg-blue-50 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(239 246 255 / var(--tw-bg-opacity));
+}
+
+.bg-blue-9 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(var(--blue-9) / var(--tw-bg-opacity));
+}
+
+.bg-blue-900 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(30 58 138 / var(--tw-bg-opacity));
+}
+
 .p-1 {
   padding: 0.25rem;
 }
@@ -4451,6 +4466,11 @@ html:has(.modal-state:checked) {
 .text-yellow-500 {
   --tw-text-opacity: 1;
   color: rgb(234 179 8 / var(--tw-text-opacity));
+}
+
+.text-gray-200 {
+  --tw-text-opacity: 1;
+  color: rgb(229 231 235 / var(--tw-text-opacity));
 }
 
 .opacity-0 {
