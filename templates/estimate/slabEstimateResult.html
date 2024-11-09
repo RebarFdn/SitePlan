@@ -1,0 +1,342 @@
+<div class="uk-alert-primary" uk-alert>
+    <a href class="uk-alert-close" uk-close></a>
+   
+    <div class="text-xs">
+   
+        <table class="uk-table uk-table-small">
+            <p class="text-base text-center">Slab</p>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Width</th>
+                    <th>Depth</th>
+                    <th>Length</th>
+                    <th>Amount</th>
+                    <th>Unit</th>
+                </tr>
+    
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{slab.slab.id }}</td>
+                    <td>{{slab.slab.width }}</td>
+                    <td>{{slab.slab.depth }}</td>
+                    <td>{{slab.slab.length }}</td>
+                    <td>{{slab.slab.amt }}</td>
+                    <td>{{slab.slab.unit }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <hr class="uk-divider">
+        <table class="uk-table uk-table-divider uk-table-small">
+                <p class="text-base text-center">Reinforcements</p>
+                    <thead>
+                        <tr>
+                            <th>Class</th>
+                            <th>Bar Type</th>
+                            <th>Cut Length</th>
+                            <th>Spacing</th>
+                            <th>Bar Count</th>
+                            <th>Steel Quantity</th>
+                            <th>Steel Weight</th>
+                        </tr>
+                    </thead>
+                <tr>
+                    <th>Main Bars</th>
+                    
+                    <td>{{ slab.rebars.main.rebars.type }}</td>
+                    <td>{{ slab.rebars.main.data.length }} {{ slab.rebars.main.data.unit }} </td>
+                    <td>{{ dataclass.mainbars.spacing }} </td>
+                    <td>{{ slab.rebars.main.data.amt }} </td>
+    
+                    <td>{{ slab.rebars.main.rebars.value }} {{ slab.rebars.main.rebars.unit }}</td>
+                    <td>{{ slab.rebars.main.weight.value }} {{ slab.rebars.main.weight.unit }}</td>
+                   
+                    
+                </tr>
+              
+                <tr>
+                    <th>Distribution Bars</th>
+                    
+                    <td>{{ slab.rebars.distribution.rebars.type }}</td>
+                    <td>{{ slab.rebars.distribution.data.length }} {{ slab.rebars.distribution.data.unit }} </td>
+                    <td>{{ dataclass.distribution.spacing }} </td>
+                    <td>{{ slab.rebars.distribution.data.amt}} </td>
+    
+                    <td>{{ slab.rebars.distribution.rebars.value }} {{ slab.rebars.distribution.rebars.unit }}</td>
+                    <td>{{ slab.rebars.distribution.weight.value }} {{ slab.rebars.distribution.weight.unit }}</td>
+                   
+                    
+                </tr>
+                <tr>
+                    <th> First Temperature Bars</th>
+                    
+                    <td>{{ slab.rebars.temp_bars1.rebars.type }}</td>
+                    <td>{{ slab.rebars.temp_bars1.data.length }} {{ slab.rebars.temp_bars1.data.unit }} </td>
+                    <td>{{ dataclass.temperature_bar_1.spacing }} </td>
+                    <td>{{ slab.rebars.temp_bars1.data.amt}} </td>
+    
+                    <td>{{ slab.rebars.temp_bars1.rebars.value }} {{ slab.rebars.temp_bars1.rebars.unit }}</td>
+                    <td>{{ slab.rebars.temp_bars1.weight.value }} {{ slab.rebars.temp_bars1.weight.unit }}</td>
+                   
+                    
+                </tr>
+                <tr>
+                    <th> Second Temperature Bars</th>
+                    
+                    <td>{{ slab.rebars.temp_bars2.rebars.type }}</td>
+                    <td>{{ slab.rebars.temp_bars2.data.length }} {{ slab.rebars.temp_bars2.data.unit }} </td>
+                    <td>{{ dataclass.temperature_bar_2.spacing }} </td>
+                    <td>{{ slab.rebars.temp_bars2.data.amt}} </td>
+    
+                    <td>{{ slab.rebars.temp_bars2.rebars.value }} {{ slab.rebars.temp_bars2.rebars.unit }}</td>
+                    <td>{{ slab.rebars.temp_bars2.weight.value }} {{ slab.rebars.temp_bars2.weight.unit }}</td>
+                   
+                    
+                </tr>
+                <tr>
+                    <th> First Anti Crack Bars</th>
+                    
+                    <td>{{ slab.rebars.ac_bars1.rebars.type }}</td>
+                    <td>{{ slab.rebars.ac_bars1.data.length }} {{ slab.rebars.ac_bars1.data.unit }} </td>
+                    <td>{{ dataclass.anticrack_bar_1.spacing }} </td>
+                    <td>{{ slab.rebars.ac_bars1.data.amt}} </td>
+    
+                    <td>{{ slab.rebars.ac_bars1.rebars.value }} {{ slab.rebars.ac_bars1.rebars.unit }}</td>
+                    <td>{{ slab.rebars.ac_bars1.weight.value }} {{ slab.rebars.ac_bars1.weight.unit }}</td>
+                   
+                    
+                </tr>
+                <tr>
+                    <th> Second Anti Crack Bars</th>
+                    
+                    <td>{{ slab.rebars.ac_bars2.rebars.type }}</td>
+                    <td>{{ slab.rebars.ac_bars2.data.length }} {{ slab.rebars.ac_bars2.data.unit }} </td>
+                    <td>{{ dataclass.anticrack_bar_2.spacing }} </td>
+                    <td>{{ slab.rebars.ac_bars2.data.amt}} </td>
+    
+                    <td>{{ slab.rebars.ac_bars2.rebars.value }} {{ slab.rebars.ac_bars2.rebars.unit }}</td>
+                    <td>{{ slab.rebars.ac_bars2.weight.value }} {{ slab.rebars.ac_bars2.weight.unit }}</td>
+                   
+                    
+                </tr>
+    
+        </table>
+            <hr class="uk-divider">
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div class="uk-overflow-auto">
+                    <table class="uk-table uk-table-divider uk-table-small">
+                        <p class="text-base text-center">Concrete</p>
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Quantity</th>
+                                <th>Unit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>Formwork</th>
+                                <td>{{ slab.formwork.value}}</td>
+                                <td>{{ slab.formwork.unit}}</td>
+                            </tr>
+                            <tr>
+                                <th>Concrete Type</th>
+                                <td>{{ dataclass.concrete_type}}</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Dry Volume</th>
+                                <td>{{ slab.concrete.dry_volume.value }}</td>
+                                <td>{{ slab.concrete.dry_volume.unit }}</td>
+                            </tr>
+                            <tr>
+                                <th>Wet Volume</th>
+                                <td>{{ slab.concrete.wet_volume.value }}</td>
+                                <td>{{ slab.concrete.wet_volume.unit }}</td>
+                            </tr>
+                            <tr>
+                                <th>Cement</th>
+                                <td>{{ slab.concrete.cement.value }}</td>
+                                <td>{{ slab.concrete.cement.unit }}</td>
+                            </tr>
+                            <tr>
+                                <th>Cement Bag</th>
+                                <td>{{ slab.concrete.cement.bag.value }}</td>
+                                <td>{{ slab.concrete.cement.bag.unit }}</td>
+                            </tr>
+                            <tr>
+                                <th>Fine Aggregate</th>
+                                <td>{{ slab.concrete.fine_agg.value }}</td>
+                                <td>{{ slab.concrete.fine_agg.unit }}</td>
+                            </tr>
+                            <tr>
+                                <th>Course Aggregate</th>
+                                <td>{{ slab.concrete.course_agg.value }}</td>
+                                <td>{{ slab.concrete.course_agg.unit }}</td>
+                            </tr>
+                            <tr>
+                                <th>Water</th>
+                                <td>{{ slab.concrete.water.value }}</td>
+                                <td>{{ slab.concrete.water.unit }}</td>
+                            </tr>
+                        </tbody>
+    
+                    </table>
+                </div>
+                <div class="bg-blue-800 text-gray-200 m-5 p-2 rounded">
+                    <p class="text-base text-center">Specifications</p>
+                   
+                    <ul>
+                        <li>
+                            <div class="flex flex-col">
+                                
+                                <table class="uk-table uk-table-small">
+                                    <p class="text-base text-center">Main Bars</p>
+                                    <thead>
+                                        <tr>
+                                            <th>
+                
+                                            </th>
+                                            <th>Metric Values</th>
+                                            <th>Imperial Values</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th>Size</th>
+                                            <td>{{ dataclass.mainbars.data.size}}</td>
+                                            <td>{{ dataclass.mainbars.data.insize}} inch</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Diameter</th>
+                                            <td>{{ dataclass.mainbars.data.diameter.metric.value}} {{ dataclass.mainbars.data.diameter.metric.unit}}</td>
+                                            <td>{{ dataclass.mainbars.data.diameter.imperial.value}} {{ dataclass.mainbars.data.diameter.imperial.unit}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Area</th>
+                                            <td>{{ dataclass.mainbars.data.area.metric.value}} {{ dataclass.mainbars.data.area.metric.unit}}</td>
+                                            <td>{{ dataclass.mainbars.data.area.imperial.value}} {{ dataclass.mainbars.data.area.imperial.unit}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Standard Length</th>
+                                            <td>{{ dataclass.mainbars.data.standard_length.metric.value}} {{ dataclass.mainbars.data.standard_length.metric.unit}}</td>
+                                            <td>{{ dataclass.mainbars.data.standard_length.imperial.value}} {{ dataclass.mainbars.data.standard_length.imperial.unit}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>weight</th>
+                                            <td>{{ dataclass.mainbars.data.weight.metric.value}} {{ dataclass.mainbars.data.weight.metric.unit}}</td>
+                                            <td>{{ dataclass.mainbars.data.weight.imperial.value}} {{ dataclass.mainbars.data.weight.imperial.unit}}</td>
+                                        </tr>
+                                    </tbody>
+                
+                                </table>
+                            </div>
+                        </li>
+                        
+                        <li>
+                            <div class="flex flex-col">
+                                
+                                <table class="uk-table uk-table-small">
+                                    <p class="text-base text-center">Distribution</p>
+                                    <thead>
+                                        <tr>
+                                            <th>
+                
+                                            </th>
+                                            <th>Metric Values</th>
+                                            <th>Imperial Values</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th>Size</th>
+                                            <td>{{ dataclass.distribution.data.size}}</td>
+                                            <td>{{ dataclass.distribution.data.insize}} inch</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Diameter</th>
+                                            <td>{{ dataclass.distribution.data.diameter.metric.value}} {{ dataclass.distribution.data.diameter.metric.unit}}</td>
+                                            <td>{{ dataclass.distribution.data.diameter.imperial.value}} {{ dataclass.distribution.data.diameter.imperial.unit}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Area</th>
+                                            <td>{{ dataclass.distribution.data.area.metric.value}} {{ dataclass.distribution.data.area.metric.unit}}</td>
+                                            <td>{{ dataclass.distribution.data.area.imperial.value}} {{ dataclass.distribution.data.area.imperial.unit}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Standard Length</th>
+                                            <td>{{ dataclass.distribution.data.standard_length.metric.value}} {{ dataclass.distribution.data.standard_length.metric.unit}}</td>
+                                            <td>{{ dataclass.distribution.data.standard_length.imperial.value}} {{ dataclass.distribution.data.standard_length.imperial.unit}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>weight</th>
+                                            <td>{{ dataclass.distribution.data.weight.metric.value}} {{ dataclass.distribution.data.weight.metric.unit}}</td>
+                                            <td>{{ dataclass.distribution.data.weight.imperial.value}} {{ dataclass.distribution.data.weight.imperial.unit}}</td>
+                                        </tr>
+                                    </tbody>
+                
+                                </table>
+                            </div>
+                           
+                        </li>
+                        <li>
+                            <div class="flex flex-col">
+                               
+                               
+                                <table class="uk-table uk-table-small">
+                                    <p class="text-base text-center">Concrete</p>
+                                    <thead>
+                                        <tr>
+                                            <th>
+                
+                                            </th>
+                                            <th>Metric Values</th>
+                                            <th>Imperial Values</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th>Type</th>
+                                            <td>{{ concrete_specs.type }}</td>
+                                            <td>{{ concrete_specs.mix_ratio }} <span class="sm-text">Mix Ratio</span>
+                                                 </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Compresive Strength</th>
+                                            <td>{{ concrete_specs.cs.metric[0] }} {{ concrete_specs.cs.metric[1] }}</td>
+                                            <td>{{ concrete_specs.cs.imperial[0] }} {{ concrete_specs.cs.imperial[1] }}  </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Cement </th>
+                                            <td>{{ concrete_specs.material.cement[0] }} {{ concrete_specs.material.cement[1] }}</td>
+                                            <td> </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Fine Aggregate </th>
+                                            <td>{{ concrete_specs.material.fine_agg[0] }} {{ concrete_specs.material.fine_agg[1] }}</td>
+                                            <td> </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Course Aggregate </th>
+                                            <td>{{ concrete_specs.material.course_agg[0] }} {{ concrete_specs.material.course_agg[1] }}</td>
+                                            <td> </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Water </th>
+                                            <td></td>
+                                            <td> </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                        </li>
+                    </ul>
+    
+                </div>
+            </div>
+    </div>
+   
+
+    </div>

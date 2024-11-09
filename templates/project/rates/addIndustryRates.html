@@ -1,0 +1,34 @@
+<table class="uk-table uk-table-divider">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Category</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for rate in filtered %}       
+        <tr>
+            <td>
+            
+            <input 
+                type="radio" 
+                class="radio radio-bordered-primary"
+                value="{{ rate.get('_id') }} " 
+                name="rate" 
+                hx-post="/add_industry_rate/{{ p.get('_id') }} " 
+                hx-target="#project_properties" 
+            
+                >
+            </td>
+            <td>{{  rate.get("_id")  }} </td>
+            <td> {{  rate.get("title")  }} </td>
+            <td> {{  rate.get("description")  }} </td>
+            <td> {{  rate.get("category")  }} </td>
+
+        </tr>
+    {% endfor %}                
+    </tbody>
+</table>

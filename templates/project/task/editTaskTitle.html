@@ -1,0 +1,8 @@
+<p class="text-xs">Updating  {{task.title}}... </p>
+<form
+    hx-post="/update_task_title/{{job_id}}_{{task._id}}"
+    hx-target="#task-title"
+>
+    <textarea  rows="2" cols="50" name="title">{{ task.title }}</textarea>
+    <button class="btn btn-secondary"  type="submit">Update Task Title</button>
+</form>

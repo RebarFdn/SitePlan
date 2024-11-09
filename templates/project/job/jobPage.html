@@ -1,8 +1,7 @@
-<div class="flex flex-col space-y-1.5">
-    <p class="text-sm">Current Paybill {{ current_paybill}}</p>
+<div class="flex flex-col space-y-1">    
     <div class="navbar">
         <div class="navbar-start">
-            <a class="navbar-item text-sm"><span>{{ p.name }} / {{ job.title }} </span></a>
+            <a class="navbar-item text-sm"><span>{{ job.title }} </span></a>
         </div>
         <div class="navbar-center">
             <ul class="uk-subnav " uk-tab>
@@ -19,6 +18,12 @@
                     hx-get="/project_job_tasks/{{ job._id }}"
                     hx-target="#project-job-properties"                    
                     >Tasks</a>
+                </li>
+                <li><a href="#" 
+                    class="navbar-item"
+                    hx-get="/project_job_bill/{{ job._id }}"
+                    hx-target="#project-job-properties"                    
+                    >Bill</a>
                 </li>
                 <li>
                     <a href="#"  

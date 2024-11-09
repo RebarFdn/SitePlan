@@ -17,9 +17,25 @@
         <div>
             <h3><strong>Job Id:</strong> {{job_id}}</h3>
             <h3><strong>Task Id:</strong> {{task._id}}</h3>
-            <h3><strong> Title:</strong> {{task.title}}</h3>
-            <h4><strong>Description:</strong> {{task.description}}</h4>
-            <div>
+
+            <h3 class="my-3"><strong> Title:</strong> 
+                <span id="task-title" class="pointer" >
+                    <span 
+                        uk-tooltip="title: Double Click to Edit."
+                        hx-get="/update_task_title/{{job_id}}_{{task._id}}"
+                        hx-target="#task-title"
+                        hx-trigger="dblclick">{{ task.title }}</span></span></h3>
+
+            <h4><strong>Description:</strong>
+                <span id="task-description" class="pointer" >
+                    <span 
+                        uk-tooltip="title: Double Click to Edit."
+                        hx-get="/update_task_description/{{job_id}}_{{task._id}}"
+                        hx-target="#task-description"
+                        hx-trigger="dblclick">{{ task.description }}</span></span>
+                
+            </h4>
+            <div class="my-3">
                 <p><strong> State:</strong></p>
                 {% if task.state.active %}
                         
@@ -205,4 +221,32 @@
 <p class="text-xs text-red font-fine">{{ display  }}</p>
 
 <p class="text-xs">{{ task }}</p>
+
 <p class="text-xs text-center">Location ptoject/jobTask.html</p>
+
+
+<!--script type="module">
+    import { createApp, ref } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+  
+    createApp({
+      delimiters: ['((', '))'],
+      setup() {
+        
+        const show = ref({
+            description: true
+        })
+
+        function showItem(stamp){
+            if( stamp == 'description'){
+                show.value.description = !show.value.description
+            }
+           
+        }
+        return {
+         
+          show,
+          showItem
+        }
+      }
+    }).mount('#job-taskapp')
+  </script-->

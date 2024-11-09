@@ -8,11 +8,13 @@ from starlette.responses import HTMLResponse, RedirectResponse, JSONResponse, St
 from starlette_login.decorator import login_required
 from starlette.background import BackgroundTask
 from decoRouter import Router
+from box import Box
 from modules.project import Project
 from modules.employee import Employee
 from modules.rate import Rate
 from modules.utils import today, timestamp, to_dollars, convert_timestamp
 from modules.unit_converter import convert_unit, convert_price_by_unit
+from printer.project_documents import printJobQueue, printMetricJobQueue, printImperialJobQueue
 from config import TEMPLATES
 
 
@@ -324,6 +326,32 @@ async def get_jjobs_tasks_report(request):
     )
 
 
+@router.get('/print_jobs_tasks_report/{id}/{flag}')
+async def print_jobs_report(request):
+    id = request.path_params.get('id')
+    flag = request.path_params.get('flag')
+    p = await Project().get(id=id)
+    data = {
+        'id': id,
+        'name': p.get('name'),
+        'jobs': p.get('tasks')
+    }
+    if flag == 'metric':
+        report = Box(printMetricJobQueue(project_jobs=data))
+    elif flag == 'imperial':
+        report = Box(printImperialJobQueue(project_jobs=data))
+    else:
+        report = Box(printJobQueue(project_jobs=data))
+    return HTMLResponse(f"""
+        <div class="uk-alert-primary" uk-alert>
+            <a href class="uk-alert-close" uk-close></a>
+                        <a href="{report.url}" target="blank">Open Document</a>
+            <p> {report.file}</p>
+        </div>
+    """)
+
+
+
 
 @router.get('/project_workers/{id}/{filter}')
 async def get_project_workers(request):
@@ -396,6 +424,33 @@ async def get_project_rates_filtered(request):
         })
 
 
+@router.get('/add_industry_rates/{filter}')
+async def add_industry_rates(request):
+    store_room = request.app.state.STORE_ROOM
+    filter = request.path_params.get('filter').split('_')
+
+    rates = await Rate().all_rates()
+    categories = {rate.get('category') for rate in rates }
+    rate_categories = Rate().categories
+    if filter[1]:
+        store_room['filter'] = filter[1]
+        if filter[1] == 'all' or filter[1] == 'None':            
+            filtered = rates
+        else:
+            filtered = [rate for rate in rates if rate.get("category") == filter[1]]
+    return TEMPLATES.TemplateResponse('/project/rates/addIndustryRates.html', {
+        "p": {"_id": filter[0]},
+        "request": request,
+        "filter": filter[1],
+        "industry_rates": rates,
+        "categories": categories,
+        "filtered": filtered,
+        "store_room":  store_room,
+        "rate_categories": list(rate_categories.keys())
+
+    }
+                                      )
+
 
 @router.post('/add_project_rate/{rate_id}')
 @login_required
@@ -444,38 +499,90 @@ async def add_project_rate(request):
 @router.post('/add_worker_to_project')
 @login_required
 async def add_worker_to_project(request):
+    """Add Worker to The Projects Employees List
+
+        Requires a concatenated sting with the project id 
+        and the employee's id supplied by the request form.
+        Example Request Form:
+         String: 'PID2987_EID3023         
+    
+    """
     async with request.form() as form:
-        data = form.get('employee')
+        data = form.get('employee') 
     idd = data.split('-')
     p = await Project().get(id=idd[0])
+    workers = [worker.get('key') for worker in p.get('workers')]
     employees = await Employee().all_workers()
     employee = [e for e in employees.get('rows') if e.get('id') == idd[1]][0]
-    employee['id'] = data
-    p['workers'].append(employee)
-    e = await Employee().get_worker(id=idd[1])
-    if idd[0] in e.get('jobs'):
-        pass
+    if employee.get('id') in workers:
+        p['activity_log'].append(
+                    {
+                        "id": timestamp(),
+                        "title": "Add Worker to Project Failure",
+                        "description": f"""Employee {employee.get('value').get('name')} is already a member of {p.get("name")}'s work Team.  User {request.user.username}"""
+                    }
+                )
     else:
-        e['jobs'].append(idd[0])
-        await Employee().update(data=e)
-    p['activity_log'].append(
+        employee['id'] = data
+        p['workers'].append(employee)
+        e = await Employee().get_worker(id=idd[1])
+        if idd[0] in e.get('jobs'):
+            pass
+        else:
+            e['jobs'].append(idd[0])
+            await Employee().update(data=e)
+        p['activity_log'].append(
                     {
                         "id": timestamp(),
                         "title": "Add Worker to Project",
                         "description": f"""Employee {employee.get('value').get('name')} was added to Project by {request.user.username} """
                     }
-
                 )
-    await Project().update(p)
-    
+    await Project().update(p)    
     return RedirectResponse(url=f"""/project_workers/{p.get('_id')}/all""", status_code=302)
 
+
+
+@router.get('/remove_worker_from_project/{id}')
+@login_required
+async def remove_worker_from_project(request):
+    """Removes a Worker from The Projects Employees List
+        and deletes refference to the project in the employee's Jobs list.
+
+        Request Parameter is a concatenated sting with the project id 
+        and the employee's id.
+        Example Request:
+         String: '/remove_worker_from_project/PID2987_EID3023         
+    
+    """
+    idd = request.path_params.get('id')
+   
+    idd = idd.split('-')
+    print(idd)
+    p = await Project().get(id=idd[0])
+    for worker in p.get('workers'):
+        if worker.get('key') == idd[1]:
+            p['workers'].remove(worker)
+    employee = await Employee().get_worker(id=idd[1])
+
+    for job in employee.get('jobs'):
+        if job == idd[0]:
+            employee['jobs'].remove(job)
+    p['activity_log'].append(
+                    {
+                        "id": timestamp(),
+                        "title": "Remove Worker from Project",
+                        "description": f"""Employee {employee.get('name')} was removed from Project {idd[0]} by {request.user.username} """
+                    }
+                )
+    await Employee().update(data=employee)
+    await Project().update(data=p)    
+    return RedirectResponse(url=f"""/project_workers/{p.get('_id')}/all""", status_code=302)
 
 
 @router.post('/update_project_standard/{id}')
 @login_required
 async def update_project_standard(request):
-
     id = request.path_params.get('id')    
     p = await Project().get(id=id)
     try:
@@ -483,8 +590,7 @@ async def update_project_standard(request):
             standard = form.get('standard')
         if standard == 'on':
             p['standard'] = "metric"
-            changed = "Metric"
-            
+            changed = "Metric"            
         else:
             p['standard'] = "imperial"
             changed = "Imperial"
@@ -494,15 +600,13 @@ async def update_project_standard(request):
                         "title": "Change Project Standard",
                         "description": f"""Project Standard was changed to {changed} by {request.user.username} """
                     }
-
                 )
         await Project().update(data=p)
         return HTMLResponse(f"<p>{ changed.capitalize() }</p>")
     except:
         pass
     finally:
-        del(p)
-        
+        del(p)        
 
 
 

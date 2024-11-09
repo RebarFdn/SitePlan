@@ -1,13 +1,129 @@
 #modeler.py
 import json
+import typing
 from starlette.responses import HTMLResponse, RedirectResponse, JSONResponse, StreamingResponse
-
 from database import Recouch
+from functools import lru_cache
+
 try:
     from modules.utils import timestamp
+    from modules.utils import GenerateId  
 except Exception as e:
     from utils import timestamp
+    from utils import GenerateId  
 
+
+databases = {
+            "local":"site-workers", 
+            "local_partitioned": False,
+            "slave":"site-workers", 
+            "slave_partitioned": False
+            
+            }
+
+
+def local_db(db_name:str):
+    """Connection to a local non partitioned couch database.
+
+    Args:
+        db_name (str): _description_
+
+    Returns:
+        _type_: _coroutine_
+    """    
+    conn = Recouch(local_db=db_name) 
+    return conn      
+
+db_connection = local_db(db_name=databases.get('local'))   
+
+
+@lru_cache(maxsize=360)
+async def all_employees(conn:typing.Coroutine=db_connection)->dict:   
+    """_summary_
+
+    Args:
+        conn (typing.Coroutine, optional): _description_. Defaults to db_connection.
+
+    Returns:
+        dict: _description_
+    """
+    try:
+        return await conn.get(_directive="_all_docs") 
+    except Exception as e:
+        return {"error": str(e)}   
+
+
+@lru_cache
+async def all_workers(conn:typing.Coroutine=db_connection)->list:
+    """_summary_
+
+    Args:
+        conn (typing.Coroutine, optional): _description_. Defaults to db_connection.
+
+    Returns:
+        list: _description_
+    """
+    data = await conn.get(_directive="_design/workers/_view/name-index") 
+    try:
+        return data.get('rows')
+    except Exception as e:
+        return {"error": str(e)}
+    finally: del data
+
+
+async def get_worker( id:str=None, conn:typing.Coroutine=db_connection )->dict: 
+    """Get a single Employee record by quering the database with employee's _id
+    Args:
+        id (str, optional): The employee's _id . Defaults to None.
+        conn (typing.Coroutine, optional): database connection object. Defaults to db_connection.
+    Returns:
+        dict: key value store of employee's record.
+    """               
+    return await conn.get(_directive=id) 
+
+
+async def get_worker_name_index()->list:    
+    return [{"name": item.get('value').get('name'), "id": item.get('id')} for item in  await all_workers()]   
+
+        
+async def get_worker_by_name( name:str=None, conn:typing.Coroutine=db_connection ) -> dict:
+    index = await get_worker_name_index()
+    id = [item.get('id') for item in index if item.get('name') == name]
+    try:
+        if len(id) > 0:
+            id=id[0]
+        return await get_worker(id=id)
+    except Exception as e:
+        return {"error": str(e)}
+    finally:
+        del index
+        del(id)
+        
+        
+def generate_id(name:str=None)->str:
+        ''' Generates a unique Human readable id, also updates the worker data'''              
+        gen = GenerateId()
+        fln = name.split(' ') # first, last name
+        try:           
+            return gen.name_id(ln=fln[0], fn=fln[1]) 
+        except:
+            return gen.name_id('C', 'W')
+        finally:           
+            del(gen)
+            del(fln)
+           
+# CRUD Functions
+
+async def save(data:dict=None, conn:typing.Coroutine=db_connection ):        
+        try:
+            data['imgurl'] = f"static/imgs/workers/{data.get('_id')}.png" 
+            await conn.post( json=data)            
+            return data
+        except Exception as e:
+            return {"error": str(e)}
+       
+
+       
 class Employee:
     instances = 0
     _id:str = None   
@@ -27,7 +143,7 @@ class Employee:
 
     def __init__(self, data:dict=None) -> None:
         Employee.instances += 1
-        self.conn = Recouch(local_db=self.meta_data.get('database').get('name'))
+        self.conn = Recouch(local_db=self.meta_data.get('database').get('name')) 
         self.slave = Recouch(local_db=self.meta_data.get('database').get('slave'))
         try:
             if not data:
@@ -49,6 +165,7 @@ class Employee:
             else:
                 self.generate_id()
 
+    
     async def all(self):
         try:
             return await self.conn.get(_directive="_all_docs") 

@@ -81,27 +81,42 @@ class EmployeeEvent(BaseModel):
     terminated: date | None = None
 
 
+class EmployeeStats(BaseModel):
+    sex: str | None = None
+    dob: date | None = None
+    height: str | None = None
+
+
+class Identity(BaseModel):
+    identity: str | None = None
+    id_type: str | None = None
+    trn: str | None = None
+
+class Occupation(BaseModel):
+    occupation: str | None = None
+    rating: float | None = None  
+
+class JobTasks(BaseModel):
+    jobs: List[ str ]
+    tasks: List[ str ]
+    
+
+
 class BaseEmployee(BaseModel):
-    employee_id: UUID = uuid4()
+    employee_id: UUID = uuid4() 
     _id:str | None = None
     name: str
     oc: str | None = None
-    sex: str | None = None
-    dob: date | None = None
-    identity: str | None = None
-    id_type: str | None = None
-    occupation: str | None = None
-    added: date | None = None
-    rating: float | None = None
-    height: str | None = None
-    imgurl: str | None = None
-    trn: str | None = None
+    identity: Identity | None = None
+    stats: EmployeeStats | None = None
+    occupation: Occupation | None = None
+    added: date | None = None      
+    imgurl: str | None = None    
     address: Address | None = None
     contact: Contact | None = None
     account: Account | None = None
     nok: NextOfKin | None = None
-    tasks: List[ str ]
-    jobs: List[ str ]
+    jobtask: JobTasks 
     state: EmployeeState | None = None
     event: EmployeeEvent | None = None
     department: Department | None = None

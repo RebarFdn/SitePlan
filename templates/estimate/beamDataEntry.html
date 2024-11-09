@@ -1,64 +1,160 @@
-<div class="text-xl font-semibold bg-gray-300 mb-1">Beam Estimator</div>
-                        <section class="bg-gray-2 rounded-xl">
-                            <div class="p-2 shadow-lg">
-                                <form 
-                                    class="space-y-4" 
+<div class="text-xl font-semibold bg-gray-300 mb-1">Concrete Beam Estimator</div>
+<form>
+<ul class="uk-subnav uk-subnav-pill" uk-switcher>
+    <li><a href="#">Beam</a></li>
+    <li><a href="#">Reinforcements</a></li>
+   
+</ul>
+
+<div class="uk-switcher uk-margin">
+    <div>
+    <section>
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div class="w-full">
+                <label class="text-xs font-semibold" for="tag">Tag</label>
+                <input class="input input-solid max-w-full" placeholder="Column Tag" type="text" id="tag" name="tag" value="DC10"/>
+            </div>
+            <div class="w-full">
+                <label class="text-xs font-semibold" for="type">Beam Type</label>
+                <select class="input input-solid max-w-full" placeholder="Beam Type" type="text" id="beam-type" name="beam_type">
+                    <option>suspended</option>
+                    <option>belt course</option>                   
+                </select>
+            </div>
+        </div>
+        
+        
+        <div class="w-full">
+            <label class="text-xs font-semibold" for="type">Concrete Grade</label>
+            <select class="input input-solid max-w-full" placeholder="Concrete Type" type="text" id="tconcrete" name="concrete">
+                {% for item in concrete_types %}
+                <option>{{ item }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div>
+                <label class="text-xs font-semibold" for="unit">Unit</label>
+                <select class="input input-solid" placeholder="Unit of measurement" type="text" id="unit" name="unit">
+                    <option>m</option>
+                    <option>ft</option>
+                </select>
+            </div>
+            <div>
+                <label class="text-xs font-semibold" for="depth">Depth</label>
+                <input class="input input-solid" placeholder="Depth of the Beam" type="number" step="0.1" id="depth" name="depth" value="0.4"/>
+            </div>
+            <div>
+                <label class="text-xs font-semibold" for="width">Width</label>
+                <input class="input input-solid" placeholder="Width of the Column" type="number" step="0.1" id="width" name="width" value="0.15"/>
+            </div>
+
+            <div>
+                <label class="text-xs font-semibold" for="length">Length</label>
+                <input class="input input-solid" placeholder="Length of the Beam" type="number" step="0.1" id="length" name="length" value="4.15"/>
+           </div>
+            <div>
+                <label class="text-xs font-semibold" for="amount">Amount</label>
+                <input class="input input-solid" placeholder="Amount" type="number" step="0.1" id="amount" name="amount" value="1"/>
+           </div>
+        </div>
+
+        <div class="w-full">
+            <label class="text-xs font-semibold" for="notes">Notes</label>
+
+            <textarea class="textarea textarea-solid max-w-full" placeholder="Notes" rows="3" id="notes" name="notes"></textarea>
+        </div>
+
+        
+    </section>
+    </div>
+    <div>
+        <p class="text-lg font-semibold">Beam Reinforcements</p>
+        <section>
+           
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div class="w-full">
+                    <label class="text-xs font-semibold" for="type">Main Bar Type</label>
+                   
+                    <select class="input input-solid max-w-full" placeholder="Main Bar Type" type="text" id="mbtype" name="mb_type">
+                        {% for item in rebar_types %}
+                        <option>{{ item }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label class="text-xs font-semibold" for="amount">Amount</label>
+                    <input class="input input-solid" placeholder="Main Bar Amount" type="number" step="0.1" id="mbamount" name="mb_amount" value="4"/>
+                </div>
+            </div>
+            <a class="text-xs my-2"  href>Add Extra Bars</a>
+            <div uk-dropdown="mode: click">
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div>
+                    <label class="text-xs font-semibold" for="xbar">Extra Bar Type</label>
+                   
+                    <select class="input input-solid max-w-full" placeholder="Extra Bar Type" type="text" id="xbtype" name="xb_type">
+                        {% for item in rebar_types %}
+                        <option>{{ item }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            <div>
+                <label class="text-xs font-semibold" for="amount">Extra Bar Amount</label>
+                    <input class="input input-solid" placeholder="Extra Bar Amount" type="number" step="0.1" id="xbamount" name="xb_amount"/>
+           
+            </div>
+            </div>
+            </div>
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div class="w-full">
+                <label class="text-xs font-semibold" for="type">Stirrup Type</label>
+                    <select class="input input-solid max-w-full" placeholder="Stirrup Bar Type" type="text" id="sttype" name="st_type">
+                        <option>m6</option>
+                        <option>m10</option>
+                        <option>m12</option>
+                        <option>m16</option>
+                    </select>
+            </div>
+            <div>
+                <label class="text-xs font-semibold" for="spacing">Spacing</label>
+                <input class="input input-solid" placeholder="Stirrup spacing" type="number" step="0.1" id="stspacing" name="st_spacing" value="0.3"/>
+            </div>
+        </div>
+        <a class="text-xs"  href>Add Over Support</a>
+            <div uk-dropdown="mode: click">
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div>
+                    <label class="text-xs font-semibold" for="spacing">Span</label>
+                    <input class="input input-solid" placeholder="Over support Span" type="number" step="0.1" id="stspan" name="st_span" />
+            </div>
+            <div>
+                <label class="text-xs font-semibold" for="spacing">Over Support Spacing</label>
+                <input class="input input-solid" placeholder="Stirrup spacing" type="number" step="0.1" id="ovrspacing" name="ovr_spacing" />
+        </div>
+            </div>
+            </div>
+
+
+
+           </div>
+           
+
+        </section>
+
+    </div>
+    
+</div>
+<div class="mt-4">
+    <button 
+    type="button" 
+    class="rounded-lg btn btn-primary btn-block"
+    hx-post="/beam"
+    hx-target="#e-content"
+    >Estimate Beam</button>
+</div>
                                    
-                                >
-                                    <div class="w-full">
-                                        <label class="text-xs font-semibold" for="tag">Tag</label>
-                                        <input class="input input-solid max-w-full" placeholder="Beam Tag" type="text" id="tag" name="tag" />
-                                    </div>
-                                     <div class="w-full">
-                                        <label class="text-xs font-semibold" for="grid">Grid Label</label>
-                                        <input class="input input-solid max-w-full" placeholder="A1" type="text" id="grid" name="grid" />
-                                    </div>
-                                    
-                                    <div class="w-full">
-                                        <label class="text-xs font-semibold" for="type">Type</label>
-                                        <input class="input input-solid max-w-full" placeholder="Concrete Type" type="text" id="tconcrete" name="concrete" />
-                                    </div>
-
-
-                                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                                        <div>
-                                            <label class="text-xs font-semibold" for="unit">Unit</label>
-                                            <input class="input input-solid" placeholder="Unit of measurement" type="text" id="unit" name="unit" />
-                                        </div>
-                                        <div></div>
-                                            <label class="text-xs font-semibold" for="width">Width</label>
-                                            <input class="input input-solid" placeholder="Width of the Beam" type="number" step="0.1" id="width" name="width" />
-                                        </div>
-                                        <div>
-                                            <label class="text-xs font-semibold" for="depth">Depth</label>
-                                            <input class="input input-solid" placeholder="Depth of the Beam" type="number" step="0.1" id="depth" name="depth" />
-                                        </div>
-                                        
-
-                                        <div>
-                                            <label class="text-xs font-semibold" for="length">Length</label>
-                                            <input class="input input-solid" placeholder="Length of the Beam" type="number" step="0.1" id="length" name="length" />
-                                       </div>
-                                        <div>
-                                            <label class="text-xs font-semibold" for="amount">Amount</label>
-                                            <input class="input input-solid" placeholder="Amount" type="number" step="0.1" id="amount" name="amount" />
-                                       </div>
-                                    </div>
-
-                                    <div class="w-full">
-                                        <label class="text-xs font-semibold" for="notes">Notes</label>
-
-                                        <textarea class="textarea textarea-solid max-w-full" placeholder="Notes" rows="3" id="notes" name="notes"></textarea>
-                                    </div>
-
-                                    <div class="mt-4">
-                                        <button 
-                                        type="button" 
-                                        class="rounded-lg btn btn-primary btn-block"
-                                        hx-post="/beam"
-                                        hx-target="#e-content"
-                                        >Send Enquiry</button>
-                                    </div>
-                                </form>
-                            </div>
-                            </section>
+</form>
+                            

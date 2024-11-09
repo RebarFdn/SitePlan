@@ -134,9 +134,24 @@ async def new_worker(request):
         del(payload)
         
 
+@router.get('/team_index')
+async def team_index(request): 
+    return StreamingResponse(Employee().team_index_generator(), media_type="text/html")
+
+
 @router.get('/team')
 async def team(request): 
-    return StreamingResponse(Employee().team_index_generator(), media_type="text/html")
+    workers:dict = await Employee().all_workers()
+    workers:list = workers.get('rows')
+    try:
+        return TEMPLATES.TemplateResponse('/employee/employeesIndex.html', {
+            "request": request,
+            "workers": workers
+            })
+    except:
+        pass
+    finally:
+        del workers
 
 
 @router.get('/team/{id}')

@@ -1,0 +1,133 @@
+<div class="text-xl font-semibold bg-gray-300 mb-1">Concrete Foundation Estimator</div>
+<form>
+<ul class="uk-subnav uk-subnav-pill" uk-switcher>
+    <li><a href="#">Footing</a></li>
+    <li><a href="#">Reinforcements</a></li>
+   
+</ul>
+
+<div class="uk-switcher uk-margin">
+    <div>
+    <section>
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div class="w-full">
+                <label class="text-xs font-semibold" for="tag">Tag</label>
+                <input class="input input-solid max-w-full" placeholder="Column Tag" type="text" id="tag" name="tag" value="FS450"/>
+            </div>
+            <div class="w-full">
+                <label class="text-xs font-semibold" for="type">Footing Type</label>
+                <select class="input input-solid max-w-full" placeholder="Footing Type" type="text" id="footing-type" name="footing_type">
+                    <option>strip</option>
+                    <option>pad</option>                   
+                </select>
+            </div>
+        </div>
+        
+        
+        <div class="w-full">
+            <label class="text-xs font-semibold" for="type">Concrete Grade</label>
+            <select class="input input-solid max-w-full" placeholder="Concrete Type" type="text" id="tconcrete" name="concrete">
+                {% for item in concrete_types %}
+                <option>{{ item }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div>
+                <label class="text-xs font-semibold" for="unit">Unit</label>
+                <select class="input input-solid" placeholder="Unit of measurement" type="text" id="unit" name="unit">
+                    <option>m</option>
+                    <option>ft</option>
+                </select>
+            </div>
+            <div>
+                <label class="text-xs font-semibold" for="width">Width</label>
+                <input class="input input-solid" placeholder="Width of the Excavation" type="number" step="0.1" id="width" name="width" value="0.45"/>
+            </div>
+
+            <div>
+                <label class="text-xs font-semibold" for="length">Length</label>
+                <input class="input input-solid" placeholder="Length of the Excavation" type="number" step="0.1" id="length" name="length" value="24.15"/>
+           </div>
+            <div>
+                <label class="text-xs font-semibold" for="depth">Depth</label>
+                <input class="input input-solid" placeholder="Depth of the Footing" type="number" step="0.1" id="depth" name="depth" value="0.3"/>
+            </div>
+
+            <div>
+                <label class="text-xs font-semibold" for="xdepth">Excavation Depth</label>
+                <input class="input input-solid" placeholder="Depth of the Excavation" type="number" step="0.1" id="exc_depth" name="exc_depth" value="1.4"/>
+            </div>
+            
+            
+            
+        </div>
+
+        <div class="w-full">
+            <label class="text-xs font-semibold" for="notes">Notes</label>
+
+            <textarea class="textarea textarea-solid max-w-full" placeholder="Notes" rows="3" id="notes" name="notes"></textarea>
+        </div>
+
+        
+    </section>
+    </div>
+    <div>
+        <p class="text-lg font-semibold">Foundation Reinforcements</p>
+        <section>
+           
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div class="w-full">
+                    <label class="text-xs font-semibold" for="type">Main Bar Type</label>
+                   
+                    <select class="input input-solid max-w-full" placeholder="Main Bar Type" type="text" id="mbtype" name="mb_type">
+                        {% for item in rebar_types %}
+                        <option>{{ item }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label class="text-xs font-semibold" for="amount">Amount</label>
+                    <input class="input input-solid" placeholder="Main Bar Amount" type="number" step="0.1" id="mbamount" name="mb_amount" value="3"/>
+                </div>
+            </div>
+           
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div class="w-full">
+                <label class="text-xs font-semibold" for="type">link Type</label>
+                    <select class="input input-solid max-w-full" placeholder="Link Bar Type" type="text" id="ln_type" name="ln_type">
+                        <option>m6</option>
+                        <option>m10</option>
+                        <option>m12</option>
+                        <option>m16</option>
+                    </select>
+            </div>
+            <div>
+                <label class="text-xs font-semibold" for="spacing">Spacing</label>
+                <input class="input input-solid" placeholder="Link spacing" type="number" step="0.1" id="ln_spacing" name="ln_spacing" value="0.3"/>
+            </div>
+        </div>
+        
+
+
+           </div>
+           
+
+        </section>
+
+    </div>
+    
+</div>
+<div class="mt-4">
+    <button 
+    type="button" 
+    class="rounded-lg btn btn-primary btn-block"
+    hx-post="/foundation"
+    hx-target="#e-content"
+    >Estimate Foundation</button>
+</div>
+                                   
+</form>
+                            

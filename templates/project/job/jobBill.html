@@ -1,0 +1,70 @@
+
+<p class="text-sm">Job Tasks</p>
+
+
+<div class="text-xs uk-overflow-auto">
+    <table class="uk-table uk-table-small uk-table-divider">
+        <caption>{{job._id}}</caption>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <!--th>Title</th-->
+                <th>Description</th>                
+                <th>Metric Quantity</th>
+                <th>Metric Price</th>
+                <th>Imperial Quantity</th>
+                <th>Imperial Price</th>
+                <th>Total</th>
+                <th>Manage</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in job.tasks %}
+            <tr>
+                <td>{{ task._id }}</td>
+                <!--td>{{ task.title }}</td-->
+                <td><span >{{ task.description }}</span></td>               
+                <td>{{ task.metric.quantity }} {{ task.metric.unit }}</td>
+                <td>{{ task.metric.price | to_dollars }}/ {{ task.metric.unit }}</td>
+                <td>{{ task.imperial.quantity | round }} {{ task.imperial.unit }}</td>
+                <td>{{ task.imperial.price | to_dollars }}/ {{ task.imperial.unit }}</td>
+                <td>{{ task.metric.total | to_dollars }}</td>
+                <td>
+                    <div class="uk-inline">
+                        <a class="text-xs" href="#">Manage</a>
+                        <div class="bg-red-300 text-gray-900 rounded-md hover:bg-red-400" uk-dropdown="mode: click">
+                            <ul>
+                                <li><span class="text-xs">{{ task._id }}</span></li>                                
+                                <li><a 
+                                    href="#" 
+                                    hx-get="/edit_jobtask/{{job._id}}_{{task._id}}"
+                                    hx-target="#project-job-properties"
+                                    
+                                    >Edit</a> </li>
+                                    <li><a href="#" id="href">Add to bill</a> </li>
+                                <li><a 
+                                    href="#" 
+                                    id="href"
+                                    hx-delete="/jobtask/{{job._id}}_{{task._id}}"
+                                    hx-confirm="Are you shure you want to remove {{task.title}} from Job {{job.title}}"
+                                    hx-target="#message"                                    
+                                    >Delete</a> </li>
+                            </ul>
+                            
+                        </div>
+                    </div>
+                </td>
+                
+                
+            </tr>
+            {% endfor %}
+           
+        </tbody>
+    </table>
+</div>
+
+
+
+<p class="text-xs text-center">Location: /templates/project/job/jobBill.html</p>
+

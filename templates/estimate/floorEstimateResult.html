@@ -1,0 +1,211 @@
+<div class="uk-alert-primary" uk-alert>
+    <a href class="uk-alert-close" uk-close></a>
+
+    <div class="text-xs">
+   
+        <table class="uk-table uk-table-small">
+            <p class="text-base text-center">Concrete Floor</p>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Width</th>
+                    <th>Depth</th>
+                    <th>Length</th>
+                    <th>Unit</th>
+                    <th>Area</th>                   
+                    
+                </tr>
+    
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{floor.floor.id }}</td>
+                    <td>{{floor.floor.width }}</td>
+                    <td>{{floor.floor.depth }}</td>
+                    <td>{{floor.floor.length }}</td>
+                    <td>{{floor.floor.unit }}</td>
+                    <td>{{dataclass.area.value }} {{dataclass.area.unit }}</td>
+                   
+                </tr>
+            </tbody>
+        </table>
+        <hr class="uk-divider">  
+        <table class="uk-table uk-table-divider uk-table-small">
+            <p class="text-base text-center">Reinforcements</p>
+                <thead>
+                    <tr>                        
+                        <th>Mesh Type</th>
+                        <th>Area</th>                        
+                        <th>Mesh Quantity</th>
+                        <th>Mesh Weight</th>
+                    </tr>
+                </thead>
+            <tr>
+                
+                
+                <td>{{ floor.reinforcement.type }}</td>
+                <td>{{ floor.reinforcement.area.value }} {{ floor.reinforcement.area.unit }} </td>
+                <td> sheet</td>
+
+                <td></td>
+               
+               
+                
+            </tr>
+        </table>  
+        <hr class="uk-divider">
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div class="uk-overflow-auto">
+                <table class="uk-table uk-table-divider uk-table-small">
+                    <p class="text-base text-center">Concrete</p>
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Quantity</th>
+                            <th>Unit</th>
+                        </tr>
+                    </thead>
+                    <tbody>                       
+                        <tr>
+                            <th>Concrete Type</th>
+                            <td>{{ dataclass.concrete_type}}</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>Dry Volume</th>
+                            <td>{{ floor.concrete.dry_volume.value }}</td>
+                            <td>{{ floor.concrete.dry_volume.unit }}</td>
+                        </tr>
+                        <tr>
+                            <th>Wet Volume</th>
+                            <td>{{ floor.concrete.wet_volume.value }}</td>
+                            <td>{{ floor.concrete.wet_volume.unit }}</td>
+                        </tr>
+                        <tr>
+                            <th>Cement</th>
+                            <td>{{ floor.concrete.cement.value }}</td>
+                            <td>{{ floor.concrete.cement.unit }}</td>
+                        </tr>
+                        <tr>
+                            <th>Cement Bag</th>
+                            <td>{{ floor.concrete.cement.bag.value }}</td>
+                            <td>{{ floor.concrete.cement.bag.unit }}</td>
+                        </tr>
+                        <tr>
+                            <th>Fine Aggregate</th>
+                            <td>{{ floor.concrete.fine_agg.value }}</td>
+                            <td>{{ floor.concrete.fine_agg.unit }}</td>
+                        </tr>
+                        <tr>
+                            <th>Course Aggregate</th>
+                            <td>{{ floor.concrete.course_agg.value }}</td>
+                            <td>{{ floor.concrete.course_agg.unit }}</td>
+                        </tr>
+                        <tr>
+                            <th>Water</th>
+                            <td>{{ floor.concrete.water.value }}</td>
+                            <td>{{ floor.concrete.water.unit }}</td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+            <div class="bg-blue-800 text-gray-200 m-5 p-2 rounded">
+                <p class="text-base text-center">Specifications</p>
+               
+                <ul>
+                    <li>
+                        <div class="flex flex-col">
+                            
+                            <table class="uk-table uk-table-small">
+                                <p class="text-base text-center">Mesh</p>
+                                <thead>
+                                    <tr>
+                                        <th>
+            
+                                        </th>
+                                        <th>Metric Values</th>
+                                        <th>Imperial Values</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>Size</th>
+                                        <td></td>
+                                        <td> inch</td>
+                                    </tr>
+                                   
+                                    <tr>
+                                        <th>Area</th>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>                                   
+                                    <tr>
+                                        <th>weight</th>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+            
+                            </table>
+                        </div>
+                    </li>                    
+                  
+                    <li>
+                        <div class="flex flex-col">
+                           
+                           
+                            <table class="uk-table uk-table-small">
+                                <p class="text-base text-center">Concrete</p>
+                                <thead>
+                                    <tr>
+                                        <th>
+            
+                                        </th>
+                                        <th>Metric Values</th>
+                                        <th>Imperial Values</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>Type</th>
+                                        <td>{{ concrete_specs.type }}</td>
+                                        <td>{{ concrete_specs.mix_ratio }} <span class="sm-text">Mix Ratio</span>
+                                             </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Compresive Strength</th>
+                                        <td>{{ concrete_specs.cs.metric[0] }} {{ concrete_specs.cs.metric[1] }}</td>
+                                        <td>{{ concrete_specs.cs.imperial[0] }} {{ concrete_specs.cs.imperial[1] }}  </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Cement </th>
+                                        <td>{{ concrete_specs.material.cement[0] }} {{ concrete_specs.material.cement[1] }}</td>
+                                        <td> </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Fine Aggregate </th>
+                                        <td>{{ concrete_specs.material.fine_agg[0] }} {{ concrete_specs.material.fine_agg[1] }}</td>
+                                        <td> </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Course Aggregate </th>
+                                        <td>{{ concrete_specs.material.course_agg[0] }} {{ concrete_specs.material.course_agg[1] }}</td>
+                                        <td> </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Water </th>
+                                        <td></td>
+                                        <td> </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                    </li>
+                </ul>
+
+            </div>
+        </div>             
+
+</div>

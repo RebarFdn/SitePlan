@@ -30,19 +30,15 @@ async def update_project_job_state(request):
     categories = set()
     roles = set()
     p = await Project().get(id=idd[0])
-
     for task_rate in p.get("rates"): # Loads job categories
         categories.add(task_rate.get('category'))
-
     for worker in p.get("workers"): # Loads job roles
         roles.add(worker.get('value').get('occupation'))
-
     jb = [j for j in p.get('tasks') if j.get('_id') == id ] 
     if len(jb) > 0:
         job = jb[0] 
     else:
         job={}
-
     crew_members = len(job.get('crew').get('members'))
     project_phases = Project().projectPhases.keys()
 
@@ -320,6 +316,48 @@ async def project_job_tasks(request):
         }) 
 
 
+@router.get('/project_job_bill/{id}')
+async def project_job_bill(request):
+    id = request.path_params.get('id')
+    idd = id.split('-')
+    project = Project()    
+    categories = set()
+    roles = set()    
+    p = await project.get(id=idd[0])
+    for task_rate in p.get("rates"): # Loads job categories
+        categories.add(task_rate.get('category'))
+    for worker in p.get("workers"): # Loads job roles
+        roles.add(worker.get('value').get('occupation'))
+    
+
+    jb = [j for j in p.get('tasks') if j.get('_id') == id ] 
+    if len(jb) > 0:
+        job = jb[0] 
+    else:
+        job={}
+    crew_members = len(job.get('crew').get('members'))
+    project_phases = project.projectPhases.keys()
+    
+    
+    return TEMPLATES.TemplateResponse(
+        '/project/job/jobBill.html',
+        {
+            "request": request, 
+            "p": {
+                "name": p.get('name'),
+                "rates": p.get('rates'),
+                "workers": p.get('workers')
+
+            }, 
+            "job": job, 
+            "crew_members": crew_members,
+            "project_phases": project_phases, 
+            "categories": list(categories),
+            "job_roles": list(roles)
+
+        }) 
+
+
 
 @router.get('/project_jobcrew/{id}')
 async def project_jobcrew(request):
@@ -489,11 +527,29 @@ async def get_jobtasks(request):
 @router.delete('/jobtask/{id}')
 @login_required
 async def delete_jobtask(request):
+    """Deletes a Task from a Job's task queue.
+
+    Request parameter:
+        id (str): A String containing the Job id 
+        and the Task id of the task to be deleted, 
+        in a hypenated format.
+    
+    Returns:
+        str: A Html formated string 
+
+    Example Request:
+        "...delete/jobtask/AD1277-JB001_JB001-MS700"
+        handle: "...delete/jobtask/"
+        request parameter: "AD1277-JB001_JB001-MS700"
+        Where:
+            "AD1277-JB001"  represents the Job id ,
+        and:
+            "JB001-MS700" represents the Task id 
+    """
     id = request.path_params.get('id')
     idd = id.split('_')
     pid = idd[0].split('-')[0]
-    p = await Project().get(id=pid)
-    
+    p = await Project().get(id=pid)    
     jb = [j for j in p.get('tasks') if j.get('_id') == idd[0] ] 
     if len(jb) > 0:
         job = jb[0] 
@@ -577,6 +633,9 @@ async def edit_jobtask(request):
 @router.post('/assign_task/{id}')
 @login_required
 async def assign_task(request):
+    """ Assigns a Task to an Employee.
+
+    """
     id = request.path_params.get('id')
     idd = id.split('_')
     pid = idd[0].split('-')[0]
@@ -664,6 +723,18 @@ async def assign_task(request):
 
 @router.post("/filter_job_rate/{id}") 
 async def filter_job_rate(request):
+    """ Filters The Projects Task Rates by category   
+    
+    Request parameter:
+        id (str): A String containing the Project's id 
+        category (str): A task category obtained from the
+        request form object.
+    
+    Returns:
+        page (str): A Html Page with data object 
+        rates (list): a list of formated rates
+        job_id (str): current job id 
+     """
     id = request.path_params.get('id')
     idd = id.split('-')
         
@@ -818,7 +889,107 @@ async def update_metric_properties(request):
             "crew": job.get('crew').get('members'),
             "contact": contact})
 
+
+ 
+
+@router.get('/update_task_title/{id}')
+@router.post('/update_task_title/{id}')
+@login_required
+async def update_task_title(request):
+    id = request.path_params.get('id')
+    idd = id.split('_')
+    pid = idd[0].split('-')[0]
+    p = await Project().get(id=pid)
     
+    jb = [j for j in p.get('tasks') if j.get('_id') == idd[0] ] 
+    if len(jb) > 0:
+        job = jb[0] 
+    else:
+        job={}
+    task = [t for t in job.get('tasks') if t.get('_id') == idd[1] ][0] 
+    if request.method == 'POST':
+        try:
+            async with request.form() as form:
+                task["title"] = form.get("title")
+            p['activity_log'].append(
+                    {
+                        "id": timestamp(),
+                        "title": f"Update Task Title",
+                        "description": f"""The Title of Task {task.get('_id')} 
+                            on Job {job.get('_id')} were updated  by {request.user.username}."""
+                    }
+                ) 
+            await Project().update(data=p)
+            return HTMLResponse(f"""<span 
+                        uk-tooltip="title: Double Click to Edit."
+                        hx-get="/update_task_title/{job.get('_id')}_{task.get('_id')}"
+                        hx-target="#task-title"
+                        hx-trigger="dblclick">{ task.get('title') }</span>
+                                """)
+        except Exception as e:
+            pass
+    return TEMPLATES.TemplateResponse("/project/task/editTaskTitle.html", 
+            {
+                'request': request, 
+                'job_id': idd[0],
+                'task': {
+                    '_id': task.get('_id'),
+                    'title': task.get('title')
+                    
+                }
+            })
+        
+        
+
+
+@router.get('/update_task_description/{id}')
+@router.post('/update_task_description/{id}')
+@login_required
+async def update_task_description(request):
+    id = request.path_params.get('id')
+    idd = id.split('_')
+    pid = idd[0].split('-')[0]
+    p = await Project().get(id=pid)
+    
+    jb = [j for j in p.get('tasks') if j.get('_id') == idd[0] ] 
+    if len(jb) > 0:
+        job = jb[0] 
+    else:
+        job={}
+    task = [t for t in job.get('tasks') if t.get('_id') == idd[1] ][0] 
+    if request.method == 'POST':
+        try:
+            async with request.form() as form:
+                task["description"] = form.get("description")
+            p['activity_log'].append(
+                    {
+                        "id": timestamp(),
+                        "title": f"Update Task Description",
+                        "description": f"""The Description of Task {task.get('title')} 
+                            on Job {job.get('_id')} were updated  by {request.user.username}."""
+                    }
+                ) 
+            await Project().update(data=p)
+            return HTMLResponse(f"""<span 
+                        uk-tooltip="title: Double Click to Edit."
+                        hx-get="/update_task_description/{job.get('_id')}_{task.get('_id')}"
+                        hx-target="#task-description"
+                        hx-trigger="dblclick">{ task.get('description') }</span>
+                                """)
+        except Exception as e:
+            pass
+    return TEMPLATES.TemplateResponse("/project/task/editTaskDescription.html", 
+            {
+                'request': request, 
+                'job_id': idd[0],
+                'task': {
+                    '_id': task.get('_id'),
+                    'title': task.get('title'),
+                    'description': task.get('description')
+                }
+            })
+        
+        
 
 
 @router.post('/update_task_progress/{id}')

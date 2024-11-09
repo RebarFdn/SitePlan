@@ -6,16 +6,32 @@
         </div>
         <div class="navbar-center"></div>
         <div class="navbar-end">
-          
-        <button 
-        class="uk-button uk-button-primary uk-button-small uk-margin-small-right navbar-task rounded-full" 
-        style="background: rgb(150, 11, 138);"
-        type="button" 
-        uk-toggle="target: #new-job-modal">Print Report</button>
+       
+        <button class="uk-button uk-button-primary uk-button-small uk-margin-small-right navbar-task rounded-full" 
+        style="background: rgb(150, 11, 138);" type="button">Print Jobs Report</button>
+        <div uk-dropdown>
+            <ul class="uk-nav uk-dropdown-nav">
+                <li class="uk-active"><a href="#" hx-get="/print_jobs_tasks_report/{{p._id}}/metric" 
+                    hx-target="#report_anchor"            
+                    >Print Metric Report</a></li>
+                <li><a href="#"hx-get="/print_jobs_tasks_report/{{p._id}}/imperial" 
+                    hx-target="#report_anchor"            
+                    >Print Imperial  Report</a></li>
+                <li class="uk-nav-header">All Fields</li>
+                <li><a href="#"hx-get="/print_jobs_tasks_report/{{p._id}}/all" 
+                    hx-target="#report_anchor"
+            
+                    >Print Report</a></li>
+               
+            </ul>
+        </div>
+            
+                
+       
 
         </div>
     </div>
-    
+    <div id="report_anchor"></div>
     <div id="jobs-queue" class="text-xs uk-overflow-auto" >
    
         <table class="uk-table uk-table-striped uk-table-hover uk-table-small uk-table-divider">
@@ -97,6 +113,7 @@
     </div>
 <div id="add-job-result" ></div>
 </div>
+
 <!-- This is the modal -->
 <div id="new-job-modal" uk-modal>
 <div class="uk-modal-dialog uk-modal-body">
@@ -156,6 +173,23 @@
 
 </div>
 </div>
+</div>
+
+
+<div id="print-jobs" class="uk-flex-top" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+
+        <button 
+        class="uk-button uk-button-primary uk-button-small uk-margin-small-right navbar-task rounded-full" 
+        style="background: rgb(150, 11, 138);"
+        type="button" 
+        hx-get="/print_jobs_tasks_report/{{p._id}}" 
+        hx-target="#report_anchor"
+
+        >Print Report</button>
+    </div>
 </div>
  
 <p class="text-xs text-center">Location: /templates/project/job/jobsIndex.html</p>

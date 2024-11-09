@@ -1,0 +1,56 @@
+<div class="text-xs uk-overflow-auto">
+    <table class="uk-table uk-table-striped uk-table-responsive ">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Occupation</th>
+                <th>Rating</th>
+                <th>Contact</th>
+                <th>Manage</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for worker in workers %}
+            <tr>
+                <td><div class="flex flex-col text-center">
+                    <div class="uk-height-match uk-flex uk-flex-center uk-flex-middle uk-background-cover uk-light rounded-full">
+                        <img class="h-12 w-12 rounded-full" src="{{ worker.value.imgurl }}" alt="{{ worker.value.oc }}">
+                   
+                    </div>
+                    
+                    <span>{{ worker.value.oc }}</span>
+                    </div>
+                 </td>
+                <td>{{worker.id}}</td>
+                <td>{{ worker.value.name }}</td>
+                <td>{{ worker.value.occupation }}</td>
+                <td>{{ worker.value.rating }}</td>
+                <td class="uk-table-shrink"><div class="flex flex-col">
+                    {% if worker.value.email %}
+                    <span><strong>Email</strong> {{ worker.value.email }}</span> 
+                    {% endif %}
+                    {% if worker.value.mobile %}
+                    <span><strong>Mobile</strong>{{ worker.value.mobile }}</span> 
+                    {% endif %}
+                    </div>
+
+
+                </td>
+                <td>Manage</td>
+
+            </tr>
+            {% endfor %}
+            <tr>
+                <td>No Of</td>
+                <td>Workers</td>
+                <td>{{ workers|length}}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

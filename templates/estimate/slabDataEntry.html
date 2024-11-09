@@ -1,0 +1,161 @@
+<div class="text-xl font-semibold bg-gray-300 mb-1">Suspended Reinforced Concrete Slab Estimator</div>
+<form>
+<ul class="uk-subnav uk-subnav-pill" uk-switcher>
+    <li><a href="#">Slab</a></li>
+    <li><a href="#">Reinforcements</a></li>
+   
+</ul>
+
+<div class="uk-switcher uk-margin">
+    <div>
+    <section>
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div class="w-full">
+                <label class="text-xs font-semibold" for="tag">Tag</label>
+                <input class="input input-solid max-w-full" placeholder="Tag" type="text" id="tag" name="tag" value="SS150"/>
+            </div>
+           
+        </div>
+        
+        
+        <div class="w-full">
+            <label class="text-xs font-semibold" for="type">Concrete Grade</label>
+            <select class="input input-solid max-w-full" placeholder="Concrete Type" type="text" id="tconcrete" name="concrete">
+                {% for item in concrete_types %}
+                <option>{{ item }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div>
+                <label class="text-xs font-semibold" for="unit">Unit</label>
+                <select class="input input-solid" placeholder="Unit of measurement" type="text" id="unit" name="unit">
+                    <option>m</option>
+                    <option>ft</option>
+                </select>
+            </div>
+            <div>
+                <label class="text-xs font-semibold" for="width">Width</label>
+                <input class="input input-solid" placeholder="Width of the Slab" type="number" step="0.1" id="width" name="width" value="4.45"/>
+            </div>
+
+            <div>
+                <label class="text-xs font-semibold" for="length">Length</label>
+                <input class="input input-solid" placeholder="Length of the Slab" type="number" step="0.1" id="length" name="length" value="4.15"/>
+           </div>
+            <div>
+                <label class="text-xs font-semibold" for="depth">Thickness</label>
+                <input class="input input-solid" placeholder="Thickness of the Slab" type="number" step="0.1" id="depth" name="depth" value="0.15"/>
+            </div>
+
+            
+            
+            
+        </div>
+
+        <div class="w-full">
+            <label class="text-xs font-semibold" for="notes">Notes</label>
+
+            <textarea class="textarea textarea-solid max-w-full" placeholder="Notes" rows="3" id="notes" name="notes"></textarea>
+        </div>
+
+        
+    </section>
+    </div>
+    <div>
+        <p class="text-lg font-semibold">Slab Reinforcements</p>
+        <section>
+            <div class="w-full">
+                <label class="text-xs font-semibold" for="type">Span</label>
+               
+                <select class="input input-solid max-w-full" placeholder="Span" type="text" id="span" name="span">
+                    
+                    <option>0.25</option>
+                    <option>0.33</option>
+                    
+                </select>
+            </div>
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+               
+                <div class="w-full">
+                    <label class="text-xs font-semibold" for="type">Main Bar Type</label>
+                   
+                    <select class="input input-solid max-w-full" placeholder="Main Bar Type" type="text" id="mbtype" name="mb_type">
+                        {% for item in rebar_types %}
+                        <option>{{ item }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label class="text-xs font-semibold" for="spacing">Spacing</label>
+                    <input class="input input-solid" placeholder="Main bar spacing" type="number" step="0.1" id="mbspacing" name="mb_spacing" value="0.2"/>
+                </div>
+                <div class="w-full">
+                    <label class="text-xs font-semibold" for="type">Distribution Bar Type</label>
+                   
+                    <select class="input input-solid max-w-full" placeholder="Distribution Bar Type" type="text" id="dbtype" name="db_type">
+                        {% for item in rebar_types %}
+                        <option>{{ item }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label class="text-xs font-semibold" for="spacing">Spacing</label>
+                    <input class="input input-solid" placeholder="Distribution bar spacing" type="number" step="0.1" id="dbspacing" name="db_spacing" value="0.2"/>
+                </div>
+            </div>
+           
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div class="w-full">
+                <label class="text-xs font-semibold" for="type">Temperature Bar Type</label>
+                <p class="text-xs text-blue-500">Oversupport Main Bar</p>
+               
+                <select class="input input-solid max-w-full" placeholder="Oversupport Main Bar Type" type="text" id="ombtype" name="omb_type">
+                    {% for item in rebar_types %}
+                    <option>{{ item }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label class="text-xs font-semibold" for="spacing">Spacing</label>
+                <input class="input input-solid" placeholder="Temp bar spacing" type="number" step="0.1" id="ombspacing" name="omb_spacing" value="0.2"/>
+            </div>
+            <div class="w-full">
+                <label class="text-xs font-semibold" for="type">Anti Crack Bar Type</label>
+                <p class="text-xs text-blue-500">Oversupport Distribution Bar</p>
+               
+                <select class="input input-solid max-w-full" placeholder="Oversupport Distribution Bar Type" type="text" id="odbtype" name="odb_type">
+                    {% for item in rebar_types %}
+                    <option>{{ item }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label class="text-xs font-semibold" for="spacing">Spacing</label>
+                <input class="input input-solid" placeholder="Anti crack bar spacing" type="number" step="0.1" id="odbspacing" name="odb_spacing" value="0.3"/>
+            </div>
+        </div>
+        
+
+
+           </div>
+           
+
+        </section>
+
+    </div>
+    
+</div>
+<div class="mt-4">
+    <button 
+    type="button" 
+    class="rounded-lg btn btn-primary btn-block"
+    hx-post="/slab"
+    hx-target="#e-content"
+    >Estimate Slab</button>
+</div>
+                                   
+</form>
+                            

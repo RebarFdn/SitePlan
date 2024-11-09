@@ -32,10 +32,17 @@
                                 <li><a 
                                     href="#"
                                     hx-get="/team"
-                                    hx-target="#dash-left-pane"
+                                    hx-target="#dash-content-pane"
                                     hx-trigger="click"
                         
                                     >Workers</a></li>
+                                <li><a 
+                                    href="#"
+                                    hx-get="/team_index"
+                                    hx-target="#dash-left-pane"
+                                    hx-trigger="click"
+                        
+                                    >Worker Index</a></li>
                             </ul>
                         </div>
                     </li>
@@ -84,12 +91,14 @@
                                 <li><a href="/estimate" target="_blank">Estimator</a></li>
                                 <li class="uk-nav-divider"></li>
                                 <li><a href="#">Unit Converter</a></li>
+                                <li><a href="#"                        
+                                    >To Do</a>
+                                </li>
                                 
                             </ul>
                         </div>
                     </li>
-                    <li><a href="#"                        
-                        >To Do</a></li>
+                   
                     
                     <li>
                         <a href="#"><img class="uk-preserve-width uk-border-circle" src="/static/imgs/users/{{request.user.username}}.png" width="40" height="40" alt=""></a>

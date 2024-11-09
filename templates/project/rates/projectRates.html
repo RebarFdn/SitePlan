@@ -77,52 +77,75 @@
 <!-- This is the modal -->
 <div id="add-rate-modal" uk-modal>
     <div class="uk-modal-dialog uk-modal-body">
-        <div>Filter</div>
-        <div class="bg-gray-300 text-gray-900 p-1 rounded-md">
-            <p class="text-xs">Add Industry Rate to Project</p>
-            <form prevent-default>
-             <table class="uk-table uk-table-divider">
-            <thead>
-        <tr>
-            <th></th>
-            <th>Id</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Category</th>
-        </tr>
-        </thead>
-        <tbody>
-            
-       
-        {% for rate in industry_rates %}       
-            <tr>
-                <td>
-                
-                <input 
-                    type="radio" 
-                    class="radio radio-bordered-primary"
-                    value="{{ rate.get('_id') }} " 
-                    name="rate" 
-                    hx-post="/add_industry_rate/{{ p.get('_id') }} " 
-                    hx-target="#project_properties" 
-                
-                    >
-                </td>
-                <td>{{  rate.get("_id")  }} </td>
-                <td> {{  rate.get("title")  }} </td>
-                <td> {{  rate.get("description")  }} </td>
-                <td> {{  rate.get("category")  }} </td>
+        <a class="navbar-item" href>Filter Rates <span uk-drop-parent-icon></span></a>
+        <div uk-dropdown="pos: bottom-center">
+        <ul class="uk-nav uk-dropdown-nav">
+            <li class="uk-nav-header">Filter Rates</li>
+            <li><a 
+                        href="#"
+                        hx-get="/add_industry_rates/{{p._id}}_all"
+                        hx-target="#industry-rates"
+                        hx-trigger="click"                                 
+                        >All Categories</a>
+                </li>           
 
-            </tr>
-        {% endfor %}
+                {% for item in p.categories %}
+                    <li>
+                        <a 
+                            href="#"
+                            hx-get="/add_industry_rates/{{p._id}}_{{ item }}"
+                            hx-target="#industry-rates"
+                            hx-trigger="click"                                 
+                        >{{ item }}</a>
+                    </li>
+                {% endfor %}
+           
+            
+            </ul>
+        </div>
+        <p class="text-xs">Add Industry Rate to Project</p>
+        <div class="bg-gray-300 text-gray-900 p-1 rounded-md">
+           
+            <form prevent-default>
+                <div id="industry-rates" class="uk-overflow-auto">
+             <table class="uk-table uk-table-divider">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Id</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for rate in industry_rates %}       
+                    <tr>
+                        <td>
+                        
+                        <input 
+                            type="radio" 
+                            class="radio radio-bordered-primary"
+                            value="{{ rate.get('_id') }} " 
+                            name="rate" 
+                            hx-post="/add_industry_rate/{{ p.get('_id') }} " 
+                            hx-target="#project_properties" 
+                        
+                            >
+                        </td>
+                        <td>{{  rate.get("_id")  }} </td>
+                        <td> {{  rate.get("title")  }} </td>
+                        <td> {{  rate.get("description")  }} </td>
+                        <td> {{  rate.get("category")  }} </td>
+
+                    </tr>
+                {% endfor %}                
+                </tbody>
+            </table>
+        </div>
                 
-        </tbody>
-    </table>
-                
-</form></div>
-         <p class="uk-text-right">
-            <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-            <button class="uk-button uk-button-primary" type="button">Save</button>
-        </p>
+    </form>
+</div>
+      
     </div>
 </div>
