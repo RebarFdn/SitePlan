@@ -18,7 +18,7 @@ from config import (
     SYSTEM_LOG_PATH ,SERVER_LOG_PATH, APP_LOG_PATH, APITALLY_CLIENT_TOKEN
     )
 from modules.zen import zen_now
-from database import RedisCache
+#from database import RedisCache
 
 from routes.auth_router import router as auth_routes, loadusers
 from routes.project_router import router as p_router

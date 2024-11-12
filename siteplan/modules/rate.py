@@ -1,24 +1,100 @@
 #rate.py
 
+import json
+import typing
 import datetime
-from database import Recouch
-from modules.utils import to_dollars
+from logger import logger
+from functools import lru_cache
+from modules.utils import timestamp,  to_dollars
+from database import Recouch, local_db
 
-# Timestamp 
-def timestamp():
-    '''
-    Timestamp returns an integer representation of the current time.
-    >>> timestamp()
-    1673633512000
-    '''
-    return  int((datetime.datetime.now().timestamp() * 1000))
+databases = { # Employee Databases
+            "local":"rate-sheet", 
+            "local_partitioned": False,
+            "slave":"rate-sheet", 
+            "slave_partitioned": False            
+            }
 
-def converTime(time):    
-    timestamp = datetime.datetime.fromtimestamp(int(time))
-    return timestamp.strftime('%Y-%m-%d %H:%M:%S')
+# connection to site-projects database 
+db_connection:typing.Coroutine = local_db(db_name=databases.get('local'))  
+
+
+def rate_categories():
+    return {
+            "excavation": "Excavation",
+            "steelwork": "Steelwork",
+            "masonry": "Masonry",
+            "carpentry": "Carpentry",
+            "joinery": "Joinery",
+            "painting": "Painting",
+            "plumbing": "Plumbing",
+            "scaffolding": "Scaffolding",
+            "tiling": "Tiling",
+            "welding": "Welding",
+            "electrical": "electrical"
+    }
+
+
+async def all_rates_ref(conn:typing.Coroutine=db_connection)->list:
+    rates:dict = await conn.get(_directive = "_all_docs")   
+    try:            
+        return  rates.get('rows')        
+    except Exception as e: logger().exception(e)
+    finally: del rates
+
+
+async def all_rates(conn:typing.Coroutine=db_connection)->list: 
+        '''Retreives a list of rate data.
+        ''' 
+        r = None      
+        def processrates(rate):
+            return rate['value']            
+        try:
+            r = await conn.get(_directive="_design/index/_view/document")
+            return list(map(processrates,  r.get('rows', []) ))
+        except Exception as e: logger().exception(e)
+        finally: del(r)
+
+ 
+
+async def get_industry_rate(id:str, conn:typing.Coroutine=db_connection)->dict:
+    rate = await conn.get(_directive=id) 
+    try:
+        return rate
+    except Exception: logger().exception(Exception)
+    finally: del rate
     
+#@profile(precision=2, stream=fp)
+async def save_rate(data:dict=None, conn:typing.Coroutine=db_connection):      
+    '''Stores a Rate Item Permanently on the Platform.'''  
+    return await conn.post(json=data) 
+        
+#@profile(precision=2, stream=fp)
+async def update_rate(data:dict=None, conn:typing.Coroutine=db_connection):
+    '''Updates a Rate Item with data provided.
+    --- Footnote:
+            enshure data has property _id
+    extra:
+        updates the objects meta_data property 
+        or create and stamp the meta_data field
+        if missing                 
+    '''
+    if '_rev' in list(data.keys()): del(data['_rev'])      
+    try: return await conn.put(json=data)            
+    except Exception as e: logger().exception(e)
+        
 
-#from modules.platformuser import fp, profile
+#@profile(precision=2, stream=fp)
+async def delete_rate(id:str=None, conn:typing.Coroutine=db_connection):
+        '''Permanently Remove a Rate Item from the Platform.
+        ---Requires:
+            name: _id
+            value: string 
+            inrequest_args: True
+        '''        
+        try: return await conn.delete(_id=id)
+        except Exception as e: logger().exception(e)
+
 
 class Rate:
     _id:str = None    
@@ -97,6 +173,7 @@ class Rate:
             self.meta_data.update(self.meta_data | {"_id": self._id})
             self.data['metadata'] = self.meta_data
 
+    # Depricated for external function all_rates_ref
     #@profile(precision=2, stream=fp)
     async def all(self):
         try:            
@@ -104,7 +181,7 @@ class Rate:
         except Exception as e:
             return str(e)
         
-
+    # Depricated for external function all_rates
     #@profile(precision=2, stream=fp)
     async def all_rates(self): 
         '''Retreives a list of rate data.

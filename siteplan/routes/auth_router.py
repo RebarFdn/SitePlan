@@ -6,7 +6,7 @@ from starlette_login.decorator import login_required
 from starlette_login.utils import login_user, logout_user
 from starlette.responses import HTMLResponse, RedirectResponse, PlainTextResponse
 from decoRouter import Router
-from database import RedisCache
+#from database import RedisCache
 from modules.platformuser import User, timestamp
 from config import TEMPLATES
 from modules.platformuser import user_list

@@ -12,7 +12,7 @@ from modules.employee import Employee
 from modules.utils import today, timestamp, to_dollars
 from modules.unit_converter import convert_unit, convert_price_by_unit
 from config import TEMPLATES
-from database import RedisCache
+#from database import RedisCache
 
 
 router = Router()

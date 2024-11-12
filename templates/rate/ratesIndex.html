@@ -1,0 +1,161 @@
+{% if filter %}
+<div>
+    <div class="flex flex-row bg-gray-300 py-3 px-4 items-inline text-center rounded relative">
+    <span class="cursor-pointer" uk-toggle="target: #new-rate-modal"uk-icon="plus"></span>
+        <p class="mx-10">Industry Rates Index</p>                
+        <span class="uk-badge">{{ filtered | length }}</span>
+           <a href class="absolute right-0">Filter <span uk-drop-parent-icon></span></a>
+        <div uk-dropdown="pos: bottom-center">
+        <ul class="uk-nav uk-dropdown-nav">
+         <li class="uk-nav-header">Filter Rates</li>
+         <li><a 
+                    href="#"
+                    hx-get="/rates_html_index/all"
+                    hx-target="#dash-left-pane"
+                    hx-trigger="click"                                 
+                    >All Categories</a>
+            </li>
+        {% for item in categories %}
+            <li>
+                    <a 
+                    href="#"
+                    hx-get="/rates_html_index/{item}"
+                    hx-target="#dash-left-pane"
+                    hx-trigger="click"                                 
+                    >{{item}}</a></li>
+        {% endfor %}
+            
+        </ul>
+    </div>                 
+           
+        </div>
+        <ul class="uk-list uk-list-striped h-96 p-2 overflow-y-auto">
+        {% for rate in filtered %}
+        <li>
+            <div class="flex flex-col text-sm bg-gray-300 py-2 px-3 my-2 border rounded cursor-pointer hover:bg-gray-100"
+                hx-get="/rate/{{rate.get('_id')}}"
+                hx-target="#dash-content-pane"
+                hx-trigger="click"
+            >
+            <h1>{{rate._id}} <span class="mx-2">{{rate.title}}</span></h1>
+            <span 
+                class="inline-flex items-center gap-x-1.5 py-1 px-2 rounded-full text-xs w-auto max-w-32 font-medium bg-blue-300 text-gray-600"
+                >{{rate.category}}
+            </span></div>
+        </li>  
+        {% endfor %}
+
+        </ul>
+    </div>       
+    
+                <!-- New Rate modal -->
+    <div id="new-rate-modal" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body">
+            <h2 class="uk-modal-title">New Industry Rate</h2>
+            <form>
+
+                <div class="uk-margin">
+                    <input class="uk-input uk-form-width-large" type="text" placeholder="Rate Title" aria-label="Small" name="title">
+                </div>
+
+                <div class="uk-margin">
+                    <input class="uk-input uk-form-width-medium" type="text" placeholder="Description" aria-label="Medium" name="Description">
+                </div>
+
+                <div class="uk-margin">
+                    <input class="uk-input uk-form-width-small" type="text" placeholder="Small" aria-label="Small">
+                </div>
+
+                <div class="uk-margin">
+                    <input class="uk-input uk-form-width-xsmall" type="text" placeholder="X-Small" aria-label="X-Small">
+                </div>
+
+            </form>
+            
+            <p class="uk-text-right">
+                <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                <button class="uk-button uk-button-primary" type="button">Save</button>
+            </p>
+        </div>
+    </div>
+
+{% else %}            
+
+    <div>
+    <div class="flex flex-row bg-gray-300 py-3 px-4 items-inline text-center rounded relative">
+    <span class="cursor-pointer" uk-toggle="target: #new-rate-modal"uk-icon="plus"></span>
+        <p class="mx-5">Industry Rates Index</>               
+        
+         <span class="uk-badge">{{ rates | length }}</span>
+        <a href class="absolute right-0">Filter <span uk-drop-parent-icon></span></a>
+        <div uk-dropdown="pos: bottom-center">
+        <ul class="uk-nav uk-dropdown-nav">
+         <li class="uk-nav-header">Filter Rates</li>
+         <li><a 
+                    href="#"
+                    hx-get="/rates_html_index/all"
+                    hx-target="#dash-left-pane"
+                    hx-trigger="click"                                 
+                    >All Categories</a>
+            </li>
+        {% for item in categories %}
+        <li>
+                    <a 
+                    href="#"
+                    hx-get="/rates_html_index/{{item}}"
+                    hx-target="#dash-left-pane"
+                    hx-trigger="click"                                 
+                    >{{item}}</a></li>
+           
+            {% endfor %}
+</ul>
+    </div>                        
+            
+        </div>
+    <ul class="uk-list uk-list-striped h-96 p-2 overflow-y-auto">
+    {% for rate in rates %}
+    <li>
+    <div class="flex flex-col text-sm bg-gray-300 py-2 px-3 my-2 border rounded cursor-pointer hover:bg-gray-100"
+        hx-get="/rate/{{rate._id }}"
+        hx-target="#dash-content-pane"
+        hx-trigger="click"
+    >
+    <h1>{{rate._id}} <span class="mx-2">{{rate.title}}</span></h1>
+    <span 
+        class="inline-flex items-center gap-x-1.5 py-1 px-2 rounded-full text-xs w-auto max-w-32 font-medium bg-blue-300 text-gray-600"
+        >{{rate.category}}
+    </span></div>
+</li>             
+    {% endfor %}
+</ul></div>       
+{% endif %}   
+                <!-- New Rate modal -->
+    <div id="new-rate-modal" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body">
+            <h2 class="uk-modal-title">New Industry Rate</h2>
+            <form>
+
+                <div class="uk-margin">
+                    <input class="uk-input uk-form-width-large" type="text" placeholder="Rate Title" aria-label="Small" name="title">
+                </div>
+
+                <div class="uk-margin">
+                    <input class="uk-input uk-form-width-medium" type="text" placeholder="Description" aria-label="Medium" name="Description">
+                </div>
+
+                <div class="uk-margin">
+                    <input class="uk-input uk-form-width-small" type="text" placeholder="Small" aria-label="Small">
+                </div>
+
+                <div class="uk-margin">
+                    <input class="uk-input uk-form-width-xsmall" type="text" placeholder="X-Small" aria-label="X-Small">
+                </div>
+
+            </form>
+            
+            <p class="uk-text-right">
+                <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                <button class="uk-button uk-button-primary" type="button">Save</button>
+            </p>
+        </div>
+    </div>

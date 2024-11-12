@@ -1,20 +1,315 @@
 #coding=utf-8
 #project.py
-
-
-# Logging
 import json
-
-#from pympler import asizeof
-from modules.utils import timestamp, filter_dates
-from database import Recouch, RedisCache
+import typing
+import datetime
+from logger import logger
+from functools import lru_cache
+from modules.utils import timestamp, filter_dates, generate_id, generate_docid, to_dollars, hash_data, validate_hash_data
+from database import Recouch, local_db
 from modules.employee import Employee
-#from schemas.schema_api import project_schema as schema, validate
 from config import DOCUMENT_PATH, IMAGES_PATH
 from config import SYSTEM_LOG_PATH as SYSTEM_LOG, APP_LOG_PATH as APP_LOG
-from logger import logger
-import datetime
 
+
+databases = { # Employee Databases
+            "local":"site-projects", 
+            "local_partitioned": False,
+            "slave":"site-projects", 
+            "slave_partitioned": False            
+            }
+
+# connection to site-projects database 
+db_connection:typing.Coroutine = local_db(db_name=databases.get('local'))   
+
+
+@lru_cache
+def project_phases()->dict:
+    """Construction development phases
+
+    Returns:
+        dict: key value of project phases
+    """        
+    return {     
+            
+        'preliminary':'Preliminary',
+        'substructure': 'Substructrue',
+        'superstructure': 'Superstructure',
+        'floors': 'Floors',
+        'roofing': 'Roofing',
+        'installations': 'Installations',
+        'electrical': 'Electrical',
+        'plumbung': 'Plumbing',
+        'finishes': 'Finishes',
+        'landscaping': 'Landscaping',      
+        
+    }
+
+
+## CRUD OPERATIONS
+async def all_projects( conn:typing.Coroutine=db_connection )->list:
+    try:
+        r:dict = await conn.get(_directive="_design/project-index/_view/name-view") 
+        return r.get('rows')          
+    except Exception as e:
+        logger().error( str(e))
+    finally: del(r)
+
+   
+async def projects_api( conn:typing.Coroutine=db_connection )->list:
+    try:
+        r:dict = await conn.get(_directive="_design/project-index/_view/all-raw") 
+        return r.get('rows')          
+    except Exception as e:
+        logger().error( str(e))
+    finally: del(r)
+
+    
+async def project_name_index()->list:
+    def processIndex(p:dict)->dict:
+        return  { "_id": p.get('id'), "name": p.get('value').get('name')}
+    r:list = await all_projects()
+    try:        
+        return list(map( processIndex,  r ))            
+    except Exception as e:
+        logger().error(str(e))
+    finally: del(r)
+
+
+async def get_project(id:str=None, conn:typing.Coroutine=db_connection)->dict:
+    r:dict = await conn.get(_directive=id)
+    try:       
+        return r
+    except Exception as e:
+        logger().error(str(e))        
+    finally: del(r)  
+
+
+async def save_project(data:dict=None, conn:typing.Coroutine=db_connection )->dict:   
+    try:
+        data['_id'] = generate_id(name=data.get('name')) 
+        await conn.post( json=data )  
+        return data  
+    except Exception as e:
+        logger().exception(e)  
+        
+
+async def update_project(data:dict=None, conn:typing.Coroutine=db_connection):
+        try:            
+            return await conn.put( json=data)            
+        except Exception as e:
+            logger().exception(e)
+            
+
+async def delete_project( id:str=None, conn:typing.Coroutine=db_connection ):
+    status = await conn.delete(_id=id)
+    try:            
+        return {"status": status}
+    except Exception as e:
+        logger().exception(e)
+    finally:
+        del(status)
+
+
+## Project Accounting Activities
+## Handle Deposits and Withdrawals
+async def handle_transaction(id:str=None, data:dict=None)->dict:
+    """Handle Funds Deposits or Withrawals records on a project's account"""
+    if data:    
+        project = await get_project(id=id)
+        data['id']= generate_docid()            # process deposits
+        if data.get('type') == 'deposit' or data.get('type') == 'Deposit':                
+            project['account']['transactions']['deposit'].append(data)
+            project['activity_log'].append(
+                {
+                    "id": timestamp(),
+                    "title": f"Add Account {data.get('type')}",
+                    "description": f"""Account {data.get('type') } with Refference {data.get('ref')} was added to Project  {project.get('_id')}
+                    Account Transactions by { data.get('user') } at { timestamp() }"""
+                }
+            ) 
+            
+        # process withdrawals
+        if data.get('type') == 'withdraw' or data.get('type') == 'Withdraw':               
+            project['account']['transactions']['withdraw'].append(data)
+            project['activity_log'].append(
+                {
+                    "id": timestamp(),
+                    "title": f"Add Account {data.get('type')}",
+                    "description": f"""Account {data.get('type') } with Refference {data.get('ref')} was added to Project  {project.get('_id')}
+                        Account Transactions by { data.get('user') }"""
+                })  
+        #processProjectAccountBallance()
+        project['account']['updated'] = timestamp()
+        try:
+            await update_project(data=project)
+            return project.get('account').get('transactions')
+        except Exception as e:
+                logger().exception(e)
+        finally:                
+                del(project) # clean up
+    else:
+        return {"error": 501, "message": "You did not provide any data for processing."}
+   
+## Process Invoices
+async def add_invoice(id:str=None, data:dict=None)->list:  
+    """Saves an Invoice record in the project's account records
+    
+    Args:
+    id (str): the project's _id refference
+    data (dict): key value record of a purchase invoice
+    
+    Returns:
+    list: list of invoices 
+    """      
+    project = await get_project(id=id)       
+    try:
+        project['account']['records']['invoices'].append(data)
+        await update_project(data=project)    
+        return project.get('account').get('records').get('invoices')        
+    except Exception as e: logger().exception(e)
+    finally: del(project)
+
+    
+async def delete_invoice( id:str=None, data:dict=None):        
+    project = await get_project(id=id)        
+    try:
+        project['account']['records']['invoices'].remove(data)
+        return await update_project(data=project)            
+    except Exception as e:
+        logger().exception(e)
+    finally:
+        del(project)
+
+    
+async def get_invoices(id:str=None)->list:           
+    project:dict = await get_project(id=id)
+    try: return project.get('account').get('records').get('invoices')
+    except Exception as e: logger().exception(e)
+    finally: del(project)
+
+## Process Expences
+async def add_expence( id:str=None, data:dict=None)->list:        
+        project:dict = await get_project(id=id)       
+        try:
+            project['account']['expences'].append(data)
+            await update_project(data=project) 
+            return project.get('account').get('expences')         
+        except Exception as e: logger().exception(e)
+        finally: del(project)
+            
+
+async def get_expences( id:str=None)->list:        
+    project = await get_project(id=id)
+    try: return project.get('account').get('expences')
+    except Exception as e: logger().exception(e)
+    finally: del(project)
+
+    
+async def delete_expence( id:str=None, data:dict=None):  
+    project = await get_project(id=id)     
+    try:
+        project['account']['expences'].remove(data)
+        await update_project(data=project) 
+        return project.get('account').get('expences')         
+    except Exception as e: logger().exception(e)
+    finally: del(project)
+
+# Employee Management
+async def addWorkerSalary(id:str=None, data:dict=None):        
+    project:dict = await get_project(id=id) 
+    withdraw =  {
+        "id": data.get("ref"),
+        "date": data.get("date"), 
+        "type":"withdraw",            
+        "amount": data.get("total"), 
+        "ref": data.get("ref"),
+        "recipient": {
+            "name": data.get("name")
+        }
+    } 
+    e = Employee()
+    pb:typing.Any = None        
+    try:
+        project['account']['transactions']['withdraw'].append(withdraw)      
+        project['account']['records']['salary_statements'].append(data) 
+        pb = await e.addPay(id=data.get('employeeid'), data=data )            
+        await update_project(data=project) 
+        return project.get('account').get('records').get('salary_statements')         
+    except Exception as e: logger().exception(e)
+    finally:
+        del(project)
+        del(withdraw)
+        del(e)
+        del(pb)
+
+
+async def deleteWorkerSalary(id:str=None, data:dict=None):
+        ## get the project
+
+        # get the account transactions and records 
+        # find and remove the salary_statement in question
+        # find and remove the withdrawal record from account transactions withdral
+        # update the project 
+        pass
+
+   
+async def addWorkers(id:str=None, data:list=None):
+        '''Requires a list of workers. Enshure the following JSON data format
+            {
+            "id": "LT0000",
+            "key": "LT0000",
+            "value": {
+                "name": "Love True",
+                "oc": "truelove",
+                "occupation": "labourer",
+                "added": 1664197078000
+            }
+            },
+        '''
+        if data:
+            def enlist(item): # utility sort function
+                return item['id']               
+            project:dict = await get_project(id=id)
+            workers:list = list(map(enlist, project['workers'])) 
+            updated = None
+            for item in data:
+                if item.get('id') in workers:
+                    pass
+                else:
+                    project['workers'].append(item )
+            try:
+                updated = await update_project(data=project)
+                return updated
+            except Exception as e: logger().exception(e)
+            finally:
+                del(updated)
+                del(item)
+                del(workers)
+                del(project)
+        else:
+            return {"error": 501, "message": "You did not provide any data for processing."}
+
+    # Depricated for external function
+    
+    
+async def process_workers(index:list=None) -> dict:
+        try:
+            employees = []
+            e = Employee()
+            if len(index) > 0:
+                for eid in index: 
+                    worker = await e.get_worker(id=eid)
+                    employees.append(worker)             
+                return {"employees": employees} 
+            else: return {"employees": []}                     
+        except Exception as er:
+            return str(er)
+        finally: 
+            del(employees)
+            del(e)
+
+   
 
 class Project: 
     error_log:dict = {}   
@@ -83,6 +378,7 @@ class Project:
     def report_error(self):
         return self.error_log
     
+    # Depricated for external function project_phases
     @property
     def projectPhases(self):
         return {      
@@ -304,10 +600,8 @@ class Project:
 
     # Utilities
     def as_currency(self, amount):
-            if amount >= 0:
-                return '${:,.2f}'.format(amount)
-            else:
-                return '-${:,.2f}'.format(-amount)
+        return to_dollars(amount=amount)
+    
 
     async def daywork_hash_table(self, id:str=None):
         project = await self.get(id=id)
@@ -328,32 +622,11 @@ class Project:
         return hash_table
     
     
-    def hash_data(self, data:dict=None):
-        import hashlib
-        from json import dumps
-        try:            
-            return hashlib.md5(dumps(data).encode()).hexdigest()
-        except Exception as e:
-            return str(e)
-        finally:
-            del(hashlib)
-            del(dumps)
-
-    
-    def validate_hash_data(self, hash_key:bytes=None, data:dict=None):
-        import hashlib
-        from json import dumps
-        try:
-            hash_obj = hashlib.md5(dumps(data).encode()).hexdigest()           
-            return hash_key == hash_obj
-        except Exception as e:
-            return str(e)
-        finally:
-            del(hashlib)
-            del(dumps)
+   
 
 
     ## CRUD OPERATIONS
+    # Depricated for external function all_projects 
     async def all(self):
         try:
             r = await self.conn.get(_directive="_design/project-index/_view/name-view") 
@@ -362,7 +635,7 @@ class Project:
             return str(e)
         finally: del(r)
 
-   
+    # Depricated for external function all_projects_api
     async def all_raw(self):
         try:
             r = await self.conn.get(_directive="_design/project-index/_view/all-raw") 
@@ -372,6 +645,7 @@ class Project:
         finally: del(r)
 
     
+    # Depricated for external function project_name_index
     async def nameIndex(self):
         def processIndex(p):
             return  { "_id": p.get('id'), "name": p.get('value').get('name')}
@@ -382,7 +656,7 @@ class Project:
             return str(e)
         finally: del(r)
 
-
+    # Depricated for external function get_project
     async def get(self, id:str=None):
         r = None
         try:
@@ -396,6 +670,7 @@ class Project:
         finally: del(r)  
 
 
+    # Depricated for external function save_project
     async def save(self):        
         #self.mount(data=data)
         #self.setup()        
@@ -404,6 +679,7 @@ class Project:
         return  self.data    
         
 
+    # Depricated for external function update_project
     async def update(self, data:dict=None):
         try:
             logger().info(f'Project {data.get("_id")} updated.')
@@ -413,6 +689,7 @@ class Project:
             return str(e)
         
 
+    # Depricated for external function delete_project
     async def delete(self, id:str=None):
         status = None
         try:
@@ -423,11 +700,12 @@ class Project:
         finally:
             del(status)
 
-
+    # Depricated 
     async def get_elist(self):
         await self.all_projects()
         return self.projects 
 
+    # Depricated for external function
     def generate_id(self, line_1:str=None, line_2:str=None, local:bool=None ):
         ''' Generates unique id's also may update the project data
             may also return a generator function 
@@ -483,6 +761,7 @@ class Project:
    
     
     ## PROJECT ACCOUNTING
+    # Depricated for external function
     async def handleTransaction(self, id:str=None, data:dict=None):
         if data:
             gen = self.generate_id()
@@ -529,6 +808,7 @@ class Project:
         else:
             return {"error": 501, "message": "You did not provide any data for processing."}
 
+    # Depricated for external function
     async def addInvoice(self, id:str=None, data:dict=None):        
         project = await self.get(id=id)
         project['account']['records']['invoices'].append(data)
@@ -540,7 +820,7 @@ class Project:
         finally:
             del(project)
 
-    
+    # Depricated for external function
     async def deleteInvoice(self, id:str=None, data:dict=None):        
         project = await self.get(id=id)
         project['account']['records']['invoices'].remove(data)
@@ -551,6 +831,7 @@ class Project:
         finally:
             del(project)
 
+    # Depricated for external function
     async def getInvoices(self, id:str=None):        
         project = await self.get(id=id)
         try:
@@ -561,7 +842,7 @@ class Project:
             del(project)
 
 
-    # Project Expences
+    # Depricated for external function add_expence
     async def addExpence(self, id:str=None, data:dict=None):        
         project = await self.get(id=id)
         project['account']['expences'].append(data)
@@ -573,7 +854,7 @@ class Project:
         finally:
             del(project)
             
-
+    # Depricated for external function
     async def getExpences(self, id:str=None):        
         project = await self.get(id=id)
         try:
@@ -583,7 +864,7 @@ class Project:
         finally:
             del(project)
 
-    
+    # Depricated for external function
     async def deleteExpence(self, id:str=None, data:dict=None):        
         project = await self.get(id=id)
         project['account']['expences'].remove(data)
@@ -597,6 +878,7 @@ class Project:
 
 
     # Worker Salary Record
+    # Depricated for external function
     async def addWorkerSalary(self, id:str=None, data:dict=None):        
         project = await self.get(id=id) 
         withdraw =  {
@@ -624,6 +906,7 @@ class Project:
         finally:
             del(project)
 
+    # Depricated for external function
     async def deleteWorkerSalary(self, id:str=None, data:dict=None):
         ## get the project
 
@@ -689,6 +972,7 @@ class Project:
 
 
     ## PROJECT WORKERS
+    # Depricated for external function
     async def addWorkers(self, id:str=None, data:list=None):
         '''Requires a list of workers. Enshure the following JSON data format
             {
@@ -726,6 +1010,7 @@ class Project:
         else:
             return {"error": 501, "message": "You did not provide any data for processing."}
 
+    # Depricated for external function
     async def process_workers(self, index:list=None) -> dict:
         try:
             employees = []

@@ -2,10 +2,10 @@
 from starlette.responses import HTMLResponse, RedirectResponse, JSONResponse, StreamingResponse
 from starlette_login.decorator import login_required
 from decoRouter import Router
-from modules.rate import Rate
+from modules.rate import Rate, all_rates, get_industry_rate, rate_categories, delete_rate
 from modules.supplier import Supplier
 from modules.equipment import Equipment
-from modules.project import Project
+from modules.project import Project, update_project, all_projects, get_project
 from modules.utils import timestamp
 from config import TEMPLATES
 
@@ -71,9 +71,9 @@ async def rates_html_table(request):
 async def industry_rates(request):
     store_room = request.app.state.STORE_ROOM
     filter = request.path_params.get('filter')
-    rates = await Rate().all_rates()
+    rates = await all_rates()
     categories = {rate.get('category') for rate in rates }
-    rate_categories = Rate().categories
+    r_categories = rate_categories()
     if filter:
         store_room['filter'] = filter
         if filter == 'all' or filter == 'None':            
@@ -87,7 +87,7 @@ async def industry_rates(request):
         "categories": categories,
         "filtered": filtered,
         "store_room":  store_room,
-        "rate_categories": list(rate_categories.keys())
+        "rate_categories": list(r_categories.keys())
 
     }
                                       )
@@ -101,22 +101,39 @@ async def get_rates_html_index(request):
 @router.get('/rates_html_index/{filter}')
 async def get_filtered_rates_html_index(request):
     filter_request = request.path_params.get('filter')
-    return StreamingResponse(Rate().html_index_generator(filter=filter_request), media_type="text/html")
+    #return StreamingResponse(Rate().html_index_generator(filter=filter_request), media_type="text/html")
+    rates = await all_rates()
+    categories = {rate.get('category') for rate in rates }
+    if filter_request:
+        if filter_request == 'all' or filter_request == 'None':            
+                filtered = rates
+        else:
+            filtered = [rate for rate in rates if rate.get("category") == filter]
+    return TEMPLATES.TemplateResponse('/rate/ratesIndex.html',
+        {
+            'request': request,
+            'filter': filter_request,
+            'filtered': filtered,
+            'rates': rates,
+            'categories': categories
+
+        })
+
 
 @router.get('/rate/{id}')
-async def get_rate(request):
-    
-    projects = await Project().all()
+async def get_rate(request):    
+    projects = await all_projects()
     id = request.path_params.get('id')
-    rate = await Rate().get(id=id)
-    rate_categories = Rate().categories
+    try: rate = await get_industry_rate(id=id)
+    except Exception: rate = await get_industry_rate(id=id) # Rate().get(id=id)
+    r_categories = rate_categories()
     try:
         return TEMPLATES.TemplateResponse('/rate/industryRate.html', {
             "request": request, 
             "rate": rate, 
             "task": rate,
-            "projects": projects.get('rows'),
-            "rate_categories": list(rate_categories.keys())
+            "projects": projects,
+            "rate_categories": list(r_categories.keys())
             } )
     except Exception as e:
         return HTMLResponse(f"""
@@ -132,9 +149,9 @@ async def get_rate(request):
 
 
 @router.delete('/industry_rate/{id}')
-async def delete_rate(request): 
+async def delete_industry_rate(request): 
     try:
-        await Rate().delete(id=request.path_params.get('id'))
+        await delete_rate(id=request.path_params.get('id'))
         return RedirectResponse(url=f"/industry_rates/all", status_code=302)
     except Exception as e:
         return HTMLResponse(f"""
@@ -147,15 +164,15 @@ async def delete_rate(request):
 @router.post('/add_industry_rate/{id}')
 @login_required
 async def add_industry_rate(request):
-    from modules.project import Project
+   
     id = request.path_params.get('id')
     idds = set()
     
     async with request.form() as form:
         rate_id = form.get('rate').strip()
     
-    project = await Project().get(id=id)
-    rate = await Rate().get(id=rate_id)
+    project = await get_project(id=id)
+    rate = await get_industry_rate(id=rate_id)
     rate['_id'] = f"{id}-{rate_id}"
     
     try:
@@ -177,7 +194,7 @@ async def add_industry_rate(request):
                     }
 
                 )
-                await Project().update(data=project)
+                await update_project(data=project)
                 message = f"""
                     <div class="uk-alert-success" uk-alert>
                         <a href class="uk-alert-close" uk-close></a>
@@ -198,8 +215,7 @@ async def add_industry_rate(request):
             del(rate)
             del(id)
             del(idds)
-            del(project)
-            del(Project)
+            del(project)            
             del(form)
             del(rate_id)
             del(item)

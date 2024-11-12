@@ -2,18 +2,17 @@
 import json
 import typing
 from starlette.responses import HTMLResponse, RedirectResponse, JSONResponse, StreamingResponse
-from database import Recouch
+from database import Recouch, local_db
 from functools import lru_cache
 
 try:
     from modules.utils import timestamp
-    from modules.utils import GenerateId  
+    from modules.utils import generate_id
 except Exception as e:
     from utils import timestamp
-    from utils import GenerateId  
+    from utils import generate_id
 
-
-databases = {
+databases = { # Employee Databases
             "local":"site-workers", 
             "local_partitioned": False,
             "slave":"site-workers", 
@@ -22,28 +21,15 @@ databases = {
             }
 
 
-def local_db(db_name:str):
-    """Connection to a local non partitioned couch database.
-
-    Args:
-        db_name (str): _description_
-
-    Returns:
-        _type_: _coroutine_
-    """    
-    conn = Recouch(local_db=db_name) 
-    return conn      
-
-db_connection = local_db(db_name=databases.get('local'))   
+# connection to site-workers database 
+db_connection:typing.Coroutine = local_db(db_name=databases.get('local'))   
 
 
-@lru_cache(maxsize=360)
+#@lru_cache(maxsize=360)
 async def all_employees(conn:typing.Coroutine=db_connection)->dict:   
     """_summary_
-
     Args:
         conn (typing.Coroutine, optional): _description_. Defaults to db_connection.
-
     Returns:
         dict: _description_
     """
@@ -53,13 +39,11 @@ async def all_employees(conn:typing.Coroutine=db_connection)->dict:
         return {"error": str(e)}   
 
 
-@lru_cache
+#@lru_cache
 async def all_workers(conn:typing.Coroutine=db_connection)->list:
     """_summary_
-
     Args:
         conn (typing.Coroutine, optional): _description_. Defaults to db_connection.
-
     Returns:
         list: _description_
     """
@@ -82,8 +66,10 @@ async def get_worker( id:str=None, conn:typing.Coroutine=db_connection )->dict:
     return await conn.get(_directive=id) 
 
 
-async def get_worker_name_index()->list:    
-    return [{"name": item.get('value').get('name'), "id": item.get('id')} for item in  await all_workers()]   
+async def get_worker_name_index()->list:   
+    workers = await all_workers() 
+    try: return [{"name": item.get('value').get('name'), "id": item.get('id')} for item in  workers ]   
+    finally: del workers
 
         
 async def get_worker_by_name( name:str=None, conn:typing.Coroutine=db_connection ) -> dict:
@@ -99,28 +85,69 @@ async def get_worker_by_name( name:str=None, conn:typing.Coroutine=db_connection
         del index
         del(id)
         
-        
-def generate_id(name:str=None)->str:
-        ''' Generates a unique Human readable id, also updates the worker data'''              
-        gen = GenerateId()
-        fln = name.split(' ') # first, last name
-        try:           
-            return gen.name_id(ln=fln[0], fn=fln[1]) 
-        except:
-            return gen.name_id('C', 'W')
-        finally:           
-            del(gen)
-            del(fln)
+ 
            
 # CRUD Functions
 
-async def save(data:dict=None, conn:typing.Coroutine=db_connection ):        
-        try:
-            data['imgurl'] = f"static/imgs/workers/{data.get('_id')}.png" 
-            await conn.post( json=data)            
-            return data
-        except Exception as e:
-            return {"error": str(e)}
+async def save_employee(data:dict=None, conn:typing.Coroutine=db_connection ):        
+    try:
+        data["_id"] = generate_id(name=data.get('name'))
+        data['imgurl'] = f"static/imgs/workers/{data.get('_id')}.png" 
+        await conn.post( json=data)            
+        return data
+    except Exception as e:
+        return {"error": str(e)}
+    
+
+async def update_employee(data:dict=None, conn:typing.Coroutine=db_connection ):   
+    payload =  await conn.put( json=data)   
+    try:           
+        return payload
+    except Exception as e:
+        return {"error": str(e)}
+    finally: 
+        del payload
+
+
+async def add_job_task(id:str=None, data:dict=None)->dict: 
+    """_Assign a task from a job to a worker_
+    Args:
+        id (str, optional): _employee's id_. Defaults to None.
+        data (dict, optional): _description_. Defaults to None.
+
+    Returns:
+        dict: _Returns a dictionary with worker identification, 
+        job identification and an updated jobtasks list_
+    """        
+    try:        
+        #get the worker's data
+        worker = await get_worker(id=id)                   
+        worker['tasks'].append(data)                   
+        await update_employee(data=worker) 
+        idds = data.split('-')                    
+        def process_job_tasks(item):
+            if f"{idds[0]}-{idds[1]}" in item:
+                return item
+        jobtasks = list(map(process_job_tasks, worker.get('tasks')))
+        return {"worker": id, "job": f"{idds[0]}-{idds[1]}", "tasks": jobtasks}            
+    except Exception as ex:
+        return {"status": str(ex)}
+
+
+
+async def submit_day_work(eid:str=None, data:dict=None)-> list:
+    '''Returns the list of days worked'''
+    e = await get_worker(id=eid)
+    try:
+        e['days'].append(data)
+        await update_employee(data=e)
+        return e.get('days')
+    except Exception as e:
+        print({'function': 'submitDayWork', 'exception': str(e)}) # Log this
+        return e.get('days')
+    finally:
+        del e
+
        
 
        
@@ -166,18 +193,23 @@ class Employee:
                 self.generate_id()
 
     
+    # Depricated for external function all_employees
     async def all(self):
         try:
             return await self.conn.get(_directive="_all_docs") 
         except Exception as e:
             return {"error": str(e)}
 
+    
+    # Depricated for external function
     async def all_workers(self):
         try:
             return await self.slave.get(_directive="_design/workers/_view/name-index") 
         except Exception as e:
             return {"error": str(e)}
 
+    
+    # Depricated for external function
     async def get_worker(self, id:str=None):
         self.worker = await self.conn.get(_directive=id) 
         #self.processAccountTotals 
@@ -207,7 +239,7 @@ class Employee:
             del(worker)
 
 
-
+    # Depricated for external function
     async def save(self, data:dict=None):
         self.mount(data=data)
         from asyncio import sleep
@@ -222,7 +254,8 @@ class Employee:
             return {"status": str(Exception)}
         finally: del sleep
 
-
+    
+    # Depricated for external function
     async def update(self, data:dict=None):   
             
         try:
@@ -246,12 +279,14 @@ class Employee:
             del(res); del(worker)       
 
 
+    # Depricated for external function
     async def get_name_index(self):    
         employees =  await self.all_workers()
         employees = employees.get('rows')  
         return [{"name": item.get('value').get('name'), "id": item.get('id')} for item in employees]
         
 
+    # Depricated for external function
     async def get_by_name(self, name:str=None) -> dict:
         index = await self.get_name_index()
         id = [item.get('id') for item in index if item.get('name') == name]
@@ -260,6 +295,7 @@ class Employee:
         return await self.get_worker(id=id)
     
 
+    # Depricated for external function
     def generate_id(self):
         ''' Generates a unique Worker id, also updates the worker data''' 
         from modules.utils import GenerateId       
@@ -321,7 +357,7 @@ class Employee:
         except Exception as e:
             return str(e)
 
-
+    # Depricated for external function
     async def addJobTask(self, id=None, data=None): 
         '''Assign a task from a job to a worker
             --- Returns a list of tasks of the said job asigned to the worker'''
@@ -341,7 +377,8 @@ class Employee:
             
         except Exception as ex:
             return {"status": str(ex)}
-        
+
+    # Depricated for external function   
     async def submitDayWork(self, eid:str=None, data:dict=None)-> list:
         '''Returns the list of days worked'''
         e = await self.get_worker(id=eid)

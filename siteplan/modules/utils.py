@@ -1,22 +1,36 @@
-# Rebar Platform Utilities 
-#Date Nov 26 2022
-
+# SitePlan Platform Utilities 
+# Date Nov 26 2022
+# Author: Ian Alexander Moncrieffe
 import datetime
+import json
 from strgen import StringGenerator
 
 
 
-def today():
+
+def today()->str:
+    """Presents the date in a human readable date time string
+    Returns:
+        str: String of current date and time
+    """
     return datetime.date.today().strftime('%B %d, %Y')
     
 
 # Timestamp 
-def timestamp(date:str=None):
-    '''
-    Timestamp returns an integer representation of the current time.
+def timestamp(date:str=None)->int:
+    """Timestamp returns an integer representation of the current or requested time.
+   
+    Args:
+        date (str, optional): a date string. Defaults to None.
+
+    Returns:
+        int: representation of the current time
+    Example:
     >>> timestamp()
     1673633512000
-    '''
+    >>> timestamp()
+    1673633512000
+    """
     if date:
         element = datetime.datetime.strptime(date,"%Y-%m-%d")        
         return int(datetime.datetime.timestamp(element) * 1000)       
@@ -334,6 +348,7 @@ class GenerateId:
         code = '[0-9]{2:%s}'% int(sec)
         return f"{event[:3].upper()}{event_code}-{StringGenerator(str(code)).render(unique=True)}"
         
+
 class Security:
     def safe_file_storage(self, item:str, item_1:str):
         import werkzeug
@@ -365,6 +380,59 @@ def to_dollars(amount:float=None):
         return 0
     
 
+       
+def generate_id(name:str=None)->str:
+        ''' Generates a unique Human readable id, also updates the worker data'''              
+        gen = GenerateId()
+        fln = name.split(' ') # first, last name
+        try:           
+            return gen.name_id(ln=fln[0], fn=fln[1]) 
+        except:
+            return gen.name_id('C', 'W')
+        finally:           
+            del(gen)
+            del(fln)
+           
+def generate_docid()->str:
+    """Generates a unique document id
+
+    Returns:
+        str: Unique string of letters and numbers 
+    """           
+    gen:GenerateId = GenerateId()       
+    try: return gen.gen_id(doc_tag='item')        
+    finally: del(gen)
+            
+           
+
+def hash_data(data:dict=None)->str:
+    """_summary_
+
+    Args:
+        data (dict, optional): _description_. Defaults to None.
+
+    Returns:
+        str: _description_
+    """
+    import hashlib    
+    try:            
+        return hashlib.md5(json.dumps(data).encode()).hexdigest()
+    except Exception as e:
+        return str(e)
+    finally:
+        del(hashlib)
+        
+    
+def validate_hash_data( hash_key:bytes=None, data:dict=None):
+        import hashlib        
+        try:
+            hash_obj = hashlib.md5(json.dumps(data).encode()).hexdigest()           
+            return hash_key == hash_obj
+        except Exception as e:
+            return str(e)
+        finally:
+            del(hashlib)
+            
 
 # test
 def test_secure_safe_compare(s1, s2):
@@ -398,5 +466,12 @@ def test_delete():
         del(r2) 
         del(rs)
 
-#test_delete()
+if __name__ == "__main__":
+    print('Testing from SitePlan utils')
+    data = {'na': "pete", 'aa': 5 }
+    hd = hash_data(data=data)
+    print(hd)
+    
+    vdt = validate_hash_data( hash_key=hd, data=data)
+    print(vdt)
 

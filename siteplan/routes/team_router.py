@@ -1,12 +1,17 @@
 # Team Router 
 import json
+from pathlib import Path
+from starlette.requests import Request
 from starlette.responses import HTMLResponse, RedirectResponse, JSONResponse, StreamingResponse
 from starlette_login.decorator import login_required
+from starlette.background import BackgroundTask
 from decoRouter import Router
+from PIL import Image
+from io import BytesIO
 from modules.project import Project
-from modules.employee import Employee
+from modules.employee import Employee, save_employee, all_workers, get_worker, get_worker_by_name, get_worker_name_index
 from models.human_resource_models import BaseEmployee
-from config import TEMPLATES
+from config import TEMPLATES, PROFILES_PATH
 from modules.utils import timestamp
 from time import sleep
 import asyncio
@@ -20,9 +25,6 @@ def convert_empty_string(t_string:str=None):
         return None
     else:
         return t_string
-           
-                
-
         
 
 async def datavet():
@@ -49,8 +51,6 @@ async def datavet():
     #await Employee().update(data=worker)
     print(e)
     
-
-
  
 #asyncio.run(datavet())
 
@@ -60,10 +60,10 @@ router = Router()
 
 @router.post('/newworker')
 @login_required
-async def new_worker(request):
+async def new_worker(request:Request):
     payload = {}
-    try:
-        async with request.form() as form:            
+   
+    async with request.form() as form:            
             payload['name'] = form.get('name')
             payload['oc'] = form.get('oc')
             payload['sex'] = form.get('sex')
@@ -80,8 +80,6 @@ async def new_worker(request):
                 'street': form.get('street'),
                   'town': form.get('town'),
                    'city_parish': form.get('city_parish')
-                  
-                
                 }
             payload['contact'] = {
                 'tel': form.get('tel'),
@@ -97,8 +95,7 @@ async def new_worker(request):
                 "account_type": form.get('account_type')
                 },
                 "payments": [],
-                "loans": []
-                
+                "loans": []                
             }
             payload["nok"] = {
                 "name": form.get('kin_name'),
@@ -121,17 +118,16 @@ async def new_worker(request):
                 "terminated": None,
                 "duration": 0
             },
-            payload["reports"] = []
-            
-        ne = await Employee().save(data = payload)   
-
-              
+            payload["reports"] = []            
+    ne = await save_employee(data = payload)   
+    try:              
         return HTMLResponse(f"""<p class="bg-blue-800 text-white text-sm font-bold py-3 px-4 mx-5 my-2 rounded-md">{ne }</p>""")
     except Exception as e:
         return HTMLResponse(f"""<p class="bg-red-400 text-red-800 text-2xl font-bold py-3 px-4"> An error occured! ---- {str(e)}</p> """)
 
     finally:
         del(payload)
+        del ne
         
 
 @router.get('/team_index')
@@ -140,9 +136,8 @@ async def team_index(request):
 
 
 @router.get('/team')
-async def team(request): 
-    workers:dict = await Employee().all_workers()
-    workers:list = workers.get('rows')
+async def team(request:Request): 
+    workers:list = await all_workers()    
     try:
         return TEMPLATES.TemplateResponse('/employee/employeesIndex.html', {
             "request": request,
@@ -155,9 +150,9 @@ async def team(request):
 
 
 @router.get('/team/{id}')
-async def team_member(request): 
+async def team_member(request:Request): 
     id=request.path_params.get('id')
-    e = await Employee().get_worker(id=request.path_params.get('id')) 
+    e = await get_worker(id=request.path_params.get('id')) 
     jobs = []
     tasks = []
     async def get_jobs_details(job_id):
@@ -205,10 +200,11 @@ async def team_member(request):
 
 
 
+
 @router.get('/project_team/{id}')
-async def project_team_member(request): 
+async def project_team_member(request:Request): 
     id=request.path_params.get('id')
-    e = await Employee().get_worker(id=request.path_params.get('id')) 
+    e = await get_worker(id=request.path_params.get('id')) 
     jobs = []
     tasks = []
     async def get_jobs_details(job_id):
@@ -258,38 +254,45 @@ async def project_team_member(request):
 
 @router.get('/team_json/{id}')
 async def team_json(request):  
-  return JSONResponse( await Employee().get_worker(id=request.path_params.get('id')))
+  worker = await get_worker(id=request.path_params.get('id'))
+  return JSONResponse( worker )
 
 
+# API
 @router.get('/team_by_name/{name}')
 async def team_by_name(request):  
-  #index = await Employee().get_name_index()
-  return JSONResponse( await Employee().get_by_name(name=request.path_params.get('name')))
+  worker =  await get_worker_by_name(name=request.path_params.get('name'))
+  try:
+      return JSONResponse(worker)
+  finally:
+      del worker
 
 
-
+# Api
 @router.get('/team_name_index')
 async def team_name_index(request):  
-  return JSONResponse( await Employee().get_name_index())
+  index = await get_worker_name_index()
+  return JSONResponse( index )
 
  
 @router.get('/employee_info/{id}')
-async def employee_info(request):   
-    #employee = await Employee().get_worker_info(id=request.path_params.get('id')) 
-   
-    return TEMPLATES.TemplateResponse(
-        '/employee/employeeInfo.html', 
-        {
-            "request": request , 
-            "employee": await Employee().get_worker_info(id=request.path_params.get('id')) 
-            }
-    )
+async def employee_info(request:Request):   
+    employee = await Employee().get_worker_info(id=request.path_params.get('id'))
+    try:
+        return TEMPLATES.TemplateResponse(
+            '/employee/employeeInfo.html', 
+            {
+                "request": request , 
+                "employee": employee 
+            })
+    finally:
+        del employee
 
 
 
 @router.get('/employee_jobs/{id}')
 async def employee_jobs(request):   
-    employee = await Employee().get_worker(id=request.path_params.get('id')) 
+    employee = await get_worker(id=request.path_params.get('id')) 
     jobs = []
    
     async def get_jobs_details(job_id):
@@ -334,7 +337,7 @@ async def employee_jobs(request):
 
 @router.get('/employee_tasks/{id}')
 async def employee_tasks(request):   
-    employee = await Employee().get_worker(id=request.path_params.get('id')) 
+    employee = await get_worker(id=request.path_params.get('id')) 
     jobs = []
     tasks = []
     async def get_jobs_details(job_id):
@@ -376,8 +379,9 @@ async def employee_tasks(request):
 
 
 @router.get('/employee_days/{id}')
-async def employee_days(request):   
-    employee = await Employee().get_worker(id=request.path_params.get('id')) 
+async def employee_days(request:Request):   
+    employee = await get_worker(id=request.path_params.get('id')) 
+
     return TEMPLATES.TemplateResponse(
         "/employee/employeeDaysworkIndex.html",
         {"request": request, "employee": {"days": employee.get('days') }, "id":request.path_params.get('id')})
@@ -386,7 +390,7 @@ async def employee_days(request):
 
 @router.get('/employee_account/{id}')
 async def employee_account(request):   
-    employee = await Employee().get_worker(id=request.path_params.get('id')) 
+    employee = await get_worker(id=request.path_params.get('id')) 
     account = employee.get('account', [])
     account['_id'] = request.path_params.get('id')
     return TEMPLATES.TemplateResponse(
@@ -403,42 +407,49 @@ async def employee_account(request):
 
 
 @router.get('/employee_reports/{id}')
-async def employee_reports(request):   
-    employee = await Employee().get_worker(id=request.path_params.get('id')) 
-    account = employee.get('account', [])
-    account['_id'] = request.path_params.get('id')
-    return TEMPLATES.TemplateResponse(
-        '/employee/employeeReports.html', 
-        {
-            "request": request , 
-            "reports": employee.get('reports', []), 
-            "id": request.path_params.get('id')
-        }
-    )
+async def employee_reports(request:Request):  
+    employee:dict = await get_worker(id=request.path_params.get('id'))    
+    try:       
+        return TEMPLATES.TemplateResponse(
+            '/employee/employeeReports.html', 
+            {
+                "request": request , 
+                "reports": employee.get('reports', []), 
+                "id": request.path_params.get('id')
+            }
+        )
+    finally:
+        del employee
+        
+
+async def handle_image_upload(profile_path:str, file_contents:Image)->None:
+    """_summary_
+
+    Args:
+        profile_path (str): _description_
+        file_contents (Image): _description_
+    """
+    img = Image.open(BytesIO(file_contents))
+    img.save(profile_path)
+    img.close()
 
 
 
 @router.post('/upload_employee_profile/{id}')
-async def upload_employee_profile(request):
-    from PIL import Image
-    from io import BytesIO
-    from config import PROFILES_PATH, Path
-
+async def upload_employee_profile(request:Request)->HTMLResponse:
     id=request.path_params.get('id')
-    employee = await Employee().get_worker(id=id) 
+    employee = await get_worker(id=id) 
     profile_path = Path.joinpath(PROFILES_PATH, f"{id}.png")
     async with request.form() as form:
         filename = form["profile"].filename
         contents = await form["profile"].read()
-    img = Image.open(BytesIO(contents))
-    img.save(profile_path)
-    img.close()
-    
+    task = BackgroundTask(handle_image_upload, profile_path, contents)
+        
     return HTMLResponse(f"""<div  class="uk-width-auto">
                     
                     <img class="uk-border-square" width="86" height="86" src="{ employee.get('imgurl') }" alt="Avatar">
                     <span class="text-center text-xs">{ employee.get('oc')}</span>
-                </div>""")
+                </div>""", background=task)
 
 
 @router.get('/analytics')

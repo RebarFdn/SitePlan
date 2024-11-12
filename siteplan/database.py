@@ -6,7 +6,8 @@
 #Dependencies
 import httpx
 import asyncio
-import aioredis
+import typing
+#import aioredis
 
 from modules.utils import timestamp
 
@@ -194,6 +195,20 @@ class RecouchManager():
         self.handler.exit()
 
 
+
+def local_db(db_name:str)->typing.Coroutine:
+    """Connection to a local non partitioned couch database.
+    Args:
+        db_name (str): _description_
+    Returns:
+        _type_: _coroutine_
+    """   
+    conn = Recouch(local_db=db_name) 
+    return conn  
+
+
+
+'''
 class RedisCache():
     def __init__(self, db=None):
         self.db = db
@@ -239,5 +254,4 @@ class RedisCache():
         value = await self.get("CURRENT_PAYBILL")
         return value
 
-
-recouch = Recouch(local_db=None)
+'''
