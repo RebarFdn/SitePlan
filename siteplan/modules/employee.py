@@ -134,7 +134,6 @@ async def add_job_task(id:str=None, data:dict=None)->dict:
         return {"status": str(ex)}
 
 
-
 async def submit_day_work(eid:str=None, data:dict=None)-> list:
     '''Returns the list of days worked'''
     e = await get_worker(id=eid)
@@ -148,9 +147,99 @@ async def submit_day_work(eid:str=None, data:dict=None)-> list:
     finally:
         del e
 
-       
+
+async def get_worker_info( id:str=None):
+    worker = await get_worker(id=id) 
+    worker = json.loads(json.dumps(worker))
+    try: 
+        loans =   worker.get('account').get('loans', [])     
+        worker["account"] = json.loads(json.dumps({"loans": loans  }))
+        worker["loans"] = len(worker.get('account').get('loans', []))
+        worker["tasks"] = len(worker["tasks"])
+        if "jobs" in worker.keys():
+            worker["jobs"] = len(worker["jobs"])
+        else:
+            worker["jobs"] = 0
+            # Fix missing key bug
+            #worker["jobs"] = []
+        await save_employee(data=worker)
+        worker["days"] = len(worker["days"])
+        worker["reports"] = len(worker["reports"])
+            #self.processAccountTotals 
+        return worker
+    finally: del(worker)
 
        
+async def process_days_work(name:str=None, date_id:str=None, paid:bool=False, amount:float=None):        
+    employee = await get_worker_by_name(name=name)
+    for daywork in employee.get('days'):
+        if daywork.get('id') == date_id:
+            daywork['payment']['amount'] = amount
+            daywork['payment']['paid'] = paid
+    await update_employee(data=employee)
+        
+
+async def process_account_totals(id:str=None):
+    #function to process employee pay 
+    def processPay(p):
+        return p['total']
+    worker = await get_worker(id=id)
+    worker['account']['totals_payments'] = list(map(processPay, worker['account']['payments']))   
+    worker['account']['total'] = sum(worker['account']['totals_payments'])   
+
+
+async def add_pay( id=None, data=None):       
+    try:        
+        #get the worker's data
+        worker = await get_worker(id=id)        
+        worker['account']['payments'].append(data) 
+        process_account_totals(id=id)       
+        await update_employee(data=worker)
+        return worker.get('account').get('payments')           
+    except Exception as ex: 
+        return {"status": str(ex)}
+        
+
+async def delete_pay( id:str=None, data:dict=None):
+    worker = await get_worker(id=id)
+    try:
+        worker['account']['payments'].remove(data)
+        await update_employee(data=worker)
+        return worker.get('account').get('payments') 
+    except Exception as e:
+        return str(e)
+
+
+async def add_job_task( id=None, data=None): 
+    '''Assign a task from a job to a worker
+            --- Returns a list of tasks of the said job asigned to the worker
+    '''
+    worker =  await get_worker(id=id) 
+    try:        
+        worker['tasks'].append(data)                   
+        await update_employee(data=worker) 
+        idds = data.split('-')                   
+        def process_job_tasks(item):
+            if f"{idds[0]}-{idds[1]}" in item:
+                return item
+        jobtasks = list(map(process_job_tasks, worker.get('tasks')))
+        return {"worker": id, "job": f"{idds[0]}-{idds[1]}", "tasks": jobtasks}
+            
+    except Exception as ex:
+        return {"status": str(ex)}
+
+      
+async def submit_daywork( eid:str=None, data:dict=None)-> list:
+    '''Returns the list of days worked'''
+    e:dict = await get_worker(id=eid)
+    e['days'].append(data)
+    await update_employee(data=e)
+    return e.get('days')
+    
+    
+
+
+
 class Employee:
     instances = 0
     _id:str = None   
@@ -215,7 +304,7 @@ class Employee:
         #self.processAccountTotals 
         return self.worker
     
-
+    # Depricated for external function
     async def get_worker_info(self, id:str=None):
         self.worker = await self.conn.get(_directive=id) 
         worker = json.loads(json.dumps(self.worker))
@@ -267,7 +356,7 @@ class Employee:
             return {"error": str(e)}
         finally: pass
         
-
+    # Depricated for external function 
     async def delete(self, id:str=None):
         worker = await self.get_worker(id=id)
         try:
@@ -315,7 +404,7 @@ class Employee:
             del(gen)
             del(GenerateId)
     
-
+    # Depricated for external function
     async def process_days_work(self, name:str=None, date_id:str=None, paid:bool=False, amount:float=None):        
         employee = await self.get_by_name(name=name)
         for daywork in employee.get('days'):
@@ -326,7 +415,7 @@ class Employee:
         
 
 
-
+    # Depricated for external function
     @property
     def processAccountTotals(self):
         #function to process pay 
@@ -335,7 +424,7 @@ class Employee:
         self.worker['account']['totals_payments'] = list(map(processPay, self.worker['account']['payments']))   
         self.worker['account']['total'] = sum(self.worker['account']['totals_payments'])   
         
-
+    # Depricated for external function
     async def addPay(self, id=None, data=None):       
         try:        
             #get the worker's data

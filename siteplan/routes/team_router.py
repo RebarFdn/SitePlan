@@ -8,8 +8,9 @@ from starlette.background import BackgroundTask
 from decoRouter import Router
 from PIL import Image
 from io import BytesIO
-from modules.project import Project
-from modules.employee import Employee, save_employee, all_workers, get_worker, get_worker_by_name, get_worker_name_index
+from modules.project import Project, get_project
+from modules.employee import ( Employee, save_employee, all_workers, get_worker, 
+    get_worker_by_name, get_worker_name_index, get_worker_info)
 from models.human_resource_models import BaseEmployee
 from config import TEMPLATES, PROFILES_PATH
 from modules.utils import timestamp
@@ -33,7 +34,7 @@ async def datavet():
     
     #employee = Employee( ** dict(name='Jack Price', oc='Big Jack', sex='male', occupation='plumber') )
     #for item in data:
-    worker = await Employee().get_by_name('Anuk Moncrieffe') 
+    worker = await get_worker_by_name('Anuk Moncrieffe') 
     e = BaseEmployee( ** worker )       
         
     #c = worker.get('address')
@@ -210,7 +211,7 @@ async def project_team_member(request:Request):
     async def get_jobs_details(job_id):
         if '-' in job_id:
             idd = job_id.split('-')
-            project = await Project().get(id=idd[0])
+            project = await get_project(id=idd[0])
             _job = [job for job in project.get('tasks') if job.get('_id') == job_id]
             if len(_job) > 0:
                 _job = _job[0]
@@ -277,7 +278,7 @@ async def team_name_index(request):
  
 @router.get('/employee_info/{id}')
 async def employee_info(request:Request):   
-    employee = await Employee().get_worker_info(id=request.path_params.get('id'))
+    employee = await get_worker_info(id=request.path_params.get('id'))
     try:
         return TEMPLATES.TemplateResponse(
             '/employee/employeeInfo.html', 
@@ -298,7 +299,7 @@ async def employee_jobs(request):
     async def get_jobs_details(job_id):
         if '-' in job_id:
             idd = job_id.split('-')
-            project = await Project().get(id=idd[0])
+            project = await get_project(id=idd[0])
             a_job = [job for job in project.get('tasks') if job.get('_id') == job_id]
             if len(a_job) > 0:
                 a_job = a_job[0]           
@@ -343,7 +344,7 @@ async def employee_tasks(request):
     async def get_jobs_details(job_id):
         if '-' in job_id:
             idd = job_id.split('-')
-            project = await Project().get(id=idd[0])
+            project = await get_project(id=idd[0])
             a_job = [job for job in project.get('tasks') if job.get('_id') == job_id][0]
             e_tasks = [task for task in a_job.get('tasks') if task.get('_id') in employee.get('tasks')]
             if len(e_tasks) > 0:

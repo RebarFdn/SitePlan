@@ -7,7 +7,7 @@ from logger import logger
 from functools import lru_cache
 from modules.utils import timestamp, filter_dates, generate_id, generate_docid, to_dollars, hash_data, validate_hash_data
 from database import Recouch, local_db
-from modules.employee import Employee
+from modules.employee import Employee, add_pay
 from config import DOCUMENT_PATH, IMAGES_PATH
 from config import SYSTEM_LOG_PATH as SYSTEM_LOG, APP_LOG_PATH as APP_LOG
 
@@ -216,7 +216,7 @@ async def delete_expence( id:str=None, data:dict=None):
     finally: del(project)
 
 # Employee Management
-async def addWorkerSalary(id:str=None, data:dict=None):        
+async def add_worker_salary(id:str=None, data:dict=None):        
     project:dict = await get_project(id=id) 
     withdraw =  {
         "id": data.get("ref"),
@@ -228,23 +228,21 @@ async def addWorkerSalary(id:str=None, data:dict=None):
             "name": data.get("name")
         }
     } 
-    e = Employee()
-    pb:typing.Any = None        
+         
     try:
         project['account']['transactions']['withdraw'].append(withdraw)      
         project['account']['records']['salary_statements'].append(data) 
-        pb = await e.addPay(id=data.get('employeeid'), data=data )            
+        await add_pay(id=data.get('employeeid'), data=data )            
         await update_project(data=project) 
         return project.get('account').get('records').get('salary_statements')         
-    except Exception as e: logger().exception(e)
+    except Exception as ex: logger().exception(ex)
     finally:
         del(project)
         del(withdraw)
-        del(e)
-        del(pb)
+        
 
 
-async def deleteWorkerSalary(id:str=None, data:dict=None):
+async def delete_worker_salary(id:str=None, data:dict=None):
         ## get the project
 
         # get the account transactions and records 
@@ -254,7 +252,7 @@ async def deleteWorkerSalary(id:str=None, data:dict=None):
         pass
 
    
-async def addWorkers(id:str=None, data:list=None):
+async def add_workers(id:str=None, data:list=None):
         '''Requires a list of workers. Enshure the following JSON data format
             {
             "id": "LT0000",
@@ -309,7 +307,181 @@ async def process_workers(index:list=None) -> dict:
             del(employees)
             del(e)
 
-   
+
+async def create_new_paybill( id:str=None, data:dict=None):
+    p = await get_project(id=id)
+    data['ref'] = f"{id}-Bill-{len( p['account']['records']['paybills']) + 1 }"
+    p['account']['records']['paybills'].append(data)
+    await update_project(data=p) 
+    return data
+    
+
+async def add_bill_item( id:str=None, data:dict=None):
+    idd = id.split('-')
+    project = await get_project(id=idd[0])
+    item_ids = []  
+    bill =[item for item in  project['account']['records']['paybills'] if item.get("ref") == id ][0]
+    try:
+        if len(bill['items']) > 0:
+            for bill_item in bill.get('items'):  
+                item_ids.append(bill_item.get('id'))
+            if data.get('id') in item_ids:
+                #print('BILL-item is already included in Pay Bill')
+                return None
+            else:
+                #print(f"BILL-item will be added to the pay bill ....{data.get('id')}")
+                bill['items'].append(data)
+                await update_project(data=project)
+                return data
+        else:
+            #print('New BILL-item will be added to the Pay bill')
+            bill['items'].append(data)
+            await update_project(data=project)
+            return data               
+    except Exception as e:
+        return str(e)
+    finally:
+        del(idd)
+        del(project)
+        del(item_ids)
+        del(bill)
+        
+           
+async def process_paybill_dayworker( bill_ref:str=None, worker:str=None, start_date:str=None, end_date:str=None)->list:
+    project:dict = await get_project(id=bill_ref.split('-')[0])
+    days:list = []
+    try:
+        if start_date and end_date:
+            days = [day_work for day_work in project.get('daywork', []) if filter_dates(date=day_work.get('date'), start=start_date, end=end_date ) ]
+            days = [item for item in days if item.get('worker_name').split('_')[0] == worker]
+            return days
+        else:
+            return []   
+    except Exception: logger().exception(Exception) 
+    finally:
+        del(project)
+        del(days)
+
+
+## Project Inventory Management 
+
+def sort_inventory(keywords):
+    def sort(item):
+        keyword = item.get('item')
+        for word in keywords:
+            if word in keyword:
+                return None
+            else: return item
+
+
+async def add_inventory( id:str=None, data:dict=None)->list:
+    """Add a material inventory to the Projects inventory list
+
+    Args:
+        id (str, optional): The Project's Id to add inventory to. Defaults to None.
+        data (dict, optional): Inventroy Object for the material item. Defaults to None.
+
+    Returns:
+        list: The Projects Inventory
+    """
+
+    if data:                          
+        project = await get_project(id=id)  
+        # check if this material inventory exists 
+        # if not add it 
+        project['inventory'].append(data)
+        await update_project(data=project)
+    else:
+        pass
+    try:
+        return project.get('inventory')
+    except Exception: logger().exception(Exception)
+    finally: del project
+
+
+## Project Rates Management
+
+async def add_rate( id:str=None, data:list=None):
+    project = await get_project(id=id) 
+    if data:           
+        for item in data:
+            item['_id'] = f"{id}-{item['_id']}"                
+            project['rates'].append( item )
+        try:
+            await update_project(data=project)
+            return project
+        except Exception as e:
+            return {'error': str(e)}
+        finally:
+            del(item)
+            del(project)
+    else:
+        return {"error": 501, "message": "You did not provide any data for processing."}
+
+
+async def update_project_rate( id:str=None, data:list=None)->dict:
+    project = await get_project(id=id) 
+    if data:
+        for item in data:
+            item['_id'] = f"{id}-{item['_id']}"                
+            project['rates'].append( item )
+        try:
+            await update_project(data=project)
+            return project
+        except Exception as e: logger().exception(e)
+        finally:
+            del(item)
+            del(project)
+    else:
+        return {"error": 501, "message": "You did not provide any data for processing."}
+
+
+async def get_rate_by_id( id:str=None)->dict:
+    idds:list = id.split('-') 
+    def findData(rate): # utility search function
+        return rate['_id'] == id
+    project:dict = await get_project(id=idds[0])
+    try:
+        return { "subject": project.get('name'), "id": idds[0], "rate": list(filter(findData, project.get('rates')))[0]}
+    except Exception as e: logger().exception(e)
+    finally:
+        del(idds)
+        del(project)
+
+
+async def get_project_rate( rate_id:str=None)->dict:
+    def findRate(rate): # utility search function 
+        return rate['_id'] == rate_id  
+    ends:list = rate_id.split('-') 
+    project:dict = await get_project(id=ends[0])                 
+    rates:list = list(filter( findRate, project.get('rates') ))  
+    try:
+        return rates[0]
+    except Exception as e: logger().exception(e)
+    finally:
+        del(ends)
+        del(project)
+        del(rates)
+
+
+async def get_employee_rates( pe_id:str=None):
+        ''''Retreives a batch of rates assigned to the employee  from the project. 
+        Requires the project id and the employee id'''
+        def findRates(rate): # utility search function
+            return rate['assignedto'] == ends[1]
+        ends = pe_id.split('-') 
+        project =  await get_project(id=ends[0]) 
+        rates = list(filter( findRates, project.get('rates') ))
+        try:
+            return rates
+        except Exception as e: logger().exception(e) 
+        finally:
+            del(ends)
+            del(rates)
+            del(project) 
+
+
+
 
 class Project: 
     error_log:dict = {}   
@@ -916,6 +1088,7 @@ class Project:
         # update the project 
         pass
 
+    # Depricated for external function
     # Project Paybill Management
     async def create_new_paybill(self, id:str=None, data:dict=None):
         p = await self.get(id=id)
@@ -924,7 +1097,7 @@ class Project:
         await self.update(data=p) 
         return data
     
-
+    # Depricated for external function
     async def add_bill_item(self, id:str=None, data:dict=None):
         idd = id.split('-')
         project = await self.get(id=idd[0])
@@ -1027,7 +1200,8 @@ class Project:
             del(employees)
             del(e)
 
-    ## PROJECT INVENTORY 
+    ## PROJECT INVENTORY
+    ## Depricated for external function 
     def sortInventory(self, keywords, datalist):
         def sort(item):
             keyword = item.get('item')
@@ -1036,7 +1210,7 @@ class Project:
                     return None
                 else: return item
 
-
+    # Depricated for external function add_inventory
     async def addInventory(self, id:str=None, data:list=None):
         if data:                          
             project = await self.get(id=id)  
@@ -1047,6 +1221,7 @@ class Project:
             pass
         return project.get('inventory')
     
+    # Depricated for external function add_inventory
     async def addInventoryItem(self, id:str=None, data:list=None):
         if data:                          
             project = await self.get(id=id)  
@@ -1058,6 +1233,7 @@ class Project:
         return project.get('inventory')
 
     ## PROJECT RATES
+    # Depricated for external function 
     async def addRate(self, id:str=None, data:list=None):
         if data:                          
             project = await self.get(id=id)         
@@ -1075,7 +1251,7 @@ class Project:
         else:
             return {"error": 501, "message": "You did not provide any data for processing."}
 
-
+    # Depricated for external function 
     async def updateRate(self, id:str=None, data:list=None):
         if data:                          
             project = await self.get(id=id)         
@@ -1093,7 +1269,7 @@ class Project:
         else:
             return {"error": 501, "message": "You did not provide any data for processing."}
 
-
+    # Depricated for external function
     async def getRateById(self, id:str=None):
         idds = id.split('-') 
         def findData(rate): # utility search function
@@ -1106,7 +1282,7 @@ class Project:
         finally:
                 del(idds)
                 del(project)
-
+    # Depricated for external function
     async def getRate(self, rate_id:str=None):
         ''''Retreives a rate from the project. 
         Requires the assigned rate id '''
@@ -1120,7 +1296,7 @@ class Project:
         except Exception as e:
             return {'error': str(e)}
 
-
+    # Depricated for external function
     async def getEmployeeRates(self, pe_id:str=None):
         ''''Retreives a batch of rates assigned to the employee  from the project. 
         Requires the project id and the employee id'''
