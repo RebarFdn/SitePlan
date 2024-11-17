@@ -1,6 +1,3 @@
-
-import asyncio
-import httpx 
 import datetime
 import json
 from pdfme import build_pdf

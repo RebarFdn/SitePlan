@@ -1,16 +1,10 @@
 import asyncio
 import functools
-import inspect
 import typing
-
 from starlette.exceptions import HTTPException
 from starlette.requests import Request
-from starlette.responses import Response
-
-# Validate that the function received a Request instance argument
+from starlette.responses import Response # Validate that the function received a Request instance argument
 from starlette_login.decorator import is_route_function
-
-from modules.platformuser import PlatformUser
 
 
 def admin_only(func: typing.Callable) -> typing.Callable:

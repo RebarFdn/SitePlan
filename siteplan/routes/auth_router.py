@@ -1,13 +1,10 @@
-import json
 import asyncio
-from urllib.parse import parse_qsl
 from starlette.requests import Request
 from starlette_login.decorator import login_required
 from starlette_login.utils import login_user, logout_user
-from starlette.responses import HTMLResponse, RedirectResponse, PlainTextResponse
+from starlette.responses import HTMLResponse, RedirectResponse
 from decoRouter import Router
-#from database import RedisCache
-from modules.platformuser import User, timestamp
+from modules.platformuser import User
 from config import TEMPLATES
 from modules.platformuser import user_list
 

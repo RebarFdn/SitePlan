@@ -1,18 +1,19 @@
 ## Project Accounting Router
 ## Handles project accounting related requests 
 
-import datetime
 import json
 from asyncio import sleep
-from starlette.responses import HTMLResponse, RedirectResponse, JSONResponse, StreamingResponse
+from starlette.responses import HTMLResponse, RedirectResponse, StreamingResponse
 from starlette_login.decorator import login_required
 from decoRouter import Router
-from modules.project import Project
-from modules.employee import Employee
-from modules.supplier import Supplier
-from modules.utils import timestamp, to_dollars, convert_timestamp, filter_dates
+from modules.project import ( get_project, handle_transaction, update_project, 
+    process_paybill_dayworker, add_expence, default_fees, salary_statement_item_model, salary_statement_model,
+    withdrawal_model, project_account_withdrawal_generator)
+from modules.employee import  get_worker, update_employee, process_days_work
+from modules.supplier import supplier_name_index
+from modules.utils import timestamp, to_dollars, filter_dates, today
+from modules.accumulator import ProjectDataAccumulator   
 from config import TEMPLATES
-from routes.project_router import today
 
 router = Router()
 
@@ -21,7 +22,7 @@ router = Router()
 @login_required
 async def get_project_account(request):
     id = request.path_params.get('id')
-    p = await Project().get(id=id)
+    p = await get_project(id=id)
     return TEMPLATES.TemplateResponse('/project/account/accountPage.html', {
         "request": request,
         "id": id,
@@ -36,7 +37,7 @@ async def get_project_account(request):
 @login_required
 async def get_project_account_deposits(request):
     id = request.path_params.get('id')
-    p = await Project().get(id=id)
+    p = await get_project(id=id)
     return TEMPLATES.TemplateResponse(
         '/project/account/depositsIndex.html', 
         {
@@ -62,7 +63,7 @@ async def project_account_deposit(request):
             payload['payee'] = form.get('payee')
         payload['user'] = username
         #print(username, password)
-        result = await Project().handleTransaction(id=id, data=payload)
+        result = await handle_transaction(id=id, data=payload)
         #return RedirectResponse(url='/dash', status_code=303)
         return HTMLResponse(f""" <div class="uk-alert-success" uk-alert>
                                 <a href class="uk-alert-close" uk-close></a>
@@ -84,10 +85,9 @@ async def edit_account_deposit(request):
     id = request.path_params.get('id')
     idd = id.split('_')
     did = idd[1].split('-')
-    p = await Project().get(id=idd[0])
+    p = await get_project(id=idd[0])
     account = p.get('account')
     deposit = [dep for dep in account.get('transactions').get('deposit') if dep.get('id') == did[0]][0]
-
     return TEMPLATES.TemplateResponse("/project/account/editDeposit.html", {
         "request": request, 
         "d": deposit,
@@ -102,7 +102,7 @@ async def edit_account_deposit(request):
 async def update_account_deposit(request):
     id = request.path_params.get('id')
     username = request.user.username  
-    p = await Project().get(id=id)
+    p = await get_project(id=id)
     account = p.get('account')    
     dep = {}
     async with request.form() as form:       
@@ -123,7 +123,7 @@ async def update_account_deposit(request):
          deposit['date'] = timestamp(form.get('date'))
     else: pass
       
-    await Project().update(data=p)
+    await update_project(data=p)
     return HTMLResponse( f"""
         <div class="uk-alert-success" uk-alert>
             <a href class="uk-alert-close" uk-close></a>
@@ -187,10 +187,8 @@ async def update_account_withdrawal(request):
 @login_required
 async def get_project_account_paybills(request):
     id = request.path_params.get('id')
-    p = await Project().get(id=id)
-    
-    return TEMPLATES.TemplateResponse('/project/account/projectPaybills.html',
-                                      
+    p = await get_project(id=id)    
+    return TEMPLATES.TemplateResponse('/project/account/projectPaybills.html',                                      
         {
             "request": request,
             "id": id,
@@ -200,22 +198,18 @@ async def get_project_account_paybills(request):
                 "account": {
                     "records": {
                         "paybills": p.get("account").get('records').get('paybills')
-                    }
-                 
+                    }                 
                 },
                 "new_billref": f"""Bill-{ len(p.get("account").get('records').get('paybills')) + 1} """
-            },
-            
+            },            
         })
 
 
 @router.get('/paybill_total/{id}')
 async def paybill_total(request):   
     id = request.path_params.get('id')
-
-    project = await Project().get(id=id.split('-')[0])
-    items_total = 0
-    
+    project = await get_project(id=id.split('-')[0])
+    items_total = 0    
     for bill in project.get('account').get('records').get('paybills') :
         if bill.get('ref') == id:
             for item in bill.get('items'):
@@ -226,7 +220,6 @@ async def paybill_total(request):
                 "insurance": items_total * ((item.get('fees', {}).get('insurance', 5 )) / 100),
                 "misc": items_total * ((item.get('fees', {}).get('misc', 5 )) / 100),
                 "overhead": items_total *  ((item.get('fees', {}).get('overhead', 5 )) / 100)
-
             }
             bill["expence"]["total"] = sum([
                 bill["expence"]["contractor"],
@@ -242,7 +235,7 @@ async def new_paybill(request):
     bill_refs = set()
     id = request.path_params.get('id')
     username = request.user.username  
-    project = await Project().get(id=id)
+    project = await get_project(id=id)
     paybill = {
         'project_id': id, 
         'items': [], 
@@ -277,9 +270,8 @@ async def new_paybill(request):
                     "description": f"""New Paybill with Refference {paybill.get('ref')} was added to Project  {project.get('_id')} by 
                                                         {username} at {today()}"""
                 }
-
             )   
-            await Project().update(data=project)
+            await update_project(data=project)
             return TEMPLATES.TemplateResponse('/project/account/paybills.html', {
                 "request": request,
                 "paybills":  project.get('account').get('records').get('paybills')
@@ -299,7 +291,7 @@ async def new_paybill(request):
 async def get_paybill(request):
     id = request.path_params.get('id')
     idd = id.split('-')
-    project = await Project().get(id=idd[0])
+    project = await get_project(id=idd[0])
     bill = [bill for bill in project.get('account').get('records').get('paybills') if bill.get('ref').strip() == id][0]
     bill_payees = set()
     for item in bill.get('items'):
@@ -343,17 +335,15 @@ async def get_paybill(request):
         
         if len(bill.get('items')) == 0: 
             
-            bill['fees'] = Project().default_fees
+            bill['fees'] = default_fees()
             project['activity_log'].append(
                     {
                         "id": timestamp(),
                         "title": "Auto Update to Project Paybill Properties",
                         "description": f"""Paybill {bill.get('ref')} expence and fee properties has been updated by System Auto Updates. """
                     }
-
                 )      
-            await Project().update(data=project)
-            
+            await update_project(data=project)            
             return TEMPLATES.TemplateResponse('/project/account/projectPaybill.html',
             {
                 "request": request, 
@@ -362,36 +352,29 @@ async def get_paybill(request):
                 "items_count": len(bill.get('items')) 
                 })
         else:
-
             for item in bill.get('items'):                    
-                items_total += float(item.get('metric', {}).get('cost', item.get('metric', {}).get('total', 0))) # check for item cost or total
-            
+                items_total += float(item.get('metric', {}).get('cost', item.get('metric', {}).get('total', 0))) # check for item cost or total            
             if bill.get('fees', {}).get('contractor' ):
                 bill["expence"]["contractor"] = items_total * ((bill.get('fees').get('contractor' )) / 100)
             else:
-                bill['fees']['contractor'] = Project().default_fees.get('contractor') # fallback to default fees
-                bill['fees']['unit'] = Project().default_fees.get('unit') # fallback to default fees
-
-                bill["expence"]["contractor"] = items_total * ((bill.get('fees').get('contractor' )) / 100)
-            
+                bill['fees']['contractor'] = default_fees('contractor') # fallback to default fees
+                bill['fees']['unit'] = default_fees('unit') # fallback to default fees
+                bill["expence"]["contractor"] = items_total * ((bill.get('fees').get('contractor' )) / 100)            
             if bill.get('fees', {}).get('insurance' ):
                 bill["expence"]["insurance"] = items_total * ((bill.get('fees').get('insurance' )) / 100)
             else:
-                bill['fees']['insurance'] = Project().default_fees.get('insurance') # fallback to default fees  
-                bill["expence"]["insurance"] = items_total * ((bill.get('fees').get('insurance' )) / 100)
-            
+                bill['fees']['insurance'] = default_fees('insurance') # fallback to default fees  
+                bill["expence"]["insurance"] = items_total * ((bill.get('fees').get('insurance' )) / 100)            
             if bill.get('fees', {}).get('misc' ):
                 bill["expence"]["misc"] = items_total * ((bill.get('fees').get('misc' )) / 100)
             else:
-                bill['fees']['misc'] = Project().default_fees.get('misc') # fallback to default fees
-                bill["expence"]["misc"] = items_total * ((bill.get('fees').get('misc' )) / 100)
-            
+                bill['fees']['misc'] = default_fees('misc') # fallback to default fees
+                bill["expence"]["misc"] = items_total * ((bill.get('fees').get('misc' )) / 100)            
             if bill.get('fees', {}).get('overhead' ):
                 bill["expence"]["overhead"] = items_total * ((bill.get('fees').get('overhead' )) / 100)
             else:
-                bill['fees']['overhead'] = Project().default_fees.get('overhead') # fallback to default fees 
-                bill["expence"]["overhead"] = items_total * ((bill.get('fees').get('overhead' )) / 100)
-             
+                bill['fees']['overhead'] = default_fees('overhead') # fallback to default fees 
+                bill["expence"]["overhead"] = items_total * ((bill.get('fees').get('overhead' )) / 100)             
             bill["itemsTotal"] = items_total            
             bill["expence"]["total"] = sum([
                     bill["expence"]["contractor"],
@@ -406,10 +389,8 @@ async def get_paybill(request):
                         "title": "Auto Update to Project Paybill Properties",
                         "description": f"""Paybill {bill.get('ref')} expence and fee properties has been updated by System Auto Updates. """
                     }
-
                 )    
-            await Project().update(data=project)
-
+            await update_project(data=project)
             return TEMPLATES.TemplateResponse(
                 '/project/account/projectPaybill.html',
                 {
@@ -420,19 +401,16 @@ async def get_paybill(request):
                     })
     except Exception as e:
         return HTMLResponse(f"""<p class="bg-red-400 text-red-800 text-2xl font-bold py-3 px-4"> An error occured! ---- {str(e)}</p> """)
-
     finally:
         del(project)
         del(bill)
-       
-            
 
 
 @router.get('/project_account_withdrawals/{id}')
 @login_required
 async def get_project_account_withdrawals(request):
     id = request.path_params.get('id')
-    generator =  Project().html_account_withdrawal_generator(id=id)
+    generator =  project_account_withdrawal_generator(id=id)
     return StreamingResponse(generator, media_type="text/html")
 
 
@@ -440,8 +418,7 @@ async def get_project_account_withdrawals(request):
 @login_required
 async def current_paybill(request):
     id = request.path_params.get('id')    
-    try:            
-          
+    try: 
         return HTMLResponse(f"""<div uk-alert>
                             <a href class="uk-alert-close" uk-close></a>
                             <h3>Notice</h3>
@@ -449,14 +426,12 @@ async def current_paybill(request):
                         </div>""")
     except Exception as e:
         return HTMLResponse(f"""<p class="bg-red-400 text-red-800 text-2xl font-bold py-3 px-4"> An error occured! ---- {str(e)}</p> """)
-
     finally:
         del(id)
 
 
 @router.get('/unpaid_tasks/{id}')
-async def unpaid_tasks(request):
-    from modules.accumulator import ProjectDataAccumulator    
+async def unpaid_tasks(request):     
     id = request.path_params.get('id')
     idd = id.split('-')
     accumulator = ProjectDataAccumulator(project_id=idd[0])
@@ -474,7 +449,7 @@ async def unpaid_tasks(request):
 async def add_task_to_bill(request):
     id = request.path_params.get('id')  
     username = request.user.username    
-    project = await Project().get(id=id.split('-')[0])
+    project = await get_project(id=id.split('-')[0])
     try:
         async with request.form() as form:
             task_id = form.get('task')
@@ -482,8 +457,7 @@ async def add_task_to_bill(request):
         for job in project.get('tasks'):
             if job.get('_id') == idds[0]:
                 for task in job.get('tasks'):
-                    if task.get('_id') == idds[1]:
-                                   
+                    if task.get('_id') == idds[1]:                                   
                         bill_item = {
                                     "id": task.get('_id'),
                                         "job_id": task.get('job_id'),
@@ -508,18 +482,15 @@ async def add_task_to_bill(request):
                                         "description": f"""Job {job.get('_id')} Task  {task.get('_id')} wae added to Paybill {bill.get('ref')} by 
                                                         {username} at {today()}"""
                                     }
-
                                 )     
             
-        await Project().update(data=project)
+        await update_project(data=project)
         """return TEMPLATES.TemplateResponse("/project/account/paybillItem.html", {
             "request": request,
             "bill_items": bill.get('items') })"""
-        return RedirectResponse(url=f"/paybill/{id}", status_code=302)
-       
+        return RedirectResponse(url=f"/paybill/{id}", status_code=302)       
     except Exception as e:
         return HTMLResponse(f"""<p class="bg-red-400 text-red-800 text-2xl font-bold py-3 px-4"> An error occured! ---- {str(e)}</p> """)
-
     finally:
         del(id)
 
@@ -535,11 +506,8 @@ async def process_paybill_dayworker(request):
     wname = nid[0]
     start = dts[0]
     end = dts[1]
-
-    project = await Project().get(id=id.split('-')[0])
-     
-    days = await Project().process_paybill_dayworker( bill_ref=bref, worker=wname, start_date=start, end_date=end)
-    
+    project = await get_project(id=id.split('-')[0])     
+    days = await process_paybill_dayworker( bill_ref=bref, worker=wname, start_date=start, end_date=end)    
     return TEMPLATES.TemplateResponse(
         "/project/account/paybillDayworkerStatement.html", 
         {
@@ -551,7 +519,7 @@ async def process_paybill_dayworker(request):
             "start": start,
             "end": end
 
-                                    }
+        }
         )
 
 
@@ -567,8 +535,7 @@ async def set_days_rate(request):
     wname = nid[0]
     start = dts[0]
     end = dts[1]
-
-    project = await Project().get(id=id.split('-')[0])
+    project = await get_project(id=id.split('-')[0])
     
     
     data = {}
@@ -581,7 +548,7 @@ async def set_days_rate(request):
         for daywork in days:
             daywork['payment']['rate'] = data.get('day_rate')
             #daywork['payment']['amount'] = float(data.get('day_rate'))
-        await Project().update(data=project)
+        await update_project(data=project)
             
     else:
         days = []
@@ -612,7 +579,7 @@ async def apply_paybill_daysrate(request):
     start = dts[0]
     end = dts[1]
 
-    project = await Project().get(id=id.split('-')[0])
+    project = await get_project(id=id.split('-')[0])
     
     data = {}
     async with request.form() as form:
@@ -624,7 +591,7 @@ async def apply_paybill_daysrate(request):
         days = [item for item in days if item.get('worker_name').split('_')[0] == wname]
         for daywork in days:
             #form_date = [day_item for day_item in data if day_item.get("id") == daywork.get('id')][0]
-            await Employee().process_days_work(name=wname, date_id=daywork.get('id'), paid=True, amount= float(daywork.get('payment').get('rate')))
+            await process_days_work(name=wname, date_id=daywork.get('id'), paid=True, amount= float(daywork.get('payment').get('rate')))
             if data.get(daywork.get('id')):
                 
                 daywork['payment']['amount'] = float(data.get(daywork.get('id')))
@@ -695,7 +662,7 @@ async def apply_paybill_daysrate(request):
                             {request.user.username}."""
             })  
         
-        await Project().update(data=project)
+        await update_project(data=project)
             
     else:
         days = []
@@ -720,7 +687,7 @@ async def edit_paybill_item(request):
     id = request.path_params.get('id') 
     username = request.user.username  
     idd = id.split('_')
-    project = await Project().get(id=id.split('-')[0])
+    project = await get_project(id=id.split('-')[0])
     paybill = [bill for bill in project.get('account').get('records').get('paybills') if bill.get('ref') == idd[0]][0]
     bill_item = [item for item in paybill.get('items') if item.get('id') == idd[1]][0]
     #print(bill_item)
@@ -757,7 +724,7 @@ async def edit_paybill_item(request):
                     }
 
                 )     
-        await Project().update(data=project)        
+        await update_project(data=project)        
         return RedirectResponse(url=f"/paybill/{idd[0].strip()}", status_code=302)
     
 
@@ -767,7 +734,7 @@ async def edit_paybill_item(request):
 async def update_contractor_fee(request):
     id = request.path_params.get('id')   
     username = request.user.username
-    project = await Project().get(id=id.split('-')[0])
+    project = await get_project(id=id.split('-')[0])
     paybill = [bill for bill in project.get('account').get('records').get('paybills') if bill.get('ref') == id ][0]
     
     if request.method == 'GET':
@@ -805,7 +772,7 @@ async def update_contractor_fee(request):
 
                 )           
         paybill['fees']['contractor'] = fee
-        await Project().update(data=project)
+        await update_project(data=project)
         return RedirectResponse(url=f"/paybill/{id}", status_code=302)
     return HTMLResponse(response)
     
@@ -817,7 +784,7 @@ async def update_contractor_fee(request):
 async def update_insurance_fee(request):
     id = request.path_params.get('id')  
     username = request.user.username
-    project = await Project().get(id=id.split('-')[0])
+    project = await get_project(id=id.split('-')[0])
     paybill = [bill for bill in project.get('account').get('records').get('paybills') if bill.get('ref') == id ][0]    
     if request.method == 'GET':        
         response =f"""        
@@ -850,7 +817,7 @@ async def update_insurance_fee(request):
 
                 )           
         paybill['fees']['insurance'] = fee
-        await Project().update(data=project)
+        await update_project(data=project)
         return RedirectResponse(url=f"/paybill/{id}", status_code=302)
     return HTMLResponse(response)
     
@@ -862,7 +829,7 @@ async def update_insurance_fee(request):
 async def update_misc_fee(request):
     id = request.path_params.get('id')  
     username = request.user.username
-    project = await Project().get(id=id.split('-')[0])
+    project = await get_project(id=id.split('-')[0])
     paybill = [bill for bill in project.get('account').get('records').get('paybills') if bill.get('ref') == id ][0]    
     if request.method == 'GET':        
         response =f"""        
@@ -892,7 +859,7 @@ async def update_misc_fee(request):
 
                 )
         paybill['fees']['misc'] = fee
-        await Project().update(data=project)
+        await update_project(data=project)
         return RedirectResponse(url=f"/paybill/{id}", status_code=302)
     return HTMLResponse(response)
 
@@ -904,7 +871,7 @@ async def update_misc_fee(request):
 async def update_overhead_fee(request):
     username = request.user.username
     id = request.path_params.get('id')  
-    project = await Project().get(id=id.split('-')[0])
+    project = await get_project(id=id.split('-')[0])
     paybill = [bill for bill in project.get('account').get('records').get('paybills') if bill.get('ref') == id ][0]    
     if request.method == 'GET':        
         response =f"""        
@@ -937,7 +904,7 @@ async def update_overhead_fee(request):
                     }
 
                 )
-        await Project().update(data=project)
+        await update_project(data=project)
         return RedirectResponse(url=f"/paybill/{id}", status_code=302)
     return HTMLResponse(response)
 
@@ -945,7 +912,7 @@ async def update_overhead_fee(request):
 @router.get("/project_paybills_cost/{id}")
 async def project_paybills_cost(request):
     id = request.path_params.get('id')  
-    project = await Project().get(id=id)
+    project = await get_project(id=id)
     paybills_cost = [bill.get('total', 0) for bill in project.get('account').get('records').get('paybills')  ]
     return TEMPLATES.TemplateResponse(
         "/project/account/accountPropertyTally.html", 
@@ -964,17 +931,16 @@ async def process_employee_salary(request):
     bid = idd[1]
     pid = bid.split('-')[0]
     
-    project = await Project().get(id=pid)
+    project = await get_project(id=pid)
     bill = [bill for bill in project.get('account').get('records').get('paybills') if bill.get('ref').strip() == bid][0]
-    employee = await Employee().get_worker(id=eid)
-    pay_item = Project().salary_statement_item_model
-    pay_statement = Project().salary_statement_model
+    employee = await get_worker(id=eid)
+    pay_item = salary_statement_item_model()
+    pay_statement = salary_statement_model()
     pay_statement['ref'] = f"{eid}@{bill.get('ref')}"
     pay_statement['jobid'] = bill.get('ref')
     pay_statement['employeeid'] = eid
     pay_statement['name'] = employee.get('name')
     pay_statement['date'] = timestamp()
-
     for item in bill.get('items'):
         if item.get('paid'):
             if len(item.get('paid')) > 0:
@@ -995,8 +961,7 @@ async def process_employee_salary(request):
                                 "amount": 0,
                                 "price": 0,
                                 "total": 0
-                            }
-                        
+                            }                        
     try:
         existing_statement = [statement for statement in project['account']['records']['salary_statements'] if statement.get('ref') == pay_statement.get('ref')]
         if len(existing_statement) > 0:
@@ -1014,17 +979,16 @@ async def process_employee_salary(request):
                     }
 
                 )      
-        await Project().update(data=project)
+        await update_project(data=project)
         del(pay_statement['employeeid'])
-        del(pay_statement['name'])
-        
+        del(pay_statement['name'])        
         existing_record =[ record for record in employee.get('account').get('payments') if record.get('ref') == pay_statement.get('ref')]
         if len(existing_record) > 0:
             existing_record = existing_record[0]
             existing_record.update(pay_statement)
         else:
             employee['account']['payments'].append(pay_statement) 
-        await Employee().update(data=employee)
+        await update_employee(data=employee)
         return RedirectResponse(url=f"/paybill/{bid}", status_code=302)
     except Exception as e:
         return HTMLResponse(f"""<p class="bg-red-400 text-red-800 text-2xl font-bold py-3 px-4"> An error occured! ---- {str(e)}</p> """)
@@ -1041,7 +1005,7 @@ async def process_employee_salary(request):
 
 @router.post('/record_employee_loan/{id}')
 async def record_employee_loan(request): 
-    e = await Employee().get_worker(id=request.path_params.get('id')) 
+    e = await get_worker(id=request.path_params.get('id')) 
     #return TEMPLATES.TemplateResponse('/employee/employeePage.html', {"request": request, "e": e})
     loan = {
         "id": timestamp(),
@@ -1053,7 +1017,7 @@ async def record_employee_loan(request):
         loan['amount'] = float(loan.get('amount'))    
 
     e['account']['loans'].append(loan)
-    await Employee().update(data=e)
+    await update_employee(data=e)
     return HTMLResponse(f"""
         <div class="uk-alert-success" uk-alert>
             <a href class="uk-alert-close" uk-close></a>
@@ -1069,7 +1033,7 @@ async def record_employee_loan(request):
 async def repay_employee_loan(request): 
     id=request.path_params.get('id')
     idd = id.split('_')
-    employee = await Employee().get_worker(id=idd[0]) 
+    employee = await get_worker(id=idd[0]) 
     
     loan = [item for item in employee.get('account').get('loans') if item.get('id') == int(idd[1])][0]
     if request.method == 'GET':
@@ -1118,7 +1082,7 @@ async def repay_employee_loan(request):
                 payment['resolved'] = False
                 payment['ballance'] = float(loan.get('amount')) - payment.get('amount')
         loan["repayment"].append(payment)
-        await Employee().update(data=employee)
+        await update_employee(data=employee)
         return HTMLResponse(f"""<div>{loan}</div>""")
     return HTMLResponse(f"""{form}""")
 
@@ -1128,7 +1092,7 @@ async def repay_employee_loan(request):
 @router.get("/project_deposits_total/{id}")
 async def project_deposits_total(request):
     id = request.path_params.get('id')  
-    project = await Project().get(id=id)
+    project = await get_project(id=id)
     if len(project.get('account').get('transactions').get('deposit')) == 0:
         deposits_total = []
     else:
@@ -1143,7 +1107,7 @@ async def project_deposits_total(request):
 @router.get("/project_withdrawals_total/{id}")
 async def project_withdrawals_total(request):
     id = request.path_params.get('id')  
-    project = await Project().get(id=id)
+    project = await get_project(id=id)
     withdrawals_total = [float(dep.get('amount', 0)) for dep in project.get('account').get('transactions').get('withdraw')  ]
     return TEMPLATES.TemplateResponse(
         "/project/account/accountPropertyTally.html", 
@@ -1156,7 +1120,7 @@ async def project_withdrawals_total(request):
 @router.get("/project_jobs_total/{id}")
 async def project_jobs_total(request):
     id = request.path_params.get('id')  
-    project = await Project().get(id=id)
+    project = await get_project(id=id)
     jobs_tasks_total = []
     jobs_costs_total = []
     for job in project.get('tasks'):
@@ -1180,7 +1144,7 @@ async def project_jobs_total(request):
 @router.get("/project_expences_total/{id}")
 async def project_expences_total(request):
     id = request.path_params.get('id')  
-    project = await Project().get(id=id)
+    project = await get_project(id=id)
     expences_total = [float(exp.get('total', 0)) for exp in project.get('account').get('expences')  ]
     return TEMPLATES.TemplateResponse(
         "/project/account/accountPropertyTally.html", 
@@ -1192,7 +1156,7 @@ async def project_expences_total(request):
 @router.get("/project_purchases_total/{id}")
 async def project_purchases_total(request):
     id = request.path_params.get('id')  
-    project = await Project().get(id=id)
+    project = await get_project(id=id)
     purchases_total = [float(exp.get('total', 0)) for exp in project.get('account').get('records', {}).get('invoices', [])  ]
     return TEMPLATES.TemplateResponse(
          "/project/account/accountPropertyTally.html", 
@@ -1204,7 +1168,7 @@ async def project_purchases_total(request):
 @router.get("/project_salaries_total/{id}")
 async def project_salaries_total(request):
     id = request.path_params.get('id')  
-    project = await Project().get(id=id)
+    project = await get_project(id=id)
     salaries_total = [float(exp.get('total', 0)) for exp in project.get('account').get('records', {}).get('salary_statements', [])  ]
     return TEMPLATES.TemplateResponse(
         "/project/account/accountPropertyTally.html", 
@@ -1219,7 +1183,7 @@ async def delete_paybill(request):
     username = request.user.username
     id = request.path_params.get('id')
     idd = id.split('-')
-    project = await Project().get(id=idd[0])
+    project = await get_project(id=idd[0])
     try:           
         project['account']['records']['paybills'] = [bill for bill in project.get('account').get('records').get('paybills') if not bill.get('ref').strip() == id.strip()]
                         
@@ -1234,7 +1198,7 @@ async def delete_paybill(request):
                         )
                 
 
-        await Project().update(data=project)
+        await update_project(data=project)
         return HTMLResponse(f"""<div uk-alert>
                             <a href class="uk-alert-close" uk-close></a>
                             <h3>Notice</h3>
@@ -1254,14 +1218,14 @@ async def delete_paybill(request):
 async def get_worker_pay_item(request):
     id = request.path_params.get('id')
     idd = id.split('_')
-    project = await Project().get(id=id.split('-')[0])
+    project = await get_project(id=id.split('-')[0])
     paybill = [bill for bill in project.get('account').get('records').get('paybills') if bill.get('ref') == idd[0]][0]
     bill_item = [item for item in paybill.get('items') if item.get('id') == idd[1]][0]
 
     async with request.form() as form:
         worker_id = form.get('worker').strip()
 
-    employee = await Employee().get_worker(id=worker_id)
+    employee = await get_worker(id=worker_id)
     data_form = f"""  
         <p class="text-sm font-semibold">{employee.get('name')} Payroll Item </p>
     <form class="mx-auto flex w-full max-w-lg flex-col rounded-xl border border-border bg-backgroundSecondary p-4 sm:p-20">
@@ -1366,10 +1330,10 @@ async def get_worker_pay_item(request):
 async def pay_worker(request):
     id = request.path_params.get('id')
     idd = id.split('_')
-    project = await Project().get(id=idd[0].split('-')[0])
+    project = await get_project(id=idd[0].split('-')[0])
     paybill = [bill for bill in project.get('account').get('records').get('paybills') if bill.get('ref') == idd[0]][0]
     bill_item = [item for item in paybill.get('items') if item.get('id') == idd[1]][0]
-    employee = await Employee().get_worker(id=idd[2])
+    employee = await get_worker(id=idd[2])
 
     async with request.form() as form:
         pay_detail = {
@@ -1398,7 +1362,7 @@ async def pay_worker(request):
         bill_item['paid'] = [pay_detail]
     pay_detail['total'] = pay_detail.get('metric').get('total')
     employee['account']['payments'].append(pay_detail)
-    withdrawal = Project().withdrawal_model
+    withdrawal = withdrawal_model()
    
     withdrawal['date'] = timestamp()
     withdrawal['amount'] = pay_detail.get('total')
@@ -1413,10 +1377,8 @@ async def pay_worker(request):
                     }
 
                 )
-    await Project().update(data=project)
-    await Employee().update(data=employee)
-    
-    #await Project().handleTransaction(id=idd[0].split('-')[0], data=withdrawal)
+    await update_project(data=project)
+    await update_employee(data=employee)    
     return RedirectResponse(url=f"/paybill/{idd[0]}", status_code=302)
 
 
@@ -1425,7 +1387,7 @@ async def pay_worker(request):
 @login_required
 async def get_project_account_salaries(request):
     id = request.path_params.get('id')
-    p = await Project().get(id=id)
+    p = await get_project(id=id)
     
     return TEMPLATES.TemplateResponse(
         "/project/account/salaryIndex.html",
@@ -1446,7 +1408,7 @@ async def edit_salary(request):
     username = request.user.username
     id = request.path_params.get('id')
     idd = id.split('_')
-    project = await Project().get(id=idd[0])
+    project = await get_project(id=idd[0])
     salary_statement = [statement for statement in project.get('account').get('records').get('salary_statements', []) if statement.get('ref') == idd[1]][0]
     return TEMPLATES.TemplateResponse(
         "/project/account/salaryStatement.html", 
@@ -1463,7 +1425,7 @@ async def edit_salary(request):
 @login_required
 async def get_project_account_expences(request):
     id = request.path_params.get('id')
-    project = await Project().get(id)
+    project = await get_project(id)
     return TEMPLATES.TemplateResponse(
         '/project/account/expenceIndex.html',
         {
@@ -1488,7 +1450,7 @@ async def new_expence_record(request):
     async with request.form() as form:
         for key, value in form.items():
             expence[key] = value    
-    await Project().addExpence(id=request.path_params.get('id'), data=expence)    
+    await add_expence(id=request.path_params.get('id'), data=expence)    
     return RedirectResponse(url=f"/project_account_expences/{ request.path_params.get('id') }", status_code=302)
 
 
@@ -1497,8 +1459,8 @@ async def new_expence_record(request):
 @login_required
 async def get_project_account_purchases(request):
     id = request.path_params.get('id')
-    project = await Project().get(id=id)
-    suppliers = await Supplier().nameIndex()
+    project = await get_project(id=id)
+    suppliers = await supplier_name_index()
     
     return TEMPLATES.TemplateResponse(
         "/project/account/purchasesIndex.html",
@@ -1523,8 +1485,8 @@ async def get_project_account_purchases(request):
 @login_required
 async def save_invoice(request):
     id = request.path_params.get('id')
-    project = await Project().get(id=id)
-    suppliers = await Supplier().nameIndex()
+    project = await get_project(id=id)
+    suppliers = await supplier_name_index()
     
     async with request.form() as form:
         invoice = {
@@ -1570,7 +1532,7 @@ async def save_invoice(request):
                     }
 
                 )
-                await Project().update(data=project)
+                await update_project(data=project)
                 return HTMLResponse(f"""<div class="uk-alert-success" uk-alert>
                         <a href class="uk-alert-close" uk-close></a>
                         <p>Invoice {invoice.get("invoiceno")} from  {invoice.get('supplier').get('name')} was saved successfully!</p>
@@ -1586,7 +1548,7 @@ async def save_invoice(request):
                     }
 
                 )
-        await Project().update(data=project)
+        await update_project(data=project)
         return HTMLResponse(f"""<div class="uk-alert-success" uk-alert>
                         <a href class="uk-alert-close" uk-close></a>
                         <p>Invoice {invoice.get("invoiceno")} was saved successfully!</p>
@@ -1600,7 +1562,7 @@ async def add_invoice_item(request):
     """ request id shall be if format /project_id/invoiceno/suppliername"""
     id = request.path_params.get('id')
     idds = id.split('-')
-    project = await Project().get(id=idds[0])
+    project = await get_project(id=idds[0])
     invoice = [item for item in project.get('account').get('records', {}).get('invoices', []) if item.get('invoiceno') == idds[1]  and item.get('supplier').get('name') == idds[2] ]
     if len(invoice) > 0:
         invoice = invoice[0]
@@ -1613,7 +1575,7 @@ async def add_invoice_item(request):
               "price": form.get("price"),
             }
         invoice['items'].append(invoice_item)
-        await Project().update(data=project)
+        await update_project(data=project)
         return HTMLResponse(f"""<div class="uk-alert-success" uk-alert>
                         <a href class="uk-alert-close" uk-close></a>
                         <p>Item {invoice_item.get('description')} was successfully added to Invoice { invoice.get('invoiceno')}!</p>

@@ -144,7 +144,9 @@ node_modules/
 
 # mkdocs documentation
 /site
-
+# tests
+/tests
+tests/
 # mypy
 .mypy_cache/
 .dmypy.json

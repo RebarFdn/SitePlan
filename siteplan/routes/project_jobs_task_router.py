@@ -1,24 +1,16 @@
 ## Project router
 # This route handles all project related requests 
-import hashlib 
-import datetime
 from json import ( loads, dumps )
-from asyncio import sleep
-from starlette.responses import HTMLResponse, RedirectResponse, JSONResponse, StreamingResponse
+from starlette.responses import HTMLResponse, RedirectResponse
 from starlette_login.decorator import login_required
 from decoRouter import Router
-from modules.project import Project
-from modules.employee import Employee
-from modules.utils import today, timestamp, to_dollars
+from modules.project import get_project, project_phases, update_project, update_job_phase, add_job_to_queue, daywork_hash_table, hash_data, add_task_to_job
+from modules.employee import get_worker, update_employee
+from modules.utils import timestamp, to_dollars
 from modules.unit_converter import convert_unit, convert_price_by_unit
 from config import TEMPLATES
-#from database import RedisCache
-
 
 router = Router()
-
-# Output:
-# jul 30 2024
 
 @router.get('/update_project_job_state/{id}/{state}')
 @login_required
@@ -26,10 +18,10 @@ async def update_project_job_state(request):
     id = request.path_params.get('id')
     status = request.path_params.get('state')
     idd = id.split('-')
-    current_paybill =  await RedisCache().get(key="CURRENT_PAYBILL")
+    current_paybill = "CURRENT_PAYBILL"
     categories = set()
     roles = set()
-    p = await Project().get(id=idd[0])
+    p = await get_project(id=idd[0])
     for task_rate in p.get("rates"): # Loads job categories
         categories.add(task_rate.get('category'))
     for worker in p.get("workers"): # Loads job roles
@@ -40,7 +32,7 @@ async def update_project_job_state(request):
     else:
         job={}
     crew_members = len(job.get('crew').get('members'))
-    project_phases = Project().projectPhases.keys()
+    project_phases = project_phases().keys()
 
     def set_state(state):
         if state == None:
@@ -76,7 +68,7 @@ async def update_project_job_state(request):
         }        
         return result.get(state)
     job_state = set_state(status)
-    await Project().update(data=p)
+    await update_project(data=p)
     def test_func(a:str=None):
         return f"tested {a}"
     data = {
@@ -118,25 +110,17 @@ async def update_project_job_state(request):
         }) 
 
 
-
 @router.get('/project_job/{id}')
 async def project_job(request):
     id = request.path_params.get('id')
-    idd = id.split('-')
-    project = Project()
-    current_paybill =  await RedisCache().get(key="CURRENT_PAYBILL")
+    idd = id.split('-')     
     categories = set()
-    roles = set()
-    
-    p = await project.get(id=idd[0])
-
+    roles = set()    
+    p = await get_project(id=idd[0])
     for task_rate in p.get("rates"): # Loads job categories
         categories.add(task_rate.get('category'))
-
     for worker in p.get("workers"): # Loads job roles
         roles.add(worker.get('value').get('occupation'))
-    
-
     jb = [j for j in p.get('tasks') if j.get('_id') == id ] 
     if len(jb) > 0:
         job = jb[0] 
@@ -144,7 +128,7 @@ async def project_job(request):
         job={}
     crew_members = len(job.get('crew').get('members'))
     job_progress = sum([ float(task.get('progress')) for task in job.get('tasks', []) ])
-    project_phases = project.projectPhases.keys()
+    p_phases = project_phases().keys()
     if len(job.get('tasks')) > 0:
         job['progress'] = round(job_progress / len(job.get('tasks')), 2)
     else:
@@ -157,11 +141,9 @@ async def project_job(request):
                                 }
 
                             )   
-    await Project().update(data=p)
+    await update_project(data=p)
     def test_func(a:str=None):
         return f"tested {a}"
-    
-    
     return TEMPLATES.TemplateResponse(
         '/project/job/jobPage.html', 
         {
@@ -174,8 +156,8 @@ async def project_job(request):
             }, 
             "job": job, 
             "crew_members": crew_members,
-            "project_phases": project_phases,  
-            "current_paybill": current_paybill,          
+            "project_phases": p_phases,  
+            "current_paybill": "CURRENT_PAYBILL",          
             "test_func": test_func,
             "categories": list(categories),
             "job_roles": list(roles)
@@ -183,26 +165,17 @@ async def project_job(request):
         }) 
 
 
-
-
 @router.get('/project_job_home/{id}')
 async def project_job_home(request):
     id = request.path_params.get('id')
-    idd = id.split('-')
-    project = Project()
-    current_paybill =  await RedisCache().get(key="CURRENT_PAYBILL")
+    idd = id.split('-')    
     categories = set()
-    roles = set()
-    
-    p = await project.get(id=idd[0])
-
+    roles = set()    
+    p = await get_project(id=idd[0])
     for task_rate in p.get("rates"): # Loads job categories
         categories.add(task_rate.get('category'))
-
     for worker in p.get("workers"): # Loads job roles
         roles.add(worker.get('value').get('occupation'))
-    
-
     jb = [j for j in p.get('tasks') if j.get('_id') == id ] 
     if len(jb) > 0:
         job = jb[0] 
@@ -219,12 +192,11 @@ async def project_job_home(request):
         task['imperial']['price'] = price_converter.get('value')
         #TODO set a price converter as per unit
         task['imperial']['total'] = task.get('imperial').get('quantity', 0) * task.get('imperial').get('price', 0)
-
         if task.get('metric').get('total'):
             job_taskscost.append(float(task.get('metric').get('total')) )
         else: 
             pass
-    project_phases = project.projectPhases.keys()
+    p_phases = project_phases().keys()
     job['cost']['task'] = sum(job_taskscost)
     job['cost']['contractor'] = job['cost']['task'] * (int(job.get('fees').get('contractor')) / 100)
     job['cost']['misc'] = job['cost']['task'] * (int(job.get('fees').get('misc')) / 100)
@@ -244,7 +216,7 @@ async def project_job_home(request):
                                 }
 
                             ) 
-    await Project().update(data=p)
+    await update_project(data=p)
     return TEMPLATES.TemplateResponse(
         '/project/job/jobHomeConsole.html',
         {
@@ -253,12 +225,11 @@ async def project_job_home(request):
                 "name": p.get('name'),
                 "rates": p.get('rates'),
                 "workers": p.get('workers')
-
             }, 
             "job": job, 
             "crew_members": crew_members,
-            "project_phases": project_phases,  
-            "current_paybill": current_paybill, 
+            "project_phases": p_phases,  
+            "current_paybill": "CURRENT_PAYBILL", 
             "categories": list(categories),
             "job_roles": list(roles),
             "job_taskscost": job_taskscost 
@@ -269,32 +240,23 @@ async def project_job_home(request):
 @router.get('/project_job_tasks/{id}')
 async def project_job_tasks(request):
     id = request.path_params.get('id')
-    idd = id.split('-')
-    project = Project()
-    current_paybill =  await RedisCache().get(key="CURRENT_PAYBILL")
+    idd = id.split('-')    
     categories = set()
-    roles = set()
-    
-    p = await project.get(id=idd[0])
-
+    roles = set()    
+    p = await get_project(id=idd[0])
     for task_rate in p.get("rates"): # Loads job categories
         categories.add(task_rate.get('category'))
-
     for worker in p.get("workers"): # Loads job roles
-        roles.add(worker.get('value').get('occupation'))
-    
-
+        roles.add(worker.get('value').get('occupation')) 
     jb = [j for j in p.get('tasks') if j.get('_id') == id ] 
     if len(jb) > 0:
         job = jb[0] 
     else:
         job={}
     crew_members = len(job.get('crew').get('members'))
-    project_phases = project.projectPhases.keys()
-    #generator = Project().html_job_page_generator(id=id)
+       
     def test_func(a:str=None):
-        return f"tested {a}"
-    
+        return f"tested {a}"    
     return TEMPLATES.TemplateResponse(
         '/project/job/jobTasks.html',
         {
@@ -307,8 +269,8 @@ async def project_job_tasks(request):
             }, 
             "job": job, 
             "crew_members": crew_members,
-            "project_phases": project_phases,  
-            "current_paybill": current_paybill,          
+            "project_phases": project_phases().keys(),  
+            "current_paybill": 'current paybill',          
             "test_func": test_func,
             "categories": list(categories),
             "job_roles": list(roles)
@@ -319,26 +281,20 @@ async def project_job_tasks(request):
 @router.get('/project_job_bill/{id}')
 async def project_job_bill(request):
     id = request.path_params.get('id')
-    idd = id.split('-')
-    project = Project()    
+    idd = id.split('-')        
     categories = set()
     roles = set()    
-    p = await project.get(id=idd[0])
+    p = await get_project(id=idd[0])
     for task_rate in p.get("rates"): # Loads job categories
         categories.add(task_rate.get('category'))
     for worker in p.get("workers"): # Loads job roles
         roles.add(worker.get('value').get('occupation'))
-    
-
     jb = [j for j in p.get('tasks') if j.get('_id') == id ] 
     if len(jb) > 0:
         job = jb[0] 
     else:
         job={}
-    crew_members = len(job.get('crew').get('members'))
-    project_phases = project.projectPhases.keys()
-    
-    
+    crew_members = len(job.get('crew').get('members'))       
     return TEMPLATES.TemplateResponse(
         '/project/job/jobBill.html',
         {
@@ -347,25 +303,21 @@ async def project_job_bill(request):
                 "name": p.get('name'),
                 "rates": p.get('rates'),
                 "workers": p.get('workers')
-
             }, 
             "job": job, 
             "crew_members": crew_members,
-            "project_phases": project_phases, 
+            "project_phases": project_phases().keys(), 
             "categories": list(categories),
             "job_roles": list(roles)
 
         }) 
 
 
-
 @router.get('/project_jobcrew/{id}')
 async def project_jobcrew(request):
     id = request.path_params.get('id')
     idd = id.split('-')
-    project = await Project().get(id=idd[0])
-    
-
+    project = await get_project(id=idd[0])
     jb = [j for j in  project.get('tasks') if j.get('_id') == id ] 
     if len(jb) > 0:
         job = jb[0] 
@@ -374,8 +326,6 @@ async def project_jobcrew(request):
     crew_ratings_tally = sum( [ int(member.get('value', {}).get('rating', 0)) for member in job.get('crew', {}).get('members', [])])
     crew_members = len(job.get('crew', {}).get('members', []))
     job['crew']['rating'] = round(crew_ratings_tally / crew_members, 2)
-
-
     return TEMPLATES.TemplateResponse(
         '/project/job/projectJobCrew.html', 
         {
@@ -387,14 +337,13 @@ async def project_jobcrew(request):
         }) 
 
 
-
 @router.delete('/jobcrew_member/{id}')
 async def delete_jobcrew_member(request):
     id = request.path_params.get('id')
     idd = id.split('_')
     job_id = idd[0]
     crew_id = idd[1]
-    project = await Project().get(id=id.split('-')[0])    
+    project = await get_project(id=id.split('-')[0])    
     index = 0
     jb = [j for j in  project.get('tasks') if j.get('_id') == job_id ] 
     if len(jb) > 0:
@@ -413,11 +362,9 @@ async def delete_jobcrew_member(request):
             }
 
     ) 
-    await Project().update(data=project)
+    await update_project(data=project)
     res = HTMLResponse(f"""<div>{id}---{index}</div>""")
     return RedirectResponse(url=f'/project_jobcrew/{ job_id }', status_code=302)
-
-
 
 
 @router.post('/add_project_job/{id}')
@@ -486,14 +433,14 @@ async def add_project_job(request):
                 }
             job["progress"] =  0
 
-        await Project().addJobToQueue(id=id, data=job)
+        await add_job_to_queue(id=id, data=job)
         
         return RedirectResponse( url=f"/project_jobs/{id}", status_code=302 )
     except Exception as e:
         return HTMLResponse(f"""<p class="bg-red-400 text-red-800 text-2xl font-bold py-3 px-4"> An error occured! ---- {str(e)}</p> """)
 
     finally:
-        project = await Project().get(id=id)
+        project = await get_project(id=id)
         project['activity_log'].append(
                     {
                         "id": timestamp(),
@@ -502,26 +449,22 @@ async def add_project_job(request):
                     }
 
                 )
-        await Project().update(data=project)
+        await update_project(data=project)
 
 
 # JOB TASKS
 @router.get('/jobtasks/{id}')
 async def get_jobtasks(request):
     id = request.path_params.get('id')
-    idd = id.split('-')
-   
-    p = await Project().get(id=idd[0])
-    
+    idd = id.split('-')   
+    p = await get_project(id=idd[0])    
     jb = [j for j in p.get('tasks') if j.get('_id') == id] 
     if len(jb) > 0:
         job = jb[0] 
     else:
-        job={}
-    
+        job={}    
     return TEMPLATES.TemplateResponse('/project/jobTasks.html',
         {"request": request, "job": job, "standard": p.get('standard')})
-
 
 
 @router.delete('/jobtask/{id}')
@@ -549,7 +492,7 @@ async def delete_jobtask(request):
     id = request.path_params.get('id')
     idd = id.split('_')
     pid = idd[0].split('-')[0]
-    p = await Project().get(id=pid)    
+    p = await get_project(id=pid)    
     jb = [j for j in p.get('tasks') if j.get('_id') == idd[0] ] 
     if len(jb) > 0:
         job = jb[0] 
@@ -557,13 +500,12 @@ async def delete_jobtask(request):
         job={}
     task = [t for t in job.get('tasks') if t.get('_id') == idd[1] ][0]
     job['tasks'].remove(task)
-    await Project().update(data=p)
+    await update_project(data=p)
     return HTMLResponse(f"""<div class="uk-alert-success" uk-alert>
             <a href class="uk-alert-close" uk-close></a>
             <p>{ task.get('title')} was Removed from Job {job.get('title')}.</p>
         </div>""")
     
-
 
 @router.get('/edit_jobtask/{id}')
 @login_required
@@ -571,8 +513,7 @@ async def edit_jobtask(request):
     id = request.path_params.get('id')
     idd = id.split('_')
     pid = idd[0].split('-')[0]
-    p = await Project().get(id=pid)
-    
+    p = await get_project(id=pid)    
     jb = [j for j in p.get('tasks') if j.get('_id') == idd[0] ] 
     if len(jb) > 0:
         job = jb[0] 
@@ -618,7 +559,7 @@ async def edit_jobtask(request):
                     }
 
                 )
-    await Project().update(data=p)
+    await update_project(data=p)
     return TEMPLATES.TemplateResponse('/project/jobTask.html',
         {
             "request": request, 
@@ -639,7 +580,7 @@ async def assign_task(request):
     id = request.path_params.get('id')
     idd = id.split('_')
     pid = idd[0].split('-')[0]
-    p = await Project().get(id=pid)
+    p = await get_project(id=pid)
     
     jb = [j for j in p.get('tasks') if j.get('_id') == idd[0] ] 
     if len(jb) > 0:
@@ -653,7 +594,7 @@ async def assign_task(request):
         crew_member = crew_member.split(" ")[0]
         eid = crew_member.split('-')[1]
         #eid = eid.split(" ")[0]
-        employee = await Employee().get_worker(id=eid)
+        employee = await get_worker(id=eid)
         
         if task.get('assigned'):
             if type(task.get('assignedto')) == str:
@@ -682,8 +623,8 @@ async def assign_task(request):
                     employee['jobs'] = [idd[0]]
 
 
-                await Project().update(data=p)
-                await Employee().update(data=employee)
+                await update_project(data=p)
+                await update_employee(data=employee)
                 return HTMLResponse(f"""
                     <div class="uk-alert-success" uk-alert>
                         <a href class="uk-alert-close" uk-close></a>
@@ -706,8 +647,8 @@ async def assign_task(request):
             else:
                 employee['jobs'] = [idd[0]]
 
-            await Project().update(data=p)
-            await Employee().update(data=employee)
+            await update_project(data=p)
+            await update_employee(data=employee)
         return HTMLResponse(f"""
                     <div class="uk-alert-success" uk-alert>
                         <a href class="uk-alert-close" uk-close></a>
@@ -738,7 +679,7 @@ async def filter_job_rate(request):
     id = request.path_params.get('id')
     idd = id.split('-')
         
-    p = await Project().get(id=idd[0])  
+    p = await get_project(id=idd[0])  
     async with request.form() as form:
         category = form.get('task_category')
     if category == 'all':
@@ -759,7 +700,7 @@ async def clear_task_assignment(request):
     id = request.path_params.get('id')
     idd = id.split('_')
     pid = idd[0].split('-')[0]
-    p = await Project().get(id=pid)
+    p = await get_project(id=pid)
     
     jb = [j for j in p.get('tasks') if j.get('_id') == idd[0] ] 
     if len(jb) > 0:
@@ -769,7 +710,7 @@ async def clear_task_assignment(request):
     task = [t for t in job.get('tasks') if t.get('_id') == idd[1] ][0]
     try:
         task['assignedto'] = job.get('crew').get('name')
-        await Project().update(data=p)
+        await update_project(data=p)
 
         return HTMLResponse(f""" <div class="bg-teal-300 py-1 px-2">{job.get('crew').get('name')}</div> """)
     except Exception as e:
@@ -795,7 +736,7 @@ async def get_task_properties(request):
     flag = request.path_params.get('flag')   
     idd = id.split('_')
     pid = idd[0].split('-')[0]
-    p = await Project().get(id=pid)
+    p = await get_project(id=pid)
     
     jb = [j for j in p.get('tasks') if j.get('_id') == idd[0] ] 
     if len(jb) > 0:
@@ -817,7 +758,7 @@ async def edit_metric_properties(request):
    
     idd = id.split('_')
     pid = idd[0].split('-')[0]
-    p = await Project().get(id=pid)    
+    p = await get_project(id=pid)    
     jb = [j for j in p.get('tasks') if j.get('_id') == idd[0] ] 
     if len(jb) > 0:
         job = jb[0] 
@@ -839,7 +780,7 @@ async def update_metric_properties(request):
    
     idd = id.split('_')
     pid = idd[0].split('-')[0]
-    p = await Project().get(id=pid)
+    p = await get_project(id=pid)
     
     jb = [j for j in p.get('tasks') if j.get('_id') == idd[0] ] 
     if len(jb) > 0:
@@ -878,7 +819,7 @@ async def update_metric_properties(request):
         "imperial": True
     }
 
-    await Project().update(data=p)
+    await update_project(data=p)
     return TEMPLATES.TemplateResponse('/project/jobTask.html',
         {
             "request": request, 
@@ -899,7 +840,7 @@ async def update_task_title(request):
     id = request.path_params.get('id')
     idd = id.split('_')
     pid = idd[0].split('-')[0]
-    p = await Project().get(id=pid)
+    p = await get_project(id=pid)
     
     jb = [j for j in p.get('tasks') if j.get('_id') == idd[0] ] 
     if len(jb) > 0:
@@ -919,7 +860,7 @@ async def update_task_title(request):
                             on Job {job.get('_id')} were updated  by {request.user.username}."""
                     }
                 ) 
-            await Project().update(data=p)
+            await update_project(data=p)
             return HTMLResponse(f"""<span 
                         uk-tooltip="title: Double Click to Edit."
                         hx-get="/update_task_title/{job.get('_id')}_{task.get('_id')}"
@@ -949,7 +890,7 @@ async def update_task_description(request):
     id = request.path_params.get('id')
     idd = id.split('_')
     pid = idd[0].split('-')[0]
-    p = await Project().get(id=pid)
+    p = await get_project(id=pid)
     
     jb = [j for j in p.get('tasks') if j.get('_id') == idd[0] ] 
     if len(jb) > 0:
@@ -969,7 +910,7 @@ async def update_task_description(request):
                             on Job {job.get('_id')} were updated  by {request.user.username}."""
                     }
                 ) 
-            await Project().update(data=p)
+            await update_project(data=p)
             return HTMLResponse(f"""<span 
                         uk-tooltip="title: Double Click to Edit."
                         hx-get="/update_task_description/{job.get('_id')}_{task.get('_id')}"
@@ -998,7 +939,7 @@ async def update_task_progress(request):
     id = request.path_params.get('id')
     idd = id.split('_')
     pid = idd[0].split('-')[0]
-    p = await Project().get(id=pid)
+    p = await get_project(id=pid)
     
     jb = [j for j in p.get('tasks') if j.get('_id') == idd[0] ] 
     if len(jb) > 0:
@@ -1017,7 +958,7 @@ async def update_task_progress(request):
         else:
             task['progress'] = progress
             #log this event
-        await Project().update(data=p)
+        await update_project(data=p)
         return HTMLResponse(f""" {progress}""")
     except Exception as e:
         pass
@@ -1030,7 +971,7 @@ async def add_worker_to_job_crew(request):
         wid = form.get('worker')
     idds = wid.split("_")
     idd = idds[0].split("-")
-    p = await Project().get(id=idd[0])
+    p = await get_project(id=idd[0])
     jb = [j for j in p.get('tasks') if j.get('_id') == idds[1] ] 
     worker = [w for w in p.get('workers', []) if w.get('id') == idds[0] ] 
     if len(jb) > 0:
@@ -1039,13 +980,13 @@ async def add_worker_to_job_crew(request):
         job={}
     
     job['crew']['members'].append(worker[0])
-    e = await Employee().get_worker(id=idds[0].split('-')[1])
+    e = await get_worker(id=idds[0].split('-')[1])
     if idds[1] in e.get('jobs'):
         pass
     else:
         e['jobs'].append(idds[1])
-        await Employee().update( data=e )
-    await Project().update(data=p)
+        await update_employee( data=e )
+    await update_project(data=p)
 
 
     res = HTMLResponse(f"""<div uk-alert>
@@ -1062,8 +1003,8 @@ async def add_worker_to_job_crew(request):
 @login_required
 async def add_daywork(request):
     id = request.path_params.get('id')
-    hash_table = await Project().daywork_hash_table(id=id)
-    p = await Project().get(id=id)
+    hash_table = await daywork_hash_table(id=id)
+    p = await get_project(id=id)
    
     payload = {
         "id": timestamp(),
@@ -1082,7 +1023,7 @@ async def add_daywork(request):
                 payload[key] = form.get(key) 
                 hash_obj[key] = form.get(key) 
                 
-        payload['hash_key'] = Project().hash_data(data=hash_obj)
+        payload['hash_key'] = hash_data(data=hash_obj)
         #await sleep(1)   
         if payload.get('hash_key') in list(hash_table):
             return HTMLResponse(f"""
@@ -1103,13 +1044,13 @@ async def add_daywork(request):
                         }
 
                     )
-            await Project().update(data=p)         
+            await update_project(data=p)         
 
             employee_id = payload.get("worker_name")
             employee_id = employee_id.split('-')[1]
-            employee = await Employee().get_worker(id=employee_id)
+            employee = await get_worker(id=employee_id)
             employee['days'].append(payload)
-            await Employee().update(data=employee)
+            await update_employee(data=employee)
         
             return HTMLResponse(f"""
                                 
@@ -1133,13 +1074,13 @@ async def add_job_task(request):
     async with request.form() as form:
         data = form.get('task')
     idd = data.split('-')
-    p = await Project().get(id=idd[0])
+    p = await get_project(id=idd[0])
     jb = [j for j in p.get('rates') if j.get('_id') == f"{idd[0]}-{idd[1]}" ] 
     if len(jb) > 0:
         task = jb[0] 
     else:
         task={}
-    await Project().addTaskToJob(id=f"{idd[0]}-{idd[3]}", data=task)
+    await add_task_to_job(id=f"{idd[0]}-{idd[3]}", data=task)
     res = HTMLResponse(f"""<div uk-alert>
                             <a href class="uk-alert-close" uk-close></a>
                             <h3>Notice</h3>
@@ -1154,13 +1095,13 @@ async def add_job_crew(request):
     async with request.form() as form:
         data = form.get('crew')
     idd = data.split('-')
-    p = await Project().get(id=idd[0])
+    p = await get_project(id=idd[0])
     jb = [j for j in p.get('rates') if j.get('_id') == f"{idd[0]}-{idd[1]}" ] 
     if len(jb) > 0:
         task = jb[0] 
     else:
         task={}
-    await Project().addTaskToJob(id=f"{idd[0]}-{idd[3]}", data=task)
+    await add_task_to_job(id=f"{idd[0]}-{idd[3]}", data=task)
     return HTMLResponse(f"""<div uk-alert>
                             <a href class="uk-alert-close" uk-close></a>
                             <h3>Notice</h3>
@@ -1175,7 +1116,7 @@ async def update_job_phase(request):
     id = request.path_params.get('id')
     async with request.form() as form:
         phase_resuest = form.get('projectphase')
-    job_phase = await Project().update_project_job_phase(id=id, phase=phase_resuest)
+    job_phase = await update_job_phase(id=id, phase=phase_resuest)
     return HTMLResponse(f""" <div uk-alert>
                             <a href class="uk-alert-close" uk-close></a>
                             <h3>Notice</h3>

@@ -3,49 +3,41 @@
 import datetime
 from datetime import datetime
 import json
-from asyncio import sleep
-from starlette.responses import HTMLResponse, RedirectResponse, JSONResponse, StreamingResponse
+from starlette.responses import HTMLResponse, RedirectResponse, JSONResponse
 from starlette_login.decorator import login_required
 from starlette.background import BackgroundTask
 from decoRouter import Router
 from box import Box
-from modules.project import Project
-from modules.employee import Employee
-from modules.rate import Rate
-from modules.utils import today, timestamp, to_dollars, convert_timestamp
-from modules.unit_converter import convert_unit, convert_price_by_unit
+from modules.project import get_project, update_project, all_projects, save_project
+from modules.employee import all_workers, get_worker, update_employee
+from modules.rate import all_rates, rate_categories, get_industry_rate
+from modules.utils import timestamp, exception_message
+from modules.unit_converter import convert_price_by_unit
 from printer.project_documents import printJobQueue, printMetricJobQueue, printImperialJobQueue
 from config import TEMPLATES
 
 
 router = Router()
 
-# Output:
-# October 11, 2022
 async def update_projectrates_task(id:str=None):
-    p = await Project().get(id=id)
+    project = await get_project(id=id)
     try:
-
-        for rate in p.get('rates', []):
+        for rate in project.get('rates', []):
             price_convert = json.loads(json.dumps(convert_price_by_unit(unit=rate.get('metric').get('unit'), value=float(rate.get('metric').get('price', 0.01)))))
             rate['imperial']['unit'] = price_convert.get('unit')
-            rate['imperial']['price'] = price_convert.get('value')
-            
-        
-        p['activity_log'].append(
+            rate['imperial']['price'] = price_convert.get('value') 
+        project['activity_log'].append(
             {
                 "id": timestamp(),
                 "title": f"Auto Update to Project Rates",
                 "description": f"""Project rate imperial unit and price fields were updated to reflect a ballance with the metric counterparts by SYSTEM_AUTO_UPDATE """
             }
-
         ) 
-        await Project().update(data=p)
+        await update_project(data=project)
     except Exception as e:
         print(f"update projectrates task has failed ---> {str(e)}")
     finally:
-        print(f"Done updating Project {p.get('name')} rates Fields.")
-
+        print(f"Done updating Project {project.get('name')} rates Fields.")
 
 
 @router.POST('/new_project')
@@ -79,86 +71,101 @@ async def new_project(request):
                 "landsurveyor": None,
                 "supervisors": []
                 }
-            },
-            "created_by": username
+            }
             
 
         }   
-    p = Project(data=data)
-    p.setup()
-    p.runsetup() 
-    new_project = await p.save()    
-    return RedirectResponse(url=f'/project/{new_project.get("_id")}', status_code=303)
-   
+    project = await save_project(data=data, user=username) 
+    try:     
+        return RedirectResponse(url=f'/project/{project.get("_id")}', status_code=303)
+    except Exception as e:
+        return HTMLResponse(exception_message(message=str(e)))
+    finally:
+        del(username)
+        del(project)
+        del(data)
+        
 
 @router.GET('/projects')
 @login_required
 async def get_projects(request):    
-    username =  request.user.username        
-    p = await Project().all()        
-    projects = [project for project in p.get('rows', []) if project.get('value').get("meta_data", {}).get("created_by") == username]
-    return TEMPLATES.TemplateResponse('/project/projectsIndex.html',{
-        'request': request,
-        'projects': projects
-    })
+    username:str =  request.user.username        
+    project:list = await all_projects()        
+    projects:list = [project for project in project if project.get('value').get("meta_data", {}).get("created_by") == username]
+    try:
+        return TEMPLATES.TemplateResponse('/project/projectsIndex.html',{
+            'request': request,
+            'projects': projects
+        })
+    except Exception as e:
+        return HTMLResponse(exception_message(message=str(e)))
+    finally:
+        del(username)
+        del(project)
+        del(projects)
 
 
 @router.get('/project/{id}')
 @login_required
-async def get_project(request):
+async def get_one_project(request):
     id = request.path_params.get('id')
-    p = await Project().get(id=id)
-    return TEMPLATES.TemplateResponse('/project/projectPage.html', 
-                                      {
-                                          "request": request, 
-                                          "id": id, 
-                                          "project": {
-                                              "_id": p.get("_id"),
-                                              "name": p.get("name"),
-                                              "category": p.get("category"),
-                                              "standard": p.get("standard"),
-                                              "owner": p.get("owner"),
-                                              "address": p.get("address"),
-                                              "admin": p.get("admin"),
-                                              "meta_data": p.get("meta_data"),
-                                                                                           
-                                              
-                                              }
-                                          })
+    project = await get_project(id=id)
+    try:
+        return TEMPLATES.TemplateResponse('/project/projectPage.html', 
+            {
+                "request": request, 
+                "id": id,
+                "project": {
+                    "_id": project.get("_id"),
+                    "name": project.get("name"),
+                    "category": project.get("category"),
+                    "standard": project.get("standard"),
+                    "owner": project.get("owner"),
+                    "address": project.get("address"),
+                    "admin": project.get("admin"),
+                    "meta_data": project.get("meta_data"),}
+            })
+    except Exception as e:
+        return HTMLResponse(exception_message(message=str(e)))
+    finally:
+        del(id)        
+        del(project)
+
 
 
 @router.get('/project_home/{id}')
 @login_required
 async def project_home(request):
     id = request.path_params.get('id')
-    p = await Project().get(id=id)
-    return TEMPLATES.TemplateResponse('/project/projectHome.html', 
-                                      {
-                                          "request": request, 
-                                          "id": id,                                           
-                                          "project": {
-                                              "_id": p.get("_id"),
-                                              "name": p.get("name"),
-                                              "category": p.get("category"),
-                                              "standard": p.get("standard"),
-                                              "owner": p.get("owner"),
-                                              "address": p.get("address"),
-                                              "admin": p.get("admin"),
-                                              "meta_data": p.get("meta_data"),
-                                                                                           
-                                              
-                                              }
-                                          })
+    project = await get_project(id=id)
+    try:
+        return TEMPLATES.TemplateResponse('/project/projectHome.html', 
+            {
+                "request": request, 
+                "id": id,                                           
+                "project": {
+                    "_id": project.get("_id"),
+                    "name": project.get("name"),
+                    "category": project.get("category"),
+                    "standard": project.get("standard"),
+                    "owner": project.get("owner"),
+                    "address": project.get("address"),
+                    "admin": project.get("admin"),
+                    "meta_data": project.get("meta_data"),}
+                })
+    except Exception as e:
+        return HTMLResponse(exception_message(message=str(e)))
+    finally:
+        del(id)        
+        del(project)
 
 
 
 @router.get('/project_api/{id}')
 async def project_api(request):
     id = request.path_params.get('id')
-    p = await Project().get(id=id)
-    return JSONResponse(p)
-
-
+    project = await get_project(id=id)
+    return JSONResponse(project)
 
 
 # Project State 
@@ -166,38 +173,35 @@ async def project_api(request):
 @router.post('/project_state/{id}')
 async def get_project_state(request):
     id = request.path_params.get('id')
-    idd = id.split('-')     
-       
-    p = await Project().get(id=idd[0])
+    idd = id.split('-')      
+    project = await get_project(id=idd[0])
     if request.method == 'GET':
-        project = {
-                "_id": p.get('_id'),
-                "name": p.get('name'),
-                "state": p.get('state',{}),
-                "event": p.get('event',{})
+        project_ = {
+                "_id": project.get('_id'),
+                "name": project.get('name'),
+                "state": project.get('state',{}),
+                "event": project.get('event',{})
             }
     if request.method == 'POST':  
-        state = idd[1]
-         
+        state = idd[1]         
         if state == 'activate':
-            p['state'] = {'active': True, 'completed': False, 'paused': False, 'terminated': False}
-            p['event']['started'] = timestamp()
+            project['state'] = {'active': True, 'completed': False, 'paused': False, 'terminated': False}
+            project['event']['started'] = timestamp()
         elif state == 'complete':
-            p['state'] = {'active': False, 'completed': True, 'paused': False, 'terminated': False}
-            p['event']['completed'] = timestamp()
+            project['state'] = {'active': False, 'completed': True, 'paused': False, 'terminated': False}
+            project['event']['completed'] = timestamp()
         elif state == 'pause':
-            p['state'] = {'active': False, 'completed': False, 'paused': True, 'terminated': False}
-            p['event']['paused'].append(timestamp())
+            project['state'] = {'active': False, 'completed': False, 'paused': True, 'terminated': False}
+            project['event']['paused'].append(timestamp())
         elif state == 'resume':
-            p['state'] = {'active': True, 'completed': False, 'paused': False, 'terminated': False}
-            p['event']['restart'].append(timestamp())
+            project['state'] = {'active': True, 'completed': False, 'paused': False, 'terminated': False}
+            project['event']['restart'].append(timestamp())
         elif state == 'terminate':
-            p['state'] = {'active': False, 'completed': False, 'paused': False, 'terminated': True}
-            p['event']['terminated'] = timestamp()
+            project['state'] = {'active': False, 'completed': False, 'paused': False, 'terminated': True}
+            project['event']['terminated'] = timestamp()
         else:
-            pass
-        
-        p['activity_log'].append(
+            pass        
+        project['activity_log'].append(
                     {
                         "id": timestamp(),
                         "title": "Update Project State",
@@ -205,13 +209,13 @@ async def get_project_state(request):
                     }
 
                 )
-        await Project().update(data=p)
+        await update_project(data=project)
         return RedirectResponse(url=f"/project_state/{p.get('_id')}-state", status_code=302)
     return TEMPLATES.TemplateResponse(
         "/project/projectState.html", 
         {
             "request": request,
-            "project": project
+            "project": project_
         }
         
         )
@@ -223,12 +227,12 @@ async def get_project_state(request):
 @router.post('/project_event/{id}')
 async def get_project_event(request):
     id = request.path_params.get('id')
-    p = await Project().get(id=id)
+    project = await get_project(id=id)
     if request.method == 'GET':
-        project = {
-                    "_id": p.get('_id'),
-                    "name": p.get('name'),                
-                    "event": p.get('event',{})
+        project_ = {
+                    "_id": project.get('_id'),
+                    "name": project.get('name'),                
+                    "event": project.get('event',{})
                 }
     if request.method == 'POST':
         event = ''
@@ -236,36 +240,30 @@ async def get_project_event(request):
             for key, value in form.items():
                 event = key
                 if key == 'paused':
-                    p['event'][key].append(timestamp(value))
+                    project['event'][key].append(timestamp(value))
                 elif key == 'restart':
-                    p['event'][key].append(timestamp(value))
+                    project['event'][key].append(timestamp(value))
                 else:
-                    p['event'][key] = timestamp(value)
-                
-        p['activity_log'].append(
+                    project['event'][key] = timestamp(value)                
+        project['activity_log'].append(
                     {
                         "id": timestamp(),
                         "title": "Update Project Event State",
                         "description": f"""Project Event {event} was updated to {value} by {request.user.username} """
                     }
-
-                )
-            
-        await Project().update(data=p)
+                )            
+        await update_project(data=p)
         res = HTMLResponse(f"""<div class="uk-alert-primary" uk-alert>
             <a href class="uk-alert-close" uk-close></a>
             <p>{event}</p>
         </div>
         """)
-        return RedirectResponse(url=f"/project_event/{p.get('_id')}", status_code=302)
-
-    
-
+        return RedirectResponse(url=f"/project_event/{project.get('_id')}", status_code=302)
     return TEMPLATES.TemplateResponse(
         "/project/projectEvent.html", 
         {
             "request": request,
-            "project": project
+            "project": project_
         })
 
 
@@ -273,10 +271,10 @@ async def get_project_event(request):
 @router.get('/project_activity/{id}')
 async def get_project_activity(request):
     id = request.path_params.get('id')
-    p = await Project().get(id=id)
+    project = await get_project(id=id)
     return TEMPLATES.TemplateResponse(
         "/project/activityLog.html", 
-        {"request": request, "activity_log": p.get('activity_log')}
+        {"request": request, "activity_log": project.get('activity_log')}
     )
 
 
@@ -285,12 +283,12 @@ async def get_project_activity(request):
 @login_required
 async def get_project_jobs(request):
     id = request.path_params.get('id')
-    p = await Project().get(id=id)
-    jobs = p.get('tasks')
+    project = await get_project(id=id)
+    jobs = project.get('tasks')
     
     return TEMPLATES.TemplateResponse(
         '/project/job/jobsIndex.html', 
-        { "request": request, "p": p, "jobs": jobs }
+        { "request": request, "p": project, "jobs": jobs }
         )
 
 
@@ -299,12 +297,12 @@ async def get_project_jobs(request):
 @login_required
 async def get_jobs_report(request):
     id = request.path_params.get('id')
-    p = await Project().get(id=id)
-    jobs = p.get('tasks')
+    project = await get_project(id=id)
+    jobs = project.get('tasks')
     
     return TEMPLATES.TemplateResponse(
         '/project/job/jobsReport.html', 
-        { "request": request, "p": {"_id": p.get('_id'), "name": p.get('name')}, "jobs": jobs }
+        { "request": request, "p": {"_id": project.get('_id'), "name": project.get('name')}, "jobs": jobs }
         )
 
 
@@ -313,14 +311,14 @@ async def get_jobs_report(request):
 @login_required
 async def get_jjobs_tasks_report(request):
     id = request.path_params.get('id')
-    p = await Project().get(id=id)
-    jobs = p.get('tasks')
+    project = await get_project(id=id)
+    jobs = project.get('tasks')
     
     return TEMPLATES.TemplateResponse(
         '/project/job/jobsTasksReport.html', 
         { 
             "request": request, 
-            "p": {"_id": p.get('_id'), "name": p.get('name')}, 
+            "p": {"_id": project.get('_id'), "name": project.get('name')}, 
             "jobs": jobs 
         }
     )
@@ -330,11 +328,11 @@ async def get_jjobs_tasks_report(request):
 async def print_jobs_report(request):
     id = request.path_params.get('id')
     flag = request.path_params.get('flag')
-    p = await Project().get(id=id)
+    project = await get_project(id=id)
     data = {
         'id': id,
-        'name': p.get('name'),
-        'jobs': p.get('tasks')
+        'name': project.get('name'),
+        'jobs': project.get('tasks')
     }
     if flag == 'metric':
         report = Box(printMetricJobQueue(project_jobs=data))
@@ -357,9 +355,9 @@ async def print_jobs_report(request):
 async def get_project_workers(request):
     id = request.path_params.get('id')
     filter = request.path_params.get('filter')
-    p = await Project().get(id=id)
-    e = await Employee().all_workers()
-    workers = p.get('workers')
+    project = await get_project(id=id)
+    e = await all_workers()
+    workers = project.get('workers')
     categories = { worker.get('value').get('occupation') for worker in workers }
     if filter:
         if filter == 'all' or filter == 'None':            
@@ -370,7 +368,7 @@ async def get_project_workers(request):
                                        {
                                            "request": request,
                                            "id": id,
-                                           "p": p,
+                                           "p": project,
                                            "employees": e,
                                            "workers": workers,
                                            "categories": categories,
@@ -384,12 +382,11 @@ async def get_project_workers(request):
 # PROCESS RATES
 @router.get('/project_rates/{id}')
 async def get_project_rates(request):
-    id = request.path_params.get('id')
-    from modules.rate import Rate        
-    industry_rates = await Rate().all_rates()
-    p = await Project().get(id=id)
+    id = request.path_params.get('id')           
+    industry_rates = await all_rates()
+    project = await get_project(id=id)
     categories = set()
-    rates_category =  [rate.get('category') for rate in p.get('rates', [])]
+    rates_category =  [rate.get('category') for rate in project.get('rates', [])]
     for rate in rates_category:
         categories.add(rate)
     task = BackgroundTask(update_projectrates_task, id=id)   
@@ -397,9 +394,9 @@ async def get_project_rates(request):
         {
             "request": request,
             "p": {
-                "_id": p.get('_id'),
-                "name": p.get('name'),
-                "rates": p.get('rates', []),
+                "_id": project.get('_id'),
+                "name": project.get('name'),
+                "rates": project.get('rates', []),
                 "categories": list( categories)
             },
             "industry_rates": industry_rates
@@ -411,15 +408,15 @@ async def get_project_rates(request):
 async def get_project_rates_filtered(request):
     idd = request.path_params.get('id')
     idd = idd.split('_')    
-    p = await Project().get(id=idd[0])   
+    project = await get_project(id=idd[0])   
     return TEMPLATES.TemplateResponse('/project/rates/projectRatesTable.html', 
         {
             "request": request,
             "p": {
-                "_id": p.get('_id'),
-                "name": p.get('name'),
-                "rates": [ rate for rate in p.get('rates', []) if rate.get('category') == idd[1]],
-                "categories": [rate.get('category') for rate in p.get('rates', [])]
+                "_id": project.get('_id'),
+                "name": project.get('name'),
+                "rates": [ rate for rate in project.get('rates', []) if rate.get('category') == idd[1]],
+                "categories": [rate.get('category') for rate in project.get('rates', [])]
             }
         })
 
@@ -428,10 +425,9 @@ async def get_project_rates_filtered(request):
 async def add_industry_rates(request):
     store_room = request.app.state.STORE_ROOM
     filter = request.path_params.get('filter').split('_')
-
-    rates = await Rate().all_rates()
+    rates = await all_rates()
     categories = {rate.get('category') for rate in rates }
-    rate_categories = Rate().categories
+    get_industry_rate = rate_categories()
     if filter[1]:
         store_room['filter'] = filter[1]
         if filter[1] == 'all' or filter[1] == 'None':            
@@ -457,11 +453,11 @@ async def add_industry_rates(request):
 async def add_project_rate(request):
     """Add Project Rate """
    
-    rate = await Rate().get(id=request.path_params.get('rate_id'))    
+    rate = await get_industry_rate(id=request.path_params.get('rate_id'))    
     rates_ids = set() #to validate against
     message = None
     async with request.form() as form:
-        project = await Project().get(id=form.get("project_id"))
+        project = await get_project(id=form.get("project_id"))
     for item in project.get('rates'): # add existing project rates ids to valid set
         rates_ids.add(item.get('_id'))
     try:
@@ -479,7 +475,7 @@ async def add_project_rate(request):
                     }
 
                 )
-            await Project().update(data=project)
+            await update_project(data=project)
         return HTMLResponse(
             f"""<div class="uk-alert-success" uk-alert>
                     <a href class="uk-alert-close" uk-close></a>
@@ -510,12 +506,12 @@ async def add_worker_to_project(request):
     async with request.form() as form:
         data = form.get('employee') 
     idd = data.split('-')
-    p = await Project().get(id=idd[0])
-    workers = [worker.get('key') for worker in p.get('workers')]
-    employees = await Employee().all_workers()
+    project = await get_project(id=idd[0])
+    workers = [worker.get('key') for worker in project.get('workers')]
+    employees = await all_workers()
     employee = [e for e in employees.get('rows') if e.get('id') == idd[1]][0]
     if employee.get('id') in workers:
-        p['activity_log'].append(
+        project['activity_log'].append(
                     {
                         "id": timestamp(),
                         "title": "Add Worker to Project Failure",
@@ -524,22 +520,22 @@ async def add_worker_to_project(request):
                 )
     else:
         employee['id'] = data
-        p['workers'].append(employee)
-        e = await Employee().get_worker(id=idd[1])
+        project['workers'].append(employee)
+        e = await get_worker(id=idd[1])
         if idd[0] in e.get('jobs'):
             pass
         else:
             e['jobs'].append(idd[0])
-            await Employee().update(data=e)
-        p['activity_log'].append(
+            await update_employee(data=e)
+        project['activity_log'].append(
                     {
                         "id": timestamp(),
                         "title": "Add Worker to Project",
                         "description": f"""Employee {employee.get('value').get('name')} was added to Project by {request.user.username} """
                     }
                 )
-    await Project().update(p)    
-    return RedirectResponse(url=f"""/project_workers/{p.get('_id')}/all""", status_code=302)
+    await update_project(p)    
+    return RedirectResponse(url=f"""/project_workers/{project.get('_id')}/all""", status_code=302)
 
 
 
@@ -558,12 +554,11 @@ async def remove_worker_from_project(request):
     idd = request.path_params.get('id')
    
     idd = idd.split('-')
-    print(idd)
-    p = await Project().get(id=idd[0])
-    for worker in p.get('workers'):
+    project = await get_project(id=idd[0])
+    for worker in project.get('workers'):
         if worker.get('key') == idd[1]:
             p['workers'].remove(worker)
-    employee = await Employee().get_worker(id=idd[1])
+    employee = await get_worker(id=idd[1])
 
     for job in employee.get('jobs'):
         if job == idd[0]:
@@ -575,56 +570,56 @@ async def remove_worker_from_project(request):
                         "description": f"""Employee {employee.get('name')} was removed from Project {idd[0]} by {request.user.username} """
                     }
                 )
-    await Employee().update(data=employee)
-    await Project().update(data=p)    
-    return RedirectResponse(url=f"""/project_workers/{p.get('_id')}/all""", status_code=302)
+    await update_employee(data=employee)
+    await update_project(data=p)    
+    return RedirectResponse(url=f"""/project_workers/{project.get('_id')}/all""", status_code=302)
 
 
 @router.post('/update_project_standard/{id}')
 @login_required
 async def update_project_standard(request):
     id = request.path_params.get('id')    
-    p = await Project().get(id=id)
+    project = await get_project(id=id)
     try:
         async with request.form() as form:
             standard = form.get('standard')
         if standard == 'on':
-            p['standard'] = "metric"
+            project['standard'] = "metric"
             changed = "Metric"            
         else:
-            p['standard'] = "imperial"
+            project['standard'] = "imperial"
             changed = "Imperial"
-        p['activity_log'].append(
+        project['activity_log'].append(
                     {
                         "id": timestamp(),
                         "title": "Change Project Standard",
                         "description": f"""Project Standard was changed to {changed} by {request.user.username} """
                     }
                 )
-        await Project().update(data=p)
+        await update_project(data=p)
         return HTMLResponse(f"<p>{ changed.capitalize() }</p>")
     except:
         pass
     finally:
-        del(p)        
+        del(project)        
 
 
 
 @router.get('/project_days/{id}')
 async def get_project_days(request):
     id = request.path_params.get('id')
-    p = await Project().get(id=id)
-    #e = await Employee().all_workers()
+    project = await get_project(id=id)
+    #e = await all_workers()
     try:
         return TEMPLATES.TemplateResponse('/project/projectDaysWorkIndex.html',
             {
                 "request": request,
                 "project": {
                     "_id": id,
-                    "name": p.get('name'),
-                    "daywork": p.get('daywork')
+                    "name": project.get('name'),
+                    "daywork": project.get('daywork')
                 },
-                "workers": p.get('workers')
+                "workers": project.get('workers')
             })
     except Exception as e:
         return HTMLResponse(f"""<div class="uk-alert-warning" uk-alert>
@@ -633,7 +628,7 @@ async def get_project_days(request):
                                 </div>
                             """)
     finally:
-        del(p)
+        del(project)
         del(id)
 
 
@@ -650,11 +645,11 @@ async def filter_days_work(request):
         else:
             return False
     id = request.path_params.get('id')
-    p = await Project().get(id=id)
+    project = await get_project(id=id)
     async with request.form() as form:
         start_date = form.get('filter_start')
         end_date = form.get('filter_end')
-    days = [day_work for day_work in p.get('daywork', []) if filter(date=day_work.get('date'), start=start_date, end=end_date ) ]
+    days = [day_work for day_work in project.get('daywork', []) if filter(date=day_work.get('date'), start=start_date, end=end_date ) ]
     day_workers = set()#days = sorted(days)
     
     worker_occurence = [ item.get('worker_name') for item in days ]

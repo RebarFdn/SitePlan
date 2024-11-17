@@ -1,12 +1,11 @@
 # Team Router 
 import json
-from starlette.responses import HTMLResponse, RedirectResponse, JSONResponse, StreamingResponse
+from starlette.responses import JSONResponse, StreamingResponse
 from starlette_login.decorator import login_required
 from decoRouter import Router
-from modules.project import Project
-from modules.supplier import Supplier
+from modules.project import get_project
+from modules.supplier import Supplier, all_suppliers, get_supplier, supplier_name_index, supplier_invoice_id_index, save_supplier
 from config import TEMPLATES
-from modules.utils import timestamp
 
 router = Router()
 
@@ -16,13 +15,10 @@ router = Router()
 @login_required
 async def createSupplier(request ):    
     '''Create a new Supplier .POST '''    
-    data = await request.json() 
-    sp = Supplier(data=data)
+    data = await request.json()     
     try:
-        res = await sp.save()
-        #print(res)
-       
-        return JSONResponse(sp.data)
+        res = await save_supplier(data=data, user=request.user.username)
+        return JSONResponse(res)
     except Exception as e: 
         return JSONResponse({'error', str(e)})
     finally: 
@@ -33,24 +29,23 @@ async def createSupplier(request ):
 
 @router.get('/suppliers')
 async def get_suppliers(request ):    
-    '''Returns a list of Suppliers  .GET '''     
-    sp = Supplier()
-    try: res = await sp.all()
+    '''Returns a list of Suppliers  .GET ''' 
+    try: res = await all_suppliers()
     except Exception as e: res = {'error', str(e)}
     finally: 
         del(sp)
         return JSONResponse(res)
+    
 
 @router.get('/supplier/{id}')
-async def get_supplier(request ):    
-    '''Returns a Single Supplier  .GET '''   
-    id = request.path_params.get('id')    
-    sp = Supplier()
-    try: res = await sp.get(id=id)
+async def get_one_supplier(request ):    
+    '''Returns a Single Supplier  .GET '''        
+    try: res = await get_supplier(id=request.path_params.get('id'))
     except Exception as e: res = {'error', str(e)}
     finally: 
         del(sp)
         return JSONResponse(res)
+    
 
 @router.get('/supplier_html/{id}')
 async def get_supplier_html(request ):    
@@ -61,21 +56,18 @@ async def get_supplier_html(request ):
 
 
 @router.get('/suppliers_index')
-async def suppliers_name_index(request):
-    '''Returns a list of Suppliers  name and tax_id ''' 
-    sp = Supplier()
-    try: res = await sp.nameIndex()
+async def suppliers_names_index(request):
+    '''Returns a list of Suppliers  name and tax_id '''    
+    try: res = await supplier_name_index()
     except Exception as e: res = {'error', str(e)}
-    finally: 
-        del(sp)
-        return JSONResponse(res)
+    finally: return JSONResponse(res)
 
 
 @router.get('/suppliers_html_index')
 async def html_index(request):
     '''Returns a list of Suppliers  name and tax_id '''     
     filter = None    
-    suppliers = await Supplier().nameIndex()
+    suppliers = await supplier_name_index()
     locations = {supplier.get("address").get("city_parish") for supplier in suppliers }
     response = {
             "request": request, 
@@ -98,7 +90,7 @@ async def html_index(request):
 async def html_index_filtered(request):
     '''Returns an Html  list of Suppliers  name and tax_id ''' 
     filter = request.path_params.get('filter')    
-    suppliers = await Supplier().nameIndex()
+    suppliers = await supplier_name_index()
     locations = {supplier.get("address").get("city_parish") for supplier in suppliers }
     response = {
             "request": request, 
@@ -119,15 +111,12 @@ async def html_index_filtered(request):
 
 @router.get('/invoices')
 async def invoiceIdIndex(request):
-    '''Returns a list of invoice numbers and Suppliers  name'''    
-    sp = Supplier()
+    '''Returns a list of invoice numbers and Suppliers  name'''
     try:
-        res = await sp.invoiceIdIndex()
+        res = await supplier_invoice_id_index()
         res = res[0]
     except Exception as e:  res = {'error', str(e)}
-    finally: 
-        del(sp)
-        return JSONResponse(res) 
+    finally: return JSONResponse(res) 
 
 
 @router.post('/checkinvoice')
@@ -135,11 +124,11 @@ async def invoiceIdIndex(request):
 async def checkInvoice(request):
     '''Validate and invoice'''
     tocheck = await request.json()
-    p = await Project().get(tocheck.get('project_id'))
+    project:dict = await get_project(tocheck.get('project_id'))
     #suppliers = set()
     #invoice_nos = set()
     invrec = []    
-    for item in p.get('account').get('records').get('invoices'):
+    for item in project.get('account').get('records').get('invoices'):
         #suppliers.add(item.get('supplier').get('name'))
         #invoice_nos.add(item.get('invoiceno'))
         invrec.append({'supplier': item.get('supplier').get('name'),'invoiceno': item.get('invoiceno') })
@@ -148,8 +137,15 @@ async def checkInvoice(request):
 
     resultant = { 'result':  {'supplier':tocheck.get('supplier'), 'invoiceno': tocheck.get('invoiceno')} in invrec
          } 
-    
-    return JSONResponse( resultant ) 
+    try:
+        return JSONResponse( resultant ) 
+    except Exception as e: JSONResponse( {"exception": str(e)} ) 
+    finally:
+        del(tocheck)
+        del(project)
+        del(invrec)
+        del(item)
+        del(resultant)
 
 
        

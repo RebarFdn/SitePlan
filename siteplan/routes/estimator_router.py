@@ -1,7 +1,7 @@
-from starlette.responses import HTMLResponse, RedirectResponse, JSONResponse, StreamingResponse
+from starlette.responses import HTMLResponse
 from decoRouter import Router
-from modules.project import Project
-from modules.estimate import Estimate,  EstimateModel
+from modules.project import  project_name_index
+from modules.estimate import Estimate
 from modules.Estimate.walls import Wall
 from modules.Estimate.opening import Opening
 from modules.Estimate.structural import RCColumn, RCBeam, Foundation, Slab, ConcreteFloor
@@ -27,7 +27,7 @@ router = Router()
 
 @router.GET('/estimate')
 async def get_estimate_index(request):
-    projects_index = await Project().nameIndex()
+    projects_index = await project_name_index()
     context = { 
         "title": "Siteplanner Estimator",
         "projects": projects_index,
@@ -53,7 +53,7 @@ async def get_estimates(request):
 
 @router.GET('/estimate/{project}')
 async def get_estimate(request):
-    projects_index = await Project().nameIndex()
+    projects_index = await project_name_index()
     context = { 
         "title": "Siteplanner Estimator",
         "estimate": Estimate().get(project=request.path_params.get('project'))

@@ -1,8 +1,7 @@
 # products.py
 
-from starlette.responses import JSONResponse, PlainTextResponse
+from starlette.responses import JSONResponse
 from decoRouter import Router
-
 from modules.utils import timestamp
 from modules.project import logger
 from database import Recouch

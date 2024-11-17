@@ -1,14 +1,11 @@
 #Recouch 1.0.2 Rebar Database Adaptor Service database.py 
 #Apache CouchDb Handler and Controller
-#author: Tan Moncrieffe
+#author: Ian Moncrieffe
 #date Nov 23 2022
 #couchdb cookie value = 299C5A4368900F0F038E528974770DC4
 #Dependencies
 import httpx
-import asyncio
 import typing
-#import aioredis
-
 from modules.utils import timestamp
 
 class Recouch:

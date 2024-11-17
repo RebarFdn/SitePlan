@@ -1,9 +1,9 @@
 
 from dataclasses import dataclass
 try:
-    from modules.project import Project
+    from modules.project import get_project
 except ImportError:   
-    from project import Project
+    from project import get_project
 
 
 @dataclass
@@ -13,7 +13,7 @@ class ProjectDataAccumulator:
     async def unpaid_tasks(self):
         if self.project_id:
             unpaid = []
-            project = await Project().get(id=self.project_id)
+            project = await get_project(id=self.project_id)
             jobs = project.get('tasks')
             for job in jobs:
                 if job.get('state').get('complete'):

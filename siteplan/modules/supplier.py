@@ -1,12 +1,116 @@
 #encoding=utf-8
 #supplier.py
+import typing
+from logger import logger
+from modules.utils import timestamp, generate_id, to_dollars, load_metadata, set_metadata
+from database import Recouch, local_db
 
-from modules.utils import timestamp
-from modules.project import Project
-from database import Recouch
-from starlette.responses import JSONResponse, HTMLResponse, StreamingResponse
-from starlette_login.decorator import login_required
-from modules.utils import to_dollars
+
+databases = { # Employee Databases
+            "local":"site-suppliers", 
+            "local_partitioned": False,
+            "slave":"site-suppliers", 
+            "slave_partitioned": False            
+            }
+
+# connection to site-projects database 
+db_connection:typing.Coroutine = local_db(db_name=databases.get('local'))   
+
+def supplier_model(key:str=None)->dict:
+    SUPPLIER_TEMPLATE = {
+    "_id": None,    
+    "name": "Supplier Name",
+    "account": {
+        "bank": {
+        "branch": None,
+        "name": None,
+        "account": None
+        },
+        "transactions": [
+        
+        ]
+    },
+    "address": {
+        "lot": None,
+        "street": None,
+        "town": None,
+        "city_parish": None,
+        "country": None
+    },
+    "contact": {
+        "tel": None,
+        "mobile": None,
+        "email": None
+    },
+    "taxid": None,
+    
+    }
+
+async def all_suppliers(conn:typing.Coroutine=db_connection)->list:
+    try:
+        r:dict = await conn.get(_directive="_all_docs") 
+        return r.get('rows')           
+    except Exception as e: logger().exception(e)
+    finally: del(r)
+
+
+async def supplier_name_index(conn:typing.Coroutine=db_connection)->list:
+    def processIndex(p): return p.get('key')
+    try:
+        r:dict = await conn.get(_directive="_design/suppliers/_view/name-index") 
+        return list(map( processIndex,  r.get('rows')))            
+    except Exception as e: logger().exception(e)
+    finally: del(r)
+
+
+async def supplier_invoice_id_index(conn:typing.Coroutine=db_connection)->list:
+    def processIndex(p): return  p.get('key')
+    try:
+        r:dict = await conn.get(_directive="_design/project-index/_view/invoice-id") 
+        return list(map( processIndex,  r.get('rows')))            
+    except Exception as e: logger().exception(e)
+    finally: del(r)
+
+
+async def get_supplier( id:str=None, conn:typing.Coroutine=db_connection)->dict:
+    try:
+        r:dict = await conn.get(_directive=id) 
+        return r  
+    except Exception as e: logger().exception(e)
+    finally: del(r)
+
+
+async def save_supplier(data:dict, user:str=None, conn:typing.Coroutine=db_connection):    
+    data["_id"] = generate_id(name=data.get('name'))
+    new_supplier = supplier_model() | data
+    new_supplier['meta_data'] = load_metadata(property='created', value=timestamp(), db=databases)
+    new_supplier['meta_data'] = set_metadata(property='created_by', value=user, metadata=new_supplier.get('meta_data'))
+    try:
+        await conn.post( json=new_supplier)  
+        return new_supplier                      
+    except Exception as e: logger().exception(e)
+    finally:
+        del(data)
+        del(new_supplier)
+        
+
+async def update( data:dict=None, conn:typing.Coroutine=db_connection)->dict:
+    payload = None
+    supplier = await get_supplier(id=data.get('_id'))        
+    try:
+        payload = supplier | data
+        await conn.put(json=payload) 
+        return payload           
+    except Exception as e: logger().exception(e)
+    finally: 
+        del(payload)
+        del(supplier)
+
+
+async def delete( id:str=None, conn:typing.Coroutine=db_connection ):
+    try: return await conn.delete(_id=id)           
+    except Exception as e: logger().exception(e)
+    
 
 class Supplier:    
     suppliers:list=[]
@@ -30,83 +134,14 @@ class Supplier:
             if self.data.get("_id"): pass
             else: self.generate_id()
 
-    async def all(self):
-        try:
-            r = await self.conn.get(_directive="_all_docs") 
-            return r            
-        except Exception as e: return str(e)
-        finally: del(r)
-
-    async def nameIndex(self):
-        def processIndex(p): return p.get('key')
-        try:
-            r = await self.conn.get(_directive="_design/suppliers/_view/name-index") 
-            return list(map( processIndex,  r.get('rows')))            
-        except Exception as e: return str(e)
-        finally: del(r)
-
-    async def invoiceIdIndex(self):
-        def processIndex(p): return  p.get('key')
-        try:
-            r = await self.conn.get(_directive="_design/project-index/_view/invoice-id") 
-            return list(map( processIndex,  r.get('rows')))            
-        except Exception as e: r = {'error': str(e)}
-        finally: del(r)
-
-    async def get(self, id:str=None):
-        try:
-            r = await self.conn.get(_directive=id) 
-            return r  
-        except Exception as e: return {'error': str(e)}
-        finally: del(r)
+    
 
     async def save(self):
         self.meta_data["created"] = timestamp()
         self.data['meta_data'] = self.meta_data
         try: return await self.conn.post( json=self.data)                        
         except Exception as e: return {'error': str(e)}
-        
-
-    async def update(self, data:dict=None):
-        payload = None
-        supplier = await self.get(id=data.get('_id'))        
-        try:
-            payload = supplier | data
-            await self.conn.put(json=payload) 
-            return payload           
-        except Exception as e: return {'error': str(e)}
-        finally: 
-            del(payload)
-            del(supplier)
-
-    async def delete(self, id:str=None):
-        try: return await self.conn.delete(_id=id)           
-        except Exception as e: response = {'error': str(e)}
-        finally:
-            del(supplier)
-            return response
-
-    async def get_elist(self):
-        try: s = await self.all()            
-        except Exception as e: s = {'error': str(e)}
-        finally: return s
-
-    def generate_id(self):
-        ''' Generates a unique supplier id, also updates the supplier data''' 
-        from modules.utils import GenerateId       
-        gen = GenerateId()
-        ln = None 
-        try:
-            ln = self.data.get('name').split(' ')
-            self._id =  gen.name_id(ln=ln[1], fn=self.data.get('name'))            
-        except: self._id = gen.name_id('C', 'P')
-        finally:
-            self.data['_id']=self._id
-            del(ln)
-            del(gen)
-            del(GenerateId)
-            return self._id
-
+     
 
     def update_index(self, data:str) -> None:
         '''  Expects a unique id string ex. JD33766'''        
@@ -120,7 +155,7 @@ class Supplier:
     
 
     async def html_index_generator(self, filter:str=None):
-        suppliers = await self.nameIndex()
+        suppliers = await supplier_name_index()
         locations = {supplier.get("address").get("city_parish") for supplier in suppliers }
        
         if filter:
@@ -255,7 +290,7 @@ class Supplier:
 
 
     async def supplier_html_generator(self, id:str=None):
-        sp = await self.get(id=id)
+        sp = await get_supplier(id=id)
         total_transactions = 0
         try:        
             yield f"""<div class="uk-container uk-container-large">

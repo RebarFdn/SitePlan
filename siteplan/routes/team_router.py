@@ -2,58 +2,17 @@
 import json
 from pathlib import Path
 from starlette.requests import Request
-from starlette.responses import HTMLResponse, RedirectResponse, JSONResponse, StreamingResponse
+from starlette.responses import HTMLResponse, JSONResponse, StreamingResponse
 from starlette_login.decorator import login_required
 from starlette.background import BackgroundTask
 from decoRouter import Router
 from PIL import Image
 from io import BytesIO
-from modules.project import Project, get_project
-from modules.employee import ( Employee, save_employee, all_workers, get_worker, 
-    get_worker_by_name, get_worker_name_index, get_worker_info)
-from models.human_resource_models import BaseEmployee
+from modules.project import get_project
+from modules.employee import ( save_employee, all_workers, get_worker, 
+    get_worker_by_name, get_worker_name_index, get_worker_info, team_index_generator)
 from config import TEMPLATES, PROFILES_PATH
-from modules.utils import timestamp
-from time import sleep
-import asyncio
-
-
-
-def convert_empty_string(t_string:str=None):
-    if t_string == None:
-        pass
-    elif not t_string.strip():        
-        return None
-    else:
-        return t_string
-        
-
-async def datavet():
     
-    #data = await Employee().get_name_index()
-    
-    #employee = Employee( ** dict(name='Jack Price', oc='Big Jack', sex='male', occupation='plumber') )
-    #for item in data:
-    worker = await get_worker_by_name('Anuk Moncrieffe') 
-    e = BaseEmployee( ** worker )       
-        
-    #c = worker.get('address')
-        #c.get('email')
-    #for item in c:
-    #    c[item] = convert_empty_string(t_string= c.get(item))      
-    #
-    sleep(0.1)
-    #e.account.bank.branch = "OLD HARBOUR"
-    #worker['account'] = e.account.json()
-    
-    e.department = 'CONSTRUCTION'
-    e.role = 'STAFF'
-    #worker = worker | e.model_dump() 
-    #await Employee().update(data=worker)
-    print(e)
-    
- 
-#asyncio.run(datavet())
 
 router = Router()
 
@@ -120,20 +79,20 @@ async def new_worker(request:Request):
                 "duration": 0
             },
             payload["reports"] = []            
-    ne = await save_employee(data = payload)   
+    new_employee = await save_employee(data=payload, user=request.user.username)   
     try:              
-        return HTMLResponse(f"""<p class="bg-blue-800 text-white text-sm font-bold py-3 px-4 mx-5 my-2 rounded-md">{ne }</p>""")
+        return HTMLResponse(f"""<p class="bg-blue-800 text-white text-sm font-bold py-3 px-4 mx-5 my-2 rounded-md">{new_employee }</p>""")
     except Exception as e:
         return HTMLResponse(f"""<p class="bg-red-400 text-red-800 text-2xl font-bold py-3 px-4"> An error occured! ---- {str(e)}</p> """)
 
     finally:
         del(payload)
-        del ne
+        del new_employee
         
 
 @router.get('/team_index')
 async def team_index(request): 
-    return StreamingResponse(Employee().team_index_generator(), media_type="text/html")
+    return StreamingResponse(team_index_generator(), media_type="text/html")
 
 
 @router.get('/team')
@@ -159,7 +118,7 @@ async def team_member(request:Request):
     async def get_jobs_details(job_id):
         if '-' in job_id:
             idd = job_id.split('-')
-            project = await Project().get(id=idd[0])
+            project = await get_project(id=idd[0])
             _job = [job for job in project.get('tasks') if job.get('_id') == job_id]
             if len(_job) > 0:
                 _job = _job[0]
@@ -196,7 +155,7 @@ async def team_member(request:Request):
         {
             "request": request, 
             "id": id,
-            "employee": await Employee().get_worker_info(id=request.path_params.get('id')) 
+            "employee": await get_worker_info(id=request.path_params.get('id')) 
         })
 
 
@@ -248,7 +207,7 @@ async def project_team_member(request:Request):
         {
             "request": request, 
             "id": id,
-            "employee": await Employee().get_worker_info(id=request.path_params.get('id')) 
+            "employee": await get_worker_info(id=request.path_params.get('id')) 
         })
 
   

@@ -3,7 +3,9 @@
 # Author: Ian Alexander Moncrieffe
 import datetime
 import json
+import typing
 from strgen import StringGenerator
+
 
 
 
@@ -386,13 +388,14 @@ def generate_id(name:str=None)->str:
         gen = GenerateId()
         fln = name.split(' ') # first, last name
         try:           
-            return gen.name_id(ln=fln[0], fn=fln[1]) 
+            return gen.name_id(fn=fln[0], ln=fln[1]) 
         except:
             return gen.name_id('C', 'W')
         finally:           
             del(gen)
             del(fln)
-           
+
+
 def generate_docid()->str:
     """Generates a unique document id
 
@@ -403,8 +406,7 @@ def generate_docid()->str:
     try: return gen.gen_id(doc_tag='item')        
     finally: del(gen)
             
-           
-
+ 
 def hash_data(data:dict=None)->str:
     """_summary_
 
@@ -433,6 +435,44 @@ def validate_hash_data( hash_key:bytes=None, data:dict=None):
         finally:
             del(hashlib)
             
+
+# Metadata Process 
+def load_metadata(property:str=None, value:typing.Any=None, db:dict={}):
+    meta_data:dict = {
+        "created": 0, 
+        "database": {"name":db.get('local'), "partitioned":db.get('local_partitioned')},              
+    }    
+    if property and value:
+        meta_data[property] = value
+        return meta_data
+
+    elif not property and value:
+        return meta_data
+    
+    elif property and not value:
+        return { property: meta_data.get(property)}
+    return meta_data
+
+
+def set_metadata(property:str=None, value:typing.Any=None, metadata:dict={}):
+    if property and value:
+        metadata[property] = value
+        return metadata
+    elif not property and value:
+        return metadata
+    
+    elif property and not value:
+        return metadata.get(property)
+    return metadata
+    
+
+def exception_message(message:str=None):
+    return f"""<div class="uk-alert-warning" uk-alert>
+        <a href class="uk-alert-close" uk-close></a>
+        <p>{ message }</p>
+    </div>"""
+
+
 
 # test
 def test_secure_safe_compare(s1, s2):

@@ -5,14 +5,14 @@ import typing
 import datetime
 from logger import logger
 from functools import lru_cache
-from modules.utils import timestamp, filter_dates, generate_id, generate_docid, to_dollars, hash_data, validate_hash_data
+from modules.utils import timestamp, filter_dates, generate_id, generate_docid, to_dollars, hash_data, load_metadata, set_metadata
 from database import Recouch, local_db
-from modules.employee import Employee, add_pay
+from modules.employee import get_worker, add_pay, add_job_task
 from config import DOCUMENT_PATH, IMAGES_PATH
-from config import SYSTEM_LOG_PATH as SYSTEM_LOG, APP_LOG_PATH as APP_LOG
+from config import SYSTEM_LOG_PATH as SYSTEM_LOG
 
 
-databases = { # Employee Databases
+databases = { # Project Databases
             "local":"site-projects", 
             "local_partitioned": False,
             "slave":"site-projects", 
@@ -21,6 +21,88 @@ databases = { # Employee Databases
 
 # connection to site-projects database 
 db_connection:typing.Coroutine = local_db(db_name=databases.get('local'))   
+
+
+def project_model(key:str=None):
+    PROJECT_TEMPLATE = dict( 
+            name = "Test Project",
+            category = "residential",
+            standard = "metric",
+            address = {"lot": None, "street": None, "town": None,"city_parish": None,"country": "Jamaica", },
+            owner = {
+            "name": None,
+            "contact": None,
+            "address": {"lot": None, "street": None, "town": None,"city_parish": None,"country": None, }
+        },
+            account = {
+                "bank": {
+                    "name": None,
+                    "branch": None,
+                    "account": None,
+                    "account_type": None
+                    },
+                "budget": None,
+                "ballance": 0,
+                "started": timestamp(),
+                "transactions": {
+                    "deposits": [], 
+                    "withdraw": []
+                },
+                "expences": [],
+                "records": {
+                    "invoices": [],
+                    "purchase_orders": [],
+                    "salary_statements": [],
+                    "paybills": []
+                }
+            },
+            admin = {
+            "leader": None,
+            "staff": {
+            "accountant": None,
+            "architect": None,
+            "engineer":None,
+            "quantitysurveyor": None,
+            "landsurveyor": None,
+            "supervisors": []
+            }
+  },
+            workers = [],
+            tasks = [],
+            rates = [],
+            daywork = [],
+            inventory = [],            
+            event = {
+                "started": 0,
+                "completed": 0,
+                "paused": [],
+                "restart": [],
+                "terminated": 0
+            },
+            state =  {
+                "active": False,
+                "completed": False,
+                "paused": False,
+                "terminated": False
+            },      
+            progress =  {
+            "overall": None,
+            "planning": None,
+            "design": None,
+            "estimates": None,
+            "contract": None,
+            "development": None,
+            "build": None,
+            "unit": None
+            },
+            activity_log = [],
+            reports = [],
+            estimates = [],
+            meta_data = None
+            
+              )
+    if key: return PROJECT_TEMPLATE.get(key)
+    else: return PROJECT_TEMPLATE
 
 
 @lru_cache
@@ -44,7 +126,7 @@ def project_phases()->dict:
         'landscaping': 'Landscaping',      
         
     }
-
+  
 
 ## CRUD OPERATIONS
 async def all_projects( conn:typing.Coroutine=db_connection )->list:
@@ -85,11 +167,15 @@ async def get_project(id:str=None, conn:typing.Coroutine=db_connection)->dict:
     finally: del(r)  
 
 
-async def save_project(data:dict=None, conn:typing.Coroutine=db_connection )->dict:   
+async def save_project(data:dict=None, user:str=None, conn:typing.Coroutine=db_connection )->dict:   
     try:
         data['_id'] = generate_id(name=data.get('name')) 
-        await conn.post( json=data )  
-        return data  
+        new_project = project_model() | data
+        new_project['meta_data'] = load_metadata(property='properties', value=list(new_project.keys()), db=databases)
+        new_project['meta_data'] = set_metadata(property='created', value=timestamp(),  metadata=new_project.get('meta_data'))
+        new_project['meta_data'] = set_metadata(property='created_by', value=user, metadata=new_project.get('meta_data'))
+        await conn.post( json=new_project )  
+        return new_project  
     except Exception as e:
         logger().exception(e)  
         
@@ -293,11 +379,10 @@ async def add_workers(id:str=None, data:list=None):
     
 async def process_workers(index:list=None) -> dict:
         try:
-            employees = []
-            e = Employee()
+            employees = []            
             if len(index) > 0:
                 for eid in index: 
-                    worker = await e.get_worker(id=eid)
+                    worker = await get_worker(id=eid)
                     employees.append(worker)             
                 return {"employees": employees} 
             else: return {"employees": []}                     
@@ -305,7 +390,7 @@ async def process_workers(index:list=None) -> dict:
             return str(er)
         finally: 
             del(employees)
-            del(e)
+            
 
 
 async def create_new_paybill( id:str=None, data:dict=None):
@@ -481,914 +566,82 @@ async def get_employee_rates( pe_id:str=None):
             del(project) 
 
 
+## Job Tasks and Days Work Management
 
-
-class Project: 
-    error_log:dict = {}   
-    projects:list=[]    
-    meta_data:dict = {
-        "created": 0, 
-        "database": {"name":"site-projects", "partitioned": False},              
-    }
-    instances = 0
-    default_fees = {
-        "contractor": 20,
-        "insurance": 0,
-        "misc": 0,
-        "overhead": 0,
-        "unit": "%"
-    }
-
-    def __init__(self, data:dict=None): 
-        Project.instances += 1      
-        self.conn = Recouch(local_db=self.meta_data.get('database').get('name'))
-        self._id:str = None        
-        self.index:set = set()
-        self.project:dict = {}
-        if data :
-            self.meta_data["created"] = timestamp()  
-            self.meta_data["created_by"] = data.get('created_by')
-            self.meta_data['properties'] = list(data.keys())    
-            del(data['created_by'])      
-            self.data = data
-            self.data["meta_data"] = self.meta_data
-                      
-            if self.data.get("_id"):
-                pass
-            else:
-                self.generate_id(local=True)
-        else:                     
-            self.data = {"meta_data":self.meta_data}
-        self.document = {
-            "style": {
-                'margin_bottom': 15,
-                'text_align': 'j',
-                 "page_size": "letter", 
-                 "margin": [60, 50]
-            },
-            "formats": {
-                'url': {'c': 'blue', 'u': 1},
-                'title': {'b': 1, 's': 13},
-                'title_header': {'b': 1, 's': 16},
-                'sub_title': {'b': .5, 's': 11},
-                'sub_text': {'s': 9}
-            },
-            "running_sections": {
-                "header": {
-                    "x": "left", "y": 20, "height": "top", "style": {"text_align": "r"},
-                    "content": [{".b": "This is a header"}]
-                },
-                "footer": {
-                    "x": "left", "y": 740, "height": "bottom", "style": {"text_align": "c"},
-                    "content": [{".": ["Page ", {"var": "$page"}]}]
-                }
-            },
-            "sections": []
-        }
-
-    @property    
-    def report_error(self):
-        return self.error_log
-    
-    # Depricated for external function project_phases
-    @property
-    def projectPhases(self):
-        return {      
-            'preliminary':'Preliminary',
-            'substructure': 'Substructrue',
-            'superstructure': 'Superstructure',
-            'floors': 'Floors',
-            'roofing': 'Roofing',
-            'installations': 'Installations',
-            'electrical': 'Electrical',
-            'plumbung': 'Plumbing',
-            'finishes': 'Finishes',
-            'landscaping': 'Landscaping',      
-        
-        }
-    
-
-    @property
-    def withdrawal_model(self):
-        return   {
-          "id": None,
-          "date": None,
-          "type": "Withdraw",
-          "amount": 0,
-          "recipient": {
-            "name": None,
-          },
-          "ref": None
-        }
-    
-
-    @property
-    def salary_statement_model(self):
-        return  {
-          "ref": None,
-          "jobid": None,
-          "employeeid": None,
-          "name": None,
-          "date": None,
-          "items": [],
-          "deductions": [],
-          "total": 0
-        }
-    
-
-    @property
-    def salary_statement_item_model(self):
-        return  {
-              "id": None,
-              "description": None,
-              "unit": None,
-              "amount": 0,
-              "price": 0,
-              "total": 0
-            }
-
-
-    @property
-    def data_validation_error(self):
-        self.meta_data["created"] = timestamp()
-        self.meta_data['flagged'] = {
-            "message": "There was an error in your data, please rectify and try Mounting it again.",
-            "flag": self.report_error
-        }
-
-    def validate_data(self, data, schema):
-        try:
-            validate(instance=data, schema=schema)
-            return True
-        except Exception as e:
-            self.error_log['data_validation'] = str(e)
-            self.data_validation_error   
-            return False
-
-    def setup(self):
-        """is called after data has been mounted """
-        check_list = self.meta_data.get("properties")
-        self.process_address()
-        if "owner" in check_list: pass
-        else: self.data['owner'] = {
-            "name": None,
-            "contact": None,
-            "address": {"lot": None, "street": None, "town": None,"city_parish": None,"country": None, }
-        }
-        if "account" in check_list: pass
-        else: self.data['account'] = {
-                "bank": {
-                    "name": None,
-                    "branch": None,
-                    "account": None,
-                    "account_type": None
-                    },
-                "budget": None,
-                "ballance": 0,
-                "started": timestamp(),
-                "transactions": {
-                    "deposit": [], 
-                    "withdraw": []
-                },
-                "expences": [],
-                "records": {
-                    "invoices": [],
-                    "purchase_orders": [],
-                    "salary_statements": [],
-                    "paybills": []
-                }
-            }
-        if "tasks" in check_list: pass
-        else:self.data['tasks'] = [] 
-        if "workers" in check_list: pass
-        else:self.data['workers'] = [] 
-        if "inventory" in check_list: pass
-        else:self.data['inventory'] = [] 
-        if "activity_log" in check_list: pass
-        else:self.data['activity_log'] = [] 
-        self.process_event()
-        self.process_state()
-        self.meta_data['properties'] = list(self.data.keys())
-        self.meta_data['properties'].remove('meta_data')
-
-    def runsetup(self):
-        """is called after data has been mounted """
-        
-        PROJECT_TEMPLATE = dict( 
-            name = None,
-            category = "residential",
-            standard = "metric",
-            address = {"lot": None, "street": None, "town": None,"city_parish": None,"country": "Jamaica", },
-            owner = {
-            "name": None,
-            "contact": None,
-            "address": {"lot": None, "street": None, "town": None,"city_parish": None,"country": None, }
-        },
-            account = {
-                "bank": {
-                    "name": None,
-                    "branch": None,
-                    "account": None,
-                    "account_type": None
-                    },
-                "budget": None,
-                "ballance": 0,
-                "started": timestamp(),
-                "transactions": {
-                    "deposits": [], 
-                    "withdraw": []
-                },
-                "expences": [],
-                "records": {
-                    "invoices": [],
-                    "purchase_orders": [],
-                    "salary_statements": [],
-                    "paybills": []
-                }
-            },
-            admin = {
-            "leader": None,
-            "staff": {
-            "accountant": None,
-            "architect": None,
-            "engineer":None,
-            "quantitysurveyor": None,
-            "landsurveyor": None,
-            "supervisors": []
-            }
-  },
-            workers = [],
-            tasks = [],
-            rates = [],
-            daywork = [],
-            inventory = [],            
-            event = {
-                "started": 0,
-                "completed": 0,
-                "paused": [],
-                "restart": [],
-                "terminated": 0
-            },
-            state =  {
-                "active": False,
-                "completed": False,
-                "paused": False,
-                "terminated": False
-            },      
-            progress =  {
-            "overall": None,
-            "planning": None,
-            "design": None,
-            "estimates": None,
-            "contract": None,
-            "development": None,
-            "build": None,
-            "unit": None
-            },
-            activity_log = [],
-            reports = [],
-            estimates = [],
-            meta_data = None
-            
-              )
-        #self.data.update(PROJECT_TEMPLATE | self.data)
-        self.data = PROJECT_TEMPLATE | self.data 
-        self.meta_data['properties'] = list(self.data.keys())
-        self.meta_data['properties'].remove('meta_data')
-
-
-    def mount(self, data:dict=None): 
-        #remove fragments from previous validation
-        if self.meta_data.get('flagged'): del self.meta_data['flagged']       
-        if data and self.validate_data(data, schema):
-            self.meta_data["created"] = timestamp()
-            self.meta_data['properties'] = list(data.keys())
-            self.data = data            
-            self.data['meta_data'] = self.meta_data
-            if self.data.get("_id"):
-                pass
-            else:
-                self.generate_id(local=True)
-
-    # Utilities
-    def as_currency(self, amount):
-        return to_dollars(amount=amount)
-    
-
-    async def daywork_hash_table(self, id:str=None):
-        project = await self.get(id=id)
-        hash_table = set()
-        for day in project.get('daywork'):
-            if day.get('hash_key'):
-                hash_table.add(day.get('hash_key'))
-            else:
-                day['hash_key'] = self.hash_data(data={
-                    'worker_name': day.get('worker_name'), 
-                    'date': day.get('date'), 
-                    'start': day.get('start'), 
-                    'end': day.get('end'), 
-                    'description': day.get('description') 
-                    })
-                hash_table.add(day.get('hash_key'))
-        await self.update(data=project)
-        return hash_table
-    
-    
-   
-
-
-    ## CRUD OPERATIONS
-    # Depricated for external function all_projects 
-    async def all(self):
-        try:
-            r = await self.conn.get(_directive="_design/project-index/_view/name-view") 
-            return r           
-        except Exception as e:
-            return str(e)
-        finally: del(r)
-
-    # Depricated for external function all_projects_api
-    async def all_raw(self):
-        try:
-            r = await self.conn.get(_directive="_design/project-index/_view/all-raw") 
-            return r           
-        except Exception as e:
-            return str(e)
-        finally: del(r)
-
-    
-    # Depricated for external function project_name_index
-    async def nameIndex(self):
-        def processIndex(p):
-            return  { "_id": p.get('id'), "name": p.get('value').get('name')}
-        try:
-            r = await self.conn.get(_directive="_design/project-index/_view/name-view") 
-            return list(map( processIndex,  r.get('rows')))            
-        except Exception as e:
-            return str(e)
-        finally: del(r)
-
-    # Depricated for external function get_project
-    async def get(self, id:str=None):
-        r = None
-        try:
-            r = await self.conn.get(_directive=id)
-
-            logger().info(f'Request for Project {r.get("_id")} Completed sucessfully.')
-            return r
-        except Exception as e:
-            logger().error(str(e))
-            return str(e)
-        finally: del(r)  
-
-
-    # Depricated for external function save_project
-    async def save(self):        
-        #self.mount(data=data)
-        #self.setup()        
-        await self.conn.post( json=self.data )  
-        logger().info('New project created ')        
-        return  self.data    
-        
-
-    # Depricated for external function update_project
-    async def update(self, data:dict=None):
-        try:
-            logger().info(f'Project {data.get("_id")} updated.')
-            return await self.conn.put( json=data)            
-        except Exception as e:
-            logger().error(str(e))
-            return str(e)
-        
-
-    # Depricated for external function delete_project
-    async def delete(self, id:str=None):
-        status = None
-        try:
-            status = await self.conn.delete(_id=id)
-            return {"status": status}
-        except Exception as e:
-            return str(e)
-        finally:
-            del(status)
-
-    # Depricated 
-    async def get_elist(self):
-        await self.all_projects()
-        return self.projects 
-
-    # Depricated for external function
-    def generate_id(self, line_1:str=None, line_2:str=None, local:bool=None ):
-        ''' Generates unique id's also may update the project data
-            may also return a generator function 
-            ---
-            requires: 
-                line_1: a char or string of chars.
-                line_2: ditto above,
-                local: True or False
-            returns a generator function if no argument is provided
-        ''' 
-        from modules.utils import GenerateId       
-        gen = GenerateId() 
-        # Case_1: generate id for other
-        if line_1 and line_2: 
-            try:            
-                return  gen.name_id(ln=line_1, fn=line_2) 
-            except Exception as ex:
-                return str(ex)
-            finally:
-                del(gen)
-                del(GenerateId) 
-        # Case_2: generate id locally               
-        elif local: 
-            try:            
-                self._id = gen.name_id(
-                    ln=self.data.get('name').split(' ')[1], 
-                    fn=self.data.get('name')
-                    ) 
-                self.data['_id'] = self._id
-            except Exception as ex:
-                return str(ex)
-            finally:                
-                del(gen)
-                del(GenerateId) 
-        # Case_3: return the generator               
-        else:
-            try:
-                return gen
-            finally: 
-                del(gen)
-                del(GenerateId)
-
-
-    def update_index(self, data:str) -> None:
-        '''  Expects a unique id string ex. JD33766'''        
-        self.index.add(data) 
-
-
-    @property 
-    def list_index(self) -> list:
-        ''' Converts set index to readable list'''
-        return [item for item in self.index]
-   
-    
-    ## PROJECT ACCOUNTING
-    # Depricated for external function
-    async def handleTransaction(self, id:str=None, data:dict=None):
-        if data:
-            gen = self.generate_id()
-            project = await self.get(id=id)
-            data['id']= gen.gen_id(doc_tag='item')
-            # process deposits
-            if data.get('type') == 'deposit' or data.get('type') == 'Deposit':                
-                project['account']['transactions']['deposit'].append(data)
-                project['activity_log'].append(
-                    {
-                        "id": timestamp(),
-                        "title": f"Add Account {data.get('type')}",
-                        "description": f"""Account {data.get('type') } with Refference {data.get('ref')} was added to Project  {project.get('_id')}
-                        Account Transactions by { data.get('user') } at { timestamp() }"""
-                    }
-
-                )  
-                
-                #processProjectAccountBallance()
-                project['account']['updated'] = timestamp()
-            # process withdrawals
-            if data.get('type') == 'withdraw' or data.get('type') == 'Withdraw':               
-                project['account']['transactions']['withdraw'].append(data)
-                project['activity_log'].append(
-                    {
-                        "id": timestamp(),
-                        "title": f"Add Account {data.get('type')}",
-                        "description": f"""Account {data.get('type') } with Refference {data.get('ref')} was added to Project  {project.get('_id')}
-                        Account Transactions by { data.get('user') }"""
-                    }
-
-                )  
-                #processProjectAccountBallance()
-                project['account']['updated'] = timestamp()
-            try:
-               
-                await self.update(data=project)
-                return data
-            except Exception as e:
-                return {'error': str(e)}
-            finally:
-                del(gen)
-                del(project) # clean up
-        else:
-            return {"error": 501, "message": "You did not provide any data for processing."}
-
-    # Depricated for external function
-    async def addInvoice(self, id:str=None, data:dict=None):        
-        project = await self.get(id=id)
-        project['account']['records']['invoices'].append(data)
-        try:
-            await self.update(data=project)    
-            return data         
-        except Exception as e:
-            return {'error': str(e)}
-        finally:
-            del(project)
-
-    # Depricated for external function
-    async def deleteInvoice(self, id:str=None, data:dict=None):        
-        project = await self.get(id=id)
-        project['account']['records']['invoices'].remove(data)
-        try:
-            return await self.update(data=project)            
-        except Exception as e:
-            return {'error': str(e)}
-        finally:
-            del(project)
-
-    # Depricated for external function
-    async def getInvoices(self, id:str=None):        
-        project = await self.get(id=id)
-        try:
-            return project.get('account').get('records').get('invoices')
-        except Exception as e:
-            return str(e) 
-        finally:
-            del(project)
-
-
-    # Depricated for external function add_expence
-    async def addExpence(self, id:str=None, data:dict=None):        
-        project = await self.get(id=id)
-        project['account']['expences'].append(data)
-        try:
-            await self.update(data=project) 
-            return project.get('account').get('expences')         
-        except Exception as e:
-            return {'error': str(e)}
-        finally:
-            del(project)
-            
-    # Depricated for external function
-    async def getExpences(self, id:str=None):        
-        project = await self.get(id=id)
-        try:
-            return project.get('account').get('expences')
-        except Exception as e:
-            return str(e) 
-        finally:
-            del(project)
-
-    # Depricated for external function
-    async def deleteExpence(self, id:str=None, data:dict=None):        
-        project = await self.get(id=id)
-        project['account']['expences'].remove(data)
-        try:
-            await self.update(data=project) 
-            return project.get('account').get('expences')         
-        except Exception as e:
-            return {'error': str(e)}
-        finally:
-            del(project)
-
-
-    # Worker Salary Record
-    # Depricated for external function
-    async def addWorkerSalary(self, id:str=None, data:dict=None):        
-        project = await self.get(id=id) 
-        withdraw =  {
-                "id": data.get("ref"),
-                "date": data.get("date"), 
-                "type":"withdraw",            
-                "amount": data.get("total"), 
-                "ref": data.get("ref"),
-                "recipient": {
-                    "name": data.get("name")
-                }
-            } 
-        project['account']['transactions']['withdraw'].append(withdraw)      
-        project['account']['records']['salary_statements'].append(data)
-        
-        try:
-            e = Employee()
-            pb = await e.addPay(id=data.get('employeeid'), data=data )       
-            #print(project['account']['records']['salary_statements'])
-            #print(pb)
-            await self.update(data=project) 
-            return project.get('account').get('records').get('salary_statements')         
-        except Exception as e:
-            return {'error': str(e)}
-        finally:
-            del(project)
-
-    # Depricated for external function
-    async def deleteWorkerSalary(self, id:str=None, data:dict=None):
-        ## get the project
-
-        # get the account transactions and records 
-        # find and remove the salary_statement in question
-        # find and remove the withdrawal record from account transactions withdral
-        # update the project 
-        pass
-
-    # Depricated for external function
-    # Project Paybill Management
-    async def create_new_paybill(self, id:str=None, data:dict=None):
-        p = await self.get(id=id)
-        data['ref'] = f"{id}-Bill-{len( p['account']['records']['paybills']) + 1 }"
-        p['account']['records']['paybills'].append(data)
-        await self.update(data=p) 
-        return data
-    
-    # Depricated for external function
-    async def add_bill_item(self, id:str=None, data:dict=None):
-        idd = id.split('-')
-        project = await self.get(id=idd[0])
-        
-        try:
-            bill =[item for item in  project['account']['records']['paybills'] if item.get("ref") == id ][0]
-            item_ids = []
-            
-            if len(bill['items']) > 0:
-                for bill_item in bill.get('items'):  
-                    item_ids.append(bill_item.get('id'))               
-
-                if data.get('id') in item_ids:
-                    print('BILL-item is already included in Pay Bill')
-                        
-                    return None
-                else:
-                    print(f"BILL-item will be added to the pay bill ....{data.get('id')}")
-                    bill['items'].append(data)
-                    await self.update(data=project)
-                    return data 
-        
-            else:
-                print('New BILL-item will be added to the Pay bill')
-                bill['items'].append(data)
-                await self.update(data=project)
-                return data
-               
-        except Exception as e:
-            return str(e)
-        finally:
-            print(data)
-            print('ID', id)
-           
-    
-    async def process_paybill_dayworker(self, bill_ref:str=None, worker:str=None, start_date:str=None, end_date:str=None):
-        project = await self.get(id=bill_ref.split('-')[0])
-        if start_date and end_date:
-            days = [day_work for day_work in project.get('daywork', []) if filter_dates(date=day_work.get('date'), start=start_date, end=end_date ) ]
-            days = [item for item in days if item.get('worker_name').split('_')[0] == worker]
-            return days
-        else:
-            return []
-        
-
-
-    ## PROJECT WORKERS
-    # Depricated for external function
-    async def addWorkers(self, id:str=None, data:list=None):
-        '''Requires a list of workers. Enshure the following JSON data format
-            {
-            "id": "LT0000",
-            "key": "LT0000",
-            "value": {
-                "name": "Love True",
-                "oc": "truelove",
-                "occupation": "labourer",
-                "added": 1664197078000
-            }
-            },
-        '''
-        if data:
-            def enlist(item): # utility sort function
-                return item['id']               
-            project = await self.get(id=id)
-            workers = list(map(enlist, project['workers'])) 
-            updated = None
-            for item in data:
-                if item.get('id') in workers:
-                    pass
-                else:
-                    project['workers'].append(item )
-            try:
-                updated = await self.update(data=project)
-                return updated
-            except Exception as e:
-                return {'error': str(e)}
-            finally:
-                del(updated)
-                del(item)
-                del(workers)
-                del(project)
-        else:
-            return {"error": 501, "message": "You did not provide any data for processing."}
-
-    # Depricated for external function
-    async def process_workers(self, index:list=None) -> dict:
-        try:
-            employees = []
-            e = Employee()
-            if len(index) > 0:
-                for eid in index: 
-                    worker = await e.get_worker(id=eid)
-                    employees.append(worker)             
-                return {"employees": employees} 
-            else: return {"employees": []}                     
-        except Exception as er:
-            return str(er)
-        finally: 
-            del(employees)
-            del(e)
-
-    ## PROJECT INVENTORY
-    ## Depricated for external function 
-    def sortInventory(self, keywords, datalist):
-        def sort(item):
-            keyword = item.get('item')
-            for word in keywords:
-                if word in keyword:
-                    return None
-                else: return item
-
-    # Depricated for external function add_inventory
-    async def addInventory(self, id:str=None, data:list=None):
-        if data:                          
-            project = await self.get(id=id)  
-            # check if this material inventory exists 
-            # if not add it 
-            project['inventory'].append(data)
-        else:
-            pass
-        return project.get('inventory')
-    
-    # Depricated for external function add_inventory
-    async def addInventoryItem(self, id:str=None, data:list=None):
-        if data:                          
-            project = await self.get(id=id)  
-            # check if this material inventory exists 
-            # if not add it 
-            project['inventory'].append(data)
-        else:
-            pass
-        return project.get('inventory')
-
-    ## PROJECT RATES
-    # Depricated for external function 
-    async def addRate(self, id:str=None, data:list=None):
-        if data:                          
-            project = await self.get(id=id)         
-            for item in data:
-                item['_id'] = f"{id}-{item['_id']}"                
-                project['rates'].append( item )
-            try:
-                await self.update(data=project)
-                return project
-            except Exception as e:
-                return {'error': str(e)}
-            finally:
-                del(item)
-                del(project)
-        else:
-            return {"error": 501, "message": "You did not provide any data for processing."}
-
-    # Depricated for external function 
-    async def updateRate(self, id:str=None, data:list=None):
-        if data:                          
-            project = await self.get(id=id)         
-            for item in data:
-                item['_id'] = f"{id}-{item['_id']}"                
-                project['rates'].append( item )
-            try:
-                await self.update(data=project)
-                return project
-            except Exception as e:
-                return {'error': str(e)}
-            finally:
-                del(item)
-                del(project)
-        else:
-            return {"error": 501, "message": "You did not provide any data for processing."}
-
-    # Depricated for external function
-    async def getRateById(self, id:str=None):
-        idds = id.split('-') 
-        def findData(rate): # utility search function
-            return rate['_id'] == id
-        project = await self.get(id=idds[0])
-        try:
-            return { "subject": project.get('name'), "id": idds[0], "rate": list(filter(findData, project.get('rates')))[0]}
-        except Exception as e:
-                return {'error': str(e)}
-        finally:
-                del(idds)
-                del(project)
-    # Depricated for external function
-    async def getRate(self, rate_id:str=None):
-        ''''Retreives a rate from the project. 
-        Requires the assigned rate id '''
-        try:            
-            ends = rate_id.split('-')
-            def findRate(rate): # utility search function 
-                return rate['_id'] == rate_id        
-            project = await self.get(id=ends[0])                 
-            rate = list(filter( findRate, project.get('rates') ))
-            return rate[0]
-        except Exception as e:
-            return {'error': str(e)}
-
-    # Depricated for external function
-    async def getEmployeeRates(self, pe_id:str=None):
-        ''''Retreives a batch of rates assigned to the employee  from the project. 
-        Requires the project id and the employee id'''
-        try:            
-            ends = pe_id.split('-')                
-            def findRates(rate): # utility search function
-                return rate['assignedto'] == ends[1]
-            project =  await self.get(id=ends[0]) 
-            rates = list(filter( findRates, project.get('rates') ))
-            return rates
-        except Exception as e:            
-            return {'error': str(e)}
-        finally:
-            del(ends)
-            del(rates)
-            del(project) 
-
-
-    ## PROJECT JOBS
-    async def submitDayWork(self, id:str=None, data:dict=None)-> list:
-        '''Returns the list of days worked'''
-        p = await self.get(id=id)
-        #print(e)
+async def submit_day_work( id:str=None, data:dict=None)-> list:
+    '''Returns the list of days worked'''
+    p:dict = await get_project(id=id)
+    try:
         p['daywork'].append(data)
-        await self.update(data=p)
+        await update_project(data=p)
         return p.get('daywork')
+    except Exception: logger().exception(Exception)
+    finally: del p
 
-    async def getJob(self, id:str=None, jobs:list=None):        
-        def find_item(item):
-                return item['_id'] == id
+def get_job( id:str=None, jobs:list=None)->list:        
+    def find_item(item):
+        return item['_id'] == id
+    try:
+        return list(filter(find_item, jobs))[0]
+    except Exception as e: 
+        logger().exception(e)
+        return [] 
+
+
+async def add_job_to_queue( id:str=None, data:dict=None)->list:
+    ''' Add a new job to the project jobs queue. returns the updated jobs queue'''
+    if data:                          
+        project:dict = await get_project(id=id) 
+        flg:str = data.get('title', 'p j')
+        flg:list = flg.split(' ')
+        if len(flg) > 1:
+            jid:str = generate_id( line_1=flg[0], line_2=flg[1]) 
+        else:
+            jid:str = generate_id( line_1=flg[0], line_2=flg[0])        
         try:
-            return list(filter(find_item, jobs))[0]
-        except Exception as e: return str(e) 
-        
-
-    async def addJobToQueue(self, id:str=None, data:dict=None):
-        ''' Add a new job to the project jobs queue. returns the updated jobs queue'''
-        if data:                          
-            project = await self.get(id=id) 
-            flg = data.get('title', 'p j')
-            flg = flg.split(' ')
-            if len(flg) > 1:
-                jid = self.generate_id( line_1=flg[0], line_2=flg[1]) 
-            else:
-                jid = self.generate_id( line_1=flg[0], line_2=flg[0]) 
-
             data['_id'] = f"{id}-{jid}"                
             project['tasks'].append( data )
-            try:
-                await self.update(data=project)
-                return project.get('tasks')
-            except Exception as e:
-                return {'error': str(e)}
-            finally:
-                del(flg)
-                del(project)
-        else:
-            return {"error": 501, "message": "You did not provide any data for processing."}
-
-
-    async def addTaskToJob(self, id:str=None, data:dict=None):
-        '''adds a task to a job '''
-        idd = id.split('-')        
-        project = await self.get(id=idd[0])
-        def find_item(item):
-                return item['_id'] == id
-        job = list(filter(find_item, project.get('tasks')))[0]         
-        try:
-            job['tasks'].append(data)
-            logger().info(f"Task { data.get('_id')} Addedd to Job {idd[1]} on Queue {idd[0]}")        
-            await self.update(project)
-            return data
-        except Exception as e:
-            return str(e)
+            await update_project(data=project)
+            return project.get('tasks')
+        except Exception as e: logger().exception(e)                
         finally:
+            del(flg)
             del(project)
-            del(job)
-            del(idd)
+            del(jid)
+    else:
+        return {"error": 501, "message": "You did not provide any data for processing."}
 
-    async def processJobCost(self, id:str=None):
-        idid = id.split('-')
-        IS_METRIC = False
-        project = await self.get(id=idid[0])
-        if project.get('standard') == 'metric':
-            IS_METRIC = True         
-        def find_item(item):
-            if item.get('_id') == id:
-                return item
+
+async def add_task_to_job(id:str=None, data:dict=None)->dict:  
+    def find_item(item:dict):
+        return item['_id'] == id  
+    idd = id.split('-')        
+    project = await get_project(id=idd[0])        
+    job = list(filter(find_item, project.get('tasks')))[0]         
+    try:
+        job['tasks'].append(data)
+        logger().info(f"Task { data.get('_id')} Addedd to Job {idd[1]} on Queue {idd[0]}")        
+        await update_project(data=project)
+        return data
+    except Exception as e: logger().exception(e)
+    finally:
+        del(project)
+        del(job)
+        del(idd)
+
+
+async def process_job_cost( id:str=None):
+    def find_item(item:dict):
+        if item.get('_id') == id:
+            return item
+    idid:list = id.split('-')
+    IS_METRIC = False
+    project = await get_project(id=idid[0])
+    if project.get('standard') == 'metric':
+        IS_METRIC = True  
         job = list(filter(find_item, project.get('tasks')))[0]
         job['progress'] = 0        
         def process_task(task):
-            ''''''
             # Process metric rates
             if IS_METRIC:
                 metric = task.get('metric')
@@ -1496,284 +749,618 @@ class Project:
         else: pass
         return job
     
-
-    async def updateJobTasks(self, id:str=None, tasks:list=None)-> list:
-        '''Rplaces the projects job tasks list '''
-        idd = id.split('-')
-        p = await self.get(id=idd[0]) # locate the project
-        job = await self.getJob(id=id, jobs=p.get('tasks'))  # locate the job
+        
+async def update_job_tasks( id:str=None, tasks:list=None)-> list:
+    '''Rplaces the projects job tasks list '''
+    idd:list = id.split('-')
+    p:dict = await get_project(id=idd[0]) # locate the project
+    job:dict = get_job(id=id, jobs=p.get('tasks'))  # locate the job
+    try:
         job['tasks'] = tasks
-        await self.update(data=p)
+        await update_project(data=p)
         return job.get('tasks')
+    except Exception: logger().exception(Exception)
+    finally:
+        del(idd)
+        del(p)
+        del(job)
 
-    async def updateJobTask(self, id:str=None, data:dict=None)-> dict:
-        '''Updates a single job task of the project'''
-        print(id)
-        idd = id.split('-')
-        p = await self.get(id=idd[0]) # locate the project
-        job = await self.getJob(id=id, jobs=p.get('tasks'))  # locate the job
-        #job['tasks'] = tasks
-        #await self.update(data=p)
+
+async def update_job_task( id:str=None, data:dict=None)-> dict:
+    """Updates a single Task of a Job of the project
+
+    Args:
+        id (str, optional): A concatenated string with the project's id
+                            and the Task's id. Defaults to None.
+        data (dict, optional): The Task object to be saved. Defaults to None.
+
+    Returns:
+        dict: The Task object
+    """
+    idd = id.split('-')
+    p = await get_project(id=idd[0]) # locate the project
+    job = await get_job(id=id, jobs=p.get('tasks'))  # locate the job
+    try:
         for item in job.get('tasks'):
-            if item.get('_id') == data.get('_id'):
-                print('F O U N D')
+            if item.get('_id') == data.get('_id'):                
                 job['tasks'][job['tasks'].index(item)] = data
-                await self.update(data=p)
-                
+                break
+        await update_project(data=p)                
         return data
+    except Exception: logger().exception(Exception)
+    finally:
+        del(idd)
+        del(p)
+        del(job)
 
-    
-    ## PROJECT JOB CREW    
-    async def getProjectCrews(self, id:str=None):
-        ''' return a list of job crews employed to a project'''          
-        project = await self.get(id=id)
-        crews, names = [], [] 
-        def find_item(item):
-            if item.get('crew').get('name') not in names:
-                names.append(item.get('crew').get('name'))
-                crews.append(item.get('crew'))
-            return item['crew']
-        crews_ = list(map(find_item, project.get('tasks')))
+# Project Job Crew Management
+
+async def get_project_crews(id:str=None)->list:
+    ''' return a list of job crews employed to a project'''          
+    project:dict = await get_project(id=id)
+    crews:list = []
+    names:list = [] 
+    def find_item(item:dict):
+        if item.get('crew').get('name') not in names:
+            names.append(item.get('crew').get('name'))
+            crews.append(item.get('crew'))
+        return item['crew']
+    crews_ = list(map(find_item, project.get('tasks')))
         # remove duplicates
-        return crews
+    return crews
+
+
+async def add_crew_member( id:str=None, data:dict=None)->dict:
+    '''Assigns a single  member to the job's crew members list'''
+    idd:list = id.split('-')
+    p:dict = await get_project(id=idd[0]) # locate the project
+    job:dict = await get_job(id=id, jobs=p.get('tasks'))  # locate the job
+    try:
+        job['crew']['members'].append(data)            
+        await update_project(p)
+        return data
+    except Exception as e: logger().exception(e)
+    finally:
+        del(idd)
+        del(p)
+        del(job)
+
     
-    async def addCrewMember(self, id:str=None, data:dict=None):
-        '''Assigns a single  member to the job's crew members list'''
-        idd = id.split('-')
-        p = await self.get(id=idd[0]) # locate the project
-
-        job = await self.getJob(id=id, jobs=p.get('tasks'))  # locate the job
-        
-        try:
-            job['crew']['members'].append(data)            
-            await self.update(p)
-            return data
-        except Exception as e: return str(e)
-
-    async def addCrewMembers(self, id:str=None, data:list=None):
-        '''Assigns members from a list to the job's crew members list'''
-        idd = id.split('-')
-        p = await self.get(id=idd[0]) # locate the project
-
-        job = await self.getJob(id=id, jobs=p.get('tasks'))  # locate the job
-        
-        try:
-            for member in data:
-                job['crew']['members'].append(member)
-            
-            await self.update(p)
-            return job
-        except Exception as e: return str(e)
+async def add_crew_members( id:str=None, data:list=None)->dict:
+    '''Assigns members from a list to the job's crew members list'''
+    idd:list = id.split('-')
+    p:dict = await get_project(id=idd[0]) # locate the project
+    job = await get_job(id=id, jobs=p.get('tasks'))  # locate the job
+    try:
+        for member in data:
+            job['crew']['members'].append(member)            
+        await update_project(p)
+        return job
+    except Exception as e: logger().exception(e)
+    finally:
+        del(idd)
+        del(p)
+        del(job)
 
 
-    async def assignTaskToCrewMember(self, id:str=None, wid:str=None):
-        '''Assigns a tasks of a number tasks to a crew member'''
-        idd = id.split('-')
-        p = await self.get(id=idd[0]) # locate the project
-        job = await self.getJob(id=f"{idd[0]}-{idd[1]}", jobs=p.get('tasks'))  # locate the job
-        
-        # process Job task 
-        def find_task(task):
-            if task.get('_id') == id:
-                return task
-        task = list(filter(find_task, job.get('tasks')))[0]
-        task['assigned'] = True
-        if type(task['assignedto']) == str:
-            task['assignedto'] = [wid]
-        elif not task.get('assignedto'): 
-            task['assignedto'] = [wid]
-        else:
-            task['assignedto'].append(wid)
+async def assign_task_to_crewmember( id:str=None, wid:str=None)->list:
+    '''Assigns a tasks of a number tasks to a crew member'''
+    idd:list = id.split('-')
+    p:dict = await get_project(id=idd[0]) # locate the project
+    job = await get_job(id=f"{idd[0]}-{idd[1]}", jobs=p.get('tasks'))  # locate the job
+    # process Job task 
+    def find_task(task):
+        if task.get('_id') == id:
+            return task
+    task = list(filter(find_task, job.get('tasks')))[0]
+    task['assigned'] = True
+    if type(task['assignedto']) == str:
+        task['assignedto'] = [wid]
+    elif not task.get('assignedto'): 
+        task['assignedto'] = [wid]
+    else:
+        task['assignedto'].append(wid)
 
-        # process employee tasks
-        def find_worker(worker):
-            if worker.get('id') == wid:
-                return worker
-        worker = list(filter(find_worker, job.get('crew').get('members')))[0]
-        
-        e = Employee()
-        employee_assigned_jobtasks = await e.addJobTask(id=f"{worker.get('occupation')}s:{wid}", data=id)
+    # process employee tasks
+    def find_worker(worker):
+        if worker.get('id') == wid:
+            return worker
+    worker = list(filter(find_worker, job.get('crew').get('members')))[0] 
+    employee_assigned_jobtasks = await add_job_task(id=f"{worker.get('occupation')}s:{wid}", data=id)
+    worker['tasks'] = employee_assigned_jobtasks.get('tasks')
+    try:
+        await update_project(data=p)
+        return job.get('tasks')
+    except Exception as e: return str(e)
+    finally:
+        del(idd)
+        del(p)
+        del(job)
+        del(task)
+        del(worker)
+        del(e)
 
-        worker['tasks'] = employee_assigned_jobtasks.get('tasks')
-        try:
-            
-            await self.update(data=p)
-            return job.get('tasks')
-        except Exception as e: return str(e)
 
-    async def administerTaskProgress(self, id:str=None, data:int=None):
-        ''' Advances the task progress'''
-        idd = id.split('-')
-        p = await self.get(id=idd[0]) # locate the project
-        job = await self.getJob(id=f"{idd[0]}-{idd[1]}", jobs=p.get('tasks'))  # locate the job
-        def find_task(task):
-            if task.get('_id') == id:
-                return task
-        task = list(filter(find_task, job.get('tasks')))[0]
-        task['progress'] = data
-        try:            
-            await self.update(data=p)
-            return {
-                "tasks":job.get('tasks'),
-                "analytics": await self.JobProgressAnalytics(job=job)
-            }
-        except Exception as e: return str(e)
-
-    async def JobProgressAnalytics(self, job:dict=None):
-        def get_ids(item):
-            idd = item.get('_id').split('-')
-            return f"{idd[1]}-{idd[2]}"
-        task_ids = list(map(get_ids, job.get('tasks')))
-        task_progress = [task.get('progress') for task in job.get('tasks')]
-
-        return {
+def job_progress_analytics(job:dict=None):
+    def get_ids(item):
+        idd = item.get('_id').split('-')
+        return f"{idd[1]}-{idd[2]}"
+    task_ids = list(map(get_ids, job.get('tasks')))
+    task_progress = [task.get('progress') for task in job.get('tasks')]
+    return {
             "tasks_ids": task_ids,
             "progress": task_progress
         }
-    
-    async def getProjectWorkerData(self, id:str=None):  
-        worker_data = {
-                "project": None,
-                "employee_id": None,
-                "worker": None,               
-                "tasks": None,
-                "paybills": None,
-                "payments ": None 
 
+
+async def administer_task_progress( id:str=None, data:int=None)->dict:
+    ''' Advances the task progress'''
+    idd:list = id.split('-')
+    p:dict = await get_project(id=idd[0]) # locate the project
+    job = await get_job(id=f"{idd[0]}-{idd[1]}", jobs=p.get('tasks'))  # locate the job
+    def find_task(task):
+        if task.get('_id') == id:
+            return task
+    task = list(filter(find_task, job.get('tasks')))[0]        
+    try: 
+        task['progress'] = data           
+        await update_project(data=p)
+        return {
+                "tasks":job.get('tasks'),
+                "analytics": job_progress_analytics(job=job)
             }
-        if id:
-            access_points = id.split('-')
-            ap2 = access_points[1].split(':')            
-            project = await self.get(id=access_points[0])
-            paybills = project.get('account').get('records').get('salary_statements')
-            payments = project.get('account').get('transactions').get('withdraw')
-            worker = await Employee().get_worker(id=access_points[1])
-            def sort_pay_bill(item):
-                if item.get('employeeid') == ap2[1]:
-                    return item
-                
-            def sort_payments(item):
-                if item.get('recipient').get('name') == worker.get('name'):
-                    return item
+    except Exception as e: logger().exception(e)
+    finally:
+        del(idd)
+        del(p)
+        del(job)
+        del(task)
 
-            worker_data["project"] = access_points[0]
-            worker_data["employee_id"] = ap2[1]
-            worker_data["worker"] = worker.get('name')               
-            worker_data["tasks"] = [t for t in worker.get('tasks') if access_points[0] in t ]
-            worker_data["paybills"] = list(filter(sort_pay_bill, paybills))
-            worker_data["payments"] = list(filter(sort_payments, payments))
-            worker_data["earnings"] = [pay.get('amount') for pay in worker_data.get("payments")]
-            worker_data["pay_dates"] = [payitem.get('date') for payitem in worker_data.get("payments")]
-            worker_data["total_earnings"] = sum( worker_data["earnings"] )
 
-            
-        else:
-            worker_data["project"] = None,
-            worker_data["employee_id"] = None,
-            worker_data["worker"] = None,               
-            worker_data["tasks"] = None,
-            worker_data["paybills"] = None,
-            worker_data["payments"] = None 
-
-            
-        try:
-            return worker_data
-        except Exception as e:
-            return str(e) 
-        finally:
-            del(worker_data)
-            del(worker)
-            del(payments)
-            del(paybills)
-            del(project)
-            del(ap2)
-            del(access_points)
-            
-
-    ## PROJECT LOCATION AND ADDRESS MANAGEMENT
-    def process_address(self):
-        template = {"lot": None, "street": None, "town": None,"city_parish": None,"country": "Jamaica", }
-        if 'address' in self.meta_data.get('properties'):
-            check_list = list(self.data.get('address').keys())            
-            for item in check_list:
-                template[item] =  self.data['address'][item]
-            self.data['address'] = template
-        else: self.data['address'] = template
-
-    ## PROJECT EVENTS 
-    def process_event(self):
-        template = {
-            "started": 0,
-            "completed": 0,
-            "paused": [],
-            "restart": [],
-            "terminated": 0
+async def project_worker_data( id:str=None):  
+    worker_data = {
+        "project": None,
+        "employee_id": None,
+        "worker": None,               
+        "tasks": None,
+        "paybills": None,
+        "payments ": None 
         }
-        if 'event' in self.meta_data.get('properties'):
-            check_list = list(self.data.get('event').keys())            
-            for item in check_list:
-                template[item] =  self.data['event'][item]
-            self.data['event'] = template
-        else: self.data['event'] = template
+    if id:
+        access_points:list = id.split('-')
+        ap2:list = access_points[1].split(':')            
+        project:dict = await get_project(id=access_points[0])
+        paybills = project.get('account').get('records').get('salary_statements')
+        payments = project.get('account').get('transactions').get('withdraw')
+        worker = await get_worker(id=access_points[1])
+        def sort_pay_bill(item):
+            if item.get('employeeid') == ap2[1]:
+                return item                
+        def sort_payments(item):
+            if item.get('recipient').get('name') == worker.get('name'):
+                return item       
+        worker_data["project"] = access_points[0]
+        worker_data["employee_id"] = ap2[1]
+        worker_data["worker"] = worker.get('name')               
+        worker_data["tasks"] = [t for t in worker.get('tasks') if access_points[0] in t ]
+        worker_data["paybills"] = list(filter(sort_pay_bill, paybills))
+        worker_data["payments"] = list(filter(sort_payments, payments))
+        worker_data["earnings"] = [pay.get('amount') for pay in worker_data.get("payments")]
+        worker_data["pay_dates"] = [payitem.get('date') for payitem in worker_data.get("payments")]
+        worker_data["total_earnings"] = sum( worker_data["earnings"] )
+    else:
+        worker_data["project"] = None,
+        worker_data["employee_id"] = None,
+        worker_data["worker"] = None,               
+        worker_data["tasks"] = None,
+        worker_data["paybills"] = None,
+        worker_data["payments"] = None 
+    try:       
+        return worker_data
+    except Exception: logger().exception(Exception)
+    finally:
+        del(worker_data)
+        del(worker)
+        del(payments)
+        del(paybills)
+        del(project)
+        del(ap2)
+        del(access_points)
+            
 
-    ## PROJECT STATE MANAGEMENT       
-    def process_state(self):
-        template =  {
-            "active": False,
-            "completed": False,
-            "paused": False,
-            "terminated": False
-        }
-        if 'state' in self.meta_data.get('properties'):
-            check_list = list(self.data.get('state').keys())            
-            for item in check_list:
-                template[item] = self.data['state'][item]
-            self.data['state'] = template
-        else: self.data['state'] = template
-    
-    ## PROJECT PHASE MANAGEMENT
-    async def update_project_job_phase(self, id:str=None, phase:str=None):
+async def update_job_phase( id:str=None, phase:str=None)->str|None:
         """Updates A Job Phase """        
         idd = id.split('-')
-        p = await self.get(id=idd[0])
+        p = await get_project(id=idd[0])
         jb = [j for j in p.get('tasks') if j.get('_id') == id ] 
         if len(jb) > 0:
             job = jb[0] 
-            job['projectPhase'] = phase
-            await self.update(data=p)
-            return phase
+            job['projectPhase'] = phase            
         else:
-            return None
-        
-        
-    ## PROJECT REPORTING
-    async def addJobReport(self, id:str=None, data:dict=None):
-        project = await self.get(id=id)
-        project['reports'].append(data)
+            job = None
+            phase = None
         try:
-            await self.update(data=project) 
-            return data          
-        except Exception as e:
-            return {'error': str(e)}
+            await update_project(data=p)
+            return phase
+        except Exception: logger().exception(Exception)
         finally:
+            del(idd)
+            del(p)
+            del(jb)
+            del(job)
+
+
+async def add_job_report(id:str=None, data:dict=None)->dict:
+    project = await get_project(id=id)        
+    try:
+        project['reports'].append(data)
+        await update_project(data=project) 
+        return data          
+    except Exception: logger().exception(Exception)
+    finally:
+        del(project)
+        
+
+async def get_job_reports(id:str=None)->list:
+    idds = id.split('-')
+    project = await get_project(id=idds[0])
+    reports = project.get('reports')
+    if len(reports) > 0:
+        def process_report(item):
+            if item.get('meta_data').get('job_id') == id:
+                return item
+        try:
+            return list(filter(process_report, reports))                          
+        except Exception as e: logger().exception(e)
+        finally:
+            del(idds)
             del(project)
+            del(reports)
+    else: return []
+   
 
-    async def getJobReports(self, id:str=None):
-        idds = id.split('-')
-        project = await self.get(id=idds[0])
-        reports = project.get('reports')
-        if len(reports) > 0:
-            def process_report(item):
-                if item.get('meta_data').get('job_id') == id:
-                    return item
+async def process__inventory( id:str=None)->dict:
+    inventory_items:set = set()
+    inventory:list = []
+    inventory_set:set = set()
+    p:dict = await get_project(id=id) # local data source
+    invoices:list = p.get('account').get('records').get('invoices')
+    # build items set
+    for invoice in invoices:
+        for item in invoice.get('items'):
+            inventory_items.add(item['description'])
+            inventory.append(item)
+            #process item set
+    for inv_item in inventory:
+        if inv_item.get('description') in inventory_items:
+            inventory_item:dict = {
+                "id": generate_id(line_1=inv_item.get('description'), line_2=inv_item.get('description')[0]),
+                "item": inv_item.get('description'),
+                "unit": inv_item.get('unit'),
+                "instock": float(inv_item.get('quantity')), 
+                "usage": [ { "date": "", "amt": 0 } ], 
+                "restock": [ { "date": "", "amt": 0 } ], 
+                "updated": timestamp()
+                }                    
+            inventory_set.add(json.dumps(inventory_item))        
+    for json_obj in inventory_set:            
+        p['inventory'].append(json.loads(json_obj))  
+    try:      
+        await update_project(data=p)    
+        return {
+                'inventory_log': list(inventory_items),
+                'inventory': p.get('inventory')
+            }
+    except Exception: logger().exception(Exception)
+    finally:
+        del(inventory_items)
+        del(inventory_item)
+        del(inventory_set)
+        del(inventory)
+        del(p)
+        del(invoices)
+        del(invoice)
+        del(item)
+        del(json_obj)
 
-            try:
-                return list(filter(process_report, reports))                          
-            except Exception as e:
-                return {'error': str(e)}
-            finally:
-                del(project)
-        else: return []
+
+@lru_cache
+def default_fees(fee:str=None)-> dict:
+    fees:dict = {
+        "contractor": 20,
+        "insurance": 0,
+        "misc": 0,
+        "overhead": 0,
+        "unit": "%"
+    }  
+    if fee:
+        return fees.get(fee)
+    else: return fees
+
+
+@lru_cache
+def withdrawal_model():
+    return   {
+          "id": None,
+          "date": None,
+          "type": "Withdraw",
+          "amount": 0,
+          "recipient": {
+            "name": None,
+          },
+          "ref": None
+        }
+    
+
+@lru_cache
+def salary_statement_model():
+    return  {
+          "ref": None,
+          "jobid": None,
+          "employeeid": None,
+          "name": None,
+          "date": None,
+          "items": [],
+          "deductions": [],
+          "total": 0
+        }
+    
+
+@lru_cache
+def salary_statement_item_model():
+    return  {
+              "id": None,
+              "description": None,
+              "unit": None,
+              "amount": 0,
+              "price": 0,
+              "total": 0
+            }
+ 
+
+async def daywork_hash_table( id:str=None):
+    project:dict = await get_project(id=id)
+    hash_table:set = set()
+    for day in project.get('daywork'):
+        if day.get('hash_key'):
+            hash_table.add(day.get('hash_key'))
+        else:
+            day['hash_key'] = hash_data(data={
+                'worker_name': day.get('worker_name'), 
+                'date': day.get('date'), 
+                'start': day.get('start'), 
+                'end': day.get('end'), 
+                'description': day.get('description') 
+                })
+            hash_table.add(day.get('hash_key'))
+    try:
+        await update_project(data=project)
+        return hash_table
+    except Exception: logger().exception(Exception)
+    finally:
+        del(project)
+        del(hash_table)
+
+        
+    
+async def project_account_withdrawal_generator(id:str=None, filter:str=None)->str:
+        from datetime import datetime
+        p:dict = await get_project(id=id)
+        total_:float = 0
+        try:
+            yield f""" <div class="flex flex-col">
+                    <div class="m-1.5 overflow-x-auto">
+                    <a href="#withdraw-modal" uk-toggle>Withdraw Funds</a>
+                    <p                                     
+                      hx-get="/project_withdrawals_total/{id}"
+                       hx-trigger="every 2s"
+                    >
+                    <div id="result"></div>
+
+                        <div class="p-1.5 min-w-full h-screen inline-block align-middle overflow-y-auto">
+                        <div class="overflow-hidden">
+                            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                            <thead>
+                                <tr>
+                                <th scope="col" class="px-2 py-2 text-start text-xs font-medium text-gray-500 uppercase">Id.</th>
+                                <th scope="col" class="px-4 py-2 text-start text-xs font-medium text-gray-500 uppercase">Date</th>
+                                <th scope="col" class="px-4 py-2 text-start text-xs font-medium text-gray-500 uppercase">Ref</th>
+                                <th scope="col" class="px-4 py-2 text-end text-xs font-medium text-gray-500 uppercase">Recipient</th>
+                                <th scope="col" class="px-4 py-2 text-start text-xs font-medium text-gray-500 uppercase">Amount</th>
+                                
+                                <th></th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+
+                    """
+            for d in p.get('account').get('transactions').get('withdraw', []):
+                total_ += float(d.get('amount'))
+                yield f"""<tr class="hover:bg-gray-100 dark:hover:bg-gray-700">              
+                <td class="px-2 py-2 whitespace-wrap text-sm font-medium text-gray-800 dark:text-gray-200 w-32">{d.get('id')}</td>"""
+                if type(d.get('date')) == int:
+                    yield f"""<td class="px-4 py-2 whitespace-wrap text-sm text-gray-800 dark:text-gray-200">{datetime.date(datetime.fromtimestamp(d.get('date') / 1000, tz=None)).strftime("%A %d. %B %Y")}</td>"""
+                else:
+                    yield f"""<td class="px-4 py-2 whitespace-wrap text-sm text-gray-800 dark:text-gray-200">{d.get('date')}</td>"""
+                yield f"""<td class="px-4 py-2 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{d.get('ref')} </td>
+                <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{d.get('recipient')} </td>
+                <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{to_dollars(float(d.get('amount')))}</td>
+                <td class="px-4 py-2 whitespace-nowrap text-end text-sm font-medium">
+                    <button type="button" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">Delete</button>
+                </td>
+                </tr>"""
+            yield f"""<tr class="hover:bg-gray-100 dark:hover:bg-gray-700"> 
+                <td class="px-2 py-2 whitespace-wrap text-sm font-medium text-gray-800 dark:text-gray-200 w-32">Total Withdrawals to Date</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                 <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{to_dollars(total_)}</td>
+                
+                <td></td>
+                </tr>
+            
+            """
+            yield f"""</tbody></table></div></div></div></div>
+                <!-- This is the Withdrawal modal -->
+                <div id="withdraw-modal" uk-modal>
+                    <div class="uk-modal-dialog uk-modal-body">
+                        <h2 class="uk-modal-title">Project Account Withdrawal</h2>
+                        <form 
+                            hx-post="/account_withdrawal/{id}"
+                            hx-target="#result"
+                            hx-trigger="submit"                        
+                            class="uk-grid-small" 
+                            uk-grid
+                            >
+                            <div class="uk-width-1-1">
+                                <input class="uk-input" type="date" placeholder="Date" name="date" aria-label="Date">
+                            </div>
+                            <div class="uk-width-1-2@s">
+                                <input class="uk-input" type="text" placeholder="Transaction Type" value="withdraw" name="type" aria-label="Deposit">
+                            </div>
+                            <div class="uk-width-1-4@s">
+                                <input class="uk-input" type="text" placeholder="Refference" name="ref" aria-label="Ref">
+                            </div>
+                            <div class="uk-width-1-4@s">
+                                <input class="uk-input" type="number" step="0.01" placeholder="Amount" name="amount" aria-label="$">
+                            </div>
+                            <div class="uk-width-1-2@s">
+                                <input class="uk-input" type="text" placeholder="Recipient" name="recipient" aria-label="Payee">
+                            </div>
+                            
+                    
+                            <p class="uk-text-right">
+                                <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                                <button class="uk-button uk-button-primary" type="submit" uk-modal-close>Save</button>
+                            </p>
+                        </form>
+                       
+                    </div>
+                </div>
+            
+            """
+            
+        except Exception as e:
+            yield f"""<div class="bg-red-500 text-sm text-red-50 font-bold mx-10 my-5 py-2 px-4">{ str(e)}</div>         
+            """            
+        finally:
+            del(p)
+            del(total_)
+            del(datetime)
+            
+
+
+class Project: 
+    error_log:dict = {}   
+    projects:list=[]    
+    meta_data:dict = {
+        "created": 0, 
+        "database": {"name":"site-projects", "partitioned": False},              
+    }
+    instances = 0
+    default_fees = {
+        "contractor": 20,
+        "insurance": 0,
+        "misc": 0,
+        "overhead": 0,
+        "unit": "%"
+    }
+
+    def __init__(self, data:dict=None): 
+        Project.instances += 1      
+        self.conn = Recouch(local_db=self.meta_data.get('database').get('name'))
+        self._id:str = None        
+        self.index:set = set()
+        self.project:dict = {}
+        if data :
+            self.meta_data["created"] = timestamp()  
+            self.meta_data["created_by"] = data.get('created_by')
+            self.meta_data['properties'] = list(data.keys())    
+            del(data['created_by'])      
+            self.data = data
+            self.data["meta_data"] = self.meta_data
+                      
+            if self.data.get("_id"):
+                pass
+            else:
+                self.generate_id(local=True)
+        else:                     
+            self.data = {"meta_data":self.meta_data}
+        self.document = {
+            "style": {
+                'margin_bottom': 15,
+                'text_align': 'j',
+                 "page_size": "letter", 
+                 "margin": [60, 50]
+            },
+            "formats": {
+                'url': {'c': 'blue', 'u': 1},
+                'title': {'b': 1, 's': 13},
+                'title_header': {'b': 1, 's': 16},
+                'sub_title': {'b': .5, 's': 11},
+                'sub_text': {'s': 9}
+            },
+            "running_sections": {
+                "header": {
+                    "x": "left", "y": 20, "height": "top", "style": {"text_align": "r"},
+                    "content": [{".b": "This is a header"}]
+                },
+                "footer": {
+                    "x": "left", "y": 740, "height": "bottom", "style": {"text_align": "c"},
+                    "content": [{".": ["Page ", {"var": "$page"}]}]
+                }
+            },
+            "sections": []
+        }
+
+    @property    
+    def report_error(self):
+        return self.error_log
+
+    @property
+    def data_validation_error(self):
+        self.meta_data["created"] = timestamp()
+        self.meta_data['flagged'] = {
+            "message": "There was an error in your data, please rectify and try Mounting it again.",
+            "flag": self.report_error
+        }
+
+    def validate_data(self, data, schema):
+        try:
+            validate(instance=data, schema=schema)
+            return True
+        except Exception as e:
+            self.error_log['data_validation'] = str(e)
+            self.data_validation_error   
+            return False
+
+   
+    # Utilities
+    def as_currency(self, amount):
+        return to_dollars(amount=amount)
+    
+
+    def update_index(self, data:str) -> None:
+        '''  Expects a unique id string ex. JD33766'''        
+        self.index.add(data) 
+
+
+    @property 
+    def list_index(self) -> list:
+        ''' Converts set index to readable list'''
+        return [item for item in self.index]
+   
+
+   
+    async def process_paybill_dayworker(self, bill_ref:str=None, worker:str=None, start_date:str=None, end_date:str=None):
+        project = await get_project(id=bill_ref.split('-')[0])
+        if start_date and end_date:
+            days = [day_work for day_work in project.get('daywork', []) if filter_dates(date=day_work.get('date'), start=start_date, end=end_date ) ]
+            days = [item for item in days if item.get('worker_name').split('_')[0] == worker]
+            return days
+        else:
+            return []
+        
     
     # DATA OPERATIONS 
     async def getRemoteProject(self, id:str=None):
@@ -1801,7 +1388,7 @@ class Project:
         '''
                 
         remote = await self.getRemoteProject(id=id) # remote data source
-        local = await self.get(id=id) # local data source
+        local = await get_project(id=id) # local data source
         local_rev = json.loads(json.dumps(local['_rev']))
         if remote:
             del local['_rev'] # prepare data
@@ -1815,7 +1402,7 @@ class Project:
 
                 update = local | remote
                 update['_rev'] = local_rev # update data with local _rev for local storage
-                await self.update(data=update)
+                await update_project(data=update)
                 
                 payload = {
                     'payload': update,
@@ -1835,43 +1422,6 @@ class Project:
             'payload': local
             }
 
-
-    async def process_project_inventory(self, id:str=None):
-        inventory_items = set()
-        inventory = []
-        inventory_set = set()
-        p = await self.get(id=id) # local data source
-        invoices = p.get('account').get('records').get('invoices')
-        # build items set
-        for invoice in invoices:
-            for item in invoice.get('items'):
-                inventory_items.add(item['description'])
-                inventory.append(item)
-                #process item set
-        for inv_item in inventory:
-            if inv_item.get('description') in inventory_items:
-                inventory_item = {
-                        "id": self.generate_id(line_1=inv_item.get('description'), line_2=inv_item.get('description')[0]),
-                        "item": inv_item.get('description'),
-                        "unit": inv_item.get('unit'),
-                        "instock": float(inv_item.get('quantity')), 
-                        "usage": [ { "date": "", "amt": 0 } ], 
-                        "restock": [ { "date": "", "amt": 0 } ], 
-                        "updated": timestamp()
-                        
-                        }
-                    
-                inventory_set.add(json.dumps(inventory_item))
-        
-        for json_obj in inventory_set:            
-            p['inventory'].append(json.loads(json_obj))
-        
-        await self.update(data=p)    
-        return {
-            'inventory_log': list(inventory_items),
-            'inventory': p.get('inventory')
-        }
-
     # PRINTERS
     async def printJobQueue(self, id:str=None)-> dict:
         '''Print Job Queue 
@@ -1887,7 +1437,7 @@ class Project:
         idd = id.split('-')
         state = idd[1].strip()
 
-        p = await self.get(id=idd[0]) # locate the project
+        p = await get_project(id=idd[0]) # locate the project
         if state == 'all':
             job_queue = [{
                 "id": i.get('_id'), 
@@ -1951,7 +1501,7 @@ class Project:
     async def printJob(self, id:str=None)-> dict:
         idd = id.split('-')
         
-        p = await self.get(id=idd[0])
+        p = await get_project(id=idd[0])
         return [item for item in p.get('tasks') if item.get("_id") == id ][0]
 
     async def printSalaryStatement(self, id:str=None)-> dict:
@@ -1969,7 +1519,7 @@ class Project:
                 return '-${:,.2f}'.format(-amount)
 
         iid = data.get('_id').split('-')
-        project = await self.get(id=iid[0])
+        project = await get_project(id=iid[0])
         try:
             from pdfme import build_pdf
             import os
@@ -2119,7 +1669,7 @@ class Project:
                 return '-${:,.2f}'.format(-amount)
 
         id = data.get('id')
-        project = await self.get(id=id)
+        project = await get_project(id=id)
         try:
             from pdfme import build_pdf
             import os, arrow
@@ -2243,7 +1793,7 @@ class Project:
     
 
     async def print_project_rates(self, data:dict=None):
-        project = await self.get(id=data.get('id'))   
+        project = await get_project(id=data.get('id'))   
         try:
             from pdfme import build_pdf
             import os, arrow
@@ -2350,7 +1900,7 @@ class Project:
     # HTML Responces
    
     async def html_page(self, id:str=None):
-        p = await self.get(id=id)
+        p = await get_project(id=id)
         return f"""
         <div class="flex flex-col space-y-1.5">
             <div class="border-b-2 border-gray-200 dark:border-gray-700 ml-5">
@@ -2414,7 +1964,7 @@ class Project:
                 """
     
     async def html_account_page(self, id:str=None):
-        p = await self.get(id=id)
+        p = await get_project(id=id)
         return f"""<div class="flex flex-col space-y-1.5">
             <header class="flex flex-wrap sm:justify-start sm:flex-nowrap z-50 w-full bg-white text-sm py-4 dark:bg-gray-800">
                 <nav class="max-w-[85rem] w-full mx-auto px-4 sm:flex sm:items-center sm:justify-between" aria-label="Global">
@@ -2485,7 +2035,7 @@ class Project:
     
     async def html_account_deposits_generator(self, id:str=None, filter:str=None):
         from datetime import datetime
-        p = await self.get(id=id)
+        p = await get_project(id=id)
         total_deposits = 0
         try:
             yield f""" <div class="flex flex-col">
@@ -2608,7 +2158,7 @@ class Project:
     
     async def html_account_withdrawal_generator(self, id:str=None, filter:str=None):
         from datetime import datetime
-        p = await self.get(id=id)
+        p = await get_project(id=id)
         total_ = 0
         try:
             yield f""" <div class="flex flex-col">
@@ -2714,33 +2264,33 @@ class Project:
 
     async def html_account_paybills_generator(self, id:str=None, filter:str=None):
         from datetime import datetime
-        p = await self.get(id=id)
+        p = await get_project(id=id)
         total_ = 0
         return p.get('account').get('records').get('paybills', [])
     
     async def html_account_salaries_generator(self, id:str=None, filter:str=None):
         from datetime import datetime
-        p = await self.get(id=id)
+        p = await get_project(id=id)
         total_ = 0
         return p.get('account').get('records').get('salary_statements', [])
     
     
     async def html_account_expences_generator(self, id:str=None, filter:str=None):
         from datetime import datetime
-        p = await self.get(id=id)
+        p = await get_project(id=id)
         total_ = 0
         return p.get('account').get('expences', [])
     
 
     async def html_account_purchases_generator(self, id:str=None, filter:str=None):
         from datetime import datetime
-        p = await self.get(id=id)
+        p = await get_project(id=id)
         total_ = 0
         return p.get('account').get('records', {}).get('invoices', [])
     
     async def html_account_purchase_orders_generator(self, id:str=None, filter:str=None):
         from datetime import datetime
-        p = await self.get(id=id)
+        p = await get_project(id=id)
         total_ = 0
         return p.get('account').get('records', {}).get('purchase_orders', [])
 
@@ -2748,7 +2298,7 @@ class Project:
                
     async def html_job_page_generator(self, id:str=None): 
         idd = id.split('-')
-        p = await self.get(id=idd[0])
+        p = await get_project(id=idd[0])
         jb = [j for j in p.get('tasks') if j.get('_id') == id ] 
         if len(jb) > 0:
             job = jb[0] 
@@ -2907,7 +2457,7 @@ class Project:
         
         
     async def html_workers_page(self, id:str=None, filter:str=None):
-        p = await self.get(id=id)
+        p = await get_project(id=id)
         workers = p.get('workers')
         categories = { worker.get('value').get('occupation') for worker in workers }
         if filter:
@@ -3041,7 +2591,7 @@ class Project:
     
     async def html_admin_page(self, id:str=None):
         
-        p = await self.get(id=id)
+        p = await get_project(id=id)
         
         return p.get('admin', {})
     
@@ -3050,7 +2600,7 @@ class Project:
             from modules.rate import Rate
         
             industry_rates = await Rate().all_rates()
-            p = await self.get(id=id)
+            p = await get_project(id=id)
             yield f"""
                 <div class="navbar">
                     <div class="navbar-start">
@@ -3163,45 +2713,45 @@ class Project:
 
     async def html_inventory_generator(self, id:str=None):
         
-        p = await self.get(id=id)        
+        p = await get_project(id=id)        
         return p.get('inventory', [])
     
     
     async def html_state(self, id:str=None):
         
-        p = await self.get(id=id)
+        p = await get_project(id=id)
         
         return p.get('state', {})
     
 
     async def html_events(self, id:str=None):
         
-        p = await self.get(id=id)
+        p = await get_project(id=id)
         
         return p.get('event', {})
     
 
     async def html_progress_report(self, id:str=None):
         
-        p = await self.get(id=id)
+        p = await get_project(id=id)
         
         return p.get('progress', {})
     
 
     async def html_activity_log_generator(self, id:str=None):
         
-        p = await self.get(id=id)        
+        p = await get_project(id=id)        
         return p.get('activity_log', [])
     
     async def html_reports_generator(self, id:str=None):
         
-        p = await self.get(id=id)        
+        p = await get_project(id=id)        
         return p.get('reports', [])
     
 
     async def html_estimates_generator(self, id:str=None):
         
-        p = await self.get(id=id)        
+        p = await get_project(id=id)        
         return p.get('estimates', [])
  
     

@@ -1,5 +1,4 @@
 import asyncio
-import json
 from starlette.applications import Starlette
 from starlette.routing import Route, Mount
 from starlette.staticfiles import StaticFiles
@@ -12,14 +11,11 @@ from starlette_login.backends import SessionAuthBackend
 from starlette_login.login_manager import LoginManager
 from starlette_login.decorator import login_required
 from starlette_login.middleware import AuthenticationMiddleware
-#from apitally.starlette import ApitallyMiddleware
 from config import (
-    DEBUG, SECRET_KEY, ALLOWED_HOSTS, HOST, PORT, TEMPLATES,LOG_PATH ,
-    SYSTEM_LOG_PATH ,SERVER_LOG_PATH, APP_LOG_PATH, APITALLY_CLIENT_TOKEN
+    DEBUG, SECRET_KEY, HOST, PORT, TEMPLATES,
+    SERVER_LOG_PATH
     )
 from modules.zen import zen_now
-#from database import RedisCache
-
 from routes.auth_router import router as auth_routes, loadusers
 from routes.project_router import router as p_router
 from routes.project_accounting_router import router as accounting_router
@@ -29,11 +25,8 @@ from routes.base_router import router as base_router
 from routes.supplier_router import router as supplier_router 
 from routes.estimator_router import router as estimate_router
 from api.team_api import router as employee_api
-
 from modules.platformuser import user_list
 from modules.decorator import admin_only
-
-
 
 
 login_manager = LoginManager(redirect_to='login', secret_key=SECRET_KEY)

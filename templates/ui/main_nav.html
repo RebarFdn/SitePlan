@@ -1,10 +1,8 @@
 <nav class="uk-navbar-container" style="background-color: #1C2833 ;">
     <div class="uk-container">
         <div uk-navbar>
-
             <div class="uk-navbar-left">
-                <div class="flex flex-1 items-center  sm:items-stretch sm:justify-start">
-         
+                <div class="flex flex-1 items-center  sm:items-stretch sm:justify-start">         
                     <div class="flex flex-shrink-0 items-center mx-5 justify-start">
                       <span class="mx-1 font-bold text-2xl text-blue-500"
                       hx-get="/zen"
@@ -17,11 +15,9 @@
                     </div>
                 </div>
                 <div class="uk-navbar-center"></div>
-
                 <ul class="uk-navbar-nav" style="color:aliceblue">
                     <li ><a href="/dash"> <button 
-                        class="uk-button uk-button-secondary uk-border-rounded"
-                        
+                        class="uk-button uk-button-secondary uk-border-rounded"                        
                         >Dashboard</button></a></li>
                     <li>
                         <a href="#">Team</a>
@@ -33,15 +29,13 @@
                                     href="#"
                                     hx-get="/team"
                                     hx-target="#dash-content-pane"
-                                    hx-trigger="click"
-                        
+                                    hx-trigger="click"                        
                                     >Workers</a></li>
                                 <li><a 
                                     href="#"
                                     hx-get="/team_index"
                                     hx-target="#dash-left-pane"
-                                    hx-trigger="click"
-                        
+                                    hx-trigger="click"                        
                                     >Worker Index</a></li>
                             </ul>
                         </div>
@@ -97,9 +91,7 @@
                                 
                             </ul>
                         </div>
-                    </li>
-                   
-                    
+                    </li> 
                     <li>
                         <a href="#"><img class="uk-preserve-width uk-border-circle" src="/static/imgs/users/{{request.user.username}}.png" width="40" height="40" alt=""></a>
                         <div class="uk-navbar-dropdown uk-border-rounded" >

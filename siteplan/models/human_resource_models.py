@@ -2,10 +2,8 @@ from datetime import date
 from enum import Enum
 from uuid import UUID, uuid4
 from typing import List
-from time import sleep
-
 from pydantic import BaseModel, EmailStr
-from httpx import get
+
 
 class Department(Enum):
     HR = 'HR'

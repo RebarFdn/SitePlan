@@ -1,12 +1,8 @@
 # Team API Router 
 import json
-from starlette.responses import HTMLResponse, RedirectResponse, JSONResponse, StreamingResponse
-from starlette_login.decorator import login_required
+from starlette.responses import JSONResponse
 from decoRouter import Router
-from modules.project import Project
 from modules.employee import Employee
-from config import TEMPLATES
-from modules.utils import timestamp
 
 router = Router()
 
