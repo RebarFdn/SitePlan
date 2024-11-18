@@ -1,6 +1,6 @@
 <div class="navbar">
     <div class="navbar-start">
-        <a class="navbar-item">{{ p.get('name')  }}   Rates Index</a>
+        <span class="navbar-item" >{{ p.get('name')  }}   Rates Index</span>
     </div>
     <div class="navbar-end">
         <a class="navbar-item" href>Filter Rates <span uk-drop-parent-icon></span></a>
@@ -9,8 +9,8 @@
             <li class="uk-nav-header">Filter Rates</li>
             <li><a 
                         href="#"
-                        hx-get="/industry_rates/all"
-                        hx-target="#dash-content-pane"
+                        hx-get="/project_rates_filtered/{{p._id}}_all"
+                        hx-target="#project-rates-table"
                         hx-trigger="click"                                 
                         >All Categories</a>
                 </li>           
@@ -29,7 +29,7 @@
             
             </ul>
         </div>
-         <a class="navbar-item">About</a>
+       
        
         <a href="#add-rate-modal" class="btn btn-primary" uk-toggle>Add Industry Rate</a>
       
@@ -40,6 +40,12 @@
     <div class="m-1.5 overflow-x-auto">
         <div class="p-1.5 min-w-full h-screen inline-block align-middle overflow-y-auto">
         <div id="project-rates-table" class="overflow-hidden">
+            <a 
+                class="navbar-item" 
+                href="#"
+                hx-get="/print_project_rates/{{p._id}}/all"
+                hx-target="#message"
+                >Print Rates</a>
             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
             <thead>
                 <tr>
@@ -149,3 +155,13 @@
       
     </div>
 </div>
+
+<script>
+    var prUrl = "/print_project_rates/{{p._id}}_all"
+    function setRateFilter(){
+        let rateFilter = document.getElementById("rate-filter").innerHTML
+        
+        prUrl = "/print_project_rates/{{p._id}}_" + rateFilter
+    }
+    
+</script>

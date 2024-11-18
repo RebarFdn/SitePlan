@@ -22,7 +22,8 @@ def to_dollars(amount:float=None):
         return 0
     
 
-doc_t = {
+def doc_template(key:str=None):
+    doc = {
             "style": {
                 'margin_bottom': 15,
                 'text_align': 'j',
@@ -49,8 +50,10 @@ doc_t = {
                 }
             },
             "sections": []
-}
-
+    }
+    if key: return json.loads(json.dumps(doc.get(key))) 
+    else: return json.loads(json.dumps(doc))
+         
 
 
 
@@ -61,7 +64,7 @@ def printJobQueue(project_jobs:dict=None)-> dict:
         pj = Box(project_jobs)               
         total_tracker = 0
         con_tracker = 0
-        document = json.loads(json.dumps(doc_t))
+        document = doc_template()
         section_1 = {}
         document['sections'].append(section_1)
         section_1['content'] = content_1 = []
@@ -171,7 +174,7 @@ def printMetricJobQueue(project_jobs:dict=None)-> dict:
         pj = Box(project_jobs)               
         total_tracker = 0
         con_tracker = 0
-        document = json.loads(json.dumps(doc_t))
+        document = doc_template()
         section_1 = {}
         document['sections'].append(section_1)
         section_1['content'] = content_1 = []
@@ -273,7 +276,7 @@ def printImperialJobQueue(project_jobs:dict=None)-> dict:
         pj = Box(project_jobs)               
         total_tracker = 0
         con_tracker = 0
-        document = json.loads(json.dumps(doc_t))
+        document = doc_template()
         section_1 = {}
         document['sections'].append(section_1)
         section_1['content'] = content_1 = []
@@ -367,3 +370,60 @@ def printImperialJobQueue(project_jobs:dict=None)-> dict:
             'handle': file_path,
             'url': f"/static/docs/{file_name}"
             }
+
+def print_project_rates(data:dict=None):
+    project_rates:list=data.get('rates')
+    project_name:str=data.get('name')
+    filter:str = data.get('filter')
+    if filter == 'all':
+        filter = ""
+    else: filter = f"-{filter}"
+
+    document = doc_template()
+    section_1 = {}
+    document['sections'].append(section_1)
+    section_1['content'] = content_1 = []
+    content_1.append({
+            '.': f"{project_name} {filter} Rate Sheet", 'style': 'title', 'label': 'title_1',
+            'outline': {'level': 1, 'text': 'A different title 1'}
+    })        
+    content_1.append({
+            '.': f"Date: {datetime.datetime.now().strftime('%A %d. %B %Y')}", 'style': 'sub_text'})
+    table_def1 = {
+            'widths': [ 2, 2.5, 3.5, 1.25, 1.5, 1.5],
+            'style': {'border_width': 0, 'margin_left': 20, 'margin_right': 20, 'c': '#133E87', 's': 9},
+            
+            'fills': [{'pos': '1::2;:', 'color': 0.8}],
+            'borders': [{'pos': 'h0,1,-1;:', 'width': 0.5}],
+            'table': [
+                ['Id', 'Title', 'Description', 'Category', 'Metric', 'Imperial'],
+               
+            ]
+        }
+    for rate in project_rates:
+        #task = Box(task)                      
+        data = [ 
+                rate.get('_id'),
+                rate.get('title'),
+                rate.get('description'),
+                rate.get('category'),
+                f"{to_dollars(amount=rate.get('metric').get('price'))}/{rate.get('metric').get('unit')} ",
+                f"{to_dollars(amount=rate.get('imperial').get('price'))}/{rate.get('imperial').get('unit')} ",
+                                
+                
+                ]
+            
+        table_def1['table'].append(data)
+    content_1.append(table_def1)    
+    file_name = f"{project_name}{filter}-RateSheet.pdf"
+    file_path = Path.joinpath(DOC_PATH, file_name)
+    with open(file_path, 'wb') as f:
+        build_pdf(document, f)
+    return {
+            "file": file_name,
+            'handle': file_path,
+            'url': f"/static/docs/{file_name}"
+        }
+        
+
+     

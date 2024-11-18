@@ -23,6 +23,7 @@ from routes.project_jobs_task_router import router as project_jobstask_router
 from routes.team_router import router as team_router
 from routes.base_router import router as base_router
 from routes.supplier_router import router as supplier_router 
+from routes.printer_router import router as printer_router
 from routes.estimator_router import router as estimate_router
 from api.team_api import router as employee_api
 from modules.platformuser import user_list
@@ -158,7 +159,10 @@ routes.extend([route for route in team_router])
 routes.extend([route for route in base_router])
 routes.extend([route for route in supplier_router])
 routes.extend([route for route in estimate_router])
+routes.extend([route for route in printer_router])
 routes.extend([route for route in employee_api])
+
+
 
 
 def startApp():

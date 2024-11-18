@@ -1,3 +1,18 @@
+{% if p.filter %}
+<a 
+    class="navbar-item" 
+    href="#"
+    hx-get="/print_project_rates/{{p._id}}/{{p.filter}}"
+    hx-target="#message"
+    >Print {{ p.filter }} Rates</a>
+{% else %}
+<a 
+    class="navbar-item" 
+    href="#"
+    hx-get="/print_project_rates/{{p._id}}/all"
+    hx-target="#message"
+>Print Rates</a>
+{% endif %}
 <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
     <thead>
         <tr>

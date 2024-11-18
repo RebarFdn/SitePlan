@@ -84,7 +84,7 @@ async def new_project(request):
         del(username)
         del(project)
         del(data)
-        
+
 
 @router.GET('/projects')
 @login_required
@@ -324,30 +324,6 @@ async def get_jjobs_tasks_report(request):
     )
 
 
-@router.get('/print_jobs_tasks_report/{id}/{flag}')
-async def print_jobs_report(request):
-    id = request.path_params.get('id')
-    flag = request.path_params.get('flag')
-    project = await get_project(id=id)
-    data = {
-        'id': id,
-        'name': project.get('name'),
-        'jobs': project.get('tasks')
-    }
-    if flag == 'metric':
-        report = Box(printMetricJobQueue(project_jobs=data))
-    elif flag == 'imperial':
-        report = Box(printImperialJobQueue(project_jobs=data))
-    else:
-        report = Box(printJobQueue(project_jobs=data))
-    return HTMLResponse(f"""
-        <div class="uk-alert-primary" uk-alert>
-            <a href class="uk-alert-close" uk-close></a>
-                        <a href="{report.url}" target="blank">Open Document</a>
-            <p> {report.file}</p>
-        </div>
-    """)
-
 
 
 
@@ -406,17 +382,21 @@ async def get_project_rates(request):
 # PROCESS RATES
 @router.get('/project_rates_filtered/{id}')
 async def get_project_rates_filtered(request):
-    idd = request.path_params.get('id')
-    idd = idd.split('_')    
-    project = await get_project(id=idd[0])   
+    idd:str = request.path_params.get('id')
+    idd:list = idd.split('_')    
+    project:dict = await get_project(id=idd[0])   
+    if idd[1] == 'all' or idd[1] == None:
+        filtered_rates:list = project.get('rates', [])
+    else: filtered_rates:list = [ rate for rate in project.get('rates', []) if rate.get('category') == idd[1]]
     return TEMPLATES.TemplateResponse('/project/rates/projectRatesTable.html', 
         {
             "request": request,
             "p": {
                 "_id": project.get('_id'),
                 "name": project.get('name'),
-                "rates": [ rate for rate in project.get('rates', []) if rate.get('category') == idd[1]],
-                "categories": [rate.get('category') for rate in project.get('rates', [])]
+                "rates": filtered_rates,
+                "categories": [rate.get('category') for rate in project.get('rates', [])],
+                "filter": idd[1]
             }
         })
 
@@ -672,3 +652,4 @@ async def filter_days_work(request):
             }
 
         })
+
