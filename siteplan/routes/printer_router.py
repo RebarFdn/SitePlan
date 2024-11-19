@@ -33,8 +33,8 @@ async def print_projectrates(request):
     }
     report = Box(print_project_rates(data=data))
 
-    try:  return HTMLResponse(exception_message(f"""<a href="{report.get('url')}" target="_blank">{report.get('file')}</a>"""))
-    except Exception: return HTMLResponse(exception_message(Exception))
+    try:  return HTMLResponse(exception_message(f"""<a href="{report.get('url')}" target="_blank">{report.get('file')}</a>""", 'info'))
+    except Exception: return HTMLResponse(exception_message(Exception, 'warning'))
     finally: del(id); del(filter); del(rates); del(project); del(data)
 
 
@@ -55,10 +55,8 @@ async def print_jobs_report(request):
         report = Box(printImperialJobQueue(project_jobs=data))
     else:
         report = Box(printJobQueue(project_jobs=data))
-    return HTMLResponse(f"""
-        <div class="uk-alert-primary" uk-alert>
-            <a href class="uk-alert-close" uk-close></a>
+    return HTMLResponse(exception_message(f"""      
                         <a href="{report.url}" target="blank">Open Document</a>
-            <p> {report.file}</p>
-        </div>
-    """)
+                        <p> {report.file}</p>""", 'info'))
+        
+    

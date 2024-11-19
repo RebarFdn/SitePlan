@@ -466,11 +466,29 @@ def set_metadata(property:str=None, value:typing.Any=None, metadata:dict={}):
     return metadata
     
 
-def exception_message(message:str=None):
-    return f"""<div class="uk-alert-warning" uk-alert>
-        <a href class="uk-alert-close" uk-close></a>
-        <p>{ message }</p>
-    </div>"""
+def exception_message(message:str=None, level:str=None):
+    levels:dict = {
+        'info': f"""<div class="uk-alert-primary" uk-alert>
+                    <a href class="uk-alert-close" uk-close></a>
+                    <p>{ message }</p>
+                    </div>""",
+        'danger': f"""<div class="uk-alert-danger" uk-alert>
+                    <a href class="uk-alert-close" uk-close></a>
+                    <p>{ message }</p>
+                    </div>""",
+        'success': f"""<div class="uk-alert-success" uk-alert>
+                    <a href class="uk-alert-close" uk-close></a>
+                    <p>{ message }</p>
+                    </div>""",
+
+        'warning': f"""<div class="uk-alert-warning" uk-alert>
+                    <a href class="uk-alert-close" uk-close></a>
+                    <p>{ message }</p>
+                    </div>"""                    
+
+    }
+    if level: return levels.get(level)
+    else: return levels.get('info')
 
 
 
