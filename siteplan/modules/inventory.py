@@ -4,33 +4,38 @@ from box import Box
 from models.product_models import Supplier, InventoryItem, Inventory
 
 
-def stock_material(item:dict=None, inventory:dict={})->dict:
+def stock_material(item:dict=None, inventories:dict={})->dict:
     mat = Box(item)  
-    inv_keys = inventory.keys()     
+    inv_keys = inventories.keys()     
     if mat.name in inv_keys:
-        material_inventory = inventory.get(mat.name)        
-        material_inventory['items'].append(item)
+        inventory = inventories.get(mat.name)     
+        inventory['items'].append(item)
         #print(material_inventory)
     else:
-        material_inventory = Inventory(name=mat.name)
-        material_inventory.items.append(item)
-        inventory[mat.name] = material_inventory.model_dump()
-    return inventory
+        inventory = Inventory(name=mat.name)
+        inventory.items.append(item)
+        inventories[mat.name] = inventory.model_dump()
+    return inventories
 
 
-def get_material_inventory(name:str, inventory:Inventory={} )->dict:
-    return inventory.get(name)
+def get_material_inventory(name:str, inventories:dict={} )->dict:
+    return inventories.get(name)
 
 
-def get_material_usage(name:str, inventory:Inventory={} )->dict:
-    material_inventory:dict = inventory.get(name)
+def get_material_usage(name:str, inventories:dict={} )->dict:
+    material_inventory:dict = inventories.get(name)
     return material_inventory.get('dispenced')
 
 
-def log_material_usage(name:str, record:dict=None, inventory:Inventory={} )->dict:
-    material_inventory:dict = inventory.get(name)
+def log_material_usage(name:str, record:dict=None, inventories:dict={} )->dict:
+    material_inventory:dict = inventories.get(name)
     material_inventory['dispenced'].append(record)
     return material_inventory.get('dispenced')
+
+
+def available_material(name:str, inventories:dict={} )->dict:
+    material_inventory:dict = inventories.get(name)
+
 
 
 
@@ -90,28 +95,34 @@ p5 = InventoryItem(
 
 
 def test_inventory():
-    inv = stock_material(item=p.model_dump())
+    invs = stock_material(item=p.model_dump())
     #print(inv)
     #print()
 
-    nnv = stock_material(item=p2.model_dump(), inventory=inv)
+    nnvs = stock_material(item=p2.model_dump(), inventories=invs)
     #print(nnv)
-    nnv = stock_material(item=p3.model_dump(), inventory=nnv)
+    nnvs = stock_material(item=p3.model_dump(), inventories=nnvs)
     #print()
     #print(nnv)
     #print()
     #print(nnv.keys())
-    nnv = stock_material(item=p4.model_dump(), inventory=nnv)
-    nnv = stock_material(item=p5.model_dump(), inventory=nnv)
-    nnv = stock_material(item=p22.model_dump(), inventory=nnv)
-    disp = log_material_usage('Portland Cement', ('2024-11-21', 10), nnv)
+    nnvs = stock_material(item=p4.model_dump(), inventories=nnvs)
+    nnvs = stock_material(item=p5.model_dump(), inventories=nnvs)
+    nnvs = stock_material(item=p22.model_dump(), inventories=nnvs)
+    log_material_usage('Portland Cement', ('2024-11-21', 10), nnvs)
+    log_material_usage('1/2x12 J Bolt', ('2024-04-20', 30), nnvs)
+    log_material_usage('Portland Cement', ('2024-11-25', 72), nnvs)
+    log_material_usage('1/2x12 J Bolt', ('2024-04-25', 6), nnvs)
     #print(nnv)
     #print()
     #print(nnv)
-    gnv = Inventory(**get_material_inventory('Portland Cement', nnv)) 
-    usage = get_material_usage('Portland Cement', nnv)
+    gnv = Inventory(**get_material_inventory('Portland Cement', nnvs)) 
+    usage = get_material_usage('Portland Cement', nnvs)
     print('Dispenced', usage)
+    print('stocking', gnv.stocking)
     print('stocked', gnv.stock)
+    print('Usage', gnv.stock_usage)
+    print('Available', gnv.available_stock)
 
     
 
