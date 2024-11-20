@@ -20,6 +20,7 @@ from routes.auth_router import router as auth_routes, loadusers
 from routes.project_router import router as p_router
 from routes.project_accounting_router import router as accounting_router
 from routes.project_jobs_task_router import router as project_jobstask_router
+from routes.project_inventory_router import router as inventory_router
 from routes.team_router import router as team_router
 from routes.base_router import router as base_router
 from routes.supplier_router import router as supplier_router 
@@ -161,15 +162,10 @@ routes.extend([route for route in supplier_router])
 routes.extend([route for route in estimate_router])
 routes.extend([route for route in printer_router])
 routes.extend([route for route in employee_api])
-
-
-
+routes.extend([route for route in inventory_router])
 
 def startApp():
     print('Starting SiteApp Servers ')
-   
-    
-
 
 def shutdownApp():
     print('Application setup was Successfull ... !')

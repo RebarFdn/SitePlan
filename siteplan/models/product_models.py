@@ -25,7 +25,7 @@ class Inventory(BaseModel):
     dispenced:list = []
     
     @property
-    def stocking(self):
+    def stocking(self)->list:
         stocking_:list = [item.get('amt') for item in self.items ]
         return stocking_
     
@@ -34,7 +34,7 @@ class Inventory(BaseModel):
         return sum(self.stocking)
     
     @property
-    def stock_usage(self):       
+    def stock_usage(self)->int:           
         store = 0
         if len(self.dispenced) > 0:
             for item in self.dispenced:

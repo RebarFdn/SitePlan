@@ -55,6 +55,13 @@
             <a 
             class="py-4 px-1 inline-flex items-center gap-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600"
             href="#"
+            hx-get="/project_inventory/{{id}}"
+            hx-target="#project_properties"
+            hx-trigger="click"
+            >Inventory</a>
+            <a 
+            class="py-4 px-1 inline-flex items-center gap-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600"
+            href="#"
             hx-get="/project_event/{{id}}"
             hx-target="#project_properties"
             hx-trigger="click"

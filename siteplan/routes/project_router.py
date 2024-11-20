@@ -15,8 +15,6 @@ from modules.utils import timestamp, exception_message
 from modules.unit_converter import convert_price_by_unit
 from printer.project_documents import printJobQueue, printMetricJobQueue, printImperialJobQueue
 from config import TEMPLATES
-
-
 router = Router()
 
 async def update_projectrates_task(id:str=None):
@@ -132,7 +130,6 @@ async def get_one_project(request):
         del(project)
 
 
-
 @router.get('/project_home/{id}')
 @login_required
 async def project_home(request):
@@ -158,7 +155,6 @@ async def project_home(request):
     finally:
         del(id)        
         del(project)
-
 
 
 @router.get('/project_api/{id}')
@@ -219,8 +215,7 @@ async def get_project_state(request):
         }
         
         )
-                        
-                           
+                          
 
 # Project Events 
 @router.get('/project_event/{id}')
@@ -322,9 +317,6 @@ async def get_jjobs_tasks_report(request):
             "jobs": jobs 
         }
     )
-
-
-
 
 
 @router.get('/project_workers/{id}/{filter}')
@@ -471,7 +463,6 @@ async def add_project_rate(request):
         )
 
 
-
 @router.post('/add_worker_to_project')
 @login_required
 async def add_worker_to_project(request):
@@ -516,7 +507,6 @@ async def add_worker_to_project(request):
                 )
     await update_project(p)    
     return RedirectResponse(url=f"""/project_workers/{project.get('_id')}/all""", status_code=302)
-
 
 
 @router.get('/remove_worker_from_project/{id}')
@@ -584,7 +574,6 @@ async def update_project_standard(request):
         del(project)        
 
 
-
 @router.get('/project_days/{id}')
 async def get_project_days(request):
     id = request.path_params.get('id')
@@ -610,7 +599,6 @@ async def get_project_days(request):
     finally:
         del(project)
         del(id)
-
 
 
 # Days Work Filter

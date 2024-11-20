@@ -120,89 +120,77 @@
         </table>
     </div>
 </div>
-<p class="text-xs">{{ suppliers }}</p>
 
-
-<!-- This is the add invoicemodal -->
-<div id="add-invoice" uk-modal>
+<div id="add-invoice" class="uk-modal-container" uk-modal>
     <div class="uk-modal-dialog uk-modal-body">
-        <p class="text-lg font-semibold">New Invoice Record</p>
-
+        <button class="uk-modal-close-default" type="button" uk-close></button>
         
-        <form class="uk-form-stacked"
-        
-        >
-            <div class="uk-margin">
-                <label class="uk-form-label" for="form-stacked-text">Date</label>
-                <div class="uk-form-controls">
-                    <input class="uk-input" id="form-stacked-text" type="date" placeholder="Bill Date" name="date">
-                </div>
+        <p class="text-md text-center font-semibold">New Invoice Record</p>
+        <div class="uk-child-width-expand@s uk-text-center" uk-grid>            
+            <div>
+                <form class="uk-form-stacked">
+                    <div class="uk-margin">
+                        <label class="uk-form-label" for="form-stacked-text">Date</label>
+                        <div class="uk-form-controls">
+                            <input class="uk-input" id="form-stacked-text" type="date" placeholder="Bill Date" name="date">
+                        </div>
+                    </div>
+                    <div class="uk-margin">
+                        <label class="uk-form-label" for="form-stacked-text">Invoice No</label>
+                        <div class="uk-form-controls">
+                            <input class="uk-input" id="form-stacked-text" type="text" placeholder="Invoice No." name="invoice_no">                            
+                        </div>
+                    </div>
+                    <div class="uk-margin">
+                        <label class="uk-form-label" for="form-stacked-text">Supplier</label>
+                        <div class="uk-form-controls">                            
+                            <select class="uk-select" placeholder="Supplier's Name" name="supplier">
+                                <option>Select Supplier</option>
+                                {% for item in suppliers %}                        
+                                <option>{{ item.name }}</option>
+                                {% endfor %}                                
+                            </select>
+                        </div>
+                    </div>
+                    <div class="uk-margin">
+                        <label class="uk-form-label" for="form-stacked-text">Invoice Items</label>
+                        <div class="uk-form-controls">
+                              <a class="uk-button uk-button-primary uk-button-small rounded-md" href="#" 
+                              hx-get="/add_invoice_item"
+                              hx-target="#invoice-items">Add Item</a>
+                        </div>
+                    </div>        
+                    <div class="uk-margin">
+                        <label class="uk-form-label" for="form-stacked-text">Tax</label>
+                        <div class="uk-form-controls">
+                            <input class="uk-input" id="form-stacked-text" type="number" step="0.01" placeholder="Tax" name="tax">
+                        </div>
+                    </div>
+                    <div class="uk-margin">
+                        <label class="uk-form-label" for="form-stacked-text">Total</label>
+                        <div class="uk-form-controls">
+                            <input class="uk-input" id="form-stacked-text" type="number" step="0.01" placeholder="Total" name="total">
+                        </div>
+                    </div>
+                    <p class="uk-text-right">
+                        <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                        <input class="uk-button uk-button-primary uk-modal-close" type="submit" value="Save Invoice"
+                        hx-post="/new_invoice/{{project._id}}"
+                        hx-target="#message"                        
+                        >
+                    </p>                
+                </form>
             </div>
-            <div class="uk-margin">
-                <label class="uk-form-label" for="form-stacked-text">Invoice No</label>
-                <div class="uk-form-controls">
-                    <input class="uk-input" id="form-stacked-text" type="text" placeholder="Invoice No." name="invoice_no">
-                    
-                </div>
+            <div>
+                <p class="text-md text-center font-semibold">Invoice Items</p>  
+                <div id="invoice-items"></div>              
             </div>
-            <div class="uk-margin">
-                <label class="uk-form-label" for="form-stacked-text">Supplier</label>
-                <div class="uk-form-controls">
-                    
-                    <select class="uk-select" placeholder="Supplier's Name" name="supplier">
-                        <option>Select Supplier</option>
-                        {% for item in suppliers %}                        
-                        <option>{{ item.name }}</option>
-                        {% endfor %}
-                        
-                    </select>
-                </div>
-            </div>
-            <div class="uk-margin">
-                <label class="uk-form-label" for="form-stacked-text">Invoice Items</label>
-                <div class="uk-form-controls">
-                    <button class="uk-button uk-button-primary uk-button-small rounded-md"  >Add Item</button>
-                </div>
-            </div>
-
-            <div class="uk-margin">
-                <label class="uk-form-label" for="form-stacked-text">Tax</label>
-                <div class="uk-form-controls">
-                    <input class="uk-input" id="form-stacked-text" type="number" step="0.01" placeholder="Tax" name="tax">
-                </div>
-            </div>
-            <div class="uk-margin">
-                <label class="uk-form-label" for="form-stacked-text">Total</label>
-                <div class="uk-form-controls">
-                    <input class="uk-input" id="form-stacked-text" type="number" step="0.01" placeholder="Total" name="total">
-                </div>
-            </div>
-           
-
-        
-            <p class="uk-text-right">
-                <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                <input class="uk-button uk-button-primary uk-modal-close" type="submit" value="Save Invoice"
-                hx-post="/new_invoice/{{project._id}}"
-                hx-target="#message"
-                
-                >
-            </p>
-        
-        </form>
+        </div>
+       
         
     </div>
 </div>
 
-<!-- Edit invoice modal -->
-<div id="edit-invoice" class="uk-modal-container" uk-modal>
-    <div class="uk-modal-dialog uk-modal-body">
-        <button class="uk-modal-close-default" type="button" uk-close></button>
-        <h2 class="uk-modal-title">Manage Invoice Record</h2>
-        <div id="edit-invoice-record">
-            Invoice
-        </div> 
-    </div>
-</div
+<p class="text-xs">Suppliers {{ suppliers }}</p>
 
  

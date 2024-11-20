@@ -3,6 +3,7 @@
 
 import json
 from asyncio import sleep
+from starlette.requests import Request
 from starlette.responses import HTMLResponse, RedirectResponse, StreamingResponse
 from starlette_login.decorator import login_required
 from decoRouter import Router
@@ -11,7 +12,7 @@ from modules.project import ( get_project, handle_transaction, update_project,
     withdrawal_model, project_account_withdrawal_generator)
 from modules.employee import  get_worker, update_employee, process_days_work
 from modules.supplier import supplier_name_index
-from modules.utils import timestamp, to_dollars, filter_dates, today
+from modules.utils import timestamp, to_dollars, filter_dates, today, exception_message
 from modules.accumulator import ProjectDataAccumulator   
 from config import TEMPLATES
 
@@ -1480,6 +1481,17 @@ async def get_project_account_purchases(request):
         }
     )
 
+
+@router.get('/add_invoice_item')
+@router.post('/add_invoice_item')
+@login_required
+async def add_invoice_item(request:Request):
+    if request.method == 'POST':
+        async with request.form() as form:
+            return HTMLResponse(exception_message(form, level='info'))
+    else:
+        return TEMPLATES.TemplateResponse('/project/account/invoiceItem.html', {'request': request})
+    
 
 @router.post('/new_invoice/{id}')
 @login_required
