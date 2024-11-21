@@ -36,6 +36,9 @@ def log_material_usage(name:str, record:dict=None, inventories:dict={} )->dict:
 def available_material(name:str, inventories:dict={} )->dict:
     material_inventory:dict = inventories.get(name)
 
+def material_index(inventories:dict={})->list:
+    return list(inventories.keys())
+
 
 
 
@@ -118,11 +121,13 @@ def test_inventory():
     #print(nnv)
     gnv = Inventory(**get_material_inventory('Portland Cement', nnvs)) 
     usage = get_material_usage('Portland Cement', nnvs)
+    mat_index = material_index(inventories=nnvs)
     print('Dispenced', usage)
     print('stocking', gnv.stocking)
     print('stocked', gnv.stock)
     print('Usage', gnv.stock_usage)
     print('Available', gnv.available_stock)
+    print('Materials Index', mat_index)
 
     
 

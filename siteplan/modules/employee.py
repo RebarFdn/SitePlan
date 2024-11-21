@@ -211,8 +211,8 @@ async def submit_day_work(eid:str=None, data:dict=None)-> list:
 
 
 async def get_worker_info( id:str=None):
-    worker = await get_worker(id=id) 
-    worker = json.loads(json.dumps(worker))
+    worker = await get_worker(id=id)     
+    worker = json.loads(json.dumps(worker))    
     try: 
         loans =   worker.get('account').get('loans', [])     
         worker["account"] = json.loads(json.dumps({"loans": loans  }))

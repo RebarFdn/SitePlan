@@ -171,6 +171,7 @@ async def project_team_member(request:Request):
         if '-' in job_id:
             idd = job_id.split('-')
             project = await get_project(id=idd[0])
+            print('project', project)
             _job = [job for job in project.get('tasks') if job.get('_id') == job_id]
             if len(_job) > 0:
                 _job = _job[0]
@@ -349,10 +350,15 @@ async def employee_days(request:Request):
 
 
 @router.get('/employee_account/{id}')
-async def employee_account(request):   
-    employee = await get_worker(id=request.path_params.get('id')) 
-    account = employee.get('account', [])
+async def get_employee_account(request):  
+    id = request.path_params.get('id') 
+    employee = await get_worker(id=id) 
+    print(f'get/employee_account/', id)
+    account = employee.get('account', {})
+    print(f'get/employee_account/', account)
     account['_id'] = request.path_params.get('id')
+   
+    
     return TEMPLATES.TemplateResponse(
         '/employee/employeeAccountInterface.html', 
         {

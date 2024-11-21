@@ -88,8 +88,8 @@ async def new_project(request):
 @login_required
 async def get_projects(request):    
     username:str =  request.user.username        
-    project:list = await all_projects()        
-    projects:list = [project for project in project if project.get('value').get("meta_data", {}).get("created_by") == username]
+    projects:list = await all_projects()        
+    projects:list = [project for project in projects if project.get('value').get("meta_data", {}).get("created_by") == username]
     try:
         return TEMPLATES.TemplateResponse('/project/projectsIndex.html',{
             'request': request,
@@ -98,8 +98,7 @@ async def get_projects(request):
     except Exception as e:
         return HTMLResponse(exception_message(message=str(e)))
     finally:
-        del(username)
-        del(project)
+        del(username)        
         del(projects)
 
 
@@ -206,7 +205,7 @@ async def get_project_state(request):
 
                 )
         await update_project(data=project)
-        return RedirectResponse(url=f"/project_state/{p.get('_id')}-state", status_code=302)
+        return RedirectResponse(url=f"/project_state/{project.get('_id')}-state", status_code=302)
     return TEMPLATES.TemplateResponse(
         "/project/projectState.html", 
         {
@@ -480,7 +479,7 @@ async def add_worker_to_project(request):
     project = await get_project(id=idd[0])
     workers = [worker.get('key') for worker in project.get('workers')]
     employees = await all_workers()
-    employee = [e for e in employees.get('rows') if e.get('id') == idd[1]][0]
+    employee = [e for e in employees if e.get('id') == idd[1]][0]
     if employee.get('id') in workers:
         project['activity_log'].append(
                     {
@@ -505,7 +504,7 @@ async def add_worker_to_project(request):
                         "description": f"""Employee {employee.get('value').get('name')} was added to Project by {request.user.username} """
                     }
                 )
-    await update_project(p)    
+    await update_project(project)    
     return RedirectResponse(url=f"""/project_workers/{project.get('_id')}/all""", status_code=302)
 
 

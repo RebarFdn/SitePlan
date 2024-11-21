@@ -2,12 +2,13 @@
     <div class="uk-margin">
        <label class="uk-form-label" for="form-stacked-text">Invoice No.</label>
        <div class="uk-form-controls">
-           <input id="invoice_num" class="uk-input" id="form-stacked-text" type="text" placeholder="Invoice Number" name="invoice_no">
+           <input id="invoice_num" class="uk-input" id="form-stacked-text" type="text" placeholder="Invoice Number" name="invoice_no" value="{{inv_no}}">
        </div>
+    </div>
     <div class="uk-margin">
        <label class="uk-form-label" for="form-stacked-text">Item No.</label>
        <div class="uk-form-controls">
-           <input class="uk-input" id="form-stacked-text" type="number" placeholder="Invoice Item Number" name="item_no">
+           <input class="uk-input" id="form-stacked-text" type="number" placeholder="Invoice Item Number" name="item_no" value="{{inv_items}}">
        </div>
    </div>
    <div class="uk-margin">
@@ -40,6 +41,16 @@
            <input class="uk-input" id="form-stacked-text" type="number" step="0.01 placeholder="Item Price" name="price">
        </div>
    </div>
+   <p class="uk-text-right">
+        <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+        <input class="uk-button uk-button-primary uk-modal-close" type="submit" value="Add Item"
+        hx-post="/add_invoice_item"
+        hx-target="#invoice-items"                        
+        >
+    </p>       
+   
+   </form>
+   <p class="text-xs">{{ mat_index }}</p>
                        
                        
                        

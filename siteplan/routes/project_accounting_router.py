@@ -14,6 +14,7 @@ from modules.employee import  get_worker, update_employee, process_days_work
 from modules.supplier import supplier_name_index
 from modules.utils import timestamp, to_dollars, filter_dates, today, exception_message
 from modules.accumulator import ProjectDataAccumulator   
+from modules.inventory import material_index
 from config import TEMPLATES
 
 router = Router()
@@ -68,7 +69,7 @@ async def project_account_deposit(request):
         #return RedirectResponse(url='/dash', status_code=303)
         return HTMLResponse(f""" <div class="uk-alert-success" uk-alert>
                                 <a href class="uk-alert-close" uk-close></a>
-                                <p>Ref: {result.get('ref')} {to_dollars(result.get('amount'))} was deposited on {result.get('date')}</p>
+                                <p>Ref: {payload.get('ref')} {to_dollars(payload.get('amount'))} was deposited on {form.get('date')}</p>
                                 </div>""")
     except Exception as e:
         return HTMLResponse(f"""
@@ -1482,15 +1483,24 @@ async def get_project_account_purchases(request):
     )
 
 
-@router.get('/add_invoice_item')
-@router.post('/add_invoice_item')
+@router.get('/add_invoice_item/{id}/{inv_no}')
+@router.post('/add_invoice_item/{id}/{inv_no}')
 @login_required
 async def add_invoice_item(request:Request):
+    id = request.path_params.get('id')
+    inv_no = request.path_params.get('inv_no')
+    project = await get_project(id=id)
+    mat_index = material_index(inventories=project.get('inventory'))
+    inv_items = [] # get items from temporary database
+    inv_items = len(inv_items) + 1
+
     if request.method == 'POST':
         async with request.form() as form:
             return HTMLResponse(exception_message(form, level='info'))
     else:
-        return TEMPLATES.TemplateResponse('/project/account/invoiceItem.html', {'request': request})
+        return TEMPLATES.TemplateResponse('/project/account/invoiceItem.html', 
+            {'request': request, 'inv_no': inv_no , 'mat_index': mat_index, 'inv_items':inv_items}
+        )
     
 
 @router.post('/new_invoice/{id}')

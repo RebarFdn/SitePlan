@@ -138,7 +138,7 @@
                     <div class="uk-margin">
                         <label class="uk-form-label" for="form-stacked-text">Invoice No</label>
                         <div class="uk-form-controls">
-                            <input class="uk-input" id="form-stacked-text" type="text" placeholder="Invoice No." name="invoice_no">                            
+                            <input class="uk-input" id="inv-num" type="text" placeholder="Invoice No." name="invoice_no">                            
                         </div>
                     </div>
                     <div class="uk-margin">
@@ -153,10 +153,11 @@
                         </div>
                     </div>
                     <div class="uk-margin">
-                        <label class="uk-form-label" for="form-stacked-text">Invoice Items</label>
+                        <label class="uk-form-label" for="form-stacked-text" >Invoice Items</label>
+                        <button class="uk-button uk-button-primary uk-button-small rounded-md" onclick="getInvoiceNumber()">get inv items</button>
                         <div class="uk-form-controls">
                               <a class="uk-button uk-button-primary uk-button-small rounded-md" href="#" 
-                              hx-get="/add_invoice_item"
+                              hx-get="/add_invoice_item/{{project._id}}/invoiceNumber"
                               hx-target="#invoice-items">Add Item</a>
                         </div>
                     </div>        
@@ -192,5 +193,18 @@
 </div>
 
 <p class="text-xs">Suppliers {{ suppliers }}</p>
+<script>
+    var invoiceNumber = document.getElementById('inv-num').value  ,
+        copyInvNo = document.getElementById('invoice_num')
+    function getInvoiceNumber(){
+        var invoiceNumber = document.getElementById('inv-num').value   
+        copyInvNo.value = invoiceNumber      
+        
+    }
+    
+    setInterval(getInvoiceNumber, 300);
+    
+
+</script>
 
  

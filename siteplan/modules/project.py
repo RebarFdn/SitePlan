@@ -45,7 +45,7 @@ def project_model(key:str=None):
                 "ballance": 0,
                 "started": timestamp(),
                 "transactions": {
-                    "deposits": [], 
+                    "deposit": [], 
                     "withdraw": []
                 },
                 "expences": [],
@@ -595,9 +595,9 @@ async def add_job_to_queue( id:str=None, data:dict=None)->list:
         flg:str = data.get('title', 'p j')
         flg:list = flg.split(' ')
         if len(flg) > 1:
-            jid:str = generate_id( line_1=flg[0], line_2=flg[1]) 
+            jid:str = generate_id(name=f"line_1=flg[0] line_2=flg[1]") 
         else:
-            jid:str = generate_id( line_1=flg[0], line_2=flg[0])        
+            jid:str = generate_id( name=f"line_1=flg[0] line_2=flg[0]")        
         try:
             data['_id'] = f"{id}-{jid}"                
             project['tasks'].append( data )
