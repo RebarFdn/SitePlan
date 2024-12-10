@@ -43,14 +43,11 @@
         <ul class="uk-navbar-nav">
             <li class="uk-active"><a href="#add-invoice" uk-toggle>New Invoice Record</a></li>
             <li class="uk-active">
-                <p 
-                   
+                <!--p                    
                     hx-get="/project_purchase_total/{{project._id}}"
-                    hx-trigger="every 3s"
-
-                    >
-                    
-                </p>
+                    hx-trigger="every 10s"
+                    >                    
+                </!--p-->
             </li>
         </ul>
 
@@ -129,6 +126,7 @@
         <div class="uk-child-width-expand@s uk-text-center" uk-grid>            
             <div>
                 <form class="uk-form-stacked">
+                    <div class="uk-child-width-expand@s uk-text-center" uk-grid> 
                     <div class="uk-margin">
                         <label class="uk-form-label" for="form-stacked-text">Date</label>
                         <div class="uk-form-controls">
@@ -140,6 +138,7 @@
                         <div class="uk-form-controls">
                             <input class="uk-input" id="inv-num" type="text" placeholder="Invoice No." name="invoice_no">                            
                         </div>
+                    </div>
                     </div>
                     <div class="uk-margin">
                         <label class="uk-form-label" for="form-stacked-text">Supplier</label>
@@ -154,10 +153,10 @@
                     </div>
                     <div class="uk-margin">
                         <label class="uk-form-label" for="form-stacked-text" >Invoice Items</label>
-                        <button class="uk-button uk-button-primary uk-button-small rounded-md" onclick="getInvoiceNumber()">get inv items</button>
+                        
                         <div class="uk-form-controls">
                               <a class="uk-button uk-button-primary uk-button-small rounded-md" href="#" 
-                              hx-get="/add_invoice_item/{{project._id}}/invoiceNumber"
+                              hx-put="/get_invoice_item/{{project._id}}"
                               hx-target="#invoice-items">Add Item</a>
                         </div>
                     </div>        
@@ -193,18 +192,6 @@
 </div>
 
 <p class="text-xs">Suppliers {{ suppliers }}</p>
-<script>
-    var invoiceNumber = document.getElementById('inv-num').value  ,
-        copyInvNo = document.getElementById('invoice_num')
-    function getInvoiceNumber(){
-        var invoiceNumber = document.getElementById('inv-num').value   
-        copyInvNo.value = invoiceNumber      
-        
-    }
-    
-    setInterval(getInvoiceNumber, 300);
-    
 
-</script>
 
  

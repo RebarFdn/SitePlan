@@ -56,6 +56,19 @@ class Account(BaseModel):
     payments: List[Payment]
     loans: List[Loan]
 
+class CommercialAccount(BaseModel):
+    bank: Bank | None = None
+    transactions: list = []
+
+
+class Supplier(BaseModel):
+    _id: str  | None = None
+    name:str      
+    taxid: str | None = None
+    account: CommercialAccount | None = None
+    address: Address | None = None
+    contact: Contact | None = None
+        
 
 class NextOfKin(BaseModel):
     name: str | None = None

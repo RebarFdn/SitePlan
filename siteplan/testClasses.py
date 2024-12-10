@@ -4,10 +4,13 @@ import os
 from modules.utils import generate_id,timestamp
 from modules.project import Project
 from modules.employee import all_employees, all_workers, get_worker, get_worker_name_index, get_worker_by_name, generate_id
-from modules.inventory import  test_inventory
-
+from modules.inventory import  InventoryItem, test_inventory
+from modules.invoice_processor import get_invoice_items, reset_invoice_repo, test_inv_process
 from datetime import date
 from box import Box
+from modules.supplier import supplier_model
+
+from modules.dropbox import Dropbox
 
 inventory:dict = {}
 
@@ -40,12 +43,20 @@ async def test_get_worker_by_name():
     try: print(data)
     finally: del data
 
+async def test_dropbox():
+    dropbox:Dropbox = Dropbox()
+    print(dropbox)
+    print(dropbox.contents)
 
 
-
-async def main():      
-    print('WARNING!  Data will Disappear in 15 seconds intervals....')
+async def main():   
+    interval = 10   
+    print(f'WARNING!  Data will Disappear in { interval } seconds intervals....')
     print()
+    await test_dropbox()
+    #print(supplier_model())
+    #make_invoice_repo()
+    #print(test_inv_process())
 
     #await test_get_worker_by_name() 
     #await asyncio.sleep(10)
@@ -72,8 +83,8 @@ async def main():
     #print(timestamp('2024-10-24'))
     #await asyncio.sleep(10)
     #os.system('clear')
-    test_inventory()
-    await asyncio.sleep(30)
+    #test_inventory()
+    await asyncio.sleep(interval)
     os.system('clear')
     
 

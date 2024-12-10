@@ -1,29 +1,46 @@
 # Team Router 
 import json
-from starlette.responses import JSONResponse, StreamingResponse
+from starlette.responses import JSONResponse, StreamingResponse, RedirectResponse
 from starlette_login.decorator import login_required
 from decoRouter import Router
 from modules.project import get_project
-from modules.supplier import Supplier, all_suppliers, get_supplier, supplier_name_index, supplier_invoice_id_index, save_supplier
+from modules.supplier import Supplier, supplier_model, all_suppliers, get_supplier, supplier_name_index, supplier_invoice_id_index, save_supplier
 from config import TEMPLATES
 
 router = Router()
-
 
 
 @router.post('/supplier')
 @login_required
 async def createSupplier(request ):    
     '''Create a new Supplier .POST '''    
-    data = await request.json()     
+    data = supplier_model()     
+    async with request.form() as form:
+        data['name'] = form.get('name')
+        data['taxid'] = form.get('taxid')
+        # Address Info
+        data['address']['lot'] = form.get('lot')
+        data['address']['street'] = form.get('street')
+        data['address']['town'] = form.get('town')
+        data['address']['city_parish'] = form.get('city_parish')
+        data['address']['country'] = form.get('country')
+        # Contact Info
+        data['contact']['tel'] = form.get('tel')
+        data['contact']['mobile'] = form.get('mobile')
+        data['contact']['email'] = form.get('email')
+        # Banking Info
+        data['account']['bank']['branch'] = form.get('branch')
+        data['account']['bank']['name'] = form.get('bank')
+        data['account']['bank']['account'] = form.get('account_no')
+        data['account']['bank']['account_type'] = form.get('account_type')
     try:
-        res = await save_supplier(data=data, user=request.user.username)
-        return JSONResponse(res)
+        await save_supplier(data=data, user=request.user.username)
+        return RedirectResponse(url='/suppliers_html_index/all', status_code=302)
     except Exception as e: 
         return JSONResponse({'error', str(e)})
     finally: 
         del(data)
-        del(sp)
+        
     
         
 

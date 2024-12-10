@@ -1,0 +1,113 @@
+<div>
+    <p class="text-lg text-center font-semibold">New Supplier</p>
+    <form class="uk-form-stacked uk-grid-small uk-margin-top" uk-grid>
+
+        <div class="uk-width-1-2">
+         <label class="uk-form-label">Supplier's Name</label>
+            <input class="uk-input uk-form-width-large" type="text" name="name" placeholder="John Brown" aria-label="Large">
+        </div>
+       
+        <div class="uk-width-1-2@s">
+        <label class="uk-form-label">Tax Id </label>
+            <input class="uk-input uk-form-width-medium" type="text" name="taxid" placeholder="Tax Id" aria-label="Medium">
+        </div>
+       <hr class="uk-divider-icon">
+      
+        <div class="accordion-group accordion-group-bordered">
+            <div class="accordion">
+                <input type="checkbox" id="toggle-7" class="accordion-toggle" />
+                <label for="toggle-7" class="accordion-title">Contact</label>
+                <div class="accordion-content text-content2">
+                    <div class="min-h-0">
+                    <div class="uk-width-1-2@s">
+                    <label class="uk-form-label">Tel</label>
+                        <input class="uk-input uk-form-width-medium" type="text" name="tel" placeholder="876-123-4567" aria-label="Medium">
+                    </div>
+                     <div class="uk-width-1-2@s">
+                    <label class="uk-form-label">Mobile</label>
+                        <input class="uk-input uk-form-width-medium" type="text" name="mobile" placeholder="Mobile" aria-label="Medium">
+                    </div>
+                     <div class="uk-width-1-2@s">
+                        <label class="uk-form-label">Email</label>
+                            <input class="uk-input uk-form-width-medium" type="text" name="email" placeholder="email" aria-label="Medium">
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+            <div class="accordion">
+                <input type="checkbox" id="toggle-8" class="accordion-toggle" />
+                <label for="toggle-8" class="accordion-title">Address</label>
+                <div class="accordion-content">
+                    <div class="min-h-0">
+                    <div class="uk-width-1-2@s">
+                    <label class="uk-form-label">Lot</label>
+                        <input class="uk-input uk-form-width-medium" type="text" name="lot" placeholder="Lot" aria-label="Medium">
+                    </div>
+                     <div class="uk-width-1-2@s">
+                    <label class="uk-form-label">Street</label>
+                        <input class="uk-input uk-form-width-medium" type="text" name="street" placeholder="Street" aria-label="Medium">
+                    </div>
+                     <div class="uk-width-1-2@s">
+                    <label class="uk-form-label">Town</label>
+                        <input class="uk-input uk-form-width-medium" type="text" name="town" placeholder="Town" aria-label="Medium">
+                    </div>
+                     <div class="uk-width-1-2@s">
+                    <label class="uk-form-label">City/Parish</label>
+                        <input class="uk-input uk-form-width-medium" type="text" name="city_parish" placeholder="City or Parish" aria-label="Medium">
+                    </div>
+                    <div class="uk-width-1-2@s">
+                        <label class="uk-form-label">Country</label>
+                            <input class="uk-input uk-form-width-medium" type="text" name="country" placeholder="City or Parish" aria-label="Medium">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion">
+                <input type="checkbox" id="toggle-9" class="accordion-toggle" />
+                <label for="toggle-9" class="accordion-title">Banking</label>
+                <div class="accordion-content text-content2">
+                    <div class="min-h-0">
+                        <div uk-grid>
+                            <div class="uk-width-1-2@s">
+                            <label class="uk-form-label">Bank</label>
+                                <input class="uk-input uk-form-width-medium" type="text" name="bank" placeholder="bank" aria-label="Medium">
+                            </div>
+                            <div class="uk-width-1-2@s">
+                                <label class="uk-form-label">Branch</label>
+                                    <input class="uk-input uk-form-width-medium" type="text" name="branch" placeholder="branch" aria-label="Medium">
+                            </div>
+                        </div>
+                        <div uk-grid>
+                            <div class="uk-width-1-2@s">
+                            <label class="uk-form-label">Account No.</label>
+                                <input class="uk-input uk-form-width-medium" type="text" name="account_no" placeholder="Account No." aria-label="Medium">
+                            </div>
+                            <div class="uk-width-1-2@s">
+                                <label class="uk-form-label">Account Type</label>
+                                <select class="uk-input uk-form-width-medium" type="select" name="account_type" placeholder="Account Type" aria-label="Medium">
+                                    <option>Current</option>
+                                    <option>Buisiness</option>
+                                    <option>Savings</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+         <p class="uk-text-right">
+                <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+            
+                <button 
+                    class="uk-button uk-button-primary" 
+                    type="button"
+                    hx-post="/supplier"
+                    hx-target="#dash-content-pane"                    
+                    >Save
+                </button>
+            </p>
+       
+    </form>
+</div>

@@ -139,7 +139,8 @@
                     {% for task_rate in p.get("rates") %}
                         <tr>
                             <td><input 
-                                type="checkbox" 
+                                type="radio" 
+                                class="radio radio-bordered-primary"
                                 value="{{ task_rate.get('_id') + '-' + job.get('_id') }}" 
                                 name="task" 
                                 hx-post="/add_job_task" 
@@ -161,8 +162,8 @@
         </div>
 
         <p class="uk-text-right">
-                <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                <button class="uk-button uk-button-primary" type="button">Save</button>
+                <button class="uk-button uk-button-default uk-modal-close" type="button">Close</button>
+                
         </p>
     </div>
 </div>
@@ -208,9 +209,9 @@
             
             {% for worker in p.workers %}
                 <tr>
-                    <td><input 
-                        class="uk-radio" 
-                        type="radio"                       
+                    <td><input                        
+                        type="radio" 
+                        class="radio radio-bordered-primary"                      
                         value="{{ worker.id + '_' + job._id }}" 
                         name="worker" 
                         hx-post="/add_worker_to_job_crew" 

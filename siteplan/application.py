@@ -13,7 +13,7 @@ from starlette_login.decorator import login_required
 from starlette_login.middleware import AuthenticationMiddleware
 from config import (
     DEBUG, SECRET_KEY, HOST, PORT, TEMPLATES,
-    SERVER_LOG_PATH
+    SERVER_LOG_PATH, DROPBOX_PATH
     )
 from modules.zen import zen_now
 from routes.auth_router import router as auth_routes, loadusers
@@ -26,9 +26,13 @@ from routes.base_router import router as base_router
 from routes.supplier_router import router as supplier_router 
 from routes.printer_router import router as printer_router
 from routes.estimator_router import router as estimate_router
+from routes.todo_router import router as todo_router
 from api.team_api import router as employee_api
 from modules.platformuser import user_list
 from modules.decorator import admin_only
+from modules.invoice_processor import reset_invoice_repo
+from routes.dropbox_routes import router as dropbox_routes
+
 
 
 login_manager = LoginManager(redirect_to='login', secret_key=SECRET_KEY)
@@ -98,11 +102,6 @@ async def dashboard(request):
             })
     
 
-
-async def uikit(request):
-    return TEMPLATES.TemplateResponse('/test.html', {'request': request})
-
-
 async def zenNow(request):
     return HTMLResponse(f"""        
         <p class="text-xs font-bold bg-gray-100 py-2 px-4 rounded w-96">{zen_now()}</P> 
@@ -141,15 +140,15 @@ async def ai_assistant(request):
 routes =[
     Route('/', endpoint=home), 
     Route('/admin', adminPage, name='admin'),
-    Route('/ai_assistant', endpoint=ai_assistant, name='ai_assistant'),
-    Route('/uikit', endpoint=uikit), 
+    Route('/ai_assistant', endpoint=ai_assistant, name='ai_assistant'),   
     Route('/dash', endpoint=dashboard),    
     Route('/loading', endpoint=loading),  
     Route('/users', endpoint=users), 
     Route('/logs', endpoint=get_logs),  
     Route('/user/{name}', endpoint=get_user),  
     Route('/zen', endpoint=zenNow), 
-    Mount('/static', StaticFiles(directory='static'))
+    Mount('/static', StaticFiles(directory='static')),
+    Mount('/drop_box', StaticFiles(directory=DROPBOX_PATH))
 ]
 
 routes.extend([route for route in auth_routes])
@@ -163,8 +162,12 @@ routes.extend([route for route in estimate_router])
 routes.extend([route for route in printer_router])
 routes.extend([route for route in employee_api])
 routes.extend([route for route in inventory_router])
+routes.extend([route for route in todo_router])
+routes.extend([route for route in dropbox_routes])
+
 
 def startApp():
+    reset_invoice_repo()
     print('Starting SiteApp Servers ')
 
 def shutdownApp():

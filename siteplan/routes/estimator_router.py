@@ -6,22 +6,12 @@ from modules.Estimate.walls import Wall
 from modules.Estimate.opening import Opening
 from modules.Estimate.structural import RCColumn, RCBeam, Foundation, Slab, ConcreteFloor
 from modules.Estimate.elibrary import Library
-
-
-from modules.estimator.column import Column
-
 from modules.utils import timestamp, to_dollars
 from config import (TEMPLATES,LOG_PATH ,SYSTEM_LOG_PATH ,SERVER_LOG_PATH, APP_LOG_PATH, DATA_PATH)
-
-
 from pathlib import Path
 from tinydb import TinyDB, Query
 
 db = TinyDB(Path.joinpath(DATA_PATH, "wall_openings.json"))
-
-
-
-
 
 router = Router()
 

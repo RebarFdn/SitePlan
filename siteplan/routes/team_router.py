@@ -112,7 +112,7 @@ async def team(request:Request):
 @router.get('/team/{id}')
 async def team_member(request:Request): 
     id=request.path_params.get('id')
-    e = await get_worker(id=request.path_params.get('id')) 
+    e = await get_worker(id=id) 
     jobs = []
     tasks = []
     async def get_jobs_details(job_id):
@@ -155,7 +155,7 @@ async def team_member(request:Request):
         {
             "request": request, 
             "id": id,
-            "employee": await get_worker_info(id=request.path_params.get('id')) 
+            "employee": await get_worker_info(id=id) 
         })
 
 
@@ -164,14 +164,14 @@ async def team_member(request:Request):
 @router.get('/project_team/{id}')
 async def project_team_member(request:Request): 
     id=request.path_params.get('id')
-    e = await get_worker(id=request.path_params.get('id')) 
+    e = await get_worker(id=id) 
     jobs = []
     tasks = []
     async def get_jobs_details(job_id):
         if '-' in job_id:
             idd = job_id.split('-')
             project = await get_project(id=idd[0])
-            print('project', project)
+            #print('project', project)
             _job = [job for job in project.get('tasks') if job.get('_id') == job_id]
             if len(_job) > 0:
                 _job = _job[0]
@@ -202,13 +202,15 @@ async def project_team_member(request:Request):
     
     if len(tasks) > 0:
         e['tasks'] = tasks
+    employee = await get_worker_info(id=id) 
+    
 
     return TEMPLATES.TemplateResponse(
         '/employee/projectEmployeePage.html', 
         {
             "request": request, 
             "id": id,
-            "employee": await get_worker_info(id=request.path_params.get('id')) 
+            "employee": employee
         })
 
   

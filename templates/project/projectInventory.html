@@ -1,6 +1,23 @@
 <div class="text-xs text-center">
-    {{ project }}
-    <div>
-        {{ inventories }}
+    <div class="bg-teal-200 py-2 px-4 rounded-md my-2">
+    {{ project.name }} Inventory
     </div>
+ 
+        {% for key, value in project.inventories.items() %}
+        <div class="bg-teal-200 py-2 px-4 rounded-md my-2">
+            {{key}} 
+        </div>
+            {% for item in value.get('items') %}
+            <div class="bg-teal-200 py-2 px-4 rounded-md my-2">
+            Amount    {{item.amt}} {{item.unit}} | stocking Date {{item.stocking_date}} | Supplier {{item.supplier.name}} 
+            </div>
+            {% endfor %}
+
+        {% endfor %}
+        
+        {% for item in project.invoices %}
+        <div class="bg-teal-200 py-2 px-4 rounded-md my-2">
+            {{item}} 
+        </div>
+        {% endfor %} 
 </div>

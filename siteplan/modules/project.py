@@ -131,20 +131,20 @@ def project_phases()->dict:
 ## CRUD OPERATIONS
 async def all_projects( conn:typing.Coroutine=db_connection )->list:
     try:
-        r:dict = await conn.get(_directive="_design/project-index/_view/name-view") 
-        return r.get('rows')          
+        projects:dict = await conn.get(_directive="_design/project-index/_view/name-view") 
+        return projects.get('rows')          
     except Exception as e:
         logger().error( str(e))
-    finally: del(r)
+    finally: del(projects)
 
    
 async def projects_api( conn:typing.Coroutine=db_connection )->list:
     try:
-        r:dict = await conn.get(_directive="_design/project-index/_view/all-raw") 
-        return r.get('rows')          
+        projects:dict = await conn.get(_directive="_design/project-index/_view/all-raw") 
+        return projects.get('rows')          
     except Exception as e:
         logger().error( str(e))
-    finally: del(r)
+    finally: del(projects)
 
     
 async def project_name_index()->list:
@@ -459,6 +459,14 @@ def sort_inventory(keywords):
             else: return item
 
 
+async def get_project_inventory(id:str=None):
+    project = await get_project(id=id) 
+    try:
+        return project.get('inventory')
+    except Exception: logger().exception(Exception)
+    finally: del project
+
+
 async def add_inventory( id:str=None, data:dict=None)->list:
     """Add a material inventory to the Projects inventory list
 
@@ -474,8 +482,8 @@ async def add_inventory( id:str=None, data:dict=None)->list:
         project = await get_project(id=id)  
         # check if this material inventory exists 
         # if not add it 
-        project['inventory'].append(data)
-        await update_project(data=project)
+        #project['inventory'].append(data)
+        #await update_project(data=project)
     else:
         pass
     try:

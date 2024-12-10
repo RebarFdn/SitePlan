@@ -1,0 +1,31 @@
+<p class="text-center text-lg font-bold my-2">Things Done </p>
+<table class="uk-table uk-table-small uk-table-striped uk-table-hover">
+    <thead>
+        <tr> 
+            <th>Completed</th>            
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>      
+    {% for todo in todos | reverse %}
+    {% if todo.done %}
+    <tr  class="text-xs text-gray-500 font-fine">              
+        <td><p>{{ todo.description  }}</p></td>
+        
+        <td>  
+            <div class="flex flex-row items-inline">              
+                 <span class="mx-2" uk-icon="icon: trash; ratio: 1" uk-margin
+                    hx-delete="/delete_todo/{{todo.id}}"
+                    hx-trigger="click"
+                    hx-target="#todos"
+                 ></span>
+               
+            </div>
+
+        </td>
+    </tr>
+    {% endif %}
+   
+    {% endfor %}
+    </tbody>
+</table>

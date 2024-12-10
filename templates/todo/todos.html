@@ -1,0 +1,71 @@
+<table class="uk-table uk-table-small uk-table-striped uk-table-hover">
+    <thead>
+        <tr>            
+            <th>Date</th>
+            <th>Todo</th>
+            <th>Priority</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>      
+    {% for todo in todos | reverse %}
+    {% if not todo.done %}
+    
+    <tr class="text-xs text-gray-900">  
+        <td>{{ todo.date | convert_timestamp }}</td>  
+        <td>{{ todo.description }}</td>
+        <td><button hx-post="/update_priority/{{todo.id}}" hx-target="#priority" ><span id="priority"  class="uk-badge"
+            >{{ todo.priority }}</span></button>
+        </td>
+        <td>     
+            <input  type="checkbox" name="done_todo" 
+            hx-post="/done_todo/{{todo.id}}"
+            hx-trigger="click"
+            hx-target="#todos"/> 
+                          
+        </td>   
+                  
+    </tr>
+    {% endif %}
+
+    {% endfor %}
+    </tbody>
+</table>
+<form class="w-full">
+    
+        <div class="uk-text-center" uk-grid>
+            <div class="uk-width-expand@m">
+                <label class="text-xs font-semibold mx-2" for="todo">Todo</label>
+                <div class="border border-blue-500  rounded-md">
+                    <input class="uk-input uk-input-primary" type="text" name="todo" placeholder="To be done ..." value="">
+                </div>
+            </div>
+            <div class="uk-width-1-4@m">
+                <label class="text-xs font-semibold mx-2" for="priority">Priority</label>
+
+                <div class="border border-gray-500 border-3 rounded-md">
+                    <input class="uk-input uk-input-primary"  type="number" name="priority" placeholder="Priority" value="0">
+                    
+                </div>
+            </div>
+            <!--div class="uk-width-expand@m"></div-->
+        </div>
+        
+        
+    
+    <button class="btn btn-primary rounded w-full my-2"
+        hx-post="/add_todo"
+        hx-trigger="click"
+        hx-target="#todos"
+        >Save
+    </button>
+</form>
+
+<script>
+    var todo = document.getElementById("priority")
+    function updatePriority(value){
+        todo.value = value + 1
+        alert(todo.value)
+
+    }
+</script>

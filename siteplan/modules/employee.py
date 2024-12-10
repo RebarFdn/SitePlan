@@ -132,19 +132,26 @@ async def get_worker_name_index()->list:
 
         
 async def get_worker_by_name( name:str=None, conn:typing.Coroutine=db_connection ) -> dict:
-    index = await get_worker_name_index()
-    id = [item.get('id') for item in index if item.get('name') == name]
+    """Retreive an employee Data from the database given the employee's full name.
+
+    Args:
+        name (str, optional): The employee's full name. Defaults to None.
+        conn (typing.Coroutine, optional): Connection to couch database. Defaults to db_connection.
+
+    Returns:
+        dict: a key value container with the employee's data
+    """
+    index:list = await get_worker_name_index()
+    id:list = [item.get('id') for item in index if item.get('name') == name]
     try:
-        if len(id) > 0:
-            id=id[0]
+        if id:
+            id:str = id[0]
         return await get_worker(id=id)
     except Exception as e:
         return {"error": str(e)}
     finally:
         del index
         del(id)
-        
- 
            
 # CRUD Functions
 
@@ -211,8 +218,8 @@ async def submit_day_work(eid:str=None, data:dict=None)-> list:
 
 
 async def get_worker_info( id:str=None):
-    worker = await get_worker(id=id)     
-    worker = json.loads(json.dumps(worker))    
+    worker = await get_worker(id=id)   
+    worker = json.loads(json.dumps(worker)) 
     try: 
         loans =   worker.get('account').get('loans', [])     
         worker["account"] = json.loads(json.dumps({"loans": loans  }))
@@ -223,13 +230,14 @@ async def get_worker_info( id:str=None):
         else:
             worker["jobs"] = 0
             # Fix missing key bug
-            #worker["jobs"] = []
-        await save_employee(data=worker)
+            #worker["jobs"] = []        
+        
         worker["days"] = len(worker["days"])
         worker["reports"] = len(worker["reports"])
-            #self.processAccountTotals 
+        #processAccountTotals 
         return worker
-    finally: del(worker)
+    finally:       
+        del(worker)
 
        
 async def process_days_work(name:str=None, date_id:str=None, paid:bool=False, amount:float=None):        
@@ -301,7 +309,8 @@ async def submit_daywork( eid:str=None, data:dict=None)-> list:
     
 # Html Responses
 async def team_index_generator():
-        e = await all_workers()
+        e:list = await all_workers()
+       
         try:
             yield f"""
                 <div class="flex flex-row bg-gray-400 py-2 px-2 text-left rounded relative">

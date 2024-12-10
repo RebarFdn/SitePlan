@@ -4,10 +4,27 @@ from uuid import UUID, uuid4
 from typing import List
 from pydantic import BaseModel, EmailStr
 from collections import namedtuple
+from modules.utils import generate_id
+from models.human_resource_models import Supplier
 
 
-class Supplier(BaseModel):
-    name:str
+
+class InvoiceItem(BaseModel):
+    itemno:int
+    description:str
+    quantity:float
+    unit:str
+    price:float
+
+
+class Invoice(BaseModel):
+    supplier:Supplier
+    invoiceno:str
+    datetime:str
+    items:List[InvoiceItem]
+    tax:float
+    total:float
+    billed:bool = False
 
 
 class InventoryItem(BaseModel):   
@@ -15,8 +32,9 @@ class InventoryItem(BaseModel):
     name:str
     amt:int
     unit:str
-    stocking_date:date = None
+    stocking_date:str = None
     supplier:Supplier
+
 
 class Inventory(BaseModel): 
     id:UUID = uuid4()

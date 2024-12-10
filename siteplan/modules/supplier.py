@@ -24,7 +24,8 @@ def supplier_model(key:str=None)->dict:
         "bank": {
         "branch": None,
         "name": None,
-        "account": None
+        "account": None,
+        "account_type": None
         },
         "transactions": [
         
@@ -45,6 +46,10 @@ def supplier_model(key:str=None)->dict:
     "taxid": None,
     
     }
+    if key : return SUPPLIER_TEMPLATE.get(key)
+    else: return SUPPLIER_TEMPLATE
+
+
 
 async def all_suppliers(conn:typing.Coroutine=db_connection)->list:
     try:

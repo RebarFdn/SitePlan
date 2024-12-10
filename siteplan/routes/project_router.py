@@ -15,6 +15,7 @@ from modules.utils import timestamp, exception_message
 from modules.unit_converter import convert_price_by_unit
 from printer.project_documents import printJobQueue, printMetricJobQueue, printImperialJobQueue
 from config import TEMPLATES
+
 router = Router()
 
 async def update_projectrates_task(id:str=None):

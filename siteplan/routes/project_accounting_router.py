@@ -6,17 +6,18 @@ from asyncio import sleep
 from starlette.requests import Request
 from starlette.responses import HTMLResponse, RedirectResponse, StreamingResponse
 from starlette_login.decorator import login_required
+from starlette.background import BackgroundTask
 from decoRouter import Router
 from modules.project import ( get_project, handle_transaction, update_project, 
     process_paybill_dayworker, add_expence, default_fees, salary_statement_item_model, salary_statement_model,
-    withdrawal_model, project_account_withdrawal_generator)
+    withdrawal_model, project_account_withdrawal_generator, get_project_inventory)
 from modules.employee import  get_worker, update_employee, process_days_work
 from modules.supplier import supplier_name_index
 from modules.utils import timestamp, to_dollars, filter_dates, today, exception_message
 from modules.accumulator import ProjectDataAccumulator   
-from modules.inventory import material_index
+from modules.inventory import Inventory, InventoryItem, material_index, stock_material, Supplier
 from config import TEMPLATES
-
+from modules.invoice_processor import InvoiceItem, save_invoice_item, get_invoice_items, reset_invoice_repo
 router = Router()
 
 ## Project Acconting
@@ -1089,8 +1090,6 @@ async def repay_employee_loan(request):
     return HTMLResponse(f"""{form}""")
 
 
-   
-
 @router.get("/project_deposits_total/{id}")
 async def project_deposits_total(request):
     id = request.path_params.get('id')  
@@ -1462,8 +1461,7 @@ async def new_expence_record(request):
 async def get_project_account_purchases(request):
     id = request.path_params.get('id')
     project = await get_project(id=id)
-    suppliers = await supplier_name_index()
-    
+    suppliers = await supplier_name_index()    
     return TEMPLATES.TemplateResponse(
         "/project/account/purchasesIndex.html",
         {
@@ -1483,24 +1481,58 @@ async def get_project_account_purchases(request):
     )
 
 
-@router.get('/add_invoice_item/{id}/{inv_no}')
-@router.post('/add_invoice_item/{id}/{inv_no}')
+#@router.get('/add_invoice_item/{id}/{inv_no}')
+@router.put('/get_invoice_item/{id}')
 @login_required
-async def add_invoice_item(request:Request):
-    id = request.path_params.get('id')
-    inv_no = request.path_params.get('inv_no')
-    project = await get_project(id=id)
-    mat_index = material_index(inventories=project.get('inventory'))
-    inv_items = [] # get items from temporary database
-    inv_items = len(inv_items) + 1
-
-    if request.method == 'POST':
-        async with request.form() as form:
-            return HTMLResponse(exception_message(form, level='info'))
-    else:
-        return TEMPLATES.TemplateResponse('/project/account/invoiceItem.html', 
-            {'request': request, 'inv_no': inv_no , 'mat_index': mat_index, 'inv_items':inv_items}
+async def get_invoice_item(request:Request):
+    id = request.path_params.get('id')    
+    project_inventories:dict = await get_project_inventory(id=id)
+    mat_index = material_index(inventories=project_inventories)    
+    async with request.form() as form: 
+        inv_no:str = form.get('invoice_no') 
+        date:str = form.get('date') 
+        supplier:str = form.get('supplier')   
+    inv_items:list = get_invoice_items(inv_no=inv_no) # get items from temporary database
+    items_count:int = len(inv_items) + 1
+    return TEMPLATES.TemplateResponse('/project/account/invoiceItem.html', 
+            {'request': request, 'id': id, 'date':date, 'supplier':supplier, 'inv_no': inv_no, 'mat_index': mat_index, 'inv_items':items_count}
         )
+
+
+@router.post('/add_invoice_item/{id}/{date}/{supplier}')
+@login_required
+async def add_invoice_item(request):
+    """ request id shall be if format /project_id/invoiceno/suppliername""" 
+    id = request.path_params.get('id')
+    project = await get_project(id=id)
+    supplier = Supplier(name= request.path_params.get('supplier') )    
+    async with request.form() as form:
+        invoice_item = InvoiceItem(
+            itemno = form.get('item_no'),
+            description = form.get("description"),
+            quantity = form.get("quantity"),
+            unit = form.get("unit"),
+            price = form.get("price"))            
+    inv_no = form.get('invoice_no')
+    inventory_item = InventoryItem(
+            ref=inv_no,
+            name=invoice_item.description, 
+            amt=invoice_item.quantity, 
+            unit=invoice_item.unit,
+            stocking_date= str(request.path_params.get('date')),
+            supplier=supplier
+            )
+    #print(inventory_item)
+    project['inventory'].update(stock_material(item=inventory_item.model_dump(), inventories=project['inventory']))
+    #print(project.get('inventory'))
+    await update_project(data=project)
+    await sleep(.5)
+    save_invoice_item(inv_no=inv_no, data=invoice_item.model_dump())       
+    return HTMLResponse(f"""<div class="uk-alert-success" uk-alert>
+                        <a href class="uk-alert-close" uk-close></a>
+                        <p>Item {invoice_item.description} was successfully added to Invoice { inv_no}!</p>
+                    </div>"""
+                )
     
 
 @router.post('/new_invoice/{id}')
@@ -1519,22 +1551,20 @@ async def save_invoice(request):
           },
           "invoiceno": form.get('invoice_no'),
           "datetime": form.get('date'),
-          "items": [
-            
-            
-          ],
+          "items": [],
           "tax": form.get('tax'),
           "total": form.get('total')
         }
     
     supplier = [item for item in suppliers if item.get('name') == invoice.get('supplier').get('name') ]
-    
     if len(supplier) > 0:
         supplier = supplier[0]
         invoice['supplier']['_id'] = supplier.get('_id')
         invoice['supplier']['taxid'] = supplier.get('taxid')
-
-        
+    inv_no=invoice.get("invoiceno")
+    items =  get_invoice_items(inv_no=inv_no)   
+    invoice['items'] = items
+    #print(invoice)
      
     if len(project.get('account').get('records', {}).get('invoices', [])) > 1:
         for item in project.get('account').get('records', {}).get('invoices', []): # Check for duplicate
@@ -1544,7 +1574,8 @@ async def save_invoice(request):
                         <p>Invoice {invoice.get("invoiceno")} already exists!</p>
                     </div>"""
                 )
-            else:                    
+            else:  
+                                    
                 project['account']['records']['invoices'].append(invoice) # Append to occupied list
                 project['activity_log'].append(
                     {
@@ -1561,7 +1592,7 @@ async def save_invoice(request):
                     </div>"""
                 )
     else:                
-        project['account']['records']['invoices'].append(invoice) # Append to empty list
+        project['account']['records']['invoices'].append(invoice) # Append to empty list        
         project['activity_log'].append(
                     {
                         "id": timestamp(),
@@ -1570,46 +1601,14 @@ async def save_invoice(request):
                     }
 
                 )
-        await update_project(data=project)
-        return HTMLResponse(f"""<div class="uk-alert-success" uk-alert>
-                        <a href class="uk-alert-close" uk-close></a>
-                        <p>Invoice {invoice.get("invoiceno")} was saved successfully!</p>
-                    </div>"""
-                )
-        
-
-@router.post('/add_invoice_item/{id}')
-@login_required
-async def add_invoice_item(request):
-    """ request id shall be if format /project_id/invoiceno/suppliername"""
-    id = request.path_params.get('id')
-    idds = id.split('-')
-    project = await get_project(id=idds[0])
-    invoice = [item for item in project.get('account').get('records', {}).get('invoices', []) if item.get('invoiceno') == idds[1]  and item.get('supplier').get('name') == idds[2] ]
-    if len(invoice) > 0:
-        invoice = invoice[0]
-        async with request.form() as form:
-            invoice_item = {
-              "itemno": len(invoice.get('items')) + 1,
-              "description": form.get("description"),
-              "quantity": form.get("quantity"),
-              "unit": form.get("unit"),
-              "price": form.get("price"),
-            }
-        invoice['items'].append(invoice_item)
-        await update_project(data=project)
-        return HTMLResponse(f"""<div class="uk-alert-success" uk-alert>
-                        <a href class="uk-alert-close" uk-close></a>
-                        <p>Item {invoice_item.get('description')} was successfully added to Invoice { invoice.get('invoiceno')}!</p>
-                    </div>"""
-                )
-    else:
-        return HTMLResponse(f"""<div class="uk-alert-warning" uk-alert>
-                        <a href class="uk-alert-close" uk-close></a>
-                        <p>Invoice does not exist!</p>
-                    </div>"""
-                )
-
-        
+        try:
+            await update_project(data=project)
+            return HTMLResponse(f"""<div class="uk-alert-success" uk-alert>
+                            <a href class="uk-alert-close" uk-close></a>
+                            <p>Invoice {invoice.get("invoiceno")} was saved successfully!</p>
+                        </div>"""
+                    )
+        finally: reset_invoice_repo()
+            
 
 

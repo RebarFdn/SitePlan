@@ -11,12 +11,7 @@
            <input class="uk-input" id="form-stacked-text" type="number" placeholder="Invoice Item Number" name="item_no" value="{{inv_items}}">
        </div>
    </div>
-   <div class="uk-margin">
-       <label class="uk-form-label" for="form-stacked-text">Item Name</label>
-       <div class="uk-form-controls">
-           <input class="uk-input" id="form-stacked-text" type="text" placeholder="Item Name" name="item_name">
-       </div>
-   </div>
+   
    <div class="uk-margin">
        <label class="uk-form-label" for="form-stacked-text">Description</label>
        <div class="uk-form-controls">
@@ -43,8 +38,8 @@
    </div>
    <p class="uk-text-right">
         <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-        <input class="uk-button uk-button-primary uk-modal-close" type="submit" value="Add Item"
-        hx-post="/add_invoice_item"
+        <input class="uk-button uk-button-primary" type="submit" value="Add Item"
+        hx-post="/add_invoice_item/{{id}}/{{date}}/{{supplier}}"
         hx-target="#invoice-items"                        
         >
     </p>       

@@ -115,6 +115,7 @@
                             </div>
                             <div class="uk-card uk-margin-left">
                                 <span class="text-xs text-left text-yellow-500 font-bold">Latest Activity</span>
+                               <div>
                                 <ul class="text-sm">
                                     <li>
                                         <div class="card">
@@ -127,11 +128,12 @@
                                         </div>
                                     </li>
                                 </ul>
+                                </div>
                                 
                             </div>
-                            <div class="uk-card uk-margin-left">
+                            <div class="uk-card uk-margin-left"  hx-get="/todo_list" hx-target="#todo-list" hx-trigger="every 10s">
                                 <span class="text-xs text-left text-yellow-500 font-bold">Goals</span>
-                                <ul class="text-sm">
+                                <ul  id="todo-list" class="text-sm">
                                     <li>
                                         <div class="card">
                                             <div class="card-body">Edit Bill-13</div>

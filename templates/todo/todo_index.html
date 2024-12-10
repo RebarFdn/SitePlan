@@ -1,0 +1,31 @@
+{% extends 'temp/main_template.html' %}
+
+{% block content %}
+<div class="uk-child-width-expand@s uk-text-center" uk-grid>
+    <div id="side-1"></div>
+    <div id="center">
+        <p class="text-center text-lg font-bold my-5">Things To be Done </p>
+        <div id="todos" class="flex flex-col">           
+                {% include '/todo/todos.html' %} 
+        </div>
+    </div>
+    <div id="side-2" hx-get="/done_todos" hx-target="#done-todos" hx-trigger="every 5s" >
+        <div id="done-todos" class="flex flex-col">           
+            {% include '/todo/doneTodos.html' %} 
+        </div>
+
+    </div>
+</div>
+
+  
+{% endblock content %}
+
+
+{% block extra_script %}
+{% endblock extra_script %}
+{% block footer %} {% endblock %}
+   
+
+<style>
+    #todo {height: vh;}
+</style>

@@ -16,8 +16,9 @@ TEMPLATE_PATH = Path.joinpath(BASE_PATH, 'templates')
 DOCUMENT_PATH = Path.joinpath(STATIC_PATH, 'docs')
 IMAGES_PATH = Path.joinpath(STATIC_PATH, 'imgs')
 PROFILES_PATH = Path.joinpath(IMAGES_PATH, 'workers')
-
 DATA_PATH = Path.joinpath(PARENT_PATH, 'siteplanData')
+
+DROPBOX_PATH = DATA_PATH / 'dropbox'
 
 # File Paths
 ENV_PATH = Path.joinpath(BASE_PATH, '.env') 
@@ -31,8 +32,6 @@ DATABASE_URL = 'http://localhost:5984/'
 SECRET_KEY = __config('SECRET_KEY',  cast=Secret)
 DB_ADMIN  = __config('DB_ACCESS',  cast=Secret)
 ADMIN_ACCESS  = __config('DB_SECRET',  cast=Secret)
-APITALLY_CLIENT_TOKEN = __config('APITALLY_CLIENT_TOKEN')
-
 
 # Network
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']

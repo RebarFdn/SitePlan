@@ -1,0 +1,53 @@
+{% extends '/temp/general_template.html' %}
+
+{% block content %}
+<div id="dropbox">
+    <h1 class="text-lg font-semibold text-center py-2">Site DropBox </h1>
+        
+    <div class="uk-child-width-expand@s" uk-grid>
+        <div>
+            <ul class="bg-gray-50 p-5 text-left flex flex-col">
+                {% for item in boxindex %}
+                <li>
+                    <div class="flex flex-row items-inline">              
+                        <span class="mx-2" uk-icon="icon: trash; ratio: 1" uk-margin                        
+                           hx-delete="/dropbox/{{item.item}}"
+                           hx-trigger="click"
+                           hx-target="#dropbox"
+                           hx-confirm="Are you shure you want to delete this file?"
+                        ></span>
+                        <section class="text-xs bg-gray-100-rounded m-2">
+                            <a href="{{item.url}}" target="_blank">{{ item.item }}</a> 
+                            </section>
+                      
+                   </div>
+                    
+            
+                </li>
+                {% endfor %}
+            </ul>
+
+        </div>
+        <div>
+
+            <div class="uk-inline">
+                <button class="uk-button uk-button-default  uk-button-small" type="button">Upload Content</button>
+                <div uk-dropdown="mode: click">
+                    <form id='form' hx-encoding='multipart/form-data' hx-post='/dropbox' hx-target="#dropbox">
+                        <div class="flex flex-col">                          
+                            <input type="file" class="input-file file:bg-pink-600 border-pink-500 file:text-white" name='content' value="Brouse Content" />
+                            <button class="uk-button uk-button-primary uk-button-small uk-margin" type="submit">Upload Content</button>
+                            <!--progress id='progress' value='0' max='100'></progress-->
+                        </div>
+                    </form>                    
+                </div>
+            </div>
+            <div id="drag-drop">
+                <h1 class="text-lg text-center py-10">Drag n Drop </h1>
+                <div id="dropbox-content"></div>
+            </div>
+
+        </div>
+    </div>
+    </div>
+{% endblock %}

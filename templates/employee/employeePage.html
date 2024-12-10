@@ -7,15 +7,7 @@
                     <li class="uk-active"><a href="#" hx-get="/employee_info/{{employee._id}}" hx-target="#employee-home">Home</a></li>
                     <li>
                         <a href="#" hx-get="/employee_account/{{employee._id}}" hx-target="#employee-home">Account <span uk-icon="icon: triangle-down"></span></a>
-                        <!--div uk-dropdown="mode: click">
-                            <ul class="uk-nav uk-dropdown-nav">
-                                <li class="uk-active uk-nav-header"><a href="#">Banking Info</a></li>
-                                <li><a href="#">Job Payments</a></li>                               
-                                <li><a href="#">Loans</a></li>
-                                <li class="uk-nav-divider"></li>
-                                <li><a href="#">Analytics</a></li>
-                            </ul>
-                        </div-->
+                       
                     </li>
                     <li><a href="#" hx-get="/employee_jobs/{{employee._id}}" hx-target="#employee-home">Jobs<span class="badge badge-sm badge-outline-secondary">{{employee.jobs}}</span></a></li>
                     <li><a href="#" hx-get="/employee_days/{{employee._id}}" hx-target="#employee-home">Days<span class="badge badge-sm badge-outline-secondary">{{employee.days}}</span></a></li>
