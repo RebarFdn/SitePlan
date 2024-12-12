@@ -9,6 +9,7 @@ from modules.invoice_processor import get_invoice_items, reset_invoice_repo, tes
 from datetime import date
 from box import Box
 from modules.supplier import supplier_model
+from modules.rate import all_rates, all_rates_ref
 
 from modules.dropbox import Dropbox
 
@@ -50,10 +51,15 @@ async def test_dropbox():
 
 
 async def main():   
-    interval = 10   
+    interval = 30   
     print(f'WARNING!  Data will Disappear in { interval } seconds intervals....')
     print()
-    await test_dropbox()
+
+    rates = await all_rates()
+    rate:dict = rates[0]
+    #del rate['_rev']
+    print('From all_rates', rates.__len__(), rate)
+    #await test_dropbox()
     #print(supplier_model())
     #make_invoice_repo()
     #print(test_inv_process())

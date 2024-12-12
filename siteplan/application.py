@@ -11,6 +11,7 @@ from starlette_login.backends import SessionAuthBackend
 from starlette_login.login_manager import LoginManager
 from starlette_login.decorator import login_required
 from starlette_login.middleware import AuthenticationMiddleware
+from starlette.background import BackgroundTask
 from config import (
     DEBUG, SECRET_KEY, HOST, PORT, TEMPLATES,
     SERVER_LOG_PATH, DROPBOX_PATH
@@ -31,7 +32,9 @@ from api.team_api import router as employee_api
 from modules.platformuser import user_list
 from modules.decorator import admin_only
 from modules.invoice_processor import reset_invoice_repo
+from modules.utils import exception_message
 from routes.dropbox_routes import router as dropbox_routes
+from loadPrivateData import (load_rates, load_suppliers)
 
 
 
@@ -137,6 +140,29 @@ async def ai_assistant(request):
    # assistant = AiAssistant().send_message(role='user', content='where is the deepest part of the earth ?')
     return HTMLResponse(f"""<div>Sorry Our Ai Assistant is currently undergoing maintenance. Please try the service later.</div""")
 
+
+async def load_suppliers_database(request):
+    """Loads the suppliers database with publicly available data"""
+    task = BackgroundTask(load_suppliers)
+    return HTMLResponse(exception_message(
+        message="Loading The Suppliers Database ... Please Wait!",
+        level='info'
+        ), background=task)
+
+
+
+async def load_rate_database(request):
+    """Loads the rate-sheet database with publicly available data"""
+    task = BackgroundTask(load_rates)
+    return HTMLResponse(exception_message(
+        message="Loading The Rates Database ... Please Wait!",
+        level='info'
+        ), background=task)
+
+
+async def settings(request):
+    return TEMPLATES.TemplateResponse('/settings.html', {'request': request})
+
 routes =[
     Route('/', endpoint=home), 
     Route('/admin', adminPage, name='admin'),
@@ -147,6 +173,9 @@ routes =[
     Route('/logs', endpoint=get_logs),  
     Route('/user/{name}', endpoint=get_user),  
     Route('/zen', endpoint=zenNow), 
+    Route('/load_suppliers_database', endpoint=load_suppliers_database), 
+    Route('/load_rate_database', endpoint=load_rate_database), 
+    Route('/settings', endpoint=settings), 
     Mount('/static', StaticFiles(directory='static')),
     Mount('/drop_box', StaticFiles(directory=DROPBOX_PATH))
 ]
@@ -231,6 +260,7 @@ def run_http():
         app,
         host=HOST,
         port= PORT     )
-    
-run_http()
+
+if __name__ == '__main__':
+    run_http()
 

@@ -1,0 +1,26 @@
+{% extends 'temp/main_template.html' %}
+
+{% block content %}
+<h1 class="text-lg text-center font-bold">Platform Settings</h1>
+<div class="flex flex-row">
+    <div class="flex flex-col mx-5 p-5">
+        <ul>
+            <li class="py-2 px-4 bg-gray-500 rounded"><a href="#"
+                hx-get="/load_suppliers_database"
+                hx-target="#setting-result" 
+                hx-confirm="You are about to perform a Data load to your databases! are you shure you want to proceed?">Load Suppliers  Database</a></li>
+            
+                <li class="py-2 px-4 bg-gray-500 rounded"><a href="#"
+                hx-get="/load_rate_database"
+                hx-target="#setting-result" 
+                hx-confirm="You are about to perform a Data load to your databases! are you shure you want to proceed?">Load Industry Rates Database</a></li>
+        </ul>
+
+    </div>
+    <div class="flex flex-col mx-5 p-5">
+        <div id="setting-result"></div>
+        
+    </div>
+</div>
+
+{% endblock %}

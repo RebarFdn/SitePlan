@@ -124,6 +124,17 @@ async def save_rate(data:dict=None, cloned:str=None, user:str=None, conn:typing.
         return new_rate
     except Exception as e: logger().exception(e)  
     finally: del new_rate
+
+
+async def backup_industry_rate(data:dict=None, conn:typing.Coroutine=db_connection)->dict:      
+    '''restores and existing  Rate Item Permanently on the Platform.'''    
+    new_rate:dict = rate_model() | data
+    try:
+        await conn.post(json=new_rate) 
+        return new_rate
+    except Exception as e: logger().exception(e)  
+    finally: del new_rate
+
         
         
 #@profile(precision=2, stream=fp)

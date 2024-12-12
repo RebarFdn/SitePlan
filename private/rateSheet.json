@@ -1,0 +1,6076 @@
+[
+    {
+        "_id": "1I49526",
+        "title": "10 Insulated single Copper Wire ",
+        "description": "Run 10 mm2 Insulated  single Copper Wire",
+        "metric": {
+            "unit": "m",
+            "price": 250,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "ft",
+            "price": 83,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 100,
+            "imperial": 320
+        },
+        "category": "electrical",
+        "metadata": {
+            "created": 1724673111170,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "1I49526",
+            "cloned": {
+                "from": "6I31554"
+            }
+        }
+    },
+    {
+        "_id": "1I6339",
+        "title": "16 Insulated single Copper Wire ",
+        "description": "Run 16 mm2 Insulated  single Copper Wire",
+        "metric": {
+            "unit": "m",
+            "price": 350,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "ft",
+            "price": 116.8,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 100,
+            "imperial": 320
+        },
+        "category": "electrical",
+        "metadata": {
+            "created": 1724673181298,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "1I6339",
+            "cloned": {
+                "from": "1I49526"
+            }
+        }
+    },
+    {
+        "_id": "1X32623",
+        "title": "1\" x 10\" Blocking Board",
+        "description": "Cut and install 1\" x 10\" Blocking Board",
+        "metric": {
+            "unit": "m",
+            "price": 436,
+            "quantity": null,
+            "total": null
+        },
+        "imperial": {
+            "unit": "ft",
+            "price": 133,
+            "quantity": null,
+            "total": null
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 1717565330000,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 50,
+            "imperial": 150
+        },
+        "category": "carpentry",
+        "metadata": {
+            "created": 1717538064648,
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "1X32623"
+        }
+    },
+    {
+        "_id": "2B19995",
+        "title": "2.5 Bare Copper Wire",
+        "description": "Run 2.5 mm2 Bare Copper Wire",
+        "metric": {
+            "unit": "m",
+            "price": 56,
+            "quantity": null,
+            "total": null
+        },
+        "imperial": {
+            "unit": "ft",
+            "price": 17,
+            "quantity": null,
+            "total": null
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 1697490883000,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 100,
+            "imperial": 300
+        },
+        "category": "electrical",
+        "metadata": {
+            "created": 1697490250579,
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "2B19995"
+        }
+    },
+    {
+        "_id": "2I0579",
+        "title": "2.5 Insulated Copper Wire",
+        "description": "Run 2.5 mm2 Insulated Copper Wire",
+        "metric": {
+            "unit": "m",
+            "price": 63.5,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "ft",
+            "price": 18.05,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 100,
+            "imperial": 320
+        },
+        "category": "electrical",
+        "metadata": {
+            "created": 1724672883062,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "2I0579",
+            "cloned": {
+                "from": "2B19995"
+            }
+        }
+    },
+    {
+        "_id": "2X7490",
+        "title": "2\" x 8\" Rafter or Beam",
+        "description": "To Cut and Install 2\" x 8\" Rafter or Beam",
+        "metric": {
+            "unit": "m",
+            "price": 565,
+            "quantity": null,
+            "total": null
+        },
+        "imperial": {
+            "unit": "ft",
+            "price": 172,
+            "quantity": null,
+            "total": null
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 1717565330000,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 45,
+            "imperial": 90
+        },
+        "category": "carpentry",
+        "metadata": {
+            "created": 1717538064648,
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "2X7490"
+        }
+    },
+    {
+        "_id": "2X81354",
+        "title": "2\" x 6\" Rafter or Beam ",
+        "description": "to cut and install 2\" x 6\" Rafter or Beam ",
+        "metric": {
+            "unit": "m",
+            "price": 442,
+            "quantity": null,
+            "total": null
+        },
+        "imperial": {
+            "unit": "ft",
+            "price": 135,
+            "quantity": null,
+            "total": null
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 1717565133000,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 50,
+            "imperial": 150
+        },
+        "category": "carpentry",
+        "metadata": {
+            "created": 1717538064648,
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "2X81354"
+        }
+    },
+    {
+        "_id": "4I3555",
+        "title": "4 Insulated single Copper Wire ",
+        "description": "Run 4 mm2 Insulated  single Copper Wire",
+        "metric": {
+            "unit": "m",
+            "price": 130,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "ft",
+            "price": 43.3,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 100,
+            "imperial": 320
+        },
+        "category": "electrical",
+        "metadata": {
+            "created": 1724672993946,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "4I3555",
+            "cloned": {
+                "from": "2I0579"
+            }
+        }
+    },
+    {
+        "_id": "6I31554",
+        "title": "6 Insulated single Copper Wire ",
+        "description": "Run 6 mm2 Insulated  single Copper Wire",
+        "metric": {
+            "unit": "m",
+            "price": 170,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "ft",
+            "price": 56.6,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 100,
+            "imperial": 320
+        },
+        "category": "electrical",
+        "metadata": {
+            "created": 1724673044302,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "6I31554",
+            "cloned": {
+                "from": "4I3555"
+            }
+        }
+    },
+    {
+        "_id": "BA3264",
+        "title": "Box and Cast Stiffener (6 x 12 )",
+        "description": "Box and Cast Stiffener (6 x 12  - 14)  vibrate and Strike",
+        "metric": {
+            "unit": "m",
+            "price": 1925
+        },
+        "imperial": {
+            "unit": "ft",
+            "price": 650
+        },
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "comments": [],
+        "timestamp": "2021-08-07T16:44:40.312687",
+        "progress": 0,
+        "output": {
+            "metric": 10.97,
+            "imperial": "36"
+        },
+        "category": "carpentry"
+    },
+    {
+        "_id": "BA5904",
+        "title": "Box and Cast Beam (6 x 12)",
+        "description": "Box and Cast Beam (6 x 12 ) 2'-6\" to 3'-0\" Girth",
+        "metric": {
+            "unit": "m",
+            "price": 3300
+        },
+        "imperial": {
+            "unit": "ft",
+            "price": 1095
+        },
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": "2021-08-07T17:16:23.890720",
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 36.58,
+            "imperial": "120"
+        },
+        "category": "carpentry"
+    },
+    {
+        "_id": "BA60151",
+        "title": "Box and Cast Belt Course (6 x 12 )",
+        "description": "Box and Cast Belt Course (6 x 12  - 14) and Strike",
+        "metric": {
+            "unit": "m",
+            "quantity": null,
+            "price": 1850,
+            "total": null
+        },
+        "imperial": {
+            "unit": "ft",
+            "quantity": null,
+            "price": 625,
+            "total": null
+        },
+        "state": {
+            "active": true,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 0,
+            "imperial": 0
+        }
+    },
+    {
+        "_id": "BA83358",
+        "title": "Box and Cast L Stiffener (6 x 12 )",
+        "description": "Box and Cast Stiffener L (6 x 12  - 14)  vibrate and Strike",
+        "metric": {
+            "unit": "m",
+            "price": 2925
+        },
+        "imperial": {
+            "unit": "ft",
+            "price": 975
+        },
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": "2021-08-07T17:06:52.071014",
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 8.53,
+            "imperial": "28"
+        },
+        "category": "carpentry"
+    },
+    {
+        "_id": "BC22017",
+        "title": "Blank Cover",
+        "description": "Install outlet box blank cover",
+        "metric": {
+            "unit": "each",
+            "price": 130,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "each",
+            "price": 129.99,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 30,
+            "imperial": 30
+        },
+        "category": "electrical",
+        "metadata": {
+            "created": 1724590150676,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "BC22017"
+        }
+    },
+    {
+        "_id": "BT78225",
+        "title": "Backfill Trenches",
+        "description": "Backfill Trenches/Foundation with excavated sand",
+        "metric": {
+            "unit": "m3",
+            "price": 209
+        },
+        "imperial": {
+            "unit": "yd3",
+            "price": 160
+        },
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 38.23,
+            "imperial": "50"
+        },
+        "timestamp": 1634589822000,
+        "category": "excavation"
+    },
+    {
+        "_id": "CA3888",
+        "title": "Corner Aris",
+        "description": "Dress Corner Aris",
+        "metric": {
+            "unit": "m",
+            "price": 1450,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "ft",
+            "price": 150,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 30,
+            "imperial": 60
+        },
+        "category": "masonry",
+        "metadata": {
+            "created": 1722562526805,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "CA3888"
+        }
+    },
+    {
+        "_id": "CC11399",
+        "title": "Cut Chase in wall",
+        "description": "To cut 6\" x 6\" (150x150mm) with mechanical tool and dispose of waste.",
+        "metric": {
+            "unit": "m",
+            "price": 342,
+            "quantity": null,
+            "total": null
+        },
+        "imperial": {
+            "unit": "ft",
+            "price": 110,
+            "quantity": null,
+            "total": null
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 1688578980000,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 5,
+            "imperial": 16
+        },
+        "category": "excavation",
+        "metadata": {
+            "created": 1688299986900,
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "CC11399"
+        }
+    },
+    {
+        "_id": "CC39000",
+        "title": "Concrete to Foundation",
+        "description": "Mix and cast Concrete to Foundation ( manually )",
+        "metric": {
+            "unit": "m3",
+            "quantity": null,
+            "price": "3329",
+            "total": 0
+        },
+        "imperial": {
+            "unit": "ft3",
+            "quantity": null,
+            "price": "3329",
+            "total": 0
+        },
+        "state": {
+            "active": true,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 1634517423000,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": "2.20",
+            "imperial": "2.40"
+        },
+        "category": "excavation",
+        "meta_data": {
+            "created": 1634517516435,
+            "author": "ian"
+        }
+    },
+    {
+        "_id": "CC4143",
+        "title": "Concrete to Walls and Stiffeners (FF-SF) ",
+        "description": "Mix pour and vibrate Concrete to Walls and Stiffeners (FF-SF) Man.",
+        "metric": {
+            "unit": "m3",
+            "quantity": null,
+            "price": "4439",
+            "total": 0
+        },
+        "imperial": {
+            "unit": "ft3",
+            "quantity": null,
+            "price": "4439",
+            "total": 0
+        },
+        "state": {
+            "active": true,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 1634546820000,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": "1.8",
+            "imperial": "1.8"
+        },
+        "category": "excavation",
+        "meta_data": {
+            "created": 1634547006308,
+            "author": "ian"
+        }
+    },
+    {
+        "_id": "CC8253",
+        "title": "Concrete to Walls and Stiffeners (FF-RF) ",
+        "description": "Mix pour & vibrate Concrete to Walls Beams, Columns & Stiffeners (FF-RF) manual. ",
+        "metric": {
+            "unit": "m3",
+            "quantity": null,
+            "price": "5800",
+            "total": 0
+        },
+        "imperial": {
+            "unit": "ft3",
+            "quantity": null,
+            "price": "5000",
+            "total": 0
+        },
+        "state": {
+            "active": true,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 1634547085000,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": "1.6",
+            "imperial": "1.5"
+        },
+        "category": "excavation",
+        "meta_data": {
+            "created": 1634547482861,
+            "author": "ian"
+        }
+    },
+    {
+        "_id": "CD03581",
+        "title": "Casement Door Xl",
+        "description": "Fit and Hang Casement Door Extra Large",
+        "metric": {
+            "unit": "each",
+            "price": 4364,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "each",
+            "price": 4364,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 6,
+            "imperial": 6
+        },
+        "category": "joinery",
+        "metadata": {
+            "created": 1724674441090,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "CD03581",
+            "cloned": {
+                "from": "CD92342"
+            }
+        }
+    },
+    {
+        "_id": "CD8402",
+        "title": "Casement Door Sm",
+        "description": "Fit and Hang Casement Door Small < 2' - 4\"",
+        "metric": {
+            "unit": "each",
+            "price": 2804,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "each",
+            "price": 2804,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 6,
+            "imperial": 6
+        },
+        "category": "joinery",
+        "metadata": {
+            "created": 1724674023313,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "CD8402",
+            "cloned": {
+                "from": "DF4949"
+            }
+        }
+    },
+    {
+        "_id": "CD92342",
+        "title": "Casement Door Lg",
+        "description": "Fit and Hang Casement Door Large",
+        "metric": {
+            "unit": "each",
+            "price": 3364,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "each",
+            "price": 3364,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 6,
+            "imperial": 6
+        },
+        "category": "joinery",
+        "metadata": {
+            "created": 1724674347893,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "CD92342",
+            "cloned": {
+                "from": "CD94198"
+            }
+        }
+    },
+    {
+        "_id": "CF32094",
+        "title": "Circular Form to Column",
+        "description": "Make Circular Form to Column",
+        "metric": {
+            "unit": "m2",
+            "price": 712,
+            "quantity": 0,
+            "total": null
+        },
+        "imperial": {
+            "unit": "f2",
+            "price": 68,
+            "quantity": 0,
+            "total": null
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 1673270520000,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 0,
+            "imperial": 0
+        },
+        "category": "carpentry",
+        "metadata": {
+            "created": 1673064720807,
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "CF32094"
+        }
+    },
+    {
+        "_id": "CI1399",
+        "title": "Conduit in Trenches ( 1\" )",
+        "description": "Install 1\" pvc conuit in trench complete with joining",
+        "metric": {
+            "unit": "m",
+            "price": 225,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "ft",
+            "price": 71.5,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 50,
+            "imperial": 153
+        },
+        "category": "electrical",
+        "metadata": {
+            "created": 1724537072534,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "CI1399"
+        }
+    },
+    {
+        "_id": "CI14815",
+        "title": "Conduit in Slab ( 3/4\" )",
+        "description": "Install 3/4\" pvc conuit in concrete slab complete with joining",
+        "metric": {
+            "unit": "m",
+            "price": 116.92,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "ft",
+            "price": 35.7,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 90,
+            "imperial": 300
+        },
+        "category": "electrical",
+        "metadata": {
+            "created": 1724537072534,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "CI14815"
+        }
+    },
+    {
+        "_id": "CI4477",
+        "title": "Conduit in Trench ( 1 1/2\" )",
+        "description": "Install 1-1/2\" pvc conuit in trench complete with joining",
+        "metric": {
+            "unit": "m",
+            "price": 300,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "ft",
+            "price": 91.5,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 50,
+            "imperial": 225
+        },
+        "category": "electrical",
+        "metadata": {
+            "created": 1724537072534,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "CI4477"
+        }
+    },
+    {
+        "_id": "CI5311",
+        "title": "Conduit in Slab ( 1\" )",
+        "description": "Install 1\" pvc conuit in concrete slab complete with joining",
+        "metric": {
+            "unit": "m",
+            "price": 136,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "ft",
+            "price": 41,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 75,
+            "imperial": 225
+        },
+        "category": "electrical",
+        "metadata": {
+            "created": 1724537072534,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "CI5311"
+        }
+    },
+    {
+        "_id": "CI93389",
+        "title": "Conduit in Slab ( 1/2\" )",
+        "description": "Install 1/2\"  pvc conuit in concrete slab complete with joining",
+        "metric": {
+            "unit": "m",
+            "price": 100,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "ft",
+            "price": 30.4,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 300,
+            "imperial": 1050
+        },
+        "category": "electrical",
+        "metadata": {
+            "created": 1724537072534,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "CI93389"
+        }
+    },
+    {
+        "_id": "CO59063",
+        "title": "Clean Office",
+        "description": "Office Cleaning",
+        "metric": {
+            "unit": "ea",
+            "price": 3500
+        },
+        "imperial": {
+            "unit": "ea",
+            "price": 3500
+        },
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": "2021-08-07T18:09:39.303119",
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": "2",
+            "imperial": "2"
+        },
+        "category": "housekeeping"
+    },
+    {
+        "_id": "CS3568",
+        "title": "Clear Site ",
+        "description": "To Clear Building and Work Areas of trees brush rubble etc..",
+        "metric": {
+            "unit": "hr",
+            "price": 8000,
+            "quantity": null,
+            "total": null
+        },
+        "imperial": {
+            "unit": "hr",
+            "price": 8000,
+            "quantity": null,
+            "total": null
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 1699238013000,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 8,
+            "imperial": 8
+        },
+        "category": "excavation",
+        "metadata": {
+            "created": 1699236121832,
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "CS3568"
+        }
+    },
+    {
+        "_id": "CT8166",
+        "title": "Concrete to Walls and Stiffeners",
+        "description": "Mix pour and vibrate Concrete to Walls and Stiffeners (GF-FF) Man.",
+        "metric": {
+            "unit": "m3",
+            "quantity": null,
+            "price": 3805
+        },
+        "imperial": {
+            "unit": "yd3",
+            "quantity": null,
+            "price": 3805
+        },
+        "total": null,
+        "state": {
+            "active": true,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 0,
+            "imperial": 0
+        },
+        "timestamp": 1636103434000,
+        "category": "excavation"
+    },
+    {
+        "_id": "DF5934",
+        "title": "Door Frame 8 inch",
+        "description": "Make and Install 8 inch WPP Door Frame",
+        "metric": {
+            "unit": "m",
+            "price": 820.3,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "ft",
+            "price": 250,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 90,
+            "imperial": 270
+        },
+        "category": "joinery",
+        "metadata": {
+            "created": 1724673772677,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "DF5934",
+            "cloned": {
+                "from": "DF4949"
+            }
+        }
+    },
+    {
+        "_id": "DO6514",
+        "title": "Door or Window Frame 6 inch",
+        "description": "Make and Install 6 inch WPP Door or Window   Frame",
+        "metric": {
+            "unit": "m",
+            "price": 676,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "ft",
+            "price": 200,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 90,
+            "imperial": 270
+        },
+        "category": "joinery",
+        "metadata": {
+            "created": 1724674023313,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "DO6514",
+            "cloned": {
+                "from": "DF4949"
+            }
+        }
+    },
+    {
+        "_id": "EA0976",
+        "title": "Excavate in Asphalt",
+        "description": "To Excavate Asphaltic Concrete (Barber Green) and cart away surplus",
+        "imperial": {
+            "unit": "yd3",
+            "price": 2283
+        },
+        "metric": {
+            "unit": "m3",
+            "price": 2986
+        },
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 2.29,
+            "imperial": "3"
+        },
+        "phase": null,
+        "paid": null,
+        "timestamp": 1634581294000,
+        "category": "excavation"
+    },
+    {
+        "_id": "EA0977",
+        "title": "Excavate in compacted Marl",
+        "description": "To Excavate compacted Marl up to 5' (1.5m) deep and cart away surplus",
+        "imperial": {
+            "unit": "yd3",
+            "price": 1332
+        },
+        "metric": {
+            "unit": "m3",
+            "price": 1742
+        },
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 4.59,
+            "imperial": "6"
+        },
+        "phase": null,
+        "paid": null,
+        "timestamp": 1634581195000,
+        "category": "excavation"
+    },
+    {
+        "_id": "EA0978",
+        "title": "Excavate in compacted Sand",
+        "description": "To Excavate compacted Sand up to 5' (1.5m) deep and cart away surplus",
+        "imperial": {
+            "unit": "yd3",
+            "price": 799
+        },
+        "metric": {
+            "unit": "m3",
+            "price": 1045
+        },
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 7.65,
+            "imperial": "10"
+        },
+        "phase": null,
+        "paid": null,
+        "timestamp": 1634579772000,
+        "category": "excavation"
+    },
+    {
+        "_id": "EC0975",
+        "title": "Excavate Column Pads",
+        "description": "To Excavate Through Hard clay and sand loam to a depth of 3 feet at a width of 1.5 feet and cart away surplus",
+        "imperial": {
+            "unit": "yd3",
+            "price": 1000
+        },
+        "metric": {
+            "unit": "m3",
+            "price": 1306
+        },
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": "1.5",
+            "imperial": "2"
+        },
+        "phase": null,
+        "paid": null,
+        "timestamp": 1634580278000,
+        "category": "excavation"
+    },
+    {
+        "_id": "EC0979",
+        "title": "Excavate in stiff clay",
+        "description": "To Excavate in stiff clay up to 5' (1.5m) deep and cart away surplus",
+        "imperial": {
+            "unit": "yd3",
+            "quantity": null,
+            "price": 1141
+        },
+        "metric": {
+            "unit": "m3",
+            "quantity": null,
+            "price": 1493
+        },
+        "state": {
+            "active": true,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 0,
+            "imperial": 0
+        },
+        "phase": null,
+        "paid": null,
+        "timestamp": 1645307299000,
+        "category": "excavation"
+    },
+    {
+        "_id": "EP6263",
+        "title": "Emulsion paint two coat",
+        "description": "Apply two coat Emulsion paint to sanded walls",
+        "metric": {
+            "unit": "m2",
+            "price": 260,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "ft2",
+            "price": 79.2,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 50,
+            "imperial": 170
+        },
+        "category": "painting",
+        "metadata": {
+            "created": 1724675558264,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "EP6263",
+            "cloned": {
+                "from": "EP7514"
+            }
+        }
+    },
+    {
+        "_id": "EP7271",
+        "title": "Emulsion paint one coat",
+        "description": "Apply two one Emulsion paint to sanded walls",
+        "metric": {
+            "unit": "m2",
+            "price": 130,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "ft2",
+            "price": 39.6,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 99,
+            "imperial": 340
+        },
+        "category": "painting",
+        "metadata": {
+            "created": 1724675793567,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "EP7271",
+            "cloned": {
+                "from": "EP6263"
+            }
+        }
+    },
+    {
+        "_id": "ER0980",
+        "title": "Excavate in Rock or Concrete (m)",
+        "description": "To Excavate in rock or concrete ( manually ) and cart away surplus",
+        "imperial": {
+            "unit": "yd3",
+            "price": 7990
+        },
+        "metric": {
+            "unit": "m3",
+            "price": 10450
+        },
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 0.76,
+            "imperial": "1"
+        },
+        "phase": null,
+        "paid": null,
+        "timestamp": 1634579586000,
+        "category": "excavation"
+    },
+    {
+        "_id": "ER0981",
+        "title": "Excavate in Rock or Concrete (c)",
+        "description": "To Excavate in Rock or Concrete with Compressor and cart away surplus",
+        "imperial": {
+            "unit": "yd3",
+            "quantity": null,
+            "price": 4993
+        },
+        "metric": {
+            "unit": "m3",
+            "quantity": null,
+            "price": 6531
+        },
+        "state": {
+            "active": true,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 0,
+            "imperial": 0
+        }
+    },
+    {
+        "_id": "ES0354",
+        "title": "Erect Storage Shed 8 x 16",
+        "description": "Erect 8ft x 16ft Materials Storage Shed from Ply and Zinc",
+        "metric": {
+            "unit": "Each",
+            "price": 12000,
+            "quantity": null,
+            "total": null
+        },
+        "imperial": {
+            "unit": "Each",
+            "price": 12000,
+            "quantity": null,
+            "total": null
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 1700613357000,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 1,
+            "imperial": 1
+        },
+        "category": "carpentry",
+        "metadata": {
+            "created": 1700586762694,
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "ES0354"
+        }
+    },
+    {
+        "_id": "ES13166",
+        "title": "Erect Scaffolding",
+        "description": "Erect scaffolding at 16 ft",
+        "metric": {
+            "unit": "m",
+            "price": 1200,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "ft",
+            "price": 400,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 33,
+            "imperial": 100
+        },
+        "category": "carpentry",
+        "metadata": {
+            "created": 1722562526805,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "ES13166"
+        }
+    },
+    {
+        "_id": "ES9900",
+        "title": "Excavate Strip Foundation 2 x 3ft ",
+        "description": "Excavate Strip Foundation not exeding  (  2'-0 width 3'-0 depth ) in clay or loam and cart away. ( manually )",
+        "metric": {
+            "unit": "m",
+            "price": 2160
+        },
+        "imperial": {
+            "unit": "ft",
+            "price": 720
+        },
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": "2021-08-07T17:36:02.564339",
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": "3.85",
+            "imperial": "12"
+        },
+        "category": "excavation"
+    },
+    {
+        "_id": "ET19659",
+        "title": "Erect Timber Roof",
+        "description": "To Erect Timber Roof to include, Instalation of Wall plates, Ridges, Hips, Valleys, Blocking Board, Fascia and Sarking to eaves",
+        "metric": {
+            "unit": "m2",
+            "price": 2690,
+            "quantity": null,
+            "total": null
+        },
+        "imperial": {
+            "unit": "ft2",
+            "price": 250,
+            "quantity": null,
+            "total": null
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 1718750448000,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 50,
+            "imperial": 500
+        },
+        "category": "carpentry",
+        "metadata": {
+            "created": 1717988628575,
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "ET19659"
+        }
+    },
+    {
+        "_id": "ET2880",
+        "title": "Erect Temporary Hoarding",
+        "description": "Erect Wooden posts at 8 ft apart install 1 x 3 lath at 3 ft apart and 8 ft Galvanized sheeting ",
+        "metric": {
+            "unit": "m",
+            "price": 947,
+            "quantity": null,
+            "total": null
+        },
+        "imperial": {
+            "unit": "ft",
+            "price": 310,
+            "quantity": null,
+            "total": null
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 1697490535000,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 27,
+            "imperial": 80
+        },
+        "category": "excavation",
+        "metadata": {
+            "created": 1697490250579,
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "ET2880"
+        }
+    },
+    {
+        "_id": "FB6487",
+        "title": "Formwork Belt and Stiffener",
+        "description": "Erect and Strip forms to Belt and Stiffener",
+        "metric": {
+            "unit": "m2",
+            "quantity": null,
+            "price": 1334
+        },
+        "imperial": {
+            "unit": "ft2",
+            "quantity": null,
+            "price": 124
+        },
+        "total": null,
+        "state": {
+            "active": true,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 0,
+            "imperial": 0
+        }
+    },
+    {
+        "_id": "FB9407",
+        "title": "Formwork Beams",
+        "description": "Erect and Strip forms to  Beams",
+        "metric": {
+            "unit": "m2",
+            "quantity": null,
+            "price": 1423
+        },
+        "imperial": {
+            "unit": "ft2",
+            "quantity": null,
+            "price": 132
+        },
+        "total": null,
+        "state": {
+            "active": true,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 0,
+            "imperial": 0
+        }
+    },
+    {
+        "_id": "FC83939",
+        "title": "Formwork Columns",
+        "description": "Erect and Strip forms to Columns",
+        "metric": {
+            "unit": "m2",
+            "price": 1423
+        },
+        "imperial": {
+            "unit": "ft2",
+            "price": 132
+        },
+        "total": null,
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 11.15,
+            "imperial": "120"
+        },
+        "timestamp": 1634589051000,
+        "category": "carpentry"
+    },
+    {
+        "_id": "FF9089",
+        "title": "Formwork Floor Slab ",
+        "description": "Erect and Strip forms to  suspended slabs (floors) ",
+        "metric": {
+            "unit": "m2",
+            "quantity": null,
+            "price": 1423
+        },
+        "imperial": {
+            "unit": "ft2",
+            "quantity": null,
+            "price": 132
+        },
+        "total": null,
+        "state": {
+            "active": true,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 0,
+            "imperial": 0
+        }
+    },
+    {
+        "_id": "FS0001",
+        "title": "JRC Fabric Mesh",
+        "description": "To Cut and Install JRC Fabric",
+        "imperial": {
+            "unit": "yd2",
+            "price": 87
+        },
+        "metric": {
+            "unit": "m2",
+            "price": 193
+        },
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 196.48,
+            "imperial": "235"
+        },
+        "phase": null,
+        "paid": null,
+        "timestamp": 1634589650000,
+        "category": "steelwork"
+    },
+    {
+        "_id": "FS4520",
+        "title": "Formwork Slab and Stair",
+        "description": "Erect and Strip forms to  suspended slabs (stairs) ",
+        "metric": {
+            "unit": "m2",
+            "price": 1186
+        },
+        "imperial": {
+            "unit": "ft2",
+            "price": 110
+        },
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 13.38,
+            "imperial": "144"
+        },
+        "timestamp": 1634589404000,
+        "category": "carpentry"
+    },
+    {
+        "_id": "FT22627",
+        "title": "Formwork to Walls",
+        "description": "Erect and strike Formwork to Wall Faces",
+        "metric": {
+            "unit": "m2",
+            "price": 1265,
+            "quantity": null,
+            "total": null
+        },
+        "imperial": {
+            "unit": "ft2",
+            "price": 118,
+            "quantity": null,
+            "total": null
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 1676872023000,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 15,
+            "imperial": 150
+        },
+        "category": "carpentry",
+        "metadata": {
+            "created": 1676664409109,
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "FT22627"
+        }
+    },
+    {
+        "_id": "FU14814",
+        "title": "Foundation Underpinning",
+        "description": "Excavate, erect form , cast and set clean cut rock boulders to foundation underpinning .",
+        "metric": {
+            "unit": "m",
+            "price": 6167,
+            "quantity": null,
+            "total": null
+        },
+        "imperial": {
+            "unit": "ft",
+            "price": 1950,
+            "quantity": null,
+            "total": null
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 1674993887000,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 4,
+            "imperial": 14
+        },
+        "category": "excavation",
+        "metadata": {
+            "created": 1674993816216,
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "FU14814"
+        }
+    },
+    {
+        "_id": "GG83511",
+        "title": "Gypsum Sheeting To Ceiling",
+        "description": "Install Gypsum Sheeting to Ceilings (1/2\" - 5/8\")",
+        "metric": {
+            "unit": "m2",
+            "quantity": null,
+            "price": 624.154,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "ft2",
+            "quantity": null,
+            "price": "62",
+            "total": 0
+        },
+        "state": {
+            "active": true,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 1636105687000,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 24.15,
+            "imperial": "260"
+        },
+        "category": "carpentry",
+        "meta_data": {
+            "created": 1636105788635,
+            "author": "ian"
+        }
+    },
+    {
+        "_id": "GJ9215",
+        "title": "Granite Jamb/Wall Top",
+        "description": "Granite Only to Jamb/Wall Top (2 Arris)",
+        "metric": {
+            "unit": "m",
+            "price": 650,
+            "quantity": 0,
+            "total": null
+        },
+        "imperial": {
+            "unit": "ft",
+            "price": 189,
+            "quantity": 0,
+            "total": null
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 1667753023000,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 52,
+            "imperial": 156
+        },
+        "category": "masonry"
+    },
+    {
+        "_id": "GS4768",
+        "title": "Grade sub-base",
+        "description": "Grade sub-base to receive top soil",
+        "metric": {
+            "unit": "m2",
+            "price": 26
+        },
+        "imperial": {
+            "unit": "ft2",
+            "price": 2.66
+        },
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 27.87,
+            "imperial": "300"
+        },
+        "timestamp": 1634588882000,
+        "category": "excavation"
+    },
+    {
+        "_id": "HC49241",
+        "title": "Hollow Core Flush Door.",
+        "description": "Fit and Hang Hollow Core Flush Door",
+        "metric": {
+            "unit": "each",
+            "price": 3500,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "each",
+            "price": 3500,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 6,
+            "imperial": 6
+        },
+        "category": "joinery",
+        "metadata": {
+            "created": 1724674645172,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "HC49241",
+            "cloned": {
+                "from": "RP3499"
+            }
+        }
+    },
+    {
+        "_id": "IC3732",
+        "title": "Install Clay Tile only ( Roof / Wall )",
+        "description": "Install Clay Tiles to Roof or Walls complete ",
+        "metric": {
+            "unit": "m2",
+            "price": 1059,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "ft2",
+            "price": 98.4,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 35,
+            "imperial": 350
+        },
+        "category": "carpentry",
+        "metadata": {
+            "created": 1725205899957,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "IC3732",
+            "cloned": {
+                "from": "ID80419"
+            }
+        }
+    },
+    {
+        "_id": "ID80419",
+        "title": "Install Decra Tile Roofing",
+        "description": "Install Roofing Felt, Batten and Decra Tile Roof Cover",
+        "metric": {
+            "unit": "m2",
+            "price": 1290,
+            "quantity": null,
+            "total": null
+        },
+        "imperial": {
+            "unit": "ft2",
+            "price": 120,
+            "quantity": null,
+            "total": null
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 1718750448000,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 35,
+            "imperial": 350
+        },
+        "category": "carpentry",
+        "metadata": {
+            "created": 1717988628575,
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "ID80419"
+        }
+    },
+    {
+        "_id": "IF9181",
+        "title": "Install Frame and cover (Grease Trap)",
+        "description": "Install  18 x 18 inch Cast Iron  Frame and cover (Grease Trap)",
+        "metric": {
+            "unit": "Each",
+            "price": 3500,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "Each",
+            "price": 3500,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 4,
+            "imperial": 4
+        },
+        "category": "masonry",
+        "metadata": {
+            "created": 1722227162952,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "IF9181"
+        }
+    },
+    {
+        "_id": "IL0218",
+        "title": "Install Lightning Dump",
+        "description": "To install Ground tie Grid and connections and suitable condutive soil pack to lightning dump ",
+        "metric": {
+            "unit": "each",
+            "price": 60000,
+            "quantity": null,
+            "total": null
+        },
+        "imperial": {
+            "unit": "each",
+            "price": 60000,
+            "quantity": null,
+            "total": null
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 1688340941000,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 1,
+            "imperial": 1
+        },
+        "category": "electrical",
+        "metadata": {
+            "created": 1688299986900,
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "IL0218"
+        }
+    },
+    {
+        "_id": "IM98630",
+        "title": "Install moisture barrier",
+        "description": "To prepare floor areas and apply 4-6 mm polyurethane sheeting prior to reinforcing. ",
+        "metric": {
+            "unit": "m2",
+            "price": 322.5,
+            "quantity": null,
+            "total": null
+        },
+        "imperial": {
+            "unit": "yd2",
+            "price": 270,
+            "quantity": null,
+            "total": null
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 1708648028000,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 90,
+            "imperial": 107
+        },
+        "category": "excavation",
+        "metadata": {
+            "created": 1708365660719,
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "IM98630"
+        }
+    },
+    {
+        "_id": "IS7043",
+        "title": "Install Storm tight membrane",
+        "description": "Install Storm tight membrane",
+        "metric": {
+            "unit": "m2",
+            "price": 255,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "ft2",
+            "price": 25,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 35,
+            "imperial": 350
+        },
+        "category": "carpentry",
+        "metadata": {
+            "created": 1722226739376,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "IS7043"
+        }
+    },
+    {
+        "_id": "L624899",
+        "title": "Lay 6 inch Blocks (Drains) ",
+        "description": "Lay 6 inch Blocks and fill all cores ( Manholes & Drains)",
+        "metric": {
+            "unit": "m2",
+            "quantity": null,
+            "price": 1425
+        },
+        "imperial": {
+            "unit": "yd2",
+            "quantity": null,
+            "price": 1192
+        },
+        "total": null,
+        "state": {
+            "active": true,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 0,
+            "imperial": 0
+        }
+    },
+    {
+        "_id": "L641216",
+        "title": "Lay 6 inch Blocks G-F ",
+        "description": "Lay 6 inch Blocks and fill all cores ( Ground to First Floor ))",
+        "metric": {
+            "unit": "m2",
+            "quantity": null,
+            "price": 1069
+        },
+        "imperial": {
+            "unit": "yd2",
+            "quantity": null,
+            "price": 894
+        },
+        "total": null,
+        "state": {
+            "active": true,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "comment": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 26.76,
+            "imperial": "32"
+        },
+        "timestamp": 1637355894000,
+        "category": "masonry"
+    },
+    {
+        "_id": "L66092",
+        "title": "Lay 6 inch Blocks FF+ ",
+        "description": "Lay 6 inch Blocks and fill all cores ( First Floor & Above )",
+        "metric": {
+            "unit": "m2",
+            "quantity": 1,
+            "price": 1222
+        },
+        "imperial": {
+            "unit": "yd2",
+            "quantity": 1,
+            "price": 1021
+        },
+        "total": null,
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 23.41,
+            "imperial": "28"
+        },
+        "timestamp": 1634588475000,
+        "category": "masonry"
+    },
+    {
+        "_id": "L838580",
+        "title": "Lay 8 inch Blocks Drains",
+        "description": "Lay 8 inch Blocks and fill all cores ( Manholes & Drains)",
+        "metric": {
+            "unit": "m2",
+            "quantity": null,
+            "price": 1629
+        },
+        "imperial": {
+            "unit": "yd2",
+            "quantity": null,
+            "price": 1362
+        },
+        "total": null,
+        "state": {
+            "active": true,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "comment": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 17.56,
+            "imperial": "21"
+        },
+        "timestamp": 1637072638000,
+        "category": "masonry"
+    },
+    {
+        "_id": "L86121",
+        "title": "Lay 8 inch Blocks GF-FF ",
+        "description": "Lay 8 inch Blocks and fill all cores ( Ground to First Floor)",
+        "metric": {
+            "unit": "m2",
+            "price": 1222
+        },
+        "imperial": {
+            "unit": "yd2",
+            "price": 1021
+        },
+        "total": null,
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 23.41,
+            "imperial": "28"
+        },
+        "timestamp": 1634588702000,
+        "category": "masonry"
+    },
+    {
+        "_id": "L87793",
+        "title": "Lay 8 inch Blocks FF+",
+        "description": "Lay 8 inch Blocks and fill all cores ( First Floor & above)",
+        "metric": {
+            "unit": "m2",
+            "price": 1425
+        },
+        "imperial": {
+            "unit": "yd2",
+            "price": 1192
+        },
+        "total": null,
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 0,
+            "imperial": 0
+        },
+        "timestamp": 1634571424000,
+        "category": "masonry"
+    },
+    {
+        "_id": "LM0542",
+        "title": "Lay Marble Tiles 12inch +",
+        "description": "Lay Grout Marble Tiles (12+) Including for edges (Floors)",
+        "metric": {
+            "unit": "m2",
+            "price": 2591,
+            "quantity": 0,
+            "total": null
+        },
+        "imperial": {
+            "unit": "ft2",
+            "price": 241,
+            "quantity": 0,
+            "total": null
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 1665594924000,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 0,
+            "imperial": 0
+        },
+        "category": "Tiling"
+    },
+    {
+        "_id": "LO13212",
+        "title": "Lining Out",
+        "description": "To Layout Building or parts of a building ",
+        "metric": {
+            "unit": "m2",
+            "price": 710,
+            "quantity": null,
+            "total": null
+        },
+        "imperial": {
+            "unit": "ft2",
+            "price": 60,
+            "quantity": null,
+            "total": null
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 1718495645000,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 110,
+            "imperial": 1200
+        },
+        "category": "carpentry",
+        "metadata": {
+            "created": 1717988628575,
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "LO13212"
+        }
+    },
+    {
+        "_id": "LS58730",
+        "title": "Lightning Surge Supresor",
+        "description": "Install Lightning Surge Supresor",
+        "metric": {
+            "unit": "each",
+            "price": 450,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "each",
+            "price": 450,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 6,
+            "imperial": 6
+        },
+        "category": "electrical",
+        "metadata": {
+            "created": 1724672452732,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "LS58730",
+            "cloned": {
+                "from": "PB5757"
+            }
+        }
+    },
+    {
+        "_id": "MM34777",
+        "title": "Machine Cut and Clear Site ",
+        "description": "To Cut and Clear Work areas of Rocks, Rubble etc",
+        "metric": {
+            "unit": "ea",
+            "quantity": null,
+            "price": "14000",
+            "total": 0
+        },
+        "imperial": {
+            "unit": "ea",
+            "quantity": null,
+            "price": "14000",
+            "total": 0
+        },
+        "state": {
+            "active": true,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 1635959797000,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": "5",
+            "imperial": "5"
+        },
+        "category": "excavation",
+        "meta_data": {
+            "created": 1635960020851,
+            "author": "ian"
+        }
+    },
+    {
+        "_id": "MS0001",
+        "title": "3/8 Mild Steel Bar",
+        "description": "To Cut Fabrcate and Install 3/8 inch (10mm) Steel Bars",
+        "imperial": {
+            "unit": "lb",
+            "price": 21
+        },
+        "metric": {
+            "unit": "kg",
+            "price": 47
+        },
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 440.8992,
+            "imperial": "972"
+        },
+        "phase": null,
+        "paid": null,
+        "timestamp": 1634578629000,
+        "category": "steelwork"
+    },
+    {
+        "_id": "MS0002",
+        "title": "1/2 Mild Steel Bar",
+        "description": "To Cut Fabrcate and Install 1/2 inch (13mm) Steel Bars",
+        "imperial": {
+            "unit": "lb",
+            "price": 21
+        },
+        "metric": {
+            "unit": "kg",
+            "price": 47
+        },
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 442.26,
+            "imperial": "975"
+        },
+        "phase": null,
+        "paid": null,
+        "timestamp": 1634572025000,
+        "category": "steelwork"
+    },
+    {
+        "_id": "MS0003",
+        "title": "5/8 Mild Steel Bar",
+        "description": "To Cut Fabrcate and Install 5/8 inch (16mm) Steel Bars",
+        "imperial": {
+            "unit": "lb",
+            "quantity": 1,
+            "price": 21
+        },
+        "metric": {
+            "unit": "kg",
+            "quantity": 1,
+            "price": 47
+        },
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 440.8992,
+            "imperial": "972"
+        },
+        "phase": null,
+        "paid": null,
+        "timestamp": 1634573799000,
+        "category": "steelwork"
+    },
+    {
+        "_id": "MS0004",
+        "title": "3/4 Mild Steel Bar",
+        "description": "To Cut Fabrcate and Install 3/4 inch (19mm) Steel Bars",
+        "imperial": {
+            "unit": "lb",
+            "quantity": 1,
+            "price": 21
+        },
+        "metric": {
+            "unit": "kg",
+            "quantity": 1,
+            "price": 47
+        },
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 439.992,
+            "imperial": "970"
+        },
+        "phase": null,
+        "paid": null,
+        "timestamp": 1634571938000,
+        "category": "steelwork"
+    },
+    {
+        "_id": "MS0005",
+        "title": "1 inch Mild Steel Bar",
+        "description": "To Cut Fabrcate and Install 1 inch (25mm) Steel Bars",
+        "imperial": {
+            "unit": "lb",
+            "price": 21
+        },
+        "metric": {
+            "unit": "kg",
+            "price": 47
+        },
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 440.9,
+            "imperial": "972"
+        },
+        "phase": null,
+        "paid": null,
+        "timestamp": 1634589468000,
+        "category": "steelwork"
+    },
+    {
+        "_id": "MS0007",
+        "title": "1/4  Stirrups",
+        "description": "To Fabrcate 1/4 inch (6mm) Stirrups.",
+        "imperial": {
+            "unit": "doz",
+            "price": 489
+        },
+        "metric": {
+            "unit": "doz",
+            "price": 489
+        },
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": "42",
+            "imperial": "42"
+        },
+        "phase": null,
+        "paid": null,
+        "timestamp": 1634571861000,
+        "category": "steelwork"
+    },
+    {
+        "_id": "MS0008",
+        "title": "3/8 Stirrups",
+        "description": "To Fabrcate 3/8 inch (9mm) Stirrups.",
+        "imperial": {
+            "unit": "doz",
+            "quantity": null,
+            "price": 513
+        },
+        "metric": {
+            "unit": "doz",
+            "quantity": null,
+            "price": 513
+        },
+        "state": {
+            "active": true,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 0,
+            "imperial": 0
+        }
+    },
+    {
+        "_id": "MS0009",
+        "title": "3/8 Stirrups large girth.",
+        "description": "To Fabrcate 3/8 inch (9mm) Stirrups (Large > 6' girth).",
+        "imperial": {
+            "unit": "doz",
+            "price": 641
+        },
+        "metric": {
+            "unit": "doz",
+            "price": 641
+        },
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": "32",
+            "imperial": "32"
+        },
+        "phase": null,
+        "paid": null,
+        "timestamp": 1634571460000,
+        "category": "steelwork"
+    },
+    {
+        "_id": "MS0010",
+        "title": "1/2 Stirrups",
+        "description": "To Fabrcate 1/2 inch (12mm) Stirrups.",
+        "imperial": {
+            "unit": "doz",
+            "price": 733
+        },
+        "metric": {
+            "unit": "doz",
+            "price": 733
+        },
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": "28",
+            "imperial": "28"
+        },
+        "phase": null,
+        "paid": null,
+        "timestamp": 1634581063000,
+        "category": "steelwork"
+    },
+    {
+        "_id": "MS0011",
+        "title": "1/2 Stirrups large girth.",
+        "description": "To Fabrcate 1/2 inch (12mm) Stirrups (Large > 7' girth).",
+        "imperial": {
+            "unit": "doz",
+            "price": 855
+        },
+        "metric": {
+            "unit": "doz",
+            "price": 855
+        },
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": "24",
+            "imperial": "24"
+        },
+        "phase": null,
+        "paid": null,
+        "timestamp": 1634573944000,
+        "category": "steelwork"
+    },
+    {
+        "_id": "MS0012",
+        "title": "1/4 Links.",
+        "description": "To Fabrcate 1/4 inch (6mm) Links.",
+        "imperial": {
+            "unit": "doz",
+            "price": 395
+        },
+        "metric": {
+            "unit": "doz",
+            "price": 395
+        },
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": "52",
+            "imperial": "52"
+        },
+        "phase": null,
+        "paid": null,
+        "timestamp": 1634589572000,
+        "category": "steelwork"
+    },
+    {
+        "_id": "MS0013",
+        "title": "Fabricate 3/8 Links.",
+        "description": "To Fabrcate 3/8 inch (9mm) Links.",
+        "imperial": {
+            "unit": "doz",
+            "price": 446
+        },
+        "metric": {
+            "unit": "doz",
+            "price": 446
+        },
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 46,
+            "imperial": 46
+        },
+        "phase": null,
+        "paid": null,
+        "timestamp": 1634562694000,
+        "category": "steelwork"
+    },
+    {
+        "_id": "MS0014",
+        "title": "1/2 Links.",
+        "description": "To Fabrcate 1/2 inch (13mm) Links.",
+        "imperial": {
+            "unit": "doz",
+            "quantity": null,
+            "price": 662
+        },
+        "metric": {
+            "unit": "doz",
+            "quantity": null,
+            "price": 662
+        },
+        "state": {
+            "active": true,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 0,
+            "imperial": 0
+        }
+    },
+    {
+        "_id": "MS0015",
+        "title": "3/8 Chairs",
+        "description": "To Fabrcate 3/8 inch (9mm) Chairs.",
+        "imperial": {
+            "unit": "doz",
+            "price": 428
+        },
+        "metric": {
+            "unit": "doz",
+            "price": 428
+        },
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": "38",
+            "imperial": "42"
+        },
+        "phase": null,
+        "paid": null,
+        "timestamp": 1634574083000,
+        "category": "steelwork"
+    },
+    {
+        "_id": "MS0016",
+        "title": "1/2 inch Chairs",
+        "description": "To Fabrcate 1/2 inch (13mm) Chairs.",
+        "imperial": {
+            "unit": "doz",
+            "price": 641
+        },
+        "metric": {
+            "unit": "doz",
+            "price": 641
+        },
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": "32",
+            "imperial": "32"
+        },
+        "phase": null,
+        "paid": null,
+        "timestamp": 1634573636000,
+        "category": "steelwork"
+    },
+    {
+        "_id": "MS39864",
+        "title": "Metal Studs frame 16\"",
+        "description": "Metal Studs Frame @ 16\" On Centered Vertically (Gyp Walls)",
+        "metric": {
+            "unit": "m2",
+            "quantity": null,
+            "price": 1067
+        },
+        "imperial": {
+            "unit": "ft2",
+            "quantity": null,
+            "price": 99
+        },
+        "total": null,
+        "state": {
+            "active": true,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 13.56,
+            "imperial": "146"
+        },
+        "timestamp": 1636103290000,
+        "category": "carpentry"
+    },
+    {
+        "_id": "MS6609",
+        "title": "Metal Studs frame 24\"",
+        "description": "Metal Studs Frame @ 24\" On Centered Vertically (Gyp Walls)",
+        "metric": {
+            "unit": "m2",
+            "quantity": null,
+            "price": 854
+        },
+        "imperial": {
+            "unit": "ft2",
+            "quantity": null,
+            "price": 79
+        },
+        "total": null,
+        "state": {
+            "active": true,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 0,
+            "imperial": 0
+        }
+    },
+    {
+        "_id": "MS67731",
+        "title": "Metal Studs  Strap ",
+        "description": "Metal Studs Vertical Straps (Gyp Ceilings)",
+        "metric": {
+            "unit": "m",
+            "quantity": null,
+            "price": 237
+        },
+        "imperial": {
+            "unit": "ft",
+            "quantity": null,
+            "price": 72
+        },
+        "total": null,
+        "state": {
+            "active": true,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 67.06,
+            "imperial": "220"
+        },
+        "timestamp": 1636105091000,
+        "category": "carpentry"
+    },
+    {
+        "_id": "MS9032",
+        "title": "Metal Studs frame",
+        "description": "Metal Studs Frame (Gyp Walls)",
+        "metric": {
+            "unit": "m",
+            "quantity": null,
+            "price": 274
+        },
+        "imperial": {
+            "unit": "ft",
+            "quantity": null,
+            "price": 83
+        },
+        "total": null,
+        "state": {
+            "active": true,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 0,
+            "imperial": 0
+        }
+    },
+    {
+        "_id": "OB0022",
+        "title": "Outlet Boxes  4 x 4 ",
+        "description": "Install 4 x 4 Outlet Box ( Octogonal or Square )",
+        "metric": {
+            "unit": "each",
+            "price": 409.81,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "each",
+            "price": 409.81,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 24,
+            "imperial": 24
+        },
+        "category": "electrical",
+        "metadata": {
+            "created": 1724564921142,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "OB0022"
+        }
+    },
+    {
+        "_id": "OR4562",
+        "title": "Outlet Receptacle 20A",
+        "description": "Install 20 amp Duplex receptacle & blank plate",
+        "metric": {
+            "unit": "each",
+            "price": 1650,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "each",
+            "price": 1650,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 24,
+            "imperial": 24
+        },
+        "category": "electrical",
+        "metadata": {
+            "created": 1724671772923,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "OR4562",
+            "cloned": {
+                "from": "OR9078"
+            }
+        }
+    },
+    {
+        "_id": "OR9078",
+        "title": "Outlet Receptacle 15A",
+        "description": "Install 15 amp Duplex receptacle & blank plate",
+        "metric": {
+            "unit": "each",
+            "price": 1500,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "each",
+            "price": 1500,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 24,
+            "imperial": 24
+        },
+        "category": "electrical",
+        "metadata": {
+            "created": 1724645156803,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "OR9078"
+        }
+    },
+    {
+        "_id": "PA0289",
+        "title": "Pipe and Fitting 3 inch",
+        "description": "Install 3 inch Diameter Pipe to gradient",
+        "metric": {
+            "unit": "m",
+            "price": 640,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "ft",
+            "price": 195,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 33,
+            "imperial": 100
+        },
+        "category": "plumbing",
+        "metadata": {
+            "created": 1724676385249,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "PA0289",
+            "cloned": {
+                "from": "PA6485"
+            }
+        }
+    },
+    {
+        "_id": "PA2039",
+        "title": "Pipe and Fitting 6 inch",
+        "description": "Install 6 inch Diameter Pipe",
+        "metric": {
+            "unit": "m",
+            "price": 901,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "ft",
+            "price": 275,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 22,
+            "imperial": 71
+        },
+        "category": "plumbing",
+        "metadata": {
+            "created": 1724675793567,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "PA2039",
+            "cloned": {
+                "from": "EP6263"
+            }
+        }
+    },
+    {
+        "_id": "PA2203",
+        "title": "Pipe and Fitting 1-1/2 inch",
+        "description": "Install 1-1/2 inch Diameter Pipe to gradient",
+        "metric": {
+            "unit": "m",
+            "price": 350,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "ft",
+            "price": 107,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 55.7,
+            "imperial": 183
+        },
+        "category": "plumbing",
+        "metadata": {
+            "created": 1724676544665,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "PA2203",
+            "cloned": {
+                "from": "PA6415"
+            }
+        }
+    },
+    {
+        "_id": "PA6415",
+        "title": "Pipe and Fitting 2 inch",
+        "description": "Install 2 inch Diameter Pipe to gradient",
+        "metric": {
+            "unit": "m",
+            "price": 421,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "ft",
+            "price": 128,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 46,
+            "imperial": 152
+        },
+        "category": "plumbing",
+        "metadata": {
+            "created": 1724676462579,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "PA6415",
+            "cloned": {
+                "from": "PA0289"
+            }
+        }
+    },
+    {
+        "_id": "PA6485",
+        "title": "Pipe and Fitting 4 inch",
+        "description": "Install 4 inch Diameter Pipe to gradient",
+        "metric": {
+            "unit": "m",
+            "price": 680,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "ft",
+            "price": 207,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 28.6,
+            "imperial": 94
+        },
+        "category": "plumbing",
+        "metadata": {
+            "created": 1724676319807,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "PA6485",
+            "cloned": {
+                "from": "PA2039"
+            }
+        }
+    },
+    {
+        "_id": "PB4452",
+        "title": "Panel Board 150A",
+        "description": "Install 150 Amp Panel Board with 14 branch breaker",
+        "metric": {
+            "unit": "each",
+            "price": 12000,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "each",
+            "price": 12000,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 5,
+            "imperial": 5
+        },
+        "category": "electrical",
+        "metadata": {
+            "created": 1724672285463,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "PB4452",
+            "cloned": {
+                "from": "PB5757"
+            }
+        }
+    },
+    {
+        "_id": "PB4653",
+        "title": "Pull Box 6 x 6",
+        "description": "Install 6 x 6 Pull Box ",
+        "metric": {
+            "unit": "each",
+            "price": 1050,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "each",
+            "price": 1050,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 24,
+            "imperial": 24
+        },
+        "category": "electrical",
+        "metadata": {
+            "created": 1724671772923,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "PB4653",
+            "cloned": {
+                "from": "OR9078"
+            }
+        }
+    },
+    {
+        "_id": "PB5757",
+        "title": "Panel Board 100A",
+        "description": "Install 100 Amp Panel Board with 10 branch breaker",
+        "metric": {
+            "unit": "each",
+            "price": 10000,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "each",
+            "price": 10000,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 5,
+            "imperial": 5
+        },
+        "category": "electrical",
+        "metadata": {
+            "created": 1724672071420,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "PB5757",
+            "cloned": {
+                "from": "PB9799"
+            }
+        }
+    },
+    {
+        "_id": "PB80172",
+        "title": "Pull Box 10 x 10",
+        "description": "Install 10 x 12 x 6 Pull Box ",
+        "metric": {
+            "unit": "each",
+            "price": 1500,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "each",
+            "price": 1500,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 12,
+            "imperial": 12
+        },
+        "category": "electrical",
+        "metadata": {
+            "created": 1724672071420,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "PB80172",
+            "cloned": {
+                "from": "PB9799"
+            }
+        }
+    },
+    {
+        "_id": "PB84910",
+        "title": "Panel Board 200A",
+        "description": "Install 200 Amp Panel Board with 18 branch breaker",
+        "metric": {
+            "unit": "each",
+            "price": 18000,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "each",
+            "price": 18000,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 5,
+            "imperial": 5
+        },
+        "category": "electrical",
+        "metadata": {
+            "created": 1724672354851,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "PB84910",
+            "cloned": {
+                "from": "PB5757"
+            }
+        }
+    },
+    {
+        "_id": "PB95139",
+        "title": "Panel Board 200A x 24",
+        "description": "Install 200 Amp Panel Board with 24 branch breaker",
+        "metric": {
+            "unit": "each",
+            "price": 21000,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "each",
+            "price": 21000,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 5,
+            "imperial": 5
+        },
+        "category": "electrical",
+        "metadata": {
+            "created": 1724672452732,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "PB95139",
+            "cloned": {
+                "from": "PB5757"
+            }
+        }
+    },
+    {
+        "_id": "PB9799",
+        "title": "Pull Box 8 x 8",
+        "description": "Install 8 x 8 x 4 Pull Box ",
+        "metric": {
+            "unit": "each",
+            "price": 1050,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "each",
+            "price": 1050,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 24,
+            "imperial": 24
+        },
+        "category": "electrical",
+        "metadata": {
+            "created": 1724671954705,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "PB9799",
+            "cloned": {
+                "from": "PB4653"
+            }
+        }
+    },
+    {
+        "_id": "PT4755",
+        "title": "Plyboard  Sheeting To Roof",
+        "description": "Install Plyboard Sheeting to Roof Framing (1/2\" - 5/8\")",
+        "metric": {
+            "unit": "m2",
+            "price": 965,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "ft2",
+            "price": 90,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 24.15,
+            "imperial": 260
+        },
+        "category": "carpentry",
+        "metadata": {
+            "created": 1725204447710,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "PT4755",
+            "cloned": {
+                "from": "GG83511"
+            }
+        }
+    },
+    {
+        "_id": "RA225190",
+        "title": "2 x 6 Rafter",
+        "description": "2 x 6 Rafter or Beam Including to cut Ends.",
+        "metric": {
+            "unit": "m",
+            "quantity": null,
+            "price": 364.6794,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "ft",
+            "quantity": null,
+            "price": "111",
+            "total": 0
+        },
+        "state": {
+            "active": true,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 1635481237000,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 47.6,
+            "imperial": 143
+        },
+        "category": "carpentry",
+        "meta_data": {
+            "created": 1635481275755,
+            "author": "ian"
+        }
+    },
+    {
+        "_id": "RA7079",
+        "title": "Rough and Sreel Wall",
+        "description": "Rough Cast & Steel Float finish to walls.",
+        "metric": {
+            "unit": "m2",
+            "price": 1316,
+            "quantity": null,
+            "total": null
+        },
+        "imperial": {
+            "unit": "Yd2",
+            "price": 1100,
+            "quantity": null,
+            "total": null
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 1676851143000,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 25,
+            "imperial": 22
+        },
+        "category": "masonry",
+        "metadata": {
+            "created": 1676664409109,
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "RA7079"
+        }
+    },
+    {
+        "_id": "RA9114",
+        "title": "Rough and Granite Walls",
+        "description": "Rough Cast (up to 1\" thk.)  and Granite Walls",
+        "metric": {
+            "unit": "m2",
+            "price": 977
+        },
+        "imperial": {
+            "unit": "yd2",
+            "price": 815
+        },
+        "total": null,
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 29.26,
+            "imperial": "35"
+        },
+        "timestamp": 1634588346000,
+        "category": "masonry"
+    },
+    {
+        "_id": "RC6844",
+        "title": "Rough Cast Jamb",
+        "description": "Rough Cast only to Jamb/WallTop (1\" 25mm thick)",
+        "metric": {
+            "unit": "m",
+            "price": 250,
+            "quantity": 0,
+            "total": null
+        },
+        "imperial": {
+            "unit": "ft",
+            "price": 78,
+            "quantity": 0,
+            "total": null
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 1667751724000,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 143,
+            "imperial": 430
+        },
+        "category": "masonry"
+    },
+    {
+        "_id": "RC7476",
+        "title": "Rough Cast Wall",
+        "description": "Rough Cast only to Wall (Up to 1\" 25mm thick)",
+        "metric": {
+            "unit": "m2",
+            "price": 459,
+            "quantity": 0,
+            "total": null
+        },
+        "imperial": {
+            "unit": "yd2",
+            "price": 410,
+            "quantity": 0,
+            "total": null
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 1667750076000,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 0,
+            "imperial": 0
+        },
+        "category": "masonry"
+    },
+    {
+        "_id": "RO4299",
+        "title": "Rod off and Dress Floors",
+        "description": "Rodd off and Render Concrete Floor ",
+        "metric": {
+            "unit": "m2",
+            "price": 750,
+            "quantity": null,
+            "total": null
+        },
+        "imperial": {
+            "unit": "ft2",
+            "price": 70,
+            "quantity": null,
+            "total": null
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 1675938853000,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 18,
+            "imperial": 185
+        },
+        "category": "masonry",
+        "metadata": {
+            "created": 1675825103637,
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "RO4299"
+        }
+    },
+    {
+        "_id": "RO60023",
+        "title": "Render Only to Walls",
+        "description": "Render only",
+        "metric": {
+            "unit": "m2",
+            "price": 1050,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "yd2",
+            "price": 800,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 30,
+            "imperial": 33
+        },
+        "category": "masonry",
+        "metadata": {
+            "created": 1722226739376,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "RO60023"
+        }
+    },
+    {
+        "_id": "RP3499",
+        "title": "Raised Panel Door Lg.",
+        "description": "Fit and Hang Raised Panel Door Large",
+        "metric": {
+            "unit": "each",
+            "price": 3900,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "each",
+            "price": 3900,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 6,
+            "imperial": 6
+        },
+        "category": "joinery",
+        "metadata": {
+            "created": 1724674566994,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "RP3499",
+            "cloned": {
+                "from": "RP9071"
+            }
+        }
+    },
+    {
+        "_id": "RP9071",
+        "title": "Raised Panel Door Sm",
+        "description": "Fit and Hang Raised Panel Door Small < 2' - 4\"",
+        "metric": {
+            "unit": "each",
+            "price": 3500,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "each",
+            "price": 3500,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 6,
+            "imperial": 6
+        },
+        "category": "joinery",
+        "metadata": {
+            "created": 1724674515183,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "RP9071",
+            "cloned": {
+                "from": "CD8402"
+            }
+        }
+    },
+    {
+        "_id": "RS9458",
+        "title": "Rod Slab off wood float",
+        "description": "Rod-off and Wood finish Floor slab",
+        "metric": {
+            "unit": "m",
+            "price": 510
+        },
+        "imperial": {
+            "unit": "yd2",
+            "price": 396
+        },
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "comments": [],
+        "timestamp": "2021-08-07T16:44:40.312687",
+        "progress": 0,
+        "output": {
+            "metric": 21.97,
+            "imperial": 72
+        },
+        "category": "masonry",
+        "metadata": {
+            "created": 1669812723646,
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "RS9458"
+        }
+    },
+    {
+        "_id": "SA76800",
+        "title": "Switch and Wall Sockets",
+        "description": "Install switch or wall outlet socket",
+        "metric": {
+            "unit": "each",
+            "price": 330,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "each",
+            "price": 330,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 30,
+            "imperial": 30
+        },
+        "category": "electrical",
+        "metadata": {
+            "created": 1724592052160,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "SA76800",
+            "cloned": {
+                "from": "SA59225"
+            }
+        }
+    },
+    {
+        "_id": "SC0862",
+        "title": "Solid Core Flush Door.",
+        "description": "Fit and Hang Solid Core Flush Door",
+        "metric": {
+            "unit": "each",
+            "price": 3800,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "each",
+            "price": 3800,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 6,
+            "imperial": 6
+        },
+        "category": "joinery",
+        "metadata": {
+            "created": 1724674695042,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "SC0862",
+            "cloned": {
+                "from": "HC49241"
+            }
+        }
+    },
+    {
+        "_id": "SD17613",
+        "title": "Steel Door single.",
+        "description": "Fit and Hang Single Steel Door  & Frame including holes for joggles ",
+        "metric": {
+            "unit": "each",
+            "price": 6000,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "each",
+            "price": 6000,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 6,
+            "imperial": 6
+        },
+        "category": "joinery",
+        "metadata": {
+            "created": 1724675251666,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "SD17613",
+            "cloned": {
+                "from": "SC0862"
+            }
+        }
+    },
+    {
+        "_id": "SD43688",
+        "title": "Switch Device 15A single p",
+        "description": "Install 15A single pole  switch with 1 gang box & cover",
+        "metric": {
+            "unit": "each",
+            "price": 550,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "each",
+            "price": 550,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 24,
+            "imperial": 24
+        },
+        "category": "electrical",
+        "metadata": {
+            "created": 1724672721345,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "SD43688",
+            "cloned": {
+                "from": "SA76800"
+            }
+        }
+    },
+    {
+        "_id": "SD52629",
+        "title": "Steel Door double.",
+        "description": "Fit and Hang Double Steel Door  & Frame including holes for joggles ",
+        "metric": {
+            "unit": "each",
+            "price": 11000,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "each",
+            "price": 11000,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 6,
+            "imperial": 6
+        },
+        "category": "joinery",
+        "metadata": {
+            "created": 1724675322738,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "SD52629",
+            "cloned": {
+                "from": "SD17613"
+            }
+        }
+    },
+    {
+        "_id": "SM8756",
+        "title": "Sewer Manhole 3ft",
+        "description": "Make 3 x 3 ft (900 x 900)Sewer Manhole",
+        "metric": {
+            "unit": "Each",
+            "price": 18000,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "Each",
+            "price": 18000,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 1,
+            "imperial": 1
+        },
+        "category": "masonry",
+        "metadata": {
+            "created": 1722778113532,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "SM8756"
+        }
+    },
+    {
+        "_id": "SS1437",
+        "title": "Sweep Site",
+        "description": "Sweep and Dust work areas thought the day",
+        "metric": {
+            "unit": "Daily",
+            "price": 3000,
+            "quantity": null,
+            "total": null
+        },
+        "imperial": {
+            "unit": "Daily",
+            "price": 3000,
+            "quantity": null,
+            "total": null
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 1679144856000,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 1,
+            "imperial": 1
+        },
+        "category": "housekeeping",
+        "metadata": {
+            "created": 1679087666979,
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "SS1437"
+        }
+    },
+    {
+        "_id": "ST29346",
+        "title": "Spread top soil",
+        "description": "Spread top soil (6\" - 12\" Thick)",
+        "metric": {
+            "unit": "m3",
+            "price": 402
+        },
+        "imperial": {
+            "unit": "yd3",
+            "price": 307
+        },
+        "total": null,
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 19.88,
+            "imperial": "26"
+        },
+        "timestamp": 1634589699000,
+        "category": "excavation"
+    },
+    {
+        "_id": "ST6088",
+        "title": "Spread top soil less",
+        "description": "Spread top soil (less than 6\" Thick)",
+        "metric": {
+            "unit": "m2",
+            "price": 69
+        },
+        "imperial": {
+            "unit": "yd2",
+            "price": 58
+        },
+        "total": null,
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 115.38,
+            "imperial": "138"
+        },
+        "timestamp": 1634589872000,
+        "category": "excavation"
+    },
+    {
+        "_id": "TA6206",
+        "title": "Track and Stud to Ceiling",
+        "description": "Install track and stud to ceiling ",
+        "metric": {
+            "unit": "m2",
+            "price": 1291,
+            "quantity": 0,
+            "total": 0
+        },
+        "imperial": {
+            "unit": "ft2",
+            "price": 120,
+            "quantity": 0,
+            "total": 0
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 0,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 33,
+            "imperial": 350
+        },
+        "category": "carpentry",
+        "metadata": {
+            "created": 1725936818811,
+            "created_by": "Ian",
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "TA6206"
+        }
+    },
+    {
+        "_id": "TP0203",
+        "title": "temporary power supply",
+        "description": "wire shed for temporary power supply",
+        "metric": {
+            "unit": "Each",
+            "price": 7000,
+            "quantity": null,
+            "total": null
+        },
+        "imperial": {
+            "unit": "Each",
+            "price": 7000,
+            "quantity": null,
+            "total": null
+        },
+        "state": {
+            "active": false,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": 1700613593000,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 2,
+            "imperial": 2
+        },
+        "category": "electrical",
+        "metadata": {
+            "created": 1700586762694,
+            "database": {
+                "name": "rate-sheet",
+                "partioned": false
+            },
+            "_id": "TP0203"
+        }
+    },
+    {
+        "_id": "TS0001",
+        "title": "3/8 High Tensile Steel Bar",
+        "description": "To Cut Fabrcate and Install 3/8 inch (10mm) High Tensile Steel Bars",
+        "imperial": {
+            "unit": "lb",
+            "price": 23
+        },
+        "metric": {
+            "unit": "kg",
+            "price": 52
+        },
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 400.0752,
+            "imperial": "882"
+        },
+        "phase": null,
+        "paid": null,
+        "timestamp": 1634571802000,
+        "category": "steelwork"
+    },
+    {
+        "_id": "TS0002",
+        "title": "1/2 High Tensile Steel Bar",
+        "description": "To Cut Fabrcate and Install 1/2 inch (12mm) High Tensile Steel Bars",
+        "imperial": {
+            "unit": "lb",
+            "price": 23
+        },
+        "metric": {
+            "unit": "kg",
+            "price": 52
+        },
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 399.168,
+            "imperial": "880"
+        },
+        "phase": null,
+        "paid": null,
+        "timestamp": 1634573540000,
+        "category": "steelwork"
+    },
+    {
+        "_id": "TS0003",
+        "title": "5/8 High Tensile Steel Bar",
+        "description": "To Cut Fabrcate and Install 5/8 inch (16mm) High Tensile Steel Bars",
+        "imperial": {
+            "unit": "lb",
+            "price": 23
+        },
+        "metric": {
+            "unit": "kg",
+            "price": 52
+        },
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 399.17,
+            "imperial": "880"
+        },
+        "phase": null,
+        "paid": null,
+        "timestamp": 1634581502000,
+        "category": "steelwork"
+    },
+    {
+        "_id": "TS0004",
+        "title": "3/4 High Tensile Steel Bar",
+        "description": "To Cut Fabrcate and Install 3/4 inch (19mm) High Tensile Steel Bars",
+        "imperial": {
+            "unit": "lb",
+            "price": 23
+        },
+        "metric": {
+            "unit": "kg",
+            "price": 52
+        },
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 0,
+            "imperial": "880"
+        },
+        "phase": null,
+        "paid": null,
+        "timestamp": 1634575586000,
+        "category": "steelwork"
+    },
+    {
+        "_id": "TS0005",
+        "title": "1 inch High Tensile Steel Bar",
+        "description": "To Cut Fabrcate and Install 1 inch (25mm) High Tensile Steel Bars",
+        "imperial": {
+            "unit": "lb",
+            "price": 23
+        },
+        "metric": {
+            "unit": "kg",
+            "price": 52
+        },
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 400.0752,
+            "imperial": "882"
+        },
+        "phase": null,
+        "paid": null,
+        "timestamp": 1634563285000,
+        "category": "steelwork"
+    },
+    {
+        "_id": "WA45841",
+        "title": "Wash and Vacuum Trucks",
+        "description": "Wash and Vacuum Trucks of unladen weight (1000 -1500 kg)",
+        "metric": {
+            "unit": "ea",
+            "price": 2500
+        },
+        "imperial": {
+            "unit": "ea",
+            "price": 2500
+        },
+        "state": {},
+        "event": {
+            "paused": [],
+            "restart": []
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": "2021-08-07T18:07:00.814466",
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": "4",
+            "imperial": "4"
+        },
+        "category": "housekeeping"
+    },
+    {
+        "_id": "WS37671",
+        "title": "Wash Site Vehicle",
+        "description": "To Wash and vacuum site and ancillary vehicles",
+        "metric": {
+            "unit": "ea",
+            "quantity": null,
+            "price": 750,
+            "total": null
+        },
+        "imperial": {
+            "unit": "ea",
+            "quantity": null,
+            "price": 750,
+            "total": null
+        },
+        "state": {
+            "active": true,
+            "complete": false,
+            "pause": false,
+            "terminate": false
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "assigned": false,
+        "assignedto": null,
+        "phase": null,
+        "paid": null,
+        "timestamp": "2021-08-07T17:53:58.739104",
+        "comments": [],
+        "progress": 0,
+        "output": {
+            "metric": 0,
+            "imperial": 0
+        }
+    }
+]

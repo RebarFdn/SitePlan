@@ -51,9 +51,17 @@ def supplier_model(key:str=None)->dict:
 
 
 
-async def all_suppliers(conn:typing.Coroutine=db_connection)->list:
+async def all_suppliers_ref(conn:typing.Coroutine=db_connection)->list:
     try:
         r:dict = await conn.get(_directive="_all_docs") 
+        return r.get('rows')           
+    except Exception as e: logger().exception(e)
+    finally: del(r)
+
+
+async def all_suppliers(conn:typing.Coroutine=db_connection)->list:
+    try:
+        r:dict = await conn.get(_directive="_design/suppliers/_view/all") 
         return r.get('rows')           
     except Exception as e: logger().exception(e)
     finally: del(r)
@@ -86,13 +94,31 @@ async def get_supplier( id:str=None, conn:typing.Coroutine=db_connection)->dict:
 
 
 async def save_supplier(data:dict, user:str=None, conn:typing.Coroutine=db_connection):    
-    data["_id"] = generate_id(name=data.get('name'))
+    if data.get("_id"):
+        pass
+    else:
+        data["_id"] = generate_id(name=data.get('name'))
     new_supplier = supplier_model() | data
-    new_supplier['meta_data'] = load_metadata(property='created', value=timestamp(), db=databases)
-    new_supplier['meta_data'] = set_metadata(property='created_by', value=user, metadata=new_supplier.get('meta_data'))
+    if new_supplier.get('meta_data'): # meta_data is existing
+        new_supplier['meta_data']['created'] = timestamp()
+        new_supplier['meta_data']['created_by'] = user
+    else:
+        new_supplier['meta_data'] = load_metadata(property='created', value=timestamp(), db=databases)
+        new_supplier['meta_data'] = set_metadata(property='created_by', value=user, metadata=new_supplier.get('meta_data'))
     try:
         await conn.post( json=new_supplier)  
         return new_supplier                      
+    except Exception as e: logger().exception(e)
+    finally:
+        del(data)
+        del(new_supplier)
+
+
+async def backup_supplier(data:dict, conn:typing.Coroutine=db_connection)->None:    
+    new_supplier = supplier_model() | data
+    try:
+        await conn.post( json=new_supplier)  
+        return None                      
     except Exception as e: logger().exception(e)
     finally:
         del(data)
