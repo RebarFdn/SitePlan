@@ -1,0 +1,6151 @@
+[
+    {
+        "_id": "AG37282",
+        "name": "Andrew Guthrie",
+        "oc": "Andrew",
+        "sex": "Male",
+        "dob": "",
+        "height": "158",
+        "identity": "PP77877777",
+        "id_type": "Passport",
+        "trn": "900200511",
+        "occupation": "plumber",
+        "rating": "4",
+        "imgurl": "static/imgs/workers/AG37282.png",
+        "address": {
+            "lot": "396",
+            "street": "Claremont Blvd.",
+            "town": "Old Harbour",
+            "city_parish": "St Catherine"
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null
+        },
+        "account": {
+            "bank": {
+                "name": "NCB",
+                "branch": null,
+                "account": "",
+                "account_type": "Savings"
+            },
+            "payments": [],
+            "loans": []
+        },
+        "nok": {
+            "name": "Trish Ann Guthrie",
+            "relation": null,
+            "address": "",
+            "contact": ""
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "state": {
+            "active": true,
+            "onleave": false,
+            "terminated": false
+        },
+        "event": {
+            "started": null,
+            "onleave": [],
+            "restart": [],
+            "terminated": null,
+            "duration": 0
+        },
+        "reports": [],
+        "plumber_id": "plumbers"
+    },
+    {
+        "_id": "AM0407",
+        "name": "Anuk Moncrieffe",
+        "oc": "Anuk",
+        "sex": "male",
+        "dob": "2000-05-23",
+        "identity": "PP0001abcd",
+        "id_type": "passport",
+        "occupation": "supervisor",
+        "added": null,
+        "rating": "3",
+        "height": "183",
+        "imgurl": "static/imgs/workers/AM0407.png",
+        "address": {
+            "lot": "111",
+            "street": "Marlin Way",
+            "town": "Old Harbour",
+            "city_parish": "St. Catherine",
+            "country": "Jamaica"
+        },
+        "account": {
+            "bank": {
+                "name": "NCB",
+                "branch": "OLD HARBOUR",
+                "account": "874330248",
+                "account_type": "savings"
+            },
+            "payments": [],
+            "loans": []
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null,
+            "watsapp": null
+        },
+        "nok": {
+            "name": "Tattylyn Beckford",
+            "relation": "Mother",
+            "address": {
+                "lot": "111",
+                "street": "Marlin Way",
+                "town": "Old Harbour Glade",
+                "city_parish": "St. Catherine",
+                "country": null
+            },
+            "contact": {
+                "tel": null,
+                "mobile": "876-571-9176",
+                "email": null
+            }
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": {
+            "active": null,
+            "completed": null,
+            "paused": null,
+            "terminated": null
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "completion": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null,
+            "duration": null
+        },
+        "reports": [],
+        "supervisor_id": "supervisors"
+    },
+    {
+        "_id": "AM6989",
+        "name": "Alton Mckenzie",
+        "oc": "Dappa",
+        "sex": "male",
+        "dob": "1969-09-29",
+        "identity": "PP0033344555",
+        "id_type": "passport",
+        "occupation": "carpenter",
+        "added": null,
+        "rating": "4",
+        "height": "153",
+        "imgurl": "static/imgs/workers/AM6989.png",
+        "address": {
+            "lot": null,
+            "street": "Island Farm",
+            "town": "Gutters",
+            "city_parish": "St Catherine",
+            "country": null,
+            "zip": null
+        },
+        "account": {
+            "bank": {
+                "name": null,
+                "branch": null,
+                "account": null,
+                "account_type": null
+            },
+            "payments": [],
+            "loans": []
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null,
+            "watsapp": null
+        },
+        "nok": {
+            "name": null,
+            "relation": null,
+            "address": {
+                "lot": null,
+                "street": "Island Farm",
+                "town": "Gutters",
+                "city_parish": "St Catherine",
+                "country": null,
+                "zip": null
+            },
+            "contact": {
+                "tel": null,
+                "mobile": null,
+                "email": null
+            }
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": {
+            "active": null,
+            "completed": null,
+            "paused": null,
+            "terminated": null
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "completion": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null,
+            "duration": null
+        },
+        "reports": [],
+        "trn": "111222666",
+        "carpenter_id": "carpenters"
+    },
+    {
+        "_id": "AM7853",
+        "name": "Ausar Moncrieffe",
+        "oc": "Beele",
+        "sex": "Male",
+        "dob": "2002-01-28",
+        "height": "150",
+        "identity": "1000000",
+        "id_type": "National",
+        "trn": "333222111",
+        "occupation": "carpenter",
+        "rating": "2",
+        "imgurl": "static/imgs/workers/AM7853.png",
+        "address": {
+            "lot": null,
+            "street": null,
+            "town": null,
+            "city_parish": null
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null
+        },
+        "account": {
+            "bank": {
+                "name": "",
+                "branch": null,
+                "account": "",
+                "account_type": ""
+            },
+            "payments": [],
+            "loans": []
+        },
+        "nok": {
+            "name": "",
+            "relation": null,
+            "address": "",
+            "contact": ""
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [
+            {
+                "id": 1723844943556,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": true,
+                    "amount": 6000
+                },
+                "worker_name": "Ausar Moncrieffe_DD13673-AM7853",
+                "date": "2024-08-12",
+                "start": "08:30",
+                "end": "17:30",
+                "description": "work on sewage system"
+            },
+            {
+                "id": 1723844974559,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": true,
+                    "amount": 6000
+                },
+                "worker_name": "Ausar Moncrieffe_DD13673-AM7853",
+                "date": "2024-08-13",
+                "start": "08:30",
+                "end": "17:30",
+                "description": "work on sewage manhole"
+            },
+            {
+                "id": 1723845006243,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": true,
+                    "amount": 6000
+                },
+                "worker_name": "Ausar Moncrieffe_DD13673-AM7853",
+                "date": "2024-08-14",
+                "start": "09:30",
+                "end": "16:30",
+                "description": "work on sewage manhole"
+            },
+            {
+                "id": 1723845063876,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": true,
+                    "amount": 6000
+                },
+                "worker_name": "Ausar Moncrieffe_DD13673-AM7853",
+                "date": "2024-08-15",
+                "start": "09:00",
+                "end": "17:30",
+                "description": "work on roof and sewage manholes 4 & 5"
+            },
+            {
+                "id": 1723845106285,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": true,
+                    "amount": 6000
+                },
+                "worker_name": "Ausar Moncrieffe_DD13673-AM7853",
+                "date": "2024-08-16",
+                "start": "08:30",
+                "end": "16:00",
+                "description": "dress  manholes 4 & 5"
+            },
+            {
+                "id": 1724110391810,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": true,
+                    "amount": 6000
+                },
+                "worker_name": "Ausar Moncrieffe_DD13673-AM7853",
+                "date": "2024-08-19",
+                "start": "08:00",
+                "end": "16:00",
+                "description": "General Works , Line out and excavate for Walk way "
+            },
+            {
+                "id": 1724292455246,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": true,
+                    "amount": 6000
+                },
+                "worker_name": "Ausar Moncrieffe_DD13673-AM7853",
+                "date": "2024-08-20",
+                "start": "08:00",
+                "end": "17:30",
+                "description": "Work on Walk way"
+            },
+            {
+                "id": 1724363578847,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": true,
+                    "amount": 6000
+                },
+                "worker_name": "Ausar Moncrieffe_DD13673-AM7853",
+                "date": "2024-08-22",
+                "start": "08:30",
+                "end": "16:30",
+                "description": "Work on Walk way, Electrical Tower"
+            },
+            {
+                "id": 1725660232077,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": true,
+                    "amount": 6000
+                },
+                "worker_name": "Ausar Moncrieffe_DD13673-AM7853",
+                "date": "2024-09-06",
+                "start": "08:30",
+                "end": "16:45",
+                "description": "Clear out garage , work on light pole"
+            }
+        ],
+        "earnings": [],
+        "state": {
+            "active": true,
+            "onleave": false,
+            "terminated": false
+        },
+        "event": {
+            "started": null,
+            "onleave": [],
+            "restart": [],
+            "terminated": null,
+            "duration": 0
+        },
+        "reports": [],
+        "carpenter_id": "carpenters"
+    },
+    {
+        "_id": "AM92316",
+        "name": "Arnold Melbourne",
+        "oc": "Johnny",
+        "sex": "Male",
+        "dob": 0,
+        "identity": "",
+        "id_type": "",
+        "occupation": "steelman",
+        "rating": 5,
+        "height": 0,
+        "imgurl": "/static/imgs/workers/AM92316.png",
+        "contact": {
+            "email": null,
+            "tel": null,
+            "mobile": null
+        },
+        "address": {
+            "lot": "12",
+            "street": "",
+            "town": "Mandeville",
+            "city_parish": "Manchester"
+        },
+        "nok": {
+            "name": "",
+            "relation": "",
+            "contact": {
+                "email": "",
+                "tel": "",
+                "mobile": ""
+            },
+            "address": {
+                "lot": "",
+                "street": "",
+                "town": "",
+                "city_parish": ""
+            }
+        },
+        "tasks": [],
+        "account": {
+            "bank": {
+                "name": "CIBC",
+                "branch": "MANDEVILLE",
+                "account": 0
+            },
+            "payments": [],
+            "loans": [],
+            "totals_payments": [],
+            "total": 0
+        },
+        "days": [],
+        "state": {
+            "active": true,
+            "terminated": false,
+            "onleave": false,
+            "quit": false
+        },
+        "event": {
+            "employed": 1664315419000,
+            "terminated": 0,
+            "leave": 0,
+            "quited": 0
+        },
+        "reports": [],
+        "jobs": []
+    },
+    {
+        "_id": "BC5332",
+        "name": "Brandon Cunningham",
+        "oc": "Dadda",
+        "sex": "male",
+        "dob": null,
+        "identity": "PP10020000000000",
+        "id_type": "passport",
+        "occupation": "steelman",
+        "added": null,
+        "rating": "3",
+        "height": null,
+        "imgurl": "static/imgs/workers/BC5332.png",
+        "address": {
+            "lot": null,
+            "street": "Terminal rd",
+            "town": "Old Harbour Bay",
+            "city_parish": "St Catherine",
+            "country": null,
+            "zip": null
+        },
+        "account": {
+            "bank": {
+                "name": null,
+                "branch": null,
+                "account": null,
+                "account_type": null
+            },
+            "payments": [],
+            "loans": []
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null,
+            "watsapp": null
+        },
+        "nok": {
+            "name": "Lisa Chambers",
+            "relation": "Fionce",
+            "address": {
+                "lot": null,
+                "street": "Terminal rd",
+                "town": "Old Harbour Bay",
+                "city_parish": "St Catherine",
+                "country": null,
+                "zip": null
+            },
+            "contact": {
+                "tel": null,
+                "mobile": "876-310-4968",
+                "email": null
+            }
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [
+            {
+                "id": 1732162024638,
+                "project_id": "AJ37804",
+                "payment": {
+                    "paid": false,
+                    "amount": 0
+                },
+                "worker_name": "Brandon Cunningham_AJ37804-BC5332",
+                "date": "2024-11-05",
+                "start": "08:00",
+                "end": "17:00",
+                "description": "Prepare reinforecements ",
+                "hash_key": "553508ec87fc8402999132c965a00504"
+            },
+            {
+                "id": 1732162117901,
+                "project_id": "AJ37804",
+                "payment": {
+                    "paid": false,
+                    "amount": 0
+                },
+                "worker_name": "Brandon Cunningham_AJ37804-BC5332",
+                "date": "2024-11-06",
+                "start": "08:00",
+                "end": "17:00",
+                "description": "Cut 3/8 steel for links and stirrups ",
+                "hash_key": "6742ab2a9175d448e2e8da11312ef84f"
+            }
+        ],
+        "earnings": [],
+        "state": {
+            "active": null,
+            "completed": null,
+            "paused": null,
+            "terminated": null
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "completion": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null,
+            "duration": null
+        },
+        "reports": [],
+        "trn": "30000000000",
+        "steelman_id": "steelmans"
+    },
+    {
+        "_id": "BC92235",
+        "name": "Bunny Carpenter",
+        "oc": "Bunny",
+        "sex": "male",
+        "dob": null,
+        "identity": "1112225555",
+        "id_type": "drivers",
+        "occupation": "carpenter",
+        "added": null,
+        "rating": "5",
+        "height": null,
+        "imgurl": "static/imgs/workers/BC92235.png",
+        "address": {
+            "lot": "",
+            "street": "Gutters ",
+            "town": "Nain",
+            "city_parish": "St Elizabeth",
+            "country": null,
+            "zip": null
+        },
+        "account": {
+            "bank": {
+                "name": null,
+                "branch": null,
+                "account": null,
+                "account_type": null
+            },
+            "payments": [],
+            "loans": []
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null,
+            "watsapp": null
+        },
+        "nok": {
+            "name": null,
+            "relation": null,
+            "address": {
+                "lot": "",
+                "street": "Gutters ",
+                "town": "Nain",
+                "city_parish": "St Elizabeth",
+                "country": null,
+                "zip": null
+            },
+            "contact": {
+                "tel": null,
+                "mobile": null,
+                "email": null
+            }
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": {
+            "active": null,
+            "completed": null,
+            "paused": null,
+            "terminated": null
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "completion": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null,
+            "duration": null
+        },
+        "reports": [],
+        "trn": "10000000",
+        "carpenter_id": "carpenters"
+    },
+    {
+        "_id": "BF4208",
+        "name": "Brian Frankson",
+        "oc": "Bongo",
+        "sex": "male",
+        "dob": null,
+        "identity": "PP00100100",
+        "id_type": "passport",
+        "occupation": "mason",
+        "added": null,
+        "rating": "3",
+        "height": "150",
+        "imgurl": "static/imgs/workers/BF4208.png",
+        "address": {
+            "lot": null,
+            "street": "Patrick Street",
+            "town": "Old Harbour",
+            "city_parish": "St Catherine",
+            "country": null,
+            "zip": null
+        },
+        "account": {
+            "bank": {
+                "name": null,
+                "branch": null,
+                "account": null,
+                "account_type": null
+            },
+            "payments": [],
+            "loans": []
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null,
+            "watsapp": null
+        },
+        "nok": {
+            "name": null,
+            "relation": null,
+            "address": {
+                "lot": null,
+                "street": null,
+                "town": null,
+                "city_parish": null,
+                "country": null,
+                "zip": null
+            },
+            "contact": {
+                "tel": null,
+                "mobile": null,
+                "email": null
+            }
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": {
+            "active": null,
+            "completed": null,
+            "paused": null,
+            "terminated": null
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "completion": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null,
+            "duration": null
+        },
+        "reports": [],
+        "trn": "100200300",
+        "mason_id": "masons"
+    },
+    {
+        "_id": "BM1299",
+        "name": "Bethune Morgan",
+        "oc": "Betty",
+        "sex": "Female",
+        "dob": "",
+        "height": "152",
+        "identity": "pp00112200",
+        "id_type": "Passport",
+        "trn": "11100000",
+        "occupation": "labourer",
+        "rating": "4",
+        "imgurl": "static/imgs/workers/BM1299.png",
+        "address": {
+            "lot": "",
+            "street": "",
+            "town": "Mandeville",
+            "city_parish": "Manchester"
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null
+        },
+        "account": {
+            "bank": {
+                "name": "",
+                "branch": null,
+                "account": "",
+                "account_type": ""
+            },
+            "payments": [],
+            "loans": []
+        },
+        "nok": {
+            "name": "",
+            "relation": null,
+            "address": "",
+            "contact": ""
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "state": {
+            "active": true,
+            "onleave": false,
+            "terminated": false
+        },
+        "event": {
+            "started": null,
+            "onleave": [],
+            "restart": [],
+            "terminated": null,
+            "duration": 0
+        },
+        "reports": [],
+        "labourer_id": "labourers"
+    },
+    {
+        "_id": "BY1352",
+        "name": "Big Youth",
+        "oc": "Biggs",
+        "sex": "male",
+        "dob": null,
+        "identity": "PP1000000000",
+        "id_type": "passport",
+        "occupation": "mason",
+        "added": null,
+        "rating": "4",
+        "height": null,
+        "imgurl": "static/imgs/workers/BY1352.png",
+        "address": {
+            "lot": null,
+            "street": null,
+            "town": null,
+            "city_parish": null,
+            "country": null,
+            "zip": null
+        },
+        "account": {
+            "bank": {
+                "name": null,
+                "branch": null,
+                "account": null,
+                "account_type": null
+            },
+            "payments": [],
+            "loans": []
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null,
+            "watsapp": null
+        },
+        "nok": {
+            "name": null,
+            "relation": null,
+            "address": {
+                "lot": null,
+                "street": null,
+                "town": null,
+                "city_parish": null,
+                "country": null,
+                "zip": null
+            },
+            "contact": {
+                "tel": null,
+                "mobile": null,
+                "email": null
+            }
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": {
+            "active": null,
+            "completed": null,
+            "paused": null,
+            "terminated": null
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "completion": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null,
+            "duration": null
+        },
+        "reports": [],
+        "trn": "10000000",
+        "mason_id": "masons"
+    },
+    {
+        "_id": "carpenters:AM7853",
+        "name": "Ausar Moncrieffe",
+        "oc": "Beele",
+        "sex": "Male",
+        "dob": "2002-01-28",
+        "height": "150",
+        "identity": "1000000",
+        "id_type": "National",
+        "trn": "333222111",
+        "occupation": "carpenter",
+        "rating": "2",
+        "imgurl": "static/imgs/workers/AM7853.png",
+        "address": {
+            "lot": "",
+            "street": "",
+            "town": "",
+            "city_parish": ""
+        },
+        "contact": {
+            "tel": "",
+            "mobile": "",
+            "email": ""
+        },
+        "account": {
+            "bank": {
+                "name": "",
+                "branch": null,
+                "account": "",
+                "account_type": ""
+            },
+            "payments": [],
+            "loans": []
+        },
+        "nok": {
+            "name": "",
+            "relation": null,
+            "address": "",
+            "contact": ""
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": [
+            {
+                "active": true,
+                "onleave": false,
+                "terminated": false
+            }
+        ],
+        "event": [
+            {
+                "started": null,
+                "onleave": [],
+                "restart": [],
+                "terminated": null,
+                "duration": 0
+            }
+        ],
+        "reports": [],
+        "carpenter_id": "carpenters"
+    },
+    {
+        "_id": "carpenters:DB0690",
+        "name": "David Baker",
+        "oc": "Baker",
+        "sex": "Male",
+        "dob": "",
+        "height": "170",
+        "identity": "1000000",
+        "id_type": "National",
+        "trn": "555999888",
+        "occupation": "carpenter",
+        "rating": "4",
+        "imgurl": "static/imgs/workers/DB0690.png",
+        "address": {
+            "lot": "",
+            "street": "Mike Town",
+            "town": "Mandeville",
+            "city_parish": "Manchester"
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null
+        },
+        "account": {
+            "bank": {
+                "name": "NCB",
+                "branch": null,
+                "account": "",
+                "account_type": "savings"
+            },
+            "payments": [],
+            "loans": []
+        },
+        "nok": {
+            "name": "",
+            "relation": null,
+            "address": "",
+            "contact": ""
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": {
+            "active": true,
+            "onleave": false,
+            "terminated": false
+        },
+        "event": {
+            "started": null,
+            "onleave": [],
+            "restart": [],
+            "terminated": null,
+            "duration": 0
+        },
+        "reports": [],
+        "carpenter_id": "carpenters"
+    },
+    {
+        "_id": "CC00420",
+        "name": "Collin Chisholm ",
+        "oc": "Collin",
+        "sex": "Male",
+        "dob": "",
+        "height": "125",
+        "identity": "11122200033",
+        "id_type": "National",
+        "trn": "33322556",
+        "occupation": "electrician",
+        "rating": "4",
+        "imgurl": "static/imgs/workers/CC00420.png",
+        "address": {
+            "lot": "",
+            "street": "",
+            "town": "Longsville Park",
+            "city_parish": "Clarendon"
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null
+        },
+        "account": {
+            "bank": {
+                "name": "NCB",
+                "branch": null,
+                "account": "874509779",
+                "account_type": "savings"
+            },
+            "payments": [],
+            "loans": []
+        },
+        "nok": {
+            "name": "",
+            "relation": null,
+            "address": "",
+            "contact": ""
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": {
+            "active": true,
+            "onleave": false,
+            "terminated": false
+        },
+        "event": {
+            "started": null,
+            "onleave": [],
+            "restart": [],
+            "terminated": null,
+            "duration": 0
+        },
+        "reports": [],
+        "electrician_id": "electricians"
+    },
+    {
+        "_id": "CC07725",
+        "name": "Cliffton Champagnie",
+        "oc": "Baddas",
+        "sex": "Male",
+        "dob": "",
+        "height": "156",
+        "identity": "96654888",
+        "id_type": "National",
+        "trn": "774445588",
+        "occupation": "mason",
+        "rating": "3",
+        "imgurl": "static/imgs/workers/CC07725.png",
+        "address": {
+            "lot": "",
+            "street": "",
+            "town": "",
+            "city_parish": ""
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null
+        },
+        "account": {
+            "bank": {
+                "name": "",
+                "branch": null,
+                "account": "",
+                "account_type": ""
+            },
+            "payments": [],
+            "loans": []
+        },
+        "nok": {
+            "name": "",
+            "relation": null,
+            "address": "",
+            "contact": ""
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": {
+            "active": true,
+            "onleave": false,
+            "terminated": false
+        },
+        "event": {
+            "started": null,
+            "onleave": [],
+            "restart": [],
+            "terminated": null,
+            "duration": 0
+        },
+        "reports": [],
+        "mason_id": "masons"
+    },
+    {
+        "_id": "CC62295",
+        "name": "Calvin Copeland",
+        "oc": "Calvin",
+        "sex": "Male",
+        "dob": 0,
+        "identity": "",
+        "id_type": "",
+        "occupation": "mason",
+        "rating": 3,
+        "height": 0,
+        "imgurl": "static/imgs/workers/CW26096.png",
+        "contact": {
+            "email": null,
+            "tel": null,
+            "mobile": null
+        },
+        "address": {
+            "lot": "",
+            "street": "",
+            "town": "Monroe",
+            "city_parish": "St. Elizabeth"
+        },
+        "nok": {
+            "name": "",
+            "relation": "",
+            "contact": {
+                "email": "",
+                "tel": "",
+                "mobile": ""
+            },
+            "address": {
+                "lot": "",
+                "street": "",
+                "town": "",
+                "city_parish": ""
+            }
+        },
+        "tasks": [],
+        "account": {
+            "bank": {
+                "name": "",
+                "branch": "",
+                "account": 0
+            },
+            "payments": [],
+            "loans": [],
+            "totals_payments": [],
+            "total": 0
+        },
+        "days": [],
+        "state": {
+            "active": false,
+            "terminated": false,
+            "onleave": true,
+            "quit": false
+        },
+        "event": {
+            "employed": 1664316559000,
+            "terminated": 0,
+            "leave": 0,
+            "quited": 0
+        },
+        "reports": [],
+        "jobs": []
+    },
+    {
+        "_id": "CF2128",
+        "name": "Chevelle Francis",
+        "oc": "Chevelle",
+        "sex": "female",
+        "dob": 0,
+        "identity": "",
+        "id_type": "",
+        "occupation": "labourer",
+        "rating": 3,
+        "height": 0,
+        "imgurl": "static/imgs/workers/CW2893.png",
+        "contact": {
+            "email": null,
+            "tel": null,
+            "mobile": null
+        },
+        "address": {
+            "lot": "",
+            "street": "Elgin Dist.",
+            "town": "Malvern",
+            "city_parish": "St. Elizabeth"
+        },
+        "nok": {
+            "name": "",
+            "relation": "",
+            "contact": {
+                "email": "",
+                "tel": "",
+                "mobile": ""
+            },
+            "address": {
+                "lot": "",
+                "street": "",
+                "town": "",
+                "city_parish": ""
+            }
+        },
+        "tasks": [],
+        "account": {
+            "bank": {
+                "name": "JN",
+                "branch": "SANTA CRUZ",
+                "account": "2094171120"
+            },
+            "payments": [],
+            "loans": [],
+            "totals_payments": [],
+            "total": 0
+        },
+        "days": [],
+        "state": {
+            "active": false,
+            "terminated": false,
+            "onleave": true,
+            "quit": false
+        },
+        "event": {
+            "employed": 1665527863000,
+            "terminated": 0,
+            "leave": 0,
+            "quited": 0
+        },
+        "reports": [],
+        "jobs": []
+    },
+    {
+        "_id": "CF5313",
+        "name": "Charmaine Francis",
+        "oc": "Charmaine",
+        "sex": "female",
+        "dob": 0,
+        "identity": "",
+        "id_type": "",
+        "occupation": "labourer",
+        "rating": 5,
+        "height": 0,
+        "imgurl": "static/imgs/workers/CW8453.png",
+        "contact": {
+            "email": null,
+            "tel": null,
+            "mobile": null
+        },
+        "address": {
+            "lot": "",
+            "street": "Elgin Dist.",
+            "town": "Malvern",
+            "city_parish": "St. Elizabeth"
+        },
+        "nok": {
+            "name": "",
+            "relation": "",
+            "contact": {
+                "email": "",
+                "tel": "",
+                "mobile": ""
+            },
+            "address": {
+                "lot": "",
+                "street": "",
+                "town": "",
+                "city_parish": ""
+            }
+        },
+        "tasks": [],
+        "account": {
+            "bank": {
+                "name": "",
+                "branch": "",
+                "account": 0
+            },
+            "payments": [],
+            "loans": [],
+            "totals_payments": [],
+            "total": 0
+        },
+        "days": [],
+        "state": {
+            "active": false,
+            "terminated": false,
+            "onleave": true,
+            "quit": false
+        },
+        "event": {
+            "employed": 1664303016000,
+            "terminated": 0,
+            "leave": 0,
+            "quited": 0
+        },
+        "reports": [],
+        "jobs": []
+    },
+    {
+        "_id": "CW2229",
+        "name": "Clayton Williams",
+        "oc": "Winston",
+        "sex": "Male",
+        "dob": 0,
+        "identity": "",
+        "id_type": "",
+        "occupation": "mason",
+        "rating": 5,
+        "height": 0,
+        "imgurl": "static/imgs/workers/CW2229.png",
+        "contact": {
+            "email": null,
+            "tel": null,
+            "mobile": null
+        },
+        "address": {
+            "lot": "",
+            "street": "",
+            "town": "Newport",
+            "city_parish": "Manchester"
+        },
+        "nok": {
+            "name": "",
+            "relation": "",
+            "contact": {
+                "email": "",
+                "tel": "",
+                "mobile": ""
+            },
+            "address": {
+                "lot": "",
+                "street": "",
+                "town": "",
+                "city_parish": ""
+            }
+        },
+        "tasks": [],
+        "account": {
+            "bank": {
+                "name": "",
+                "branch": "",
+                "account": 0
+            },
+            "payments": [],
+            "loans": [],
+            "totals_payments": [],
+            "total": 0
+        },
+        "days": [],
+        "state": {
+            "active": true,
+            "terminated": false,
+            "onleave": false,
+            "quit": false
+        },
+        "event": {
+            "employed": 1664307212000,
+            "terminated": 0,
+            "leave": 0,
+            "quited": 0
+        },
+        "reports": [],
+        "jobs": []
+    },
+    {
+        "_id": "CW26096",
+        "name": "Calvin Copeland",
+        "oc": "Calvin",
+        "sex": "Male",
+        "dob": 0,
+        "identity": "",
+        "id_type": "",
+        "occupation": "mason",
+        "rating": 3,
+        "height": 0,
+        "imgurl": "static/imgs/workers/CW26096.png",
+        "contact": {
+            "email": "",
+            "tel": "",
+            "mobile": ""
+        },
+        "address": {
+            "lot": "",
+            "street": "",
+            "town": "Monroe",
+            "city_parish": "St. Elizabeth"
+        },
+        "nok": {
+            "name": "",
+            "relation": "",
+            "contact": {
+                "email": "",
+                "tel": "",
+                "mobile": ""
+            },
+            "address": {
+                "lot": "",
+                "street": "",
+                "town": "",
+                "city_parish": ""
+            }
+        },
+        "tasks": [],
+        "account": {
+            "bank": {
+                "name": "",
+                "branch": "",
+                "account": 0
+            },
+            "payments": [],
+            "loans": [],
+            "totals_payments": [],
+            "total": 0
+        },
+        "days": [],
+        "state": {
+            "active": false,
+            "terminated": false,
+            "onleave": true,
+            "quit": false
+        },
+        "event": {
+            "employed": 1664316559000,
+            "terminated": 0,
+            "leave": 0,
+            "quited": 0
+        },
+        "reports": [],
+        "jobs": []
+    },
+    {
+        "_id": "CW2893",
+        "name": "Chevelle Francis",
+        "oc": "Chevelle",
+        "sex": "female",
+        "dob": 0,
+        "identity": "",
+        "id_type": "",
+        "occupation": "labourer",
+        "rating": 3,
+        "height": 0,
+        "imgurl": "static/imgs/workers/CW2893.png",
+        "contact": {
+            "email": "",
+            "tel": "",
+            "mobile": ""
+        },
+        "address": {
+            "lot": "",
+            "street": "Elgin Dist.",
+            "town": "Malvern",
+            "city_parish": "St. Elizabeth"
+        },
+        "nok": {
+            "name": "",
+            "relation": "",
+            "contact": {
+                "email": "",
+                "tel": "",
+                "mobile": ""
+            },
+            "address": {
+                "lot": "",
+                "street": "",
+                "town": "",
+                "city_parish": ""
+            }
+        },
+        "tasks": [],
+        "account": {
+            "bank": {
+                "name": "JN",
+                "branch": "SANTA CRUZ",
+                "account": "2094171120"
+            },
+            "payments": [],
+            "loans": [],
+            "totals_payments": [],
+            "total": 0
+        },
+        "days": [],
+        "state": {
+            "active": false,
+            "terminated": false,
+            "onleave": true,
+            "quit": false
+        },
+        "event": {
+            "employed": 1665527863000,
+            "terminated": 0,
+            "leave": 0,
+            "quited": 0
+        },
+        "reports": [],
+        "jobs": []
+    },
+    {
+        "_id": "CW37980",
+        "name": "Stanford Huntly",
+        "oc": "Blacks",
+        "sex": "Male",
+        "dob": 0,
+        "identity": "",
+        "id_type": "",
+        "height": 0,
+        "imgurl": "static/imgs/workers/CW37980.png",
+        "occupation": "watchman",
+        "rating": 4,
+        "address": {
+            "lot": "",
+            "street": "Southfield District",
+            "town": "SouthField",
+            "parish": "",
+            "country": ""
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null
+        },
+        "nok": {
+            "name": "",
+            "relation": "",
+            "address": "",
+            "tel": "",
+            "mobile": ""
+        },
+        "tasks": [],
+        "account": {
+            "bank": {
+                "name": "",
+                "branch": "",
+                "account": 0
+            },
+            "payments": [],
+            "prev_payments": [
+                {
+                    "date": 1651190400000,
+                    "ref": "DVPB001",
+                    "description": "Seven Days Pay @ 3000/day",
+                    "amount": 21000,
+                    "id": "41fekdak"
+                },
+                {
+                    "date": 1652400000000,
+                    "ref": "DVPB002",
+                    "description": "Eleven Days Pay @ 3000/day +",
+                    "amount": 37350,
+                    "id": "8nc1dnmj"
+                },
+                {
+                    "date": 1653609600000,
+                    "ref": "DVPB003",
+                    "description": "Forthnight Watching",
+                    "amount": 40000,
+                    "id": "gg93gf9d"
+                },
+                {
+                    "date": 1654819200000,
+                    "ref": "DVPB004",
+                    "description": "Forthnight Watching",
+                    "amount": 40000,
+                    "id": "j5le3kd7"
+                },
+                {
+                    "date": 1656028800000,
+                    "ref": "DVPB005",
+                    "description": "Forthnight Watching",
+                    "amount": 40000,
+                    "id": "8ee1ln65"
+                },
+                {
+                    "date": 1657238400000,
+                    "ref": "DVPB006",
+                    "description": "Forthnight Watching",
+                    "amount": 40000,
+                    "id": "faci9h6j"
+                },
+                {
+                    "date": 1658448000000,
+                    "ref": "DVPB007",
+                    "description": "Forthnight Watching",
+                    "amount": 40000,
+                    "id": "l9m5gc1g"
+                },
+                {
+                    "date": 1659657600000,
+                    "ref": "DVPB008",
+                    "description": "Forthnight Watching",
+                    "amount": 45000,
+                    "id": "97ahkn2h"
+                },
+                {
+                    "ref": "DVPB009",
+                    "description": "Forthnight Watching",
+                    "amount": 45000,
+                    "date": 1660867200000,
+                    "id": "kl2n235d"
+                }
+            ],
+            "loans": [],
+            "totals_payments": [
+                21000,
+                37350,
+                40000,
+                40000,
+                40000,
+                40000,
+                40000,
+                45000,
+                45000
+            ],
+            "total": 500350
+        },
+        "days": [],
+        "state": {
+            "active": true,
+            "terminated": false,
+            "onleave": false,
+            "quit": false
+        },
+        "event": {
+            "employed": 1650344400000,
+            "terminated": 0,
+            "leave": 0,
+            "quited": 0
+        },
+        "reports": [],
+        "jobs": []
+    },
+    {
+        "_id": "CW73409",
+        "name": "Leon Thomas",
+        "oc": "sthomas",
+        "sex": "Male",
+        "dob": 0,
+        "identity": "",
+        "rating": 3,
+        "id_type": "",
+        "height": 0,
+        "imgurl": "static/imgs/workers/CW73409.png",
+        "occupation": "labourer",
+        "address": {
+            "lot": "x",
+            "street": "Elgin District",
+            "town": "Malvern",
+            "parish": "St. Elizabeth",
+            "country": "Jamaica"
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null
+        },
+        "nok": {
+            "name": "",
+            "relation": "",
+            "address": "",
+            "tel": "",
+            "mobile": ""
+        },
+        "tasks": [],
+        "account": {
+            "bank": {
+                "name": "",
+                "branch": "",
+                "account": ""
+            },
+            "payments": [],
+            "loans": [],
+            "totals_payments": [
+                25000,
+                3000,
+                27000
+            ],
+            "total": 55000
+        },
+        "days": [],
+        "state": {
+            "active": false,
+            "terminated": true,
+            "onleave": false,
+            "quit": false
+        },
+        "event": {
+            "employed": 1653022800000,
+            "terminated": 1656392400000,
+            "leave": "",
+            "quited": ""
+        },
+        "reports": [],
+        "jobs": []
+    },
+    {
+        "_id": "CW7504",
+        "name": "john cow",
+        "oc": "cow",
+        "sex": "Male",
+        "dob": "0734-11-10",
+        "identity": "772565874",
+        "id_type": "drivers_lic",
+        "occupation": "joiner",
+        "height": 0,
+        "imgurl": "static/imgs/workers/CW7504.png",
+        "contact": {
+            "email": null,
+            "tel": null,
+            "mobile": null
+        },
+        "address": {
+            "lot": "",
+            "street": "",
+            "town": "",
+            "city_parish": ""
+        },
+        "nok": {
+            "name": "",
+            "relation": "",
+            "contact": {
+                "email": "",
+                "tel": "",
+                "mobile": ""
+            },
+            "address": {
+                "lot": "",
+                "street": "",
+                "town": "",
+                "city_parish": ""
+            }
+        },
+        "tasks": [],
+        "account": {
+            "bank": {
+                "name": "NCB",
+                "branch": "MATILDAS CORNER",
+                "account": "874552665"
+            },
+            "payments": [],
+            "loans": [],
+            "totals_payments": [],
+            "total": 0
+        },
+        "days": [],
+        "state": {
+            "active": false,
+            "terminated": false,
+            "onleave": false,
+            "quit": false
+        },
+        "event": {
+            "employed": 1664672685000,
+            "terminated": 0,
+            "leave": 0,
+            "quited": 0
+        },
+        "reports": [],
+        "jobs": []
+    },
+    {
+        "_id": "CW9598",
+        "name": "Jovaughne Martin",
+        "oc": "Varni",
+        "sex": "Male",
+        "dob": 0,
+        "identity": "",
+        "id_type": "",
+        "occupation": "labourer",
+        "rating": 3,
+        "height": 0,
+        "imgurl": "static/imgs/workers/CW9598.png",
+        "contact": {
+            "email": null,
+            "tel": null,
+            "mobile": null
+        },
+        "address": {
+            "lot": "",
+            "street": "Hamshire Dist.",
+            "town": "Riversdale",
+            "city_parish": "St. Catherine"
+        },
+        "nok": {
+            "name": "",
+            "relation": "",
+            "contact": {
+                "email": "",
+                "tel": "",
+                "mobile": ""
+            },
+            "address": {
+                "lot": "",
+                "street": "",
+                "town": "",
+                "city_parish": ""
+            }
+        },
+        "tasks": [],
+        "account": {
+            "bank": {
+                "name": "NCB",
+                "branch": "LINSTEAD",
+                "account": "684292609"
+            },
+            "payments": [],
+            "loans": [],
+            "totals_payments": [],
+            "total": 0
+        },
+        "days": [],
+        "state": {
+            "active": false,
+            "terminated": true,
+            "onleave": false,
+            "quit": false
+        },
+        "event": {
+            "employed": 1665522511000,
+            "terminated": 0,
+            "leave": 0,
+            "quited": 0
+        },
+        "reports": [],
+        "jobs": []
+    },
+    {
+        "_id": "CW9904",
+        "name": "Junior Johnson",
+        "oc": "Junior",
+        "sex": "Male",
+        "dob": 0,
+        "identity": "",
+        "id_type": "",
+        "occupation": "labourer",
+        "rating": 3,
+        "height": 0,
+        "imgurl": "static/imgs/workers/CW9904.png",
+        "contact": {
+            "email": null,
+            "tel": null,
+            "mobile": null
+        },
+        "address": {
+            "lot": "",
+            "street": "Elgin Dist.",
+            "town": "Malvern",
+            "city_parish": "St. Elizabeth"
+        },
+        "nok": {
+            "name": "",
+            "relation": "",
+            "contact": {
+                "email": "",
+                "tel": "",
+                "mobile": ""
+            },
+            "address": {
+                "lot": "",
+                "street": "",
+                "town": "",
+                "city_parish": ""
+            }
+        },
+        "tasks": [],
+        "account": {
+            "bank": {
+                "name": "",
+                "branch": "",
+                "account": 0
+            },
+            "payments": [],
+            "loans": [],
+            "totals_payments": [],
+            "total": 0
+        },
+        "days": [],
+        "state": {
+            "active": false,
+            "terminated": false,
+            "onleave": true,
+            "quit": false
+        },
+        "event": {
+            "employed": 1664302796000,
+            "terminated": 0,
+            "leave": 0,
+            "quited": 0
+        },
+        "reports": [],
+        "jobs": []
+    },
+    {
+        "_id": "CW99403",
+        "name": "Vivine Francis",
+        "oc": "Vivine",
+        "sex": "Female",
+        "dob": 0,
+        "identity": "",
+        "id_type": "",
+        "height": 0,
+        "imgurl": "static/imgs/workers/CW99403.png",
+        "occupation": "Labourer",
+        "rating": 3,
+        "address": {
+            "lot": "x",
+            "street": "Elgin District",
+            "town": "Malvern",
+            "parish": "St. Elizabeth",
+            "country": "Jamaica"
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null
+        },
+        "nok": {
+            "name": "Charmaine Francis",
+            "relation": "Sister",
+            "address": "Elgin District, Malvern, St. Elizabeth",
+            "tel": "",
+            "mobile": ""
+        },
+        "tasks": [],
+        "days": [],
+        "account": {
+            "bank": {
+                "name": "Jamaica National Bank",
+                "branch": "SANTA CRUZ",
+                "account": "10125933"
+            },
+            "payments": [],
+            "totals_payments": [],
+            "total": 0,
+            "loans": []
+        },
+        "state": {
+            "active": false,
+            "terminated": false,
+            "onleave": true,
+            "quit": false
+        },
+        "event": {
+            "employed": 0,
+            "terminated": 0,
+            "leave": 0,
+            "quited": 0
+        },
+        "reports": [],
+        "jobs": []
+    },
+    {
+        "_id": "DB0690",
+        "name": "David Baker",
+        "oc": "Baker",
+        "sex": "Male",
+        "dob": "",
+        "height": "170",
+        "identity": "1000000",
+        "id_type": "National",
+        "trn": "555999888",
+        "occupation": "carpenter",
+        "rating": "4",
+        "imgurl": "static/imgs/workers/DB0690.png",
+        "address": {
+            "lot": "",
+            "street": "Mike Town",
+            "town": "Mandeville",
+            "city_parish": "Manchester"
+        },
+        "contact": {
+            "tel": "876-830-1872",
+            "mobile": "876-830-1872",
+            "email": ""
+        },
+        "account": {
+            "bank": {
+                "name": "NCB",
+                "branch": null,
+                "account": "",
+                "account_type": "savings"
+            },
+            "payments": [],
+            "loans": []
+        },
+        "nok": {
+            "name": "",
+            "relation": null,
+            "address": "",
+            "contact": ""
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": [
+            {
+                "active": true,
+                "onleave": false,
+                "terminated": false
+            }
+        ],
+        "event": [
+            {
+                "started": null,
+                "onleave": [],
+                "restart": [],
+                "terminated": null,
+                "duration": 0
+            }
+        ],
+        "reports": [],
+        "carpenter_id": "carpenters"
+    },
+    {
+        "_id": "DL20343",
+        "name": "Delroy Lewis",
+        "oc": "Foxy Brown",
+        "sex": "Male",
+        "dob": "",
+        "height": "132",
+        "identity": "0111245",
+        "id_type": "National",
+        "trn": "44158726",
+        "occupation": "labourer",
+        "rating": "3",
+        "imgurl": "static/imgs/workers/DL20343.png",
+        "address": {
+            "lot": "",
+            "street": "Loyds Pen",
+            "town": "Bushy Park",
+            "city_parish": "St. Catherine"
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null
+        },
+        "account": {
+            "bank": {
+                "name": "",
+                "branch": null,
+                "account": "",
+                "account_type": ""
+            },
+            "payments": [],
+            "loans": []
+        },
+        "nok": {
+            "name": "",
+            "relation": null,
+            "address": "",
+            "contact": ""
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [
+            {
+                "id": 1723813571014,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": true,
+                    "amount": 4000
+                },
+                "worker_name": "Delroy Lewis_DD13673-DL20343",
+                "date": "2024-08-12",
+                "start": "08:00",
+                "end": "17:30",
+                "description": "Treat Form ply with gasoil in prep for roofing"
+            },
+            {
+                "id": 1723813598919,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": true,
+                    "amount": 4000
+                },
+                "worker_name": "Delroy Lewis_DD13673-DL20343",
+                "date": "2024-08-13",
+                "start": "08:30",
+                "end": "16:30",
+                "description": "Treat Form ply with gasoil in prep for roofing"
+            },
+            {
+                "id": 1723813661143,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": true,
+                    "amount": 4000
+                },
+                "worker_name": "Delroy Lewis_DD13673-DL20343",
+                "date": "2024-08-14",
+                "start": "08:00",
+                "end": "17:00",
+                "description": "Treat Form ply with gasoil in prep for roofing, excavate to clear sewer pipe in soak away "
+            },
+            {
+                "id": 1724447860235,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": true,
+                    "amount": 4000
+                },
+                "worker_name": "Delroy Lewis_DD13673-DL20343",
+                "date": "2024-08-22",
+                "start": "08:30",
+                "end": "12:30",
+                "description": "Rub sand walls"
+            },
+            {
+                "id": 1724447900109,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": true,
+                    "amount": 4000
+                },
+                "worker_name": "Delroy Lewis_DD13673-DL20343",
+                "date": "2024-08-23",
+                "start": "08:00",
+                "end": "16:00",
+                "description": "Rub sand walls, unpack clay tiles"
+            },
+            {
+                "id": 1724813533577,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": true,
+                    "amount": 4000
+                },
+                "worker_name": "Delroy Lewis_DD13673-DL20343",
+                "date": "2024-08-26",
+                "start": "08:00",
+                "end": "16:30",
+                "description": "Prepare walls for painting"
+            },
+            {
+                "id": 1724976416931,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": true,
+                    "amount": 4000
+                },
+                "worker_name": "Delroy Lewis_DD13673-DL20343",
+                "date": "2024-08-29",
+                "start": "08:00",
+                "end": "17:00",
+                "description": "Jackhammer and clear wall footing of mortar and concrete droppings"
+            },
+            {
+                "id": 1725408762967,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": true,
+                    "amount": 4000
+                },
+                "worker_name": "Delroy Lewis_DD13673-DL20343",
+                "date": "2024-09-02",
+                "start": "08:00",
+                "end": "17:30",
+                "description": "treat plyboard for roof, "
+            },
+            {
+                "id": 1725408768783,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": true,
+                    "amount": 4000
+                },
+                "worker_name": "Delroy Lewis_DD13673-DL20343",
+                "date": "2024-09-03",
+                "start": "08:00",
+                "end": "17:30",
+                "description": "treat plyboard for roof, "
+            },
+            {
+                "id": 1725502779048,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": true,
+                    "amount": 4000
+                },
+                "worker_name": "Delroy Lewis_DD13673-DL20343",
+                "date": "2024-09-04",
+                "start": "08:00",
+                "end": "16:30",
+                "description": "Treat Form ply with gasoil in prep for roofing"
+            },
+            {
+                "id": 1725623309090,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": true,
+                    "amount": 4000
+                },
+                "worker_name": "Delroy Lewis_DD13673-DL20343",
+                "date": "2024-09-05",
+                "start": "08:00",
+                "end": "16:30",
+                "description": "ift clay tiles from garage to roof"
+            },
+            {
+                "id": 1725834727800,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": false,
+                    "amount": 0
+                },
+                "worker_name": "Delroy Lewis_DD13673-DL20343",
+                "date": "2024-09-02",
+                "start": "08:00",
+                "end": "17:00",
+                "description": "Gasoil to treat form ply",
+                "hash_key": "4ac2f632cecc0ecb3d036c5c2f2ccc2e"
+            },
+            {
+                "id": 1725850524297,
+                "project_id": "BH38038",
+                "payment": {
+                    "paid": false,
+                    "amount": 0
+                },
+                "worker_name": "Delroy Lewis_BH38038-DL20343",
+                "date": "2024-09-02",
+                "start": "08:00",
+                "end": "17:30",
+                "description": "Gasoil to treat form ply",
+                "hash_key": "07465d937803bf60893db1401e004943"
+            },
+            {
+                "id": 1725924613249,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": false,
+                    "amount": 0
+                },
+                "worker_name": "Delroy Lewis_DD13673-DL20343",
+                "date": "2024-09-09",
+                "start": "08:00",
+                "end": "17:00",
+                "description": "cleaan up building",
+                "hash_key": "9cafe2262bc2d6e2c439592e7192248c"
+            },
+            {
+                "id": 1725971655719,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": false,
+                    "amount": 0
+                },
+                "worker_name": "Delroy Lewis_DD13673-DL20343",
+                "date": "2024-09-10",
+                "start": "08:00",
+                "end": "16:30",
+                "description": "Cart topsoil",
+                "hash_key": "a4b4a0e929a8041ebd1f8be200a0dc6c"
+            },
+            {
+                "id": 1726226383133,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": false,
+                    "amount": 0
+                },
+                "worker_name": "Delroy Lewis_DD13673-DL20343",
+                "date": "2024-09-12",
+                "start": "08:00",
+                "end": "17:00",
+                "description": "Excavate topsoil and backfill front yard, cart away rubble",
+                "hash_key": "7eb66bcc0d72397e62d9d8f34ce92e55"
+            },
+            {
+                "id": 1726277245230,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": false,
+                    "amount": 0
+                },
+                "worker_name": "Delroy Lewis_DD13673-DL20343",
+                "date": "2024-09-13",
+                "start": "08:00",
+                "end": "17:00",
+                "description": "Excavate topsoil and backfill front yard",
+                "hash_key": "f561090526abc5e319f6735a4edf486e"
+            }
+        ],
+        "earnings": [],
+        "state": {
+            "active": true,
+            "onleave": false,
+            "terminated": false
+        },
+        "event": {
+            "started": null,
+            "onleave": [],
+            "restart": [],
+            "terminated": null,
+            "duration": 0
+        },
+        "reports": [],
+        "labourer_id": "labourers"
+    },
+    {
+        "_id": "electricians:CC00420",
+        "name": "Collin Chisholm ",
+        "oc": "Collin",
+        "sex": "Male",
+        "dob": "",
+        "height": "125",
+        "identity": "11122200033",
+        "id_type": "National",
+        "trn": "33322556",
+        "occupation": "electrician",
+        "rating": "4",
+        "imgurl": "static/imgs/workers/CC00420.png",
+        "address": {
+            "lot": "",
+            "street": "",
+            "town": "Longsville Park",
+            "city_parish": "Clarendon"
+        },
+        "contact": {
+            "tel": "",
+            "mobile": "876-578-8489",
+            "email": ""
+        },
+        "account": {
+            "bank": {
+                "name": "NCB",
+                "branch": null,
+                "account": "874509779",
+                "account_type": "savings"
+            },
+            "payments": [],
+            "loans": []
+        },
+        "nok": {
+            "name": "",
+            "relation": null,
+            "address": "",
+            "contact": ""
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": [
+            {
+                "active": true,
+                "onleave": false,
+                "terminated": false
+            }
+        ],
+        "event": [
+            {
+                "started": null,
+                "onleave": [],
+                "restart": [],
+                "terminated": null,
+                "duration": 0
+            }
+        ],
+        "reports": [],
+        "electrician_id": "electricians"
+    },
+    {
+        "_id": "ER7161",
+        "name": "Errol Russel",
+        "oc": "Baddas",
+        "sex": "male",
+        "dob": null,
+        "identity": "xx0000001",
+        "id_type": "national",
+        "occupation": "carpenter",
+        "added": null,
+        "rating": "3",
+        "height": "183",
+        "imgurl": null,
+        "address": {
+            "lot": "x1",
+            "street": "Malvern",
+            "town": "Malvern",
+            "city_parish": "St Elizabeth",
+            "country": null
+        },
+        "account": {
+            "bank": {
+                "name": null,
+                "branch": null,
+                "account": null,
+                "account_type": null
+            },
+            "payments": [],
+            "loans": []
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null,
+            "watsapp": null
+        },
+        "nok": {
+            "name": null,
+            "relation": null,
+            "address": {
+                "lot": "x1",
+                "street": "Malvern",
+                "town": "Malvern",
+                "city_parish": "St Elizabeth",
+                "country": null
+            },
+            "contact": {
+                "tel": null,
+                "mobile": null,
+                "email": null
+            }
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": {
+            "active": null,
+            "completed": null,
+            "paused": null,
+            "terminated": null
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "reports": [],
+        "carpenter_id": "carpenters"
+    },
+    {
+        "_id": "ER91632",
+        "name": "Enos Ried",
+        "oc": "Riedy",
+        "sex": "male",
+        "dob": null,
+        "identity": "PP0001555",
+        "id_type": "passport",
+        "occupation": "electrician",
+        "added": null,
+        "rating": "4",
+        "height": "172",
+        "imgurl": "static/imgs/workers/ER91632.png",
+        "address": {
+            "lot": "27a",
+            "street": "Apt 2B, Grove Road",
+            "town": "Mandeville",
+            "city_parish": "Manchester",
+            "country": null
+        },
+        "account": {
+            "bank": {
+                "name": "JN",
+                "branch": "Mandevile",
+                "account": null,
+                "account_type": "savings"
+            },
+            "payments": [],
+            "loans": []
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null,
+            "watsapp": null
+        },
+        "nok": {
+            "name": null,
+            "relation": null,
+            "address": {
+                "lot": "27a",
+                "street": "Apt 2B, Grove Road",
+                "town": "Mandeville",
+                "city_parish": "Manchester",
+                "country": null
+            },
+            "contact": {
+                "tel": null,
+                "mobile": null,
+                "email": null
+            }
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": {
+            "active": null,
+            "completed": null,
+            "paused": null,
+            "terminated": null
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "completion": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null,
+            "duration": null
+        },
+        "reports": [],
+        "electrician_id": "electricians"
+    },
+    {
+        "_id": "ES6172",
+        "name": "Everton Salesman",
+        "oc": "Everton",
+        "sex": "male",
+        "dob": null,
+        "identity": "PP222777888",
+        "id_type": "passport",
+        "occupation": "electrician",
+        "added": null,
+        "rating": "4",
+        "height": "90",
+        "imgurl": "static/imgs/workers/ES6172.png",
+        "address": {
+            "lot": null,
+            "street": null,
+            "town": "Cristianna",
+            "city_parish": "Manchester",
+            "country": null,
+            "zip": null
+        },
+        "account": {
+            "bank": {
+                "name": "NCB",
+                "branch": "CRISTIANA",
+                "account": "854232940",
+                "account_type": "savings"
+            },
+            "payments": [],
+            "loans": []
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null,
+            "watsapp": null
+        },
+        "nok": {
+            "name": null,
+            "relation": null,
+            "address": {
+                "lot": null,
+                "street": null,
+                "town": "Cristianna",
+                "city_parish": "Manchester",
+                "country": null,
+                "zip": null
+            },
+            "contact": {
+                "tel": null,
+                "mobile": null,
+                "email": null
+            }
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": {
+            "active": null,
+            "completed": null,
+            "paused": null,
+            "terminated": null
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "completion": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null,
+            "duration": null
+        },
+        "reports": [],
+        "trn": "111111111",
+        "electrician_id": "electricians"
+    },
+    {
+        "_id": "FB3773",
+        "name": "Floyd Brown",
+        "oc": "Curtain",
+        "sex": "Male",
+        "dob": 0,
+        "identity": "",
+        "id_type": "",
+        "occupation": "labourer",
+        "rating": 4,
+        "height": 0,
+        "imgurl": "static/imgs/workers/CW72574.png",
+        "contact": {
+            "email": null,
+            "tel": null,
+            "mobile": null
+        },
+        "address": {
+            "lot": "",
+            "street": "marlin loop",
+            "town": "Old Harbour Glade, Old Harbour",
+            "city_parish": "St. Catherine"
+        },
+        "nok": {
+            "name": "",
+            "relation": "",
+            "contact": {
+                "email": "",
+                "tel": "",
+                "mobile": ""
+            },
+            "address": {
+                "lot": "",
+                "street": "",
+                "town": "",
+                "city_parish": ""
+            }
+        },
+        "tasks": [],
+        "account": {
+            "bank": {
+                "name": "",
+                "branch": "",
+                "account": 0
+            },
+            "payments": [],
+            "loans": [],
+            "totals_payments": [],
+            "total": 0
+        },
+        "days": [],
+        "state": {
+            "active": true,
+            "terminated": false,
+            "onleave": false,
+            "quit": false
+        },
+        "event": {
+            "employed": 1650344400000,
+            "terminated": 0,
+            "leave": 0,
+            "quited": 0
+        },
+        "reports": [],
+        "jobs": []
+    },
+    {
+        "_id": "FC2957",
+        "name": "Fealer Coole",
+        "oc": "Fieldup",
+        "sex": "Female",
+        "dob": "2024-05-08",
+        "height": "102",
+        "identity": "10000000",
+        "id_type": "National",
+        "trn": "100000000",
+        "occupation": "mason",
+        "rating": "4",
+        "imgurl": "static/imgs/workers/FC2957.png",
+        "address": {
+            "lot": "1254",
+            "street": "10 Street",
+            "town": "Kingston",
+            "city_parish": "Jamaica"
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null
+        },
+        "account": {
+            "bank": {
+                "name": "Ncb",
+                "branch": null,
+                "account": "8742524565",
+                "account_type": "Savings"
+            },
+            "payments": [],
+            "loans": []
+        },
+        "nok": {
+            "name": "A Francson",
+            "relation": null,
+            "address": "Isaland Farm",
+            "contact": "876 778 9854"
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": {
+            "active": true,
+            "onleave": false,
+            "terminated": false
+        },
+        "event": {
+            "started": null,
+            "onleave": [],
+            "restart": [],
+            "terminated": null,
+            "duration": 0
+        },
+        "reports": [],
+        "mason_id": "masons"
+    },
+    {
+        "_id": "GB2165",
+        "name": "Brandon Grandison",
+        "oc": "Brandon",
+        "sex": "Female",
+        "dob": "",
+        "height": "62",
+        "identity": "x0012212",
+        "id_type": "National",
+        "trn": "115001879",
+        "occupation": "tiler",
+        "rating": "4",
+        "imgurl": "static/imgs/workers/GB2165.png",
+        "address": {
+            "lot": "15",
+            "street": "St. Jjosepoh rd",
+            "town": "Papine",
+            "city_parish": "kingston 6"
+        },
+        "contact": {
+            "tel": "",
+            "mobile": "1-876-557-1556",
+            "email": ""
+        },
+        "account": {
+            "bank": {
+                "name": "",
+                "branch": null,
+                "account": "",
+                "account_type": ""
+            },
+            "payments": [],
+            "loans": []
+        },
+        "nok": {
+            "name": "Salome Millwood",
+            "relation": null,
+            "address": "",
+            "contact": "876-402-1234"
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "state": [
+            {
+                "active": true,
+                "onleave": false,
+                "terminated": false
+            }
+        ],
+        "event": [
+            {
+                "started": null,
+                "onleave": [],
+                "restart": [],
+                "terminated": null,
+                "duration": 0
+            }
+        ],
+        "reports": []
+    },
+    {
+        "_id": "HD94308",
+        "name": "Howayne Drummond",
+        "oc": "Ollie",
+        "sex": "male",
+        "dob": null,
+        "identity": "xx00000012",
+        "id_type": "passport",
+        "occupation": "labourer",
+        "added": null,
+        "rating": "2",
+        "height": "132",
+        "imgurl": "static/imgs/workers/HD94308.png",
+        "address": {
+            "lot": "Part of",
+            "street": "Mount Olivet",
+            "town": "Malvern",
+            "city_parish": "St. Elizabeth",
+            "country": null
+        },
+        "account": {
+            "bank": {
+                "name": null,
+                "branch": null,
+                "account": null,
+                "account_type": null
+            },
+            "payments": [],
+            "loans": []
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null,
+            "watsapp": null
+        },
+        "nok": {
+            "name": "Devena Findley",
+            "relation": "Mother",
+            "address": {
+                "lot": "Part of",
+                "street": "Mount Olivet",
+                "town": "Malvern",
+                "city_parish": "St. Elizabeth",
+                "country": null
+            },
+            "contact": {
+                "tel": null,
+                "mobile": "876-339-9293",
+                "email": null
+            }
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": {
+            "active": null,
+            "completed": null,
+            "paused": null,
+            "terminated": null
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "completion": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null,
+            "duration": null
+        },
+        "reports": [],
+        "labourer_id": "labourers"
+    },
+    {
+        "_id": "HH25924",
+        "name": "Humphroy Hunter",
+        "oc": "Buru",
+        "sex": "male",
+        "dob": null,
+        "identity": "pp00000001",
+        "id_type": "passport",
+        "occupation": "mason",
+        "added": null,
+        "rating": "3",
+        "height": null,
+        "imgurl": "static/imgs/workers/HH25924.png",
+        "address": {
+            "lot": null,
+            "street": null,
+            "town": null,
+            "city_parish": "Manchestern",
+            "country": null,
+            "zip": null
+        },
+        "account": {
+            "bank": {
+                "name": null,
+                "branch": null,
+                "account": null,
+                "account_type": null
+            },
+            "payments": [],
+            "loans": []
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null,
+            "watsapp": null
+        },
+        "nok": {
+            "name": null,
+            "relation": null,
+            "address": {
+                "lot": null,
+                "street": null,
+                "town": null,
+                "city_parish": "Manchestern",
+                "country": null,
+                "zip": null
+            },
+            "contact": {
+                "tel": null,
+                "mobile": null,
+                "email": null
+            }
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": {
+            "active": null,
+            "completed": null,
+            "paused": null,
+            "terminated": null
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "completion": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null,
+            "duration": null
+        },
+        "reports": [],
+        "mason_id": "masons"
+    },
+    {
+        "_id": "IM3250",
+        "name": "Ian Moncrieffe",
+        "oc": "Bosie",
+        "sex": "Male",
+        "dob": "1971-09-29",
+        "height": "180",
+        "identity": "504687950",
+        "id_type": "Drivers License",
+        "trn": "504687950",
+        "occupation": "leader",
+        "rating": "4",
+        "imgurl": "static/imgs/workers/IM3250.png",
+        "address": {
+            "lot": "111",
+            "street": "Marlin way",
+            "town": "Old Harbour",
+            "city_parish": "St Catherine"
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null
+        },
+        "account": {
+            "bank": {
+                "name": "NCB",
+                "branch": null,
+                "account": "8048668",
+                "account_type": "Savings"
+            },
+            "payments": [],
+            "loans": []
+        },
+        "nok": {
+            "name": "Tattylyn Moncrieffe",
+            "relation": null,
+            "address": "Marlin Way,\nOld Harbour ",
+            "contact": ""
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "state": {
+            "active": true,
+            "onleave": false,
+            "terminated": false
+        },
+        "event": {
+            "started": null,
+            "onleave": [],
+            "restart": [],
+            "terminated": null,
+            "duration": 0
+        },
+        "reports": [],
+        "leader_id": "leaders"
+    },
+    {
+        "_id": "JA5578",
+        "name": "Justin Abel",
+        "oc": "Justin",
+        "sex": "Male",
+        "dob": "",
+        "height": "158",
+        "identity": "44400000",
+        "id_type": "National",
+        "trn": "222111000",
+        "occupation": "supervisor",
+        "rating": "2",
+        "imgurl": "static/imgs/workers/JA5578.png",
+        "address": {
+            "lot": "",
+            "street": "Lincon District",
+            "town": "Lincon",
+            "city_parish": "Manchester"
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null
+        },
+        "account": {
+            "bank": {
+                "name": "",
+                "branch": null,
+                "account": "",
+                "account_type": ""
+            },
+            "payments": [],
+            "loans": []
+        },
+        "nok": {
+            "name": "",
+            "relation": null,
+            "address": "",
+            "contact": ""
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": {
+            "active": true,
+            "onleave": false,
+            "terminated": false
+        },
+        "event": {
+            "started": null,
+            "onleave": [],
+            "restart": [],
+            "terminated": null,
+            "duration": 0
+        },
+        "reports": [],
+        "supervisor_id": "supervisors"
+    },
+    {
+        "_id": "JB21231",
+        "name": "Jaquline Beckford",
+        "oc": "Jackie",
+        "sex": "female",
+        "dob": "1968-09-16",
+        "identity": "PP124557774",
+        "id_type": "passport",
+        "occupation": "labourer",
+        "added": null,
+        "rating": "3",
+        "height": "180",
+        "imgurl": null,
+        "address": {
+            "lot": "111",
+            "street": "Begonia Cres.",
+            "town": "Old Harbour",
+            "city_parish": "St Catherine",
+            "country": null
+        },
+        "account": {
+            "bank": {
+                "name": "NCB",
+                "branch": "OLD HARBOUR",
+                "account": "809967774",
+                "account_type": "savings"
+            },
+            "payments": [],
+            "loans": []
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null,
+            "watsapp": null
+        },
+        "nok": {
+            "name": "Tattylyn Beckford",
+            "relation": "Sister",
+            "address": {
+                "lot": "111",
+                "street": "Begonia Cres.",
+                "town": "Old Harbour",
+                "city_parish": "St Catherine",
+                "country": null
+            },
+            "contact": {
+                "tel": "876-504-2271",
+                "mobile": "876-504-2271",
+                "email": null
+            }
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": {
+            "active": null,
+            "completed": null,
+            "paused": null,
+            "terminated": null
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "reports": [],
+        "labourer_id": "labourers"
+    },
+    {
+        "_id": "JC53253",
+        "name": "john cow",
+        "oc": "cow",
+        "sex": "Male",
+        "dob": "0734-11-10",
+        "identity": "772565874",
+        "id_type": "drivers_lic",
+        "occupation": "joiner",
+        "height": 0,
+        "imgurl": "static/imgs/workers/CW7504.png",
+        "contact": {
+            "email": "",
+            "tel": "",
+            "mobile": "8764432525"
+        },
+        "address": {
+            "lot": "",
+            "street": "",
+            "town": "",
+            "city_parish": ""
+        },
+        "nok": {
+            "name": "",
+            "relation": "",
+            "contact": {
+                "email": "",
+                "tel": "",
+                "mobile": ""
+            },
+            "address": {
+                "lot": "",
+                "street": "",
+                "town": "",
+                "city_parish": ""
+            }
+        },
+        "tasks": [],
+        "account": {
+            "bank": {
+                "name": "NCB",
+                "branch": "MATILDAS CORNER",
+                "account": "874552665"
+            },
+            "payments": [],
+            "loans": [],
+            "totals_payments": [],
+            "total": 0
+        },
+        "days": [],
+        "state": {
+            "active": false,
+            "terminated": false,
+            "onleave": false,
+            "quit": false
+        },
+        "event": {
+            "employed": 1664672685000,
+            "terminated": 0,
+            "leave": 0,
+            "quited": 0
+        },
+        "reports": [],
+        "jobs": []
+    },
+    {
+        "_id": "JJ82136",
+        "name": "Junior Johnson",
+        "oc": "Junior",
+        "sex": "Male",
+        "dob": 0,
+        "identity": "",
+        "id_type": "",
+        "occupation": "labourer",
+        "rating": 3,
+        "height": 0,
+        "imgurl": "static/imgs/workers/CW9904.png",
+        "contact": {
+            "email": "",
+            "tel": "",
+            "mobile": ""
+        },
+        "address": {
+            "lot": "",
+            "street": "Elgin Dist.",
+            "town": "Malvern",
+            "city_parish": "St. Elizabeth"
+        },
+        "nok": {
+            "name": "",
+            "relation": "",
+            "contact": {
+                "email": "",
+                "tel": "",
+                "mobile": ""
+            },
+            "address": {
+                "lot": "",
+                "street": "",
+                "town": "",
+                "city_parish": ""
+            }
+        },
+        "tasks": [],
+        "account": {
+            "bank": {
+                "name": "",
+                "branch": "",
+                "account": 0
+            },
+            "payments": [],
+            "loans": [],
+            "totals_payments": [],
+            "total": 0
+        },
+        "days": [],
+        "state": {
+            "active": false,
+            "terminated": false,
+            "onleave": true,
+            "quit": false
+        },
+        "event": {
+            "employed": 1664302796000,
+            "terminated": 0,
+            "leave": 0,
+            "quited": 0
+        },
+        "reports": [],
+        "jobs": []
+    },
+    {
+        "_id": "JM9461",
+        "name": "Jovaughne Martin",
+        "oc": "Varni",
+        "sex": "Male",
+        "dob": 0,
+        "identity": "",
+        "id_type": "",
+        "occupation": "labourer",
+        "rating": 3,
+        "height": 0,
+        "imgurl": "static/imgs/workers/CW9598.png",
+        "contact": {
+            "email": "",
+            "tel": "",
+            "mobile": ""
+        },
+        "address": {
+            "lot": "",
+            "street": "Hamshire Dist.",
+            "town": "Riversdale",
+            "city_parish": "St. Catherine"
+        },
+        "nok": {
+            "name": "",
+            "relation": "",
+            "contact": {
+                "email": "",
+                "tel": "",
+                "mobile": ""
+            },
+            "address": {
+                "lot": "",
+                "street": "",
+                "town": "",
+                "city_parish": ""
+            }
+        },
+        "tasks": [],
+        "account": {
+            "bank": {
+                "name": "NCB",
+                "branch": "LINSTEAD",
+                "account": "684292609"
+            },
+            "payments": [],
+            "loans": [],
+            "totals_payments": [],
+            "total": 0
+        },
+        "days": [],
+        "state": {
+            "active": false,
+            "terminated": true,
+            "onleave": false,
+            "quit": false
+        },
+        "event": {
+            "employed": 1665522511000,
+            "terminated": 0,
+            "leave": 0,
+            "quited": 0
+        },
+        "reports": [],
+        "jobs": []
+    },
+    {
+        "_id": "JR07703",
+        "name": "Jerome Roberts",
+        "oc": "coolie",
+        "sex": "male",
+        "dob": "1978-05-19",
+        "identity": "111918383",
+        "id_type": "drivers",
+        "occupation": "welder",
+        "added": null,
+        "rating": "4",
+        "height": "165",
+        "imgurl": "static/imgs/workers/JR07703.png",
+        "address": {
+            "lot": null,
+            "street": "King Street",
+            "town": "Spaulding",
+            "city_parish": "Clarendon",
+            "country": null
+        },
+        "account": {
+            "bank": {
+                "name": "NCB",
+                "branch": "Mandeville",
+                "account": "504586472",
+                "account_type": "savings"
+            },
+            "payments": [],
+            "loans": []
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null,
+            "watsapp": null
+        },
+        "nok": {
+            "name": "Nidia Campbell",
+            "relation": "Mother",
+            "address": {
+                "lot": null,
+                "street": "King Street",
+                "town": "Spaulding",
+                "city_parish": "Clarendon",
+                "country": null
+            },
+            "contact": {
+                "tel": null,
+                "mobile": null,
+                "email": null
+            }
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": {
+            "active": null,
+            "completed": null,
+            "paused": null,
+            "terminated": null
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "completion": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null,
+            "duration": null
+        },
+        "reports": [],
+        "steelman_id": "steelmans"
+    },
+    {
+        "_id": "JR0922",
+        "name": "Javel Rutherford",
+        "oc": "Towny",
+        "sex": "Male",
+        "dob": 0,
+        "identity": "",
+        "id_type": "",
+        "occupation": "labourer",
+        "rating": 4,
+        "height": 0,
+        "imgurl": "static/imgs/workers/JR0922.png",
+        "contact": {
+            "email": null,
+            "tel": null,
+            "mobile": null
+        },
+        "address": {
+            "lot": "",
+            "street": "",
+            "town": "Malvern",
+            "city_parish": "St. Elizabeth"
+        },
+        "nok": {
+            "name": "",
+            "relation": "",
+            "contact": {
+                "email": "",
+                "tel": "",
+                "mobile": ""
+            },
+            "address": {
+                "lot": "",
+                "street": "",
+                "town": "",
+                "city_parish": ""
+            }
+        },
+        "tasks": [],
+        "account": {
+            "bank": {
+                "name": "",
+                "branch": "",
+                "account": 0
+            },
+            "payments": [],
+            "loans": [],
+            "totals_payments": [],
+            "total": 0
+        },
+        "days": [],
+        "state": {
+            "active": true,
+            "terminated": false,
+            "onleave": false,
+            "quit": false
+        },
+        "event": {
+            "employed": 1664317001000,
+            "terminated": 0,
+            "leave": 0,
+            "quited": 0
+        },
+        "reports": [],
+        "jobs": []
+    },
+    {
+        "_id": "JR77378",
+        "name": "Jamar Robinson",
+        "oc": "Rock",
+        "sex": "male",
+        "dob": null,
+        "identity": "xxx000013",
+        "id_type": "passport",
+        "occupation": "labourer",
+        "added": null,
+        "rating": "2",
+        "height": "186",
+        "imgurl": "static/imgs/workers/JR77378.png",
+        "address": {
+            "lot": "Part of",
+            "street": "Mount Olivet",
+            "town": "Malvern",
+            "city_parish": "St. Elizebeth",
+            "country": null
+        },
+        "account": {
+            "bank": {
+                "name": null,
+                "branch": null,
+                "account": null,
+                "account_type": null
+            },
+            "payments": [],
+            "loans": []
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null,
+            "watsapp": null
+        },
+        "nok": {
+            "name": null,
+            "relation": null,
+            "address": {
+                "lot": "Part of",
+                "street": "Mount Olivet",
+                "town": "Malvern",
+                "city_parish": "St. Elizebeth",
+                "country": null
+            },
+            "contact": {
+                "tel": null,
+                "mobile": null,
+                "email": null
+            }
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": {
+            "active": null,
+            "completed": null,
+            "paused": null,
+            "terminated": null
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "completion": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null,
+            "duration": null
+        },
+        "reports": [],
+        "labourer_id": "labourers"
+    },
+    {
+        "_id": "JT47221",
+        "name": "Jerome Thomas",
+        "oc": "Bekam",
+        "sex": "Male",
+        "dob": "",
+        "height": "150",
+        "identity": "01101101",
+        "id_type": "National",
+        "trn": "100002500",
+        "occupation": "labourer",
+        "rating": "2",
+        "imgurl": "static/imgs/workers/JT47221.png",
+        "address": {
+            "lot": "",
+            "street": "Malvern",
+            "town": "Malvern",
+            "city_parish": "St. Elizabeth"
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null
+        },
+        "account": {
+            "bank": {
+                "name": "",
+                "branch": null,
+                "account": "",
+                "account_type": ""
+            },
+            "payments": [],
+            "loans": []
+        },
+        "nok": {
+            "name": "",
+            "relation": null,
+            "address": "",
+            "contact": ""
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "state": {
+            "active": true,
+            "onleave": false,
+            "terminated": false
+        },
+        "event": {
+            "started": null,
+            "onleave": [],
+            "restart": [],
+            "terminated": null,
+            "duration": 0
+        },
+        "reports": [],
+        "labourer_id": "labourers"
+    },
+    {
+        "_id": "KW6462",
+        "name": "Kevin Wallace",
+        "oc": "Kevin Roofer",
+        "sex": "Male",
+        "dob": "",
+        "height": "165",
+        "identity": "0012544",
+        "id_type": "National",
+        "trn": "6654887",
+        "occupation": "roofer",
+        "rating": "4",
+        "imgurl": "static/imgs/workers/KW6462.png",
+        "address": {
+            "lot": "",
+            "street": "Bowers Drive",
+            "town": "Old Harbour",
+            "city_parish": "St. Catherine"
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null
+        },
+        "account": {
+            "bank": {
+                "name": "",
+                "branch": null,
+                "account": "",
+                "account_type": ""
+            },
+            "payments": [],
+            "loans": []
+        },
+        "nok": {
+            "name": "",
+            "relation": null,
+            "address": "",
+            "contact": ""
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": {
+            "active": true,
+            "onleave": false,
+            "terminated": false
+        },
+        "event": {
+            "started": null,
+            "onleave": [],
+            "restart": [],
+            "terminated": null,
+            "duration": 0
+        },
+        "reports": [],
+        "roofer_id": "roofers"
+    },
+    {
+        "_id": "labourers:BM1299",
+        "name": "Bethune Morgan",
+        "oc": "Betty",
+        "sex": "Female",
+        "dob": "",
+        "height": "152",
+        "identity": "pp00112200",
+        "id_type": "Passport",
+        "trn": "11100000",
+        "occupation": "labourer",
+        "rating": "4",
+        "imgurl": "static/imgs/workers/BM1299.png",
+        "address": {
+            "lot": "",
+            "street": "",
+            "town": "Mandeville",
+            "city_parish": "Manchester"
+        },
+        "contact": {
+            "tel": "",
+            "mobile": "",
+            "email": ""
+        },
+        "account": {
+            "bank": {
+                "name": "",
+                "branch": null,
+                "account": "",
+                "account_type": ""
+            },
+            "payments": [],
+            "loans": []
+        },
+        "nok": {
+            "name": "",
+            "relation": null,
+            "address": "",
+            "contact": ""
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "state": [
+            {
+                "active": true,
+                "onleave": false,
+                "terminated": false
+            }
+        ],
+        "event": [
+            {
+                "started": null,
+                "onleave": [],
+                "restart": [],
+                "terminated": null,
+                "duration": 0
+            }
+        ],
+        "reports": [],
+        "labourer_id": "labourers"
+    },
+    {
+        "_id": "labourers:DL20343",
+        "name": "Delroy Lewis",
+        "oc": "Foxy Brown",
+        "sex": "Male",
+        "dob": "",
+        "height": "132",
+        "identity": "0111245",
+        "id_type": "National",
+        "trn": "44158726",
+        "occupation": "labourer",
+        "rating": "3",
+        "imgurl": "static/imgs/workers/DL20343.png",
+        "address": {
+            "lot": "",
+            "street": "Loyds Pen",
+            "town": "Bushy Park",
+            "city_parish": "St. Catherine"
+        },
+        "contact": {
+            "tel": "",
+            "mobile": "",
+            "email": ""
+        },
+        "account": {
+            "bank": {
+                "name": "",
+                "branch": null,
+                "account": "",
+                "account_type": ""
+            },
+            "payments": [],
+            "loans": []
+        },
+        "nok": {
+            "name": "",
+            "relation": null,
+            "address": "",
+            "contact": ""
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": [
+            {
+                "active": true,
+                "onleave": false,
+                "terminated": false
+            }
+        ],
+        "event": [
+            {
+                "started": null,
+                "onleave": [],
+                "restart": [],
+                "terminated": null,
+                "duration": 0
+            }
+        ],
+        "reports": [],
+        "labourer_id": "labourers"
+    },
+    {
+        "_id": "labourers:JT47221",
+        "name": "Jerome Thomas",
+        "oc": "Bekam",
+        "sex": "Male",
+        "dob": "",
+        "height": "150",
+        "identity": "01101101",
+        "id_type": "National",
+        "trn": "100002500",
+        "occupation": "labourer",
+        "rating": "2",
+        "imgurl": "static/imgs/workers/JT47221.png",
+        "address": {
+            "lot": "",
+            "street": "Malvern",
+            "town": "Malvern",
+            "city_parish": "St. Elizabeth"
+        },
+        "contact": {
+            "tel": "",
+            "mobile": "",
+            "email": ""
+        },
+        "account": {
+            "bank": {
+                "name": "",
+                "branch": null,
+                "account": "",
+                "account_type": ""
+            },
+            "payments": [],
+            "loans": []
+        },
+        "nok": {
+            "name": "",
+            "relation": null,
+            "address": "",
+            "contact": ""
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "state": [
+            {
+                "active": true,
+                "onleave": false,
+                "terminated": false
+            }
+        ],
+        "event": [
+            {
+                "started": null,
+                "onleave": [],
+                "restart": [],
+                "terminated": null,
+                "duration": 0
+            }
+        ],
+        "reports": [],
+        "labourer_id": "labourers"
+    },
+    {
+        "_id": "labourers:LL26971",
+        "name": "Lenox Lanchaster",
+        "oc": "Katrail",
+        "sex": "Male",
+        "dob": "",
+        "height": "175",
+        "identity": "10000000",
+        "id_type": "National",
+        "trn": "888999666",
+        "occupation": "labourer",
+        "rating": "4",
+        "imgurl": "static/imgs/workers/LL26971.png",
+        "address": {
+            "lot": "",
+            "street": "",
+            "town": "",
+            "city_parish": ""
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null
+        },
+        "account": {
+            "bank": {
+                "name": "",
+                "branch": null,
+                "account": "",
+                "account_type": ""
+            },
+            "payments": [],
+            "loans": []
+        },
+        "nok": {
+            "name": "",
+            "relation": null,
+            "address": "",
+            "contact": ""
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [
+            {
+                "id": 1725408716901,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": true,
+                    "amount": 4000
+                },
+                "worker_name": "Lenox Lanchaster_DD13673-labourers:LL26971",
+                "date": "2024-09-03",
+                "start": "08:30",
+                "end": "17:30",
+                "description": "bush backyard, backfill front yard"
+            },
+            {
+                "id": 1725502742598,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": true,
+                    "amount": 4000
+                },
+                "worker_name": "Lenox Lanchaster_DD13673-labourers:LL26971",
+                "date": "2024-09-04",
+                "start": "08:30",
+                "end": "16:30",
+                "description": "cart top soil from backyard to front, lift clay tiles from garage to roof"
+            },
+            {
+                "id": 1725623287186,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": true,
+                    "amount": 4000
+                },
+                "worker_name": "Lenox Lanchaster_DD13673-labourers:LL26971",
+                "date": "2024-09-05",
+                "start": "08:30",
+                "end": "16:30",
+                "description": "ift clay tiles from garage to roof"
+            }
+        ],
+        "earnings": [],
+        "state": {
+            "active": true,
+            "onleave": false,
+            "terminated": false
+        },
+        "event": {
+            "started": null,
+            "onleave": [],
+            "restart": [],
+            "terminated": null,
+            "duration": 0
+        },
+        "reports": [],
+        "labourer_id": "labourers"
+    },
+    {
+        "_id": "labourers:LL6681",
+        "name": "Leighton Lanchaster",
+        "oc": "Prince",
+        "sex": "Male",
+        "dob": "",
+        "height": "158",
+        "identity": "100000000",
+        "id_type": "National",
+        "trn": "999666888",
+        "occupation": "labourer",
+        "rating": "4",
+        "imgurl": "static/imgs/workers/LL6681.png",
+        "address": {
+            "lot": "",
+            "street": "Patric Street",
+            "town": "Old Harbour",
+            "city_parish": "St. Catherine"
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null
+        },
+        "account": {
+            "bank": {
+                "name": "",
+                "branch": null,
+                "account": "",
+                "account_type": ""
+            },
+            "payments": [],
+            "loans": []
+        },
+        "nok": {
+            "name": "",
+            "relation": null,
+            "address": "",
+            "contact": ""
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [
+            {
+                "id": 1723859725223,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": false,
+                    "amount": 0
+                },
+                "worker_name": "Leighton Lanchaster_DD13673-labourers:LL6681",
+                "date": "2024-07-22",
+                "start": "08:00",
+                "end": "16:30",
+                "description": "Cut waste concrete from floor in living rm."
+            },
+            {
+                "id": 1723859750868,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": false,
+                    "amount": 0
+                },
+                "worker_name": "Leighton Lanchaster_DD13673-labourers:LL6681",
+                "date": "2024-07-19",
+                "start": "08:00",
+                "end": "16:30",
+                "description": "Cut waste concrete from floor in living rm."
+            },
+            {
+                "id": 1724110341770,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": true,
+                    "amount": 4000
+                },
+                "worker_name": "Leighton Lanchaster_DD13673-labourers:LL6681",
+                "date": "2024-08-19",
+                "start": "08:00",
+                "end": "16:00",
+                "description": "General Labour Excavate for Walk way "
+            },
+            {
+                "id": 1724292471429,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": true,
+                    "amount": 4000
+                },
+                "worker_name": "Leighton Lanchaster_DD13673-labourers:LL6681",
+                "date": "2024-08-20",
+                "start": "08:00",
+                "end": "17:30",
+                "description": "Work on Walk way"
+            },
+            {
+                "id": 1724292529624,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": true,
+                    "amount": 4000
+                },
+                "worker_name": "Leighton Lanchaster_DD13673-labourers:LL6681",
+                "date": "2024-08-21",
+                "start": "08:00",
+                "end": "12:00",
+                "description": "Clean up site"
+            },
+            {
+                "id": 1724363536157,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": true,
+                    "amount": 4000
+                },
+                "worker_name": "Leighton Lanchaster_DD13673-labourers:LL6681",
+                "date": "2024-08-22",
+                "start": "08:20",
+                "end": "16:30",
+                "description": "Work on Walk way, Cut wall to  adjust for door and window ways"
+            },
+            {
+                "id": 1724447911409,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": true,
+                    "amount": 4000
+                },
+                "worker_name": "Leighton Lanchaster_DD13673-labourers:LL6681",
+                "date": "2024-08-23",
+                "start": "08:00",
+                "end": "16:00",
+                "description": "Rub sand walls, unpack clay tiles"
+            },
+            {
+                "id": 1724813610946,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": true,
+                    "amount": 4000
+                },
+                "worker_name": "Leighton Lanchaster_DD13673-labourers:LL6681",
+                "date": "2024-08-27",
+                "start": "08:00",
+                "end": "16:30",
+                "description": "Cut adjust to openings , clean waste concrete from floors with jack hammer"
+            },
+            {
+                "id": 1724976342981,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": true,
+                    "amount": 4000
+                },
+                "worker_name": "Leighton Lanchaster_DD13673-labourers:LL6681",
+                "date": "2024-08-29",
+                "start": "08:30",
+                "end": "17:00",
+                "description": "Excavate portion of driveway and backfill, demolish portion of mortar bed and backfill driveway"
+            },
+            {
+                "id": 1725408642967,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": true,
+                    "amount": 4000
+                },
+                "worker_name": "Leighton Lanchaster_DD13673-labourers:LL6681",
+                "date": "2024-09-02",
+                "start": "08:30",
+                "end": "17:30",
+                "description": "Demolish portion of mortar bed, backfill driveway, clear and relocate 12 sheets of JRC fabric mesh"
+            },
+            {
+                "id": 1725408686573,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": true,
+                    "amount": 4000
+                },
+                "worker_name": "Leighton Lanchaster_DD13673-labourers:LL6681",
+                "date": "2024-09-03",
+                "start": "08:30",
+                "end": "17:30",
+                "description": "backfill front yard"
+            },
+            {
+                "id": 1725502750935,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": true,
+                    "amount": 4000
+                },
+                "worker_name": "Leighton Lanchaster_DD13673-labourers:LL6681",
+                "date": "2024-09-04",
+                "start": "08:30",
+                "end": "16:30",
+                "description": "cart top soil from backyard to front, lift clay tiles from garage to roof"
+            },
+            {
+                "id": 1725623295755,
+                "project_id": "DD13673",
+                "payment": {
+                    "paid": true,
+                    "amount": 4000
+                },
+                "worker_name": "Leighton Lanchaster_DD13673-labourers:LL6681",
+                "date": "2024-09-05",
+                "start": "08:30",
+                "end": "16:30",
+                "description": "ift clay tiles from garage to roof"
+            }
+        ],
+        "earnings": [],
+        "state": {
+            "active": true,
+            "onleave": false,
+            "terminated": false
+        },
+        "event": {
+            "started": null,
+            "onleave": [],
+            "restart": [],
+            "terminated": null,
+            "duration": 0
+        },
+        "reports": [],
+        "labourer_id": "labourers"
+    },
+    {
+        "_id": "labourers:PB13376",
+        "name": "Peter's Backhoe",
+        "oc": "Backhoe",
+        "sex": "Machine",
+        "dob": "",
+        "height": "",
+        "identity": "1124458787",
+        "id_type": "Drivers License",
+        "trn": "10002002",
+        "occupation": "labourer",
+        "rating": "5",
+        "imgurl": "static/imgs/workers/PB13376.png",
+        "address": {
+            "lot": "",
+            "street": "",
+            "town": "",
+            "city_parish": ""
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null
+        },
+        "account": {
+            "bank": {
+                "name": "",
+                "branch": null,
+                "account": "",
+                "account_type": ""
+            },
+            "payments": [],
+            "loans": []
+        },
+        "nok": {
+            "name": "",
+            "relation": null,
+            "address": "",
+            "contact": ""
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "state": {
+            "active": true,
+            "onleave": false,
+            "terminated": false
+        },
+        "event": {
+            "started": null,
+            "onleave": [],
+            "restart": [],
+            "terminated": null,
+            "duration": 0
+        },
+        "reports": [],
+        "labourer_id": "labourers"
+    },
+    {
+        "_id": "leaders:IM3250",
+        "name": "Ian Moncrieffe",
+        "oc": "Bosie",
+        "sex": "Male",
+        "dob": "1971-09-29",
+        "height": "180",
+        "identity": "504687950",
+        "id_type": "Drivers License",
+        "trn": "504687950",
+        "occupation": "leader",
+        "rating": "4",
+        "imgurl": "static/imgs/workers/IM3250.png",
+        "address": {
+            "lot": "111",
+            "street": "Marlin way",
+            "town": "Old Harbour",
+            "city_parish": "St Catherine"
+        },
+        "contact": {
+            "tel": "876-772-4682",
+            "mobile": "876-772-4682",
+            "email": "miplan@outlook.com"
+        },
+        "account": {
+            "bank": {
+                "name": "NCB",
+                "branch": null,
+                "account": "8048668",
+                "account_type": "Savings"
+            },
+            "payments": [],
+            "loans": []
+        },
+        "nok": {
+            "name": "Tattylyn Moncrieffe",
+            "relation": null,
+            "address": "Marlin Way,\nOld Harbour ",
+            "contact": ""
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "state": [
+            {
+                "active": true,
+                "onleave": false,
+                "terminated": false
+            }
+        ],
+        "event": [
+            {
+                "started": null,
+                "onleave": [],
+                "restart": [],
+                "terminated": null,
+                "duration": 0
+            }
+        ],
+        "reports": [],
+        "leader_id": "leaders"
+    },
+    {
+        "_id": "LG5781",
+        "name": "Lennox Grant",
+        "oc": "Lennox",
+        "sex": "male",
+        "dob": null,
+        "identity": "PP001245788",
+        "id_type": "passport",
+        "occupation": "supervisor",
+        "added": null,
+        "rating": "5",
+        "height": "202",
+        "imgurl": "static/imgs/workers/LG5781.png",
+        "address": {
+            "lot": null,
+            "street": "Old Harbour ",
+            "town": "Old Harbour Bay",
+            "city_parish": "St. Catherine",
+            "country": null,
+            "zip": null
+        },
+        "account": {
+            "bank": {
+                "name": null,
+                "branch": null,
+                "account": null,
+                "account_type": null
+            },
+            "payments": [],
+            "loans": []
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null,
+            "watsapp": null
+        },
+        "nok": {
+            "name": null,
+            "relation": null,
+            "address": {
+                "lot": null,
+                "street": "Old Harbour ",
+                "town": "Old Harbour Bay",
+                "city_parish": "St. Catherine",
+                "country": null,
+                "zip": null
+            },
+            "contact": {
+                "tel": null,
+                "mobile": null,
+                "email": null
+            }
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": {
+            "active": null,
+            "completed": null,
+            "paused": null,
+            "terminated": null
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "completion": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null,
+            "duration": null
+        },
+        "reports": [],
+        "trn": "11122244888",
+        "supervisor_id": "supervisors"
+    },
+    {
+        "_id": "LL26971",
+        "name": "Lenox Lanchaster",
+        "oc": "Katrail",
+        "sex": "Male",
+        "dob": "",
+        "height": "175",
+        "identity": "10000000",
+        "id_type": "National",
+        "trn": "888999666",
+        "occupation": "labourer",
+        "rating": "4",
+        "imgurl": "static/imgs/workers/LL26971.png",
+        "address": {
+            "lot": "",
+            "street": "",
+            "town": "",
+            "city_parish": ""
+        },
+        "contact": {
+            "tel": "",
+            "mobile": "",
+            "email": ""
+        },
+        "account": {
+            "bank": {
+                "name": "",
+                "branch": null,
+                "account": "",
+                "account_type": ""
+            },
+            "payments": [],
+            "loans": []
+        },
+        "nok": {
+            "name": "",
+            "relation": null,
+            "address": "",
+            "contact": ""
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": [
+            {
+                "active": true,
+                "onleave": false,
+                "terminated": false
+            }
+        ],
+        "event": [
+            {
+                "started": null,
+                "onleave": [],
+                "restart": [],
+                "terminated": null,
+                "duration": 0
+            }
+        ],
+        "reports": [],
+        "labourer_id": "labourers"
+    },
+    {
+        "_id": "LL6681",
+        "name": "Leighton Lanchaster",
+        "oc": "Prince",
+        "sex": "Male",
+        "dob": "",
+        "height": "158",
+        "identity": "100000000",
+        "id_type": "National",
+        "trn": "999666888",
+        "occupation": "labourer",
+        "rating": "4",
+        "imgurl": "static/imgs/workers/LL6681.png",
+        "address": {
+            "lot": "",
+            "street": "Patric Street",
+            "town": "Old Harbour",
+            "city_parish": "St. Catherine"
+        },
+        "contact": {
+            "tel": "",
+            "mobile": "",
+            "email": ""
+        },
+        "account": {
+            "bank": {
+                "name": "",
+                "branch": null,
+                "account": "",
+                "account_type": ""
+            },
+            "payments": [],
+            "loans": []
+        },
+        "nok": {
+            "name": "",
+            "relation": null,
+            "address": "",
+            "contact": ""
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": [
+            {
+                "active": true,
+                "onleave": false,
+                "terminated": false
+            }
+        ],
+        "event": [
+            {
+                "started": null,
+                "onleave": [],
+                "restart": [],
+                "terminated": null,
+                "duration": 0
+            }
+        ],
+        "reports": [],
+        "labourer_id": "labourers"
+    },
+    {
+        "_id": "LT68090",
+        "name": "Leon Thomas",
+        "oc": "sthomas",
+        "sex": "Male",
+        "dob": 0,
+        "identity": "",
+        "rating": 3,
+        "id_type": "",
+        "height": 0,
+        "imgurl": "static/imgs/workers/CW73409.png",
+        "occupation": "labourer",
+        "address": {
+            "lot": "x",
+            "street": "Elgin District",
+            "town": "Malvern",
+            "parish": "St. Elizabeth",
+            "country": "Jamaica"
+        },
+        "contact": {
+            "tel": "",
+            "mobile": "",
+            "email": ""
+        },
+        "nok": {
+            "name": "",
+            "relation": "",
+            "address": "",
+            "tel": "",
+            "mobile": ""
+        },
+        "tasks": [],
+        "account": {
+            "bank": {
+                "name": "",
+                "branch": "",
+                "account": ""
+            },
+            "payments": [],
+            "loans": [],
+            "totals_payments": [
+                25000,
+                3000,
+                27000
+            ],
+            "total": 55000
+        },
+        "days": [],
+        "state": {
+            "active": false,
+            "terminated": true,
+            "onleave": false,
+            "quit": false
+        },
+        "event": {
+            "employed": 1653022800000,
+            "terminated": 1656392400000,
+            "leave": "",
+            "quited": ""
+        },
+        "reports": [],
+        "jobs": []
+    },
+    {
+        "_id": "masons:BF4208",
+        "name": "Brian Francis",
+        "oc": "Bongo",
+        "sex": "male",
+        "dob": null,
+        "identity": "PP00100100",
+        "id_type": "passport",
+        "occupation": "mason",
+        "added": null,
+        "rating": "3",
+        "height": "150",
+        "imgurl": "static/imgs/workers/BF4208.png",
+        "address": {
+            "lot": null,
+            "street": "Patrick Street",
+            "town": "Old Harbour",
+            "city_parish": "St Catherine",
+            "country": null,
+            "zip": null
+        },
+        "account": {
+            "bank": {
+                "name": null,
+                "branch": null,
+                "account": null,
+                "account_type": null
+            },
+            "payments": [],
+            "loans": []
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null,
+            "watsapp": null
+        },
+        "nok": {
+            "name": null,
+            "relation": null,
+            "address": {
+                "lot": null,
+                "street": null,
+                "town": null,
+                "city_parish": null,
+                "country": null,
+                "zip": null
+            },
+            "contact": {
+                "tel": null,
+                "mobile": null,
+                "email": null
+            }
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": {
+            "active": null,
+            "completed": null,
+            "paused": null,
+            "terminated": null
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "completion": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null,
+            "duration": null
+        },
+        "reports": [],
+        "trn": "100200300",
+        "mason_id": "masons"
+    },
+    {
+        "_id": "masons:CC07725",
+        "name": "Cliffton Champagnie",
+        "oc": "Baddas",
+        "sex": "Male",
+        "dob": "",
+        "height": "156",
+        "identity": "96654888",
+        "id_type": "National",
+        "trn": "774445588",
+        "occupation": "mason",
+        "rating": "3",
+        "imgurl": "static/imgs/workers/CC07725.png",
+        "address": {
+            "lot": "",
+            "street": "",
+            "town": "",
+            "city_parish": ""
+        },
+        "contact": {
+            "tel": "",
+            "mobile": "",
+            "email": ""
+        },
+        "account": {
+            "bank": {
+                "name": "",
+                "branch": null,
+                "account": "",
+                "account_type": ""
+            },
+            "payments": [],
+            "loans": []
+        },
+        "nok": {
+            "name": "",
+            "relation": null,
+            "address": "",
+            "contact": ""
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": [
+            {
+                "active": true,
+                "onleave": false,
+                "terminated": false
+            }
+        ],
+        "event": [
+            {
+                "started": null,
+                "onleave": [],
+                "restart": [],
+                "terminated": null,
+                "duration": 0
+            }
+        ],
+        "reports": [],
+        "mason_id": "masons"
+    },
+    {
+        "_id": "masons:FC2957",
+        "name": "Fealer Coole",
+        "oc": "Fieldup",
+        "sex": "Female",
+        "dob": "2024-05-08",
+        "height": "102",
+        "identity": "10000000",
+        "id_type": "National",
+        "trn": "100000000",
+        "occupation": "mason",
+        "rating": "4",
+        "imgurl": "static/imgs/workers/FC2957.png",
+        "address": {
+            "lot": "1254",
+            "street": "10 Street",
+            "town": "Kingston",
+            "city_parish": "Jamaica"
+        },
+        "contact": {
+            "tel": "876-545-3312",
+            "mobile": "876-545-3312",
+            "email": ""
+        },
+        "account": {
+            "bank": {
+                "name": "Ncb",
+                "branch": null,
+                "account": "8742524565",
+                "account_type": "Savings"
+            },
+            "payments": [],
+            "loans": []
+        },
+        "nok": {
+            "name": "A Francson",
+            "relation": null,
+            "address": "Isaland Farm",
+            "contact": "876 778 9854"
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": [
+            {
+                "active": true,
+                "onleave": false,
+                "terminated": false
+            }
+        ],
+        "event": [
+            {
+                "started": null,
+                "onleave": [],
+                "restart": [],
+                "terminated": null,
+                "duration": 0
+            }
+        ],
+        "reports": [],
+        "mason_id": "masons"
+    },
+    {
+        "_id": "masons:RH97712",
+        "name": "Ryan Hendrics",
+        "oc": "Pants",
+        "sex": "male",
+        "dob": null,
+        "identity": "PP00100101",
+        "id_type": "passport",
+        "occupation": "mason",
+        "added": null,
+        "rating": "4",
+        "height": "195",
+        "imgurl": "static/imgs/workers/RH97712.png",
+        "address": {
+            "lot": null,
+            "street": null,
+            "town": null,
+            "city_parish": null,
+            "country": null,
+            "zip": null
+        },
+        "account": {
+            "bank": {
+                "name": null,
+                "branch": null,
+                "account": null,
+                "account_type": null
+            },
+            "payments": [],
+            "loans": []
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null,
+            "watsapp": null
+        },
+        "nok": {
+            "name": null,
+            "relation": null,
+            "address": {
+                "lot": null,
+                "street": null,
+                "town": null,
+                "city_parish": null,
+                "country": null,
+                "zip": null
+            },
+            "contact": {
+                "tel": null,
+                "mobile": null,
+                "email": null
+            }
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": {
+            "active": null,
+            "completed": null,
+            "paused": null,
+            "terminated": null
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "completion": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null,
+            "duration": null
+        },
+        "reports": [],
+        "trn": "200100200",
+        "mason_id": "masons"
+    },
+    {
+        "_id": "masons:RT0899",
+        "name": "Romario Thomas",
+        "oc": "Romario",
+        "sex": "male",
+        "dob": null,
+        "identity": "PP00100102",
+        "id_type": "passport",
+        "occupation": "mason",
+        "added": null,
+        "rating": "3",
+        "height": "185",
+        "imgurl": "static/imgs/workers/RT0899.png",
+        "address": {
+            "lot": null,
+            "street": "Gordon Wood ",
+            "town": "Church Pen",
+            "city_parish": "St Catherine",
+            "country": null,
+            "zip": null
+        },
+        "account": {
+            "bank": {
+                "name": null,
+                "branch": null,
+                "account": null,
+                "account_type": null
+            },
+            "payments": [],
+            "loans": []
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null,
+            "watsapp": null
+        },
+        "nok": {
+            "name": null,
+            "relation": null,
+            "address": {
+                "lot": null,
+                "street": null,
+                "town": null,
+                "city_parish": null,
+                "country": null,
+                "zip": null
+            },
+            "contact": {
+                "tel": null,
+                "mobile": null,
+                "email": null
+            }
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": {
+            "active": null,
+            "completed": null,
+            "paused": null,
+            "terminated": null
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "completion": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null,
+            "duration": null
+        },
+        "reports": [],
+        "trn": "303101201",
+        "mason_id": "masons"
+    },
+    {
+        "_id": "MB36638",
+        "name": "Mark Bent",
+        "oc": "Mark",
+        "sex": "Male",
+        "dob": 0,
+        "identity": "",
+        "id_type": "",
+        "occupation": "carpenter",
+        "rating": 3,
+        "height": 0,
+        "imgurl": null,
+        "contact": {
+            "email": null,
+            "tel": null,
+            "mobile": null
+        },
+        "address": {
+            "lot": "",
+            "street": "Elgin Dist.",
+            "town": "Malvern",
+            "city_parish": "St. Elizabeth"
+        },
+        "nok": {
+            "name": "",
+            "relation": "",
+            "contact": {
+                "email": "",
+                "tel": "",
+                "mobile": ""
+            },
+            "address": {
+                "lot": "",
+                "street": "",
+                "town": "",
+                "city_parish": ""
+            }
+        },
+        "tasks": [],
+        "account": {
+            "bank": {
+                "name": "",
+                "branch": "",
+                "account": 0
+            },
+            "payments": [],
+            "loans": [],
+            "totals_payments": [],
+            "total": 0
+        },
+        "days": [],
+        "state": {
+            "active": true,
+            "terminated": false,
+            "onleave": false,
+            "quit": false
+        },
+        "event": {
+            "employed": 1664418585000,
+            "terminated": 0,
+            "leave": 0,
+            "quited": 0
+        },
+        "reports": [],
+        "jobs": []
+    },
+    {
+        "_id": "MM48363",
+        "name": "Micheal Mitchell",
+        "oc": "mike",
+        "sex": "Male",
+        "dob": 0,
+        "identity": "",
+        "id_type": "",
+        "height": 0,
+        "imgurl": null,
+        "occupation": "carpenter",
+        "rating": 4,
+        "address": {
+            "lot": "40",
+            "street": "Newark subdivision",
+            "town": "Spur Tree",
+            "parish": "",
+            "country": ""
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null
+        },
+        "nok": {
+            "name": "",
+            "relation": "",
+            "address": "",
+            "tel": "",
+            "mobile": ""
+        },
+        "tasks": [],
+        "account": {
+            "bank": {
+                "name": "Jamaica National",
+                "branch": "Mandeville",
+                "account": "5826111"
+            },
+            "payments": [],
+            "loans": []
+        },
+        "days": [],
+        "state": {
+            "active": false,
+            "terminated": false,
+            "onleave": false,
+            "quit": true
+        },
+        "event": {
+            "employed": 1655096400000,
+            "terminated": 0,
+            "leave": 0,
+            "quited": 1658293200000
+        },
+        "reports": [],
+        "jobs": []
+    },
+    {
+        "_id": "MM60843",
+        "name": "Mark McKenzie",
+        "oc": "Hulk",
+        "sex": "male",
+        "dob": null,
+        "identity": "000000001",
+        "id_type": "default",
+        "occupation": "labourer",
+        "added": null,
+        "rating": "5",
+        "height": "135",
+        "imgurl": null,
+        "address": {
+            "lot": null,
+            "street": "Elgin",
+            "town": "Elgin District",
+            "city_parish": "St. Elizabeth",
+            "country": null
+        },
+        "account": {
+            "bank": {
+                "name": null,
+                "branch": null,
+                "account": null,
+                "account_type": null
+            },
+            "payments": [],
+            "loans": []
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null,
+            "watsapp": null
+        },
+        "nok": {
+            "name": null,
+            "relation": null,
+            "address": {
+                "lot": null,
+                "street": "Elgin",
+                "town": "Elgin District",
+                "city_parish": "St. Elizabeth",
+                "country": null
+            },
+            "contact": {
+                "tel": null,
+                "mobile": null,
+                "email": null
+            }
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": {
+            "active": null,
+            "completed": null,
+            "paused": null,
+            "terminated": null
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "reports": [],
+        "labourer_id": "labourers"
+    },
+    {
+        "_id": "MM98352",
+        "name": "Micheal Mcdonald",
+        "oc": "Blacks",
+        "sex": "Male",
+        "dob": 0,
+        "identity": "",
+        "id_type": "",
+        "occupation": "labourer",
+        "rating": 5,
+        "height": 0,
+        "imgurl": "",
+        "contact": {
+            "email": null,
+            "tel": null,
+            "mobile": null
+        },
+        "address": {
+            "lot": "",
+            "street": "6Mile",
+            "town": "Bartons Dist",
+            "city_parish": "St. Catherine"
+        },
+        "nok": {
+            "name": "",
+            "relation": "",
+            "contact": {
+                "email": "",
+                "tel": "",
+                "mobile": ""
+            },
+            "address": {
+                "lot": "",
+                "street": "",
+                "town": "",
+                "city_parish": ""
+            }
+        },
+        "tasks": [],
+        "account": {
+            "bank": {
+                "name": "",
+                "branch": "",
+                "account": 0
+            },
+            "payments": [],
+            "loans": [],
+            "totals_payments": [],
+            "total": 0
+        },
+        "days": [],
+        "state": {
+            "active": false,
+            "terminated": false,
+            "onleave": false,
+            "quit": false
+        },
+        "event": {
+            "employed": 1665511333000,
+            "terminated": 0,
+            "leave": 0,
+            "quited": 0
+        },
+        "reports": [],
+        "jobs": []
+    },
+    {
+        "_id": "NT60208",
+        "name": "Nedeno Towsend",
+        "oc": "Luss",
+        "sex": "male",
+        "dob": null,
+        "identity": "PP11111111111",
+        "id_type": "passport",
+        "occupation": "steelman",
+        "added": null,
+        "rating": "1",
+        "height": null,
+        "imgurl": "static/imgs/workers/NT60208.png",
+        "address": {
+            "lot": null,
+            "street": "Terminal Road",
+            "town": "Old Harbour Bay",
+            "city_parish": "Sy. Catherine",
+            "country": null,
+            "zip": null
+        },
+        "account": {
+            "bank": {
+                "name": null,
+                "branch": null,
+                "account": null,
+                "account_type": null
+            },
+            "payments": [],
+            "loans": []
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null,
+            "watsapp": null
+        },
+        "nok": {
+            "name": "Carline  Lewis",
+            "relation": "Mother",
+            "address": {
+                "lot": null,
+                "street": "Terminal Road",
+                "town": "Old Harbour Bay",
+                "city_parish": "Sy. Catherine",
+                "country": null,
+                "zip": null
+            },
+            "contact": {
+                "tel": null,
+                "mobile": "876-828-6010",
+                "email": null
+            }
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": {
+            "active": null,
+            "completed": null,
+            "paused": null,
+            "terminated": null
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "completion": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null,
+            "duration": null
+        },
+        "reports": [],
+        "trn": "1000000000000",
+        "steelman_id": "steelmans"
+    },
+    {
+        "_id": "PB13376",
+        "name": "Peter's Backhoe",
+        "oc": "Backhoe",
+        "sex": "Machine",
+        "dob": "",
+        "height": "",
+        "identity": "1124458787",
+        "id_type": "Drivers License",
+        "trn": "10002002",
+        "occupation": "labourer",
+        "rating": "5",
+        "imgurl": "static/imgs/workers/PB13376.png",
+        "address": {
+            "lot": "",
+            "street": "",
+            "town": "",
+            "city_parish": ""
+        },
+        "contact": {
+            "tel": "876-596-1324",
+            "mobile": "876-596-1324",
+            "email": ""
+        },
+        "account": {
+            "bank": {
+                "name": "",
+                "branch": null,
+                "account": "",
+                "account_type": ""
+            },
+            "payments": [],
+            "loans": []
+        },
+        "nok": {
+            "name": "",
+            "relation": null,
+            "address": "",
+            "contact": ""
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "state": [
+            {
+                "active": true,
+                "onleave": false,
+                "terminated": false
+            }
+        ],
+        "event": [
+            {
+                "started": null,
+                "onleave": [],
+                "restart": [],
+                "terminated": null,
+                "duration": 0
+            }
+        ],
+        "reports": [],
+        "labourer_id": "labourers"
+    },
+    {
+        "_id": "plumbers:AG37282",
+        "name": "Andrew Guthrie",
+        "oc": "Andrew",
+        "sex": "Male",
+        "dob": "",
+        "height": "158",
+        "identity": "PP77877777",
+        "id_type": "Passport",
+        "trn": "900200511",
+        "occupation": "plumber",
+        "rating": "4",
+        "imgurl": "static/imgs/workers/AG37282.png",
+        "address": {
+            "lot": "396",
+            "street": "Claremont Blvd.",
+            "town": "Old Harbour",
+            "city_parish": "St Catherine"
+        },
+        "contact": {
+            "tel": "",
+            "mobile": "",
+            "email": ""
+        },
+        "account": {
+            "bank": {
+                "name": "NCB",
+                "branch": null,
+                "account": "",
+                "account_type": "Savings"
+            },
+            "payments": [],
+            "loans": []
+        },
+        "nok": {
+            "name": "Trish Ann Guthrie",
+            "relation": null,
+            "address": "",
+            "contact": ""
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "state": [
+            {
+                "active": true,
+                "onleave": false,
+                "terminated": false
+            }
+        ],
+        "event": [
+            {
+                "started": null,
+                "onleave": [],
+                "restart": [],
+                "terminated": null,
+                "duration": 0
+            }
+        ],
+        "reports": [],
+        "plumber_id": "plumbers"
+    },
+    {
+        "_id": "PM01802",
+        "name": "Paul Mcdonald",
+        "oc": "Stinky",
+        "sex": "male",
+        "dob": "1957-12-25",
+        "identity": "9011147878",
+        "id_type": "drivers",
+        "trn": "9011147878",
+        "occupation": "steelman",
+        "added": null,
+        "rating": "3",
+        "height": "191",
+        "imgurl": null,
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null,
+            "watsapp": null
+        },
+        "address": {
+            "lot": "19",
+            "street": "Alvin Way",
+            "town": "Gutters",
+            "city_parish": "St. Catherine",
+            "country": null
+        },
+        "account": {
+            "bank": {
+                "name": null,
+                "branch": null,
+                "account": null
+            },
+            "payments": [],
+            "loans": []
+        },
+        "nok": {
+            "name": "Annette Mcdonald",
+            "relation": "Sister",
+            "address": null,
+            "contact": {
+                "tel": "876-371-6547",
+                "mobile": "876-371-6547",
+                "email": null
+            }
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": {
+            "active": false,
+            "onleave": false,
+            "suspended": false,
+            "terminated": false
+        },
+        "event": {
+            "employed": null,
+            "onleave": [],
+            "resumed": [],
+            "suspended": [],
+            "terminated": null
+        },
+        "reports": [],
+        "steelman_id": "steelmans"
+    },
+    {
+        "_id": "RH97712",
+        "name": "Ryan Hendrics",
+        "oc": "Pants",
+        "sex": "male",
+        "dob": null,
+        "identity": "PP00100101",
+        "id_type": "passport",
+        "occupation": "mason",
+        "added": null,
+        "rating": "4",
+        "height": "195",
+        "imgurl": "static/imgs/workers/RH97712.png",
+        "address": {
+            "lot": null,
+            "street": null,
+            "town": null,
+            "city_parish": null,
+            "country": null,
+            "zip": null
+        },
+        "account": {
+            "bank": {
+                "name": null,
+                "branch": null,
+                "account": null,
+                "account_type": null
+            },
+            "payments": [],
+            "loans": []
+        },
+        "contact": {
+            "tel": null,
+            "mobile": "876-580-0511",
+            "email": null,
+            "watsapp": null
+        },
+        "nok": {
+            "name": null,
+            "relation": null,
+            "address": {
+                "lot": null,
+                "street": null,
+                "town": null,
+                "city_parish": null,
+                "country": null,
+                "zip": null
+            },
+            "contact": {
+                "tel": null,
+                "mobile": null,
+                "email": null
+            }
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": {
+            "active": null,
+            "completed": null,
+            "paused": null,
+            "terminated": null
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "completion": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null,
+            "duration": null
+        },
+        "reports": [],
+        "trn": "200100200",
+        "mason_id": "masons"
+    },
+    {
+        "_id": "roofers:KW6462",
+        "name": "Kevin Wallace",
+        "oc": "Kevin Roofer",
+        "sex": "Male",
+        "dob": "",
+        "height": "165",
+        "identity": "0012544",
+        "id_type": "National",
+        "trn": "6654887",
+        "occupation": "roofer",
+        "rating": "4",
+        "imgurl": "static/imgs/workers/KW6462.png",
+        "address": {
+            "lot": "",
+            "street": "Bowers Drive",
+            "town": "Old Harbour",
+            "city_parish": "St. Catherine"
+        },
+        "contact": {
+            "tel": "",
+            "mobile": "876-798-1886",
+            "email": ""
+        },
+        "account": {
+            "bank": {
+                "name": "",
+                "branch": null,
+                "account": "",
+                "account_type": ""
+            },
+            "payments": [],
+            "loans": []
+        },
+        "nok": {
+            "name": "",
+            "relation": null,
+            "address": "",
+            "contact": ""
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": [
+            {
+                "active": true,
+                "onleave": false,
+                "terminated": false
+            }
+        ],
+        "event": [
+            {
+                "started": null,
+                "onleave": [],
+                "restart": [],
+                "terminated": null,
+                "duration": 0
+            }
+        ],
+        "reports": [],
+        "roofer_id": "roofers"
+    },
+    {
+        "_id": "RT0899",
+        "name": "Romario Thomas",
+        "oc": "Romario",
+        "sex": "male",
+        "dob": null,
+        "identity": "PP00100102",
+        "id_type": "passport",
+        "occupation": "mason",
+        "added": null,
+        "rating": "3",
+        "height": "185",
+        "imgurl": "static/imgs/workers/RT0899.png",
+        "address": {
+            "lot": null,
+            "street": "Gordon Wood ",
+            "town": "Church Pen",
+            "city_parish": "St Catherine",
+            "country": null,
+            "zip": null
+        },
+        "account": {
+            "bank": {
+                "name": null,
+                "branch": null,
+                "account": null,
+                "account_type": null
+            },
+            "payments": [],
+            "loans": []
+        },
+        "contact": {
+            "tel": "876-512-8597",
+            "mobile": "876-512-8597",
+            "email": null,
+            "watsapp": null
+        },
+        "nok": {
+            "name": null,
+            "relation": null,
+            "address": {
+                "lot": null,
+                "street": null,
+                "town": null,
+                "city_parish": null,
+                "country": null,
+                "zip": null
+            },
+            "contact": {
+                "tel": null,
+                "mobile": null,
+                "email": null
+            }
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": {
+            "active": null,
+            "completed": null,
+            "paused": null,
+            "terminated": null
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "completion": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null,
+            "duration": null
+        },
+        "reports": [],
+        "trn": "303101201",
+        "mason_id": "masons"
+    },
+    {
+        "_id": "s",
+        "name": "Ausar Moncrieffe",
+        "oc": "Beele",
+        "sex": "Male",
+        "dob": "2005-01-28",
+        "height": "",
+        "identity": "",
+        "id_type": "Passport",
+        "trn": "",
+        "occupation": "",
+        "rating": "",
+        "imgurl": "static/imgs/workers/AM5300.png",
+        "address": {
+            "lot": "",
+            "street": "",
+            "town": "",
+            "city_parish": ""
+        },
+        "contact": {
+            "tel": "",
+            "mobile": "",
+            "email": ""
+        },
+        "account": {
+            "bank": {
+                "name": "",
+                "branch": null,
+                "account": "",
+                "account_type": ""
+            },
+            "payments": [],
+            "loans": []
+        },
+        "nok": {
+            "name": "",
+            "relation": null,
+            "address": "",
+            "contact": ""
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": [
+            {
+                "active": true,
+                "onleave": false,
+                "terminated": false
+            }
+        ],
+        "event": [
+            {
+                "started": null,
+                "onleave": [],
+                "restart": [],
+                "terminated": null,
+                "duration": 0
+            }
+        ],
+        "reports": []
+    },
+    {
+        "_id": "SH3482",
+        "name": "Stanford Huntly",
+        "oc": "Blacks",
+        "sex": "Male",
+        "dob": 0,
+        "identity": "",
+        "id_type": "",
+        "height": 0,
+        "imgurl": "static/imgs/workers/CW37980.png",
+        "occupation": "watchman",
+        "rating": 4,
+        "address": {
+            "lot": "",
+            "street": "Southfield District",
+            "town": "SouthField",
+            "parish": "",
+            "country": ""
+        },
+        "contact": {
+            "tel": "",
+            "mobile": "18768793234",
+            "email": ""
+        },
+        "nok": {
+            "name": "",
+            "relation": "",
+            "address": "",
+            "tel": "",
+            "mobile": ""
+        },
+        "tasks": [],
+        "account": {
+            "bank": {
+                "name": "",
+                "branch": "",
+                "account": 0
+            },
+            "payments": [],
+            "prev_payments": [
+                {
+                    "date": 1651190400000,
+                    "ref": "DVPB001",
+                    "description": "Seven Days Pay @ 3000/day",
+                    "amount": 21000,
+                    "id": "41fekdak"
+                },
+                {
+                    "date": 1652400000000,
+                    "ref": "DVPB002",
+                    "description": "Eleven Days Pay @ 3000/day +",
+                    "amount": 37350,
+                    "id": "8nc1dnmj"
+                },
+                {
+                    "date": 1653609600000,
+                    "ref": "DVPB003",
+                    "description": "Forthnight Watching",
+                    "amount": 40000,
+                    "id": "gg93gf9d"
+                },
+                {
+                    "date": 1654819200000,
+                    "ref": "DVPB004",
+                    "description": "Forthnight Watching",
+                    "amount": 40000,
+                    "id": "j5le3kd7"
+                },
+                {
+                    "date": 1656028800000,
+                    "ref": "DVPB005",
+                    "description": "Forthnight Watching",
+                    "amount": 40000,
+                    "id": "8ee1ln65"
+                },
+                {
+                    "date": 1657238400000,
+                    "ref": "DVPB006",
+                    "description": "Forthnight Watching",
+                    "amount": 40000,
+                    "id": "faci9h6j"
+                },
+                {
+                    "date": 1658448000000,
+                    "ref": "DVPB007",
+                    "description": "Forthnight Watching",
+                    "amount": 40000,
+                    "id": "l9m5gc1g"
+                },
+                {
+                    "date": 1659657600000,
+                    "ref": "DVPB008",
+                    "description": "Forthnight Watching",
+                    "amount": 45000,
+                    "id": "97ahkn2h"
+                },
+                {
+                    "ref": "DVPB009",
+                    "description": "Forthnight Watching",
+                    "amount": 45000,
+                    "date": 1660867200000,
+                    "id": "kl2n235d"
+                }
+            ],
+            "loans": [],
+            "totals_payments": [
+                21000,
+                37350,
+                40000,
+                40000,
+                40000,
+                40000,
+                40000,
+                45000,
+                45000
+            ],
+            "total": 500350
+        },
+        "days": [],
+        "state": {
+            "active": true,
+            "terminated": false,
+            "onleave": false,
+            "quit": false
+        },
+        "event": {
+            "employed": 1650344400000,
+            "terminated": 0,
+            "leave": 0,
+            "quited": 0
+        },
+        "reports": [],
+        "jobs": []
+    },
+    {
+        "_id": "supervisors:JA5578",
+        "name": "Justin Abel",
+        "oc": "Justin",
+        "sex": "Male",
+        "dob": "",
+        "height": "158",
+        "identity": "44400000",
+        "id_type": "National",
+        "trn": "222111000",
+        "occupation": "supervisor",
+        "rating": "2",
+        "imgurl": "static/imgs/workers/JA5578.png",
+        "address": {
+            "lot": "",
+            "street": "Lincon District",
+            "town": "Lincon",
+            "city_parish": "Manchester"
+        },
+        "contact": {
+            "tel": "",
+            "mobile": "876-299-1570",
+            "email": "justinjoabel@gmail.com"
+        },
+        "account": {
+            "bank": {
+                "name": "",
+                "branch": null,
+                "account": "",
+                "account_type": ""
+            },
+            "payments": [],
+            "loans": []
+        },
+        "nok": {
+            "name": "",
+            "relation": null,
+            "address": "",
+            "contact": ""
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": [
+            {
+                "active": true,
+                "onleave": false,
+                "terminated": false
+            }
+        ],
+        "event": [
+            {
+                "started": null,
+                "onleave": [],
+                "restart": [],
+                "terminated": null,
+                "duration": 0
+            }
+        ],
+        "reports": [],
+        "supervisor_id": "supervisors"
+    },
+    {
+        "_id": "VD70524",
+        "name": "Vaughn Douglas",
+        "oc": "Jevon",
+        "sex": "male",
+        "dob": null,
+        "identity": "pp117665",
+        "id_type": "passport",
+        "occupation": "electrician",
+        "added": null,
+        "rating": "3",
+        "height": null,
+        "imgurl": "static/imgs/workers/VD70524.png",
+        "address": {
+            "lot": null,
+            "street": "",
+            "town": "Coliville",
+            "city_parish": "Manchester",
+            "country": null
+        },
+        "account": {
+            "bank": {
+                "name": "Bank of Nova Scotia",
+                "branch": "Mandeville",
+                "account": "000534652",
+                "account_type": "savings"
+            },
+            "payments": [],
+            "loans": []
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null,
+            "watsapp": null
+        },
+        "nok": {
+            "name": null,
+            "relation": null,
+            "address": {
+                "lot": null,
+                "street": "",
+                "town": "Coliville",
+                "city_parish": "Manchester",
+                "country": null
+            },
+            "contact": {
+                "tel": null,
+                "mobile": null,
+                "email": null
+            }
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": {
+            "active": null,
+            "completed": null,
+            "paused": null,
+            "terminated": null
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "completion": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null,
+            "duration": null
+        },
+        "reports": [],
+        "electrician_id": "electricians"
+    },
+    {
+        "_id": "VF04577",
+        "name": "Vivine Francis",
+        "oc": "Vivine",
+        "sex": "Female",
+        "dob": 0,
+        "identity": "",
+        "id_type": "",
+        "height": 0,
+        "imgurl": "static/imgs/workers/CW99403.png",
+        "occupation": "Labourer",
+        "rating": 3,
+        "address": {
+            "lot": "x",
+            "street": "Elgin District",
+            "town": "Malvern",
+            "parish": "St. Elizabeth",
+            "country": "Jamaica"
+        },
+        "contact": {
+            "tel": "",
+            "mobile": "",
+            "email": ""
+        },
+        "nok": {
+            "name": "Charmaine Francis",
+            "relation": "Sister",
+            "address": "Elgin District, Malvern, St. Elizabeth",
+            "tel": "",
+            "mobile": ""
+        },
+        "tasks": [],
+        "days": [],
+        "account": {
+            "bank": {
+                "name": "Jamaica National Bank",
+                "branch": "SANTA CRUZ",
+                "account": "10125933"
+            },
+            "payments": [],
+            "totals_payments": [],
+            "total": 0,
+            "loans": []
+        },
+        "state": {
+            "active": false,
+            "terminated": false,
+            "onleave": true,
+            "quit": false
+        },
+        "event": {
+            "employed": 0,
+            "terminated": 0,
+            "leave": 0,
+            "quited": 0
+        },
+        "reports": [],
+        "jobs": []
+    },
+    {
+        "_id": "VH1492",
+        "name": "Vaughn Hinds",
+        "oc": "Von",
+        "sex": "male",
+        "dob": null,
+        "identity": "xxxxxx1",
+        "id_type": "national",
+        "occupation": "steelman",
+        "added": null,
+        "rating": "2",
+        "height": "132",
+        "imgurl": null,
+        "address": {
+            "lot": "10A",
+            "street": "Elgin District",
+            "town": "Malvern",
+            "city_parish": "St Elizabeth",
+            "country": null
+        },
+        "account": {
+            "bank": {
+                "name": null,
+                "branch": null,
+                "account": null,
+                "account_type": null
+            },
+            "payments": [],
+            "loans": []
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null,
+            "watsapp": null
+        },
+        "nok": {
+            "name": null,
+            "relation": null,
+            "address": {
+                "lot": "10A",
+                "street": "Elgin District",
+                "town": "Malvern",
+                "city_parish": "St Elizabeth",
+                "country": null
+            },
+            "contact": {
+                "tel": null,
+                "mobile": null,
+                "email": null
+            }
+        },
+        "tasks": [],
+        "jobs": [],
+        "days": [],
+        "earnings": [],
+        "state": {
+            "active": null,
+            "completed": null,
+            "paused": null,
+            "terminated": null
+        },
+        "event": {
+            "started": null,
+            "completed": null,
+            "paused": [],
+            "restart": [],
+            "terminated": null
+        },
+        "reports": [],
+        "steelman_id": "steelmans"
+    },
+    {
+        "_id": "WS77885",
+        "name": "William Stevens",
+        "oc": "nose",
+        "sex": "Male",
+        "dob": 0,
+        "identity": "",
+        "id_type": "",
+        "height": 0,
+        "imgurl": "static/imgs/workers/CW72445.png",
+        "occupation": "labourer",
+        "rating": 4,
+        "address": {
+            "lot": "40",
+            "street": "Elgin Dist",
+            "town": "Malvern",
+            "parish": "St. Elizabeth",
+            "country": "Jamaica"
+        },
+        "contact": {
+            "tel": null,
+            "mobile": null,
+            "email": null
+        },
+        "nok": {
+            "name": "",
+            "relation": "",
+            "address": "",
+            "tel": "",
+            "mobile": ""
+        },
+        "tasks": [],
+        "account": {
+            "bank": {
+                "name": "VMBS",
+                "branch": "SANTA CRUZ",
+                "account": "23505472"
+            },
+            "payments": [],
+            "loans": []
+        },
+        "days": [],
+        "state": {
+            "active": false,
+            "terminated": false,
+            "onleave": false,
+            "quit": true
+        },
+        "event": {
+            "employed": 1650344400000,
+            "terminated": 0,
+            "leave": 0,
+            "quited": 1654837200000
+        },
+        "reports": [],
+        "jobs": []
+    }
+]

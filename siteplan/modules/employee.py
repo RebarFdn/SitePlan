@@ -92,11 +92,13 @@ async def all_employees(conn:typing.Coroutine=db_connection)->dict:
     Returns:
         dict: _description_
     """
+    data = await conn.get(_directive="_design/workers/_view/all") 
     try:
-        return await conn.get(_directive="_all_docs") 
+        return data.get('rows')
     except Exception as e:
         return {"error": str(e)}   
-
+    finally: 
+        del data
 
 #@lru_cache
 async def all_workers(conn:typing.Coroutine=db_connection)->list:
@@ -111,7 +113,8 @@ async def all_workers(conn:typing.Coroutine=db_connection)->list:
         return data.get('rows')
     except Exception as e:
         return {"error": str(e)}
-    finally: del data
+    finally: 
+        del data
 
 
 async def get_worker( id:str=None, conn:typing.Coroutine=db_connection )->dict: 
@@ -164,6 +167,15 @@ async def save_employee(data:dict=None, user:str=None, conn:typing.Coroutine=db_
         new_employee['meta_data'] = set_metadata(property='created_by', value=user, metadata=new_employee.get('meta_data'))
         await conn.post( json=new_employee)            
         return new_employee
+    except Exception as e:
+        return {"error": str(e)}
+    
+
+async def backup_employee(data:dict=None, conn:typing.Coroutine=db_connection ):        
+    try:       
+        new_employee = employee_model() | data
+        await conn.post( json=new_employee)            
+        return None
     except Exception as e:
         return {"error": str(e)}
     

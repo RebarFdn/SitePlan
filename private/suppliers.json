@@ -8,14 +8,7 @@
                 "name": "NCB",
                 "account": "504867048"
             },
-            "transactions": [
-                {
-                    "id": "project-inv no.",
-                    "ref": "invoice no.",
-                    "date": null,
-                    "amt": null
-                }
-            ]
+            "transactions": []
         },
         "address": {
             "lot": "1",
@@ -50,20 +43,7 @@
                 "name": null,
                 "account": null
             },
-            "transactions": [
-                {
-                    "id": "DV97503-146788",
-                    "ref": "146788",
-                    "date": "2022-10-06",
-                    "amt": 8004
-                },
-                {
-                    "id": "DV97503-124110",
-                    "ref": "124110",
-                    "date": "2022-06-01",
-                    "amt": 8004
-                }
-            ]
+            "transactions": []
         },
         "address": {
             "lot": "8",
@@ -97,14 +77,7 @@
                 "name": null,
                 "account": null
             },
-            "transactions": [
-                {
-                    "id": "project-inv no.",
-                    "ref": "invoice no.",
-                    "date": null,
-                    "amt": null
-                }
-            ]
+            "transactions": []
         },
         "address": {
             "lot": "82",
@@ -138,14 +111,7 @@
                 "name": null,
                 "account": null
             },
-            "transactions": [
-                {
-                    "id": "DV97503-858161",
-                    "ref": "858161",
-                    "date": "2022-07-14",
-                    "amt": 5037
-                }
-            ]
+            "transactions": []
         },
         "address": {
             "lot": null,
@@ -179,20 +145,7 @@
                 "name": null,
                 "account": null
             },
-            "transactions": [
-                {
-                    "id": "DV97503-17097",
-                    "ref": "17097",
-                    "date": "2022-05-25",
-                    "amt": 68678
-                },
-                {
-                    "id": "DV97503-18765",
-                    "ref": "18765",
-                    "date": "2022-07-25",
-                    "amt": 805920
-                }
-            ]
+            "transactions": []
         },
         "address": {
             "lot": "",
@@ -221,14 +174,7 @@
                 "name": null,
                 "account": null
             },
-            "transactions": [
-                {
-                    "id": "project-inv no.",
-                    "ref": "invoice no.",
-                    "date": null,
-                    "amt": null
-                }
-            ]
+            "transactions": []
         },
         "address": {
             "lot": null,
@@ -275,7 +221,8 @@
             "name": null,
             "branch": null,
             "account": null,
-            "account_type": null
+            "account_type": null,
+            "transactions": []
         },
         "transactions": [],
         "meta_data": {
@@ -295,14 +242,7 @@
                 "name": null,
                 "account": null
             },
-            "transactions": [
-                {
-                    "id": "project-inv no.",
-                    "ref": "invoice no.",
-                    "date": null,
-                    "amt": null
-                }
-            ]
+            "transactions": []
         },
         "address": {
             "lot": "55",
@@ -352,7 +292,8 @@
             "name": null,
             "branch": null,
             "account": null,
-            "account_type": null
+            "account_type": null,
+            "transactions": []
         },
         "transactions": [],
         "meta_data": {
@@ -388,7 +329,8 @@
             "name": null,
             "branch": null,
             "account": null,
-            "account_type": null
+            "account_type": null,
+            "transactions": []
         },
         "transactions": [],
         "meta_data": {
@@ -424,7 +366,8 @@
             "name": null,
             "branch": null,
             "account": null,
-            "account_type": null
+            "account_type": null,
+            "transactions": []
         },
         "transactions": [],
         "meta_data": {
@@ -460,7 +403,8 @@
             "name": null,
             "branch": null,
             "account": null,
-            "account_type": null
+            "account_type": null,
+            "transactions": []
         },
         "transactions": [],
         "meta_data": {
@@ -495,7 +439,8 @@
             "name": null,
             "branch": null,
             "account": null,
-            "account_type": null
+            "account_type": null,
+            "transactions": []
         },
         "transactions": [],
         "meta_data": {
@@ -565,7 +510,8 @@
             "name": null,
             "branch": null,
             "account": null,
-            "account_type": null
+            "account_type": null,
+            "transactions": []
         },
         "transactions": [],
         "meta_data": {
@@ -635,7 +581,8 @@
             "name": null,
             "branch": null,
             "account": null,
-            "account_type": null
+            "account_type": null,
+            "transactions": []
         },
         "transactions": [],
         "meta_data": {
@@ -670,7 +617,8 @@
             "name": null,
             "branch": null,
             "account": null,
-            "account_type": null
+            "account_type": null,
+            "transactions": []
         },
         "transactions": [],
         "meta_data": {
@@ -706,7 +654,8 @@
             "name": null,
             "branch": null,
             "account": null,
-            "account_type": null
+            "account_type": null,
+            "transactions": []
         },
         "transactions": [],
         "meta_data": {
@@ -739,7 +688,8 @@
             "name": null,
             "branch": null,
             "account": null,
-            "account_type": null
+            "account_type": null,
+            "transactions": []
         },
         "transactions": [],
         "meta_data": {
@@ -772,7 +722,8 @@
             "name": null,
             "branch": null,
             "account": null,
-            "account_type": null
+            "account_type": null,
+            "transactions": []
         },
         "transactions": [],
         "meta_data": {
@@ -805,7 +756,8 @@
             "name": null,
             "branch": null,
             "account": null,
-            "account_type": null
+            "account_type": null,
+            "transactions": []
         },
         "transactions": [],
         "meta_data": {

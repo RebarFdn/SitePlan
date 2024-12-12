@@ -34,7 +34,7 @@ from modules.decorator import admin_only
 from modules.invoice_processor import reset_invoice_repo
 from modules.utils import exception_message
 from routes.dropbox_routes import router as dropbox_routes
-from loadPrivateData import (load_rates, load_suppliers)
+from loadPrivateData import (load_rates, load_suppliers, load_workers)
 
 
 
@@ -160,6 +160,16 @@ async def load_rate_database(request):
         ), background=task)
 
 
+async def load_employee_database(request):
+    """Loads the rate-sheet database with publicly available data"""
+    task = BackgroundTask(load_workers)
+    return HTMLResponse(exception_message(
+        message="Loading The Workers Database ... Please Wait!",
+        level='info'
+        ), background=task)
+
+
+
 async def settings(request):
     return TEMPLATES.TemplateResponse('/settings.html', {'request': request})
 
@@ -175,6 +185,7 @@ routes =[
     Route('/zen', endpoint=zenNow), 
     Route('/load_suppliers_database', endpoint=load_suppliers_database), 
     Route('/load_rate_database', endpoint=load_rate_database), 
+    Route('/load_workers_database', endpoint=load_employee_database), 
     Route('/settings', endpoint=settings), 
     Mount('/static', StaticFiles(directory='static')),
     Mount('/drop_box', StaticFiles(directory=DROPBOX_PATH))
