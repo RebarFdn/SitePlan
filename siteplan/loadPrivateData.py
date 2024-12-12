@@ -130,7 +130,7 @@ async def load_suppliers()->None:
         payload = json.load(file)
     for item in payload:
         await asyncio.sleep(0.5)
-        await backup_employee(data=item)
+        await backup_supplier(data=item)
 
 
 async def load_workers()->None:
@@ -143,7 +143,7 @@ async def load_workers()->None:
         payload = json.load(file)
     for item in payload:
         await asyncio.sleep(0.5)
-        await backup_supplier(data=item)
+        await backup_employee(data=item)
     
     
         
