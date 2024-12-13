@@ -354,7 +354,7 @@ async def get_project_rates(request):
     industry_rates = await all_rates()
     project = await get_project(id=id)
     categories = set()
-    rates_category =  [rate.get('category') for rate in project.get('rates', [])]
+    rates_category =  [rate.get('category') for rate in industry_rates]
     for rate in rates_category:
         categories.add(rate)
     task = BackgroundTask(update_projectrates_task, id=id)   
@@ -414,7 +414,7 @@ async def add_industry_rates(request):
         "categories": categories,
         "filtered": filtered,
         "store_room":  store_room,
-        "rate_categories": list(rate_categories.keys())
+        "rate_categories": list(rate_categories())
 
     }
                                       )

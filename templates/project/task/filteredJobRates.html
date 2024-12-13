@@ -15,7 +15,8 @@
 {% for task_rate in rates %}
 <tr>
     <td><input 
-        type="checkbox" 
+        type="radio" 
+        class="radio radio-bordered-primary"
         value="{{ task_rate.get('_id') + '-' + job_id }}" 
         name="task" 
         hx-post="/add_job_task" 

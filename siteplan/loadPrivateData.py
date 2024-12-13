@@ -138,11 +138,12 @@ async def load_workers()->None:
         save items to couchdb datadase
 
     """
-    json_file = private_path / 'workes.json'
+    json_file = private_path / 'workers.json'
     with open(json_file, 'r') as file:
         payload = json.load(file)
     for item in payload:
-        await asyncio.sleep(0.5)
+        print(item)
+        await asyncio.sleep(0.5)        
         await backup_employee(data=item)
     
     
@@ -152,8 +153,9 @@ async def load_workers()->None:
 
 if __name__ == '__main__':
     system('clear')
-    asyncio.run(backup_suppliers())
-    asyncio.run(backup_rates())
-    asyncio.run(backup_workers())
+    #asyncio.run(backup_suppliers())
+    #asyncio.run(backup_rates())
+    #asyncio.run(backup_workers())
+    asyncio.run(load_workers())
     print( [item for item in private_path.iterdir()] )
     #asyncio.run(load_suppliers())
