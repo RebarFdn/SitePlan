@@ -12,7 +12,7 @@ from modules.project import ( get_project, handle_transaction, update_project,
     process_paybill_dayworker, add_expence, default_fees, salary_statement_item_model, salary_statement_model,
     withdrawal_model, project_account_withdrawal_generator, get_project_inventory)
 from modules.employee import  get_worker, update_employee, process_days_work
-from modules.supplier import supplier_name_index
+from modules.supplier import supplier_name_index, update as update_supplier
 from modules.utils import timestamp, to_dollars, filter_dates, today, exception_message
 from modules.accumulator import ProjectDataAccumulator   
 from modules.inventory import Inventory, InventoryItem, material_index, stock_material, Supplier
@@ -1565,6 +1565,12 @@ async def save_invoice(request):
     items =  get_invoice_items(inv_no=inv_no)   
     invoice['items'] = items
     #print(invoice)
+    supplier_record = {
+        "id": f"{id}-{inv_no}",
+        "ref": inv_no,
+        "date": invoice.get("datetime"),
+        "amt":  invoice.get("total")
+      }
      
     if len(project.get('account').get('records', {}).get('invoices', [])) > 1:
         for item in project.get('account').get('records', {}).get('invoices', []): # Check for duplicate
@@ -1585,6 +1591,7 @@ async def save_invoice(request):
                     }
 
                 )
+                supplier['account']['transactions'].append(supplier_record)
                 await update_project(data=project)
                 return HTMLResponse(f"""<div class="uk-alert-success" uk-alert>
                         <a href class="uk-alert-close" uk-close></a>
@@ -1601,6 +1608,8 @@ async def save_invoice(request):
                     }
 
                 )
+        supplier['account']['transactions'].append(supplier_record)
+        
         try:
             await update_project(data=project)
             return HTMLResponse(f"""<div class="uk-alert-success" uk-alert>
@@ -1608,7 +1617,9 @@ async def save_invoice(request):
                             <p>Invoice {invoice.get("invoiceno")} was saved successfully!</p>
                         </div>"""
                     )
-        finally: reset_invoice_repo()
+        finally: 
+            await update_supplier(data=supplier)
+            reset_invoice_repo()
             
 
 

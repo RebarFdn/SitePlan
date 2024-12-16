@@ -9,6 +9,12 @@ from config import TEMPLATES
 
 router = Router()
 
+# About Industry Rate
+@router.get('/about_rate')
+async def about_rate(request):
+    return TEMPLATES.TemplateResponse('/rate/aboutRate.html',{'request': request})
+
+
 # Employee Related routes
 @router.post('/new_rate')
 @login_required

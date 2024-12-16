@@ -324,9 +324,10 @@ async def get_project_workers(request):
     id = request.path_params.get('id')
     filter = request.path_params.get('filter')
     project = await get_project(id=id)
-    e = await all_workers()
+    employees = await all_workers()
     workers = project.get('workers')
     categories = { worker.get('value').get('occupation') for worker in workers }
+    employee_categories = { employee.get('value').get('occupation') for employee in employees}
     if filter:
         if filter == 'all' or filter == 'None':            
             filtered = workers 
@@ -337,14 +338,46 @@ async def get_project_workers(request):
                                            "request": request,
                                            "id": id,
                                            "p": project,
-                                           "employees": e,
+                                           "employees": employees,
                                            "workers": workers,
                                            "categories": categories,
                                            "filter" : filter,
-                                           "filtered": filtered
+                                           "filtered": filtered,
+                                           "employee_categories": employee_categories
 
                                            
                                         })
+
+
+# Employees Pool | Filtered
+@router.get('/employee_pool/{project_id}/{filter}')
+async def filter_employee_pool(request):
+    '''Returns a Filtered list of employees'''
+    project_id = request.path_params.get('project_id')
+    filter = request.path_params.get('filter')
+    employees = await all_workers()
+    print(employees[0])
+    if filter == 'all' or filter == 'None':
+        return  TEMPLATES.TemplateResponse('/project/projectEmployeesPool.html', 
+                                       {
+                                           "request": request,
+                                           "p": { "_id": project_id},
+                                           "employees": employees 
+                                           
+                                        })
+    else:
+        filtered = [worker for worker in employees if worker.get("value").get("occupation") == filter]
+        return  TEMPLATES.TemplateResponse('/project/projectEmployeesPool.html', 
+                                       {
+                                           "request": request,
+                                           "p": { "_id": project_id},
+                                           "employees": [worker for worker in employees if worker.get("value").get("occupation") == filter]
+                                           
+                                        })
+        
+
+   
+
 
 
 # PROCESS RATES

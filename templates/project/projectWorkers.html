@@ -219,59 +219,75 @@
 </tbody></table>
 {% endif %}
 
-
+<p class="text-xs bg-gray-500 rounded py-2 px-4">Employee categories {{ employee_categories }}</p>
 <div id="modal-container" class="uk-modal-container" uk-modal>
     <div class="uk-modal-dialog uk-modal-body">
         <button class="uk-modal-close-default" type="button" uk-close></button>
-        <h2 class="uk-modal-title">Employees Index</h2>
-        <div class="flex py-2 px-4 text-sm uk-overflow-auto"> 
-            <table uk-table uk-table-small>
-                <thead>
-                    <tr>
-                        <th>Select</th>
-                        <th>Profile</th>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Occupation</th>
-                        <th>Rating</th>
-                        <th>Contact</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for e in employees %}
-                <tr>
-                    <td><input  class="mx-5 uk-radio bg-gray-400"
-                        type="radio" 
-                        value="{{ p._id + '-' + e.id }}" 
-                        name="employee" 
-                        hx-post="/add_worker_to_project" 
-                        hx-target="#project_properties" >
-                    </td>
-                    <td>
-                        <div class="uk-height-match uk-flex uk-flex-center uk-flex-middle uk-background-cover uk-light rounded-full">
-                            <img class="h-12 w-12 rounded-full" src="{{ e.value.imgurl }}" alt="{{ e.value.oc }}">
-                           
-                        </div>
-                    </td>
-                    <td>{{ e.id }} </td>
-                    <td>{{ e.value.name }} </td>
-                    <td><span class="uk-badge uk-margin">{{ e.value.occupation }}</span></td>
-                    <td>{{ e.value.rating }}</td>
-                    <td>
-                        {% if e.value.mobile %}
-                       <div class="flex flex-row"> <span class="uk-badge uk-margin">Mobile</span><span class="text-xs">: {{ e.value.mobile }}</span></div>
-                        {% elif e.value.email %}
-                        <span class="uk-badge uk-margin">Email</span>: {{ e.value.email }}
-                        {% else %}
-                        <span class="text-xs text-gray-500 font-semibold">Unavailable</span>
-                        {% endif %}
-
-                    </td>
-                </tr>
-                {% endfor %}
-
-                </tbody>
-            </table>
+      
+        <nav class="uk-navbar-container">
+            <div class="uk-container">
+                <div uk-navbar>
+        
+                    <div class="uk-navbar-left">
+        
+                        <ul class="uk-navbar-nav">
+                            <li class="uk-active"><a href="#">Company Employees Index</a> </li>
+                            <li>
+                                <span class="flex flex-row items-inline">
+                                    <span class="mx-2">Filter</span>
+                                    <a href="#">{{ filter}}</a>
+                                </span>
+                            </li>
+                            <li>
+                                <a href><span uk-drop-parent-icon></span></a>
+                <div uk-dropdown="pos: bottom-center">
+                <ul class="uk-nav uk-dropdown-nav">
+                 <li class="uk-nav-header">Filter Employees</li>
+                 <li><a 
+                            href="#"
+                            hx-get="/employee_pool/{{p._id}}/all"
+                            hx-target="#employee-pool"
+                            hx-trigger="click"                                 
+                            >All Employees</a>
+                    </li>
+                {% for item in employee_categories %}    
+        
+        
+             <li>
+                            <a 
+                            href="#"
+                            hx-get="/employee_pool/{{p._id}}/{{ item }}"
+                            hx-target="#employee-pool"
+                            hx-trigger="click"                                 
+                            >{{ item }}</a></li>
+            {% endfor %}
+                   
+                    
+        </ul></div>
+                            
+                            </li>
+                        </ul>
+        
+                    </div>
+        
+                    <div class="uk-navbar-right">
+        
+                        <ul class="uk-navbar-nav">
+                            
+                            <li>
+                                <a href="#">{{ workers | length }}</a>
+                                
+                            </li>
+                            
+                        </ul>
+        
+                    </div>
+        
+                </div>
+            </div>
+        </nav>
+        <div id="employee-pool" class="flex py-2 px-4 text-sm uk-overflow-auto"> 
+           {% include '/project/projectEmployeesPool.html' %}
         </div>
 
     </div>

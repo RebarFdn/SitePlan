@@ -1,0 +1,47 @@
+<table uk-table uk-table-small>
+    <thead>
+        <tr>
+            <th>Select</th>
+            <th>Profile</th>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Occupation</th>
+            <th>Rating</th>
+            <th>Contact</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for e in employees %}
+    <tr>
+        <td><input  class="mx-5 uk-radio bg-gray-400"
+            type="radio" 
+            value="{{ p._id + '-' + e.id }}" 
+            name="employee" 
+            hx-post="/add_worker_to_project" 
+            hx-target="#project_properties" >
+        </td>
+        <td>
+            <div class="uk-height-match uk-flex uk-flex-center uk-flex-middle uk-background-cover uk-light rounded-full">
+                <img class="h-12 w-12 rounded-full" src="{{ e.value.imgurl }}" alt="{{ e.value.oc }}">
+               
+            </div>
+        </td>
+        <td>{{ e.id }} </td>
+        <td>{{ e.value.name }} </td>
+        <td><span class="uk-badge uk-margin">{{ e.value.occupation }}</span></td>
+        <td>{{ e.value.rating }}</td>
+        <td>
+            {% if e.value.mobile %}
+           <div class="flex flex-row"> <span class="uk-badge uk-margin">Mobile</span><span class="text-xs">: {{ e.value.mobile }}</span></div>
+            {% elif e.value.email %}
+            <span class="uk-badge uk-margin">Email</span>: {{ e.value.email }}
+            {% else %}
+            <span class="text-xs text-gray-500 font-semibold">Unavailable</span>
+            {% endif %}
+
+        </td>
+    </tr>
+    {% endfor %}
+
+    </tbody>
+</table>
