@@ -14,7 +14,7 @@ from starlette_login.middleware import AuthenticationMiddleware
 from starlette.background import BackgroundTask
 from config import (
     DEBUG, SECRET_KEY, HOST, PORT, TEMPLATES,
-    SERVER_LOG_PATH, DROPBOX_PATH
+    SERVER_LOG_PATH, DROPBOX_PATH, DOCUMENT_PATH
     )
 from modules.zen import zen_now
 from routes.auth_router import router as auth_routes, loadusers
@@ -208,7 +208,14 @@ routes.extend([route for route in dropbox_routes])
 
 def startApp():
     reset_invoice_repo()
+    print('Checking for Documents Directory ...')
+    if DOCUMENT_PATH.exists():
+        pass
+    else:
+        print('Creating Documents Directory ...')
+        DOCUMENT_PATH.mkdir()
     print('Starting SiteApp Servers ')
+    
 
 def shutdownApp():
     print('Application setup was Successfull ... !')

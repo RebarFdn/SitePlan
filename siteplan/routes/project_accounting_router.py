@@ -12,7 +12,7 @@ from modules.project import ( get_project, handle_transaction, update_project,
     process_paybill_dayworker, add_expence, default_fees, salary_statement_item_model, salary_statement_model,
     withdrawal_model, project_account_withdrawal_generator, get_project_inventory)
 from modules.employee import  get_worker, update_employee, process_days_work
-from modules.supplier import supplier_name_index, update as update_supplier
+from modules.supplier import supplier_name_index, get_supplier, update as update_supplier
 from modules.utils import timestamp, to_dollars, filter_dates, today, exception_message
 from modules.accumulator import ProjectDataAccumulator   
 from modules.inventory import Inventory, InventoryItem, material_index, stock_material, Supplier
@@ -1533,7 +1533,8 @@ async def add_invoice_item(request):
                         <p>Item {invoice_item.description} was successfully added to Invoice { inv_no}!</p>
                     </div>"""
                 )
-    
+
+
 
 @router.post('/new_invoice/{id}')
 @login_required
@@ -1556,9 +1557,9 @@ async def save_invoice(request):
           "total": form.get('total')
         }
     
-    supplier = [item for item in suppliers if item.get('name') == invoice.get('supplier').get('name') ]
+    supplier:list = [item for item in suppliers if item.get('name') == invoice.get('supplier').get('name') ]
     if len(supplier) > 0:
-        supplier = supplier[0]
+        supplier:dict= supplier[0]
         invoice['supplier']['_id'] = supplier.get('_id')
         invoice['supplier']['taxid'] = supplier.get('taxid')
     inv_no=invoice.get("invoiceno")
@@ -1571,6 +1572,8 @@ async def save_invoice(request):
         "date": invoice.get("datetime"),
         "amt":  invoice.get("total")
       }
+    _supplier = await get_supplier(id=supplier.get('_id'))
+    
      
     if len(project.get('account').get('records', {}).get('invoices', [])) > 1:
         for item in project.get('account').get('records', {}).get('invoices', []): # Check for duplicate
@@ -1591,12 +1594,15 @@ async def save_invoice(request):
                     }
 
                 )
-                supplier['account']['transactions'].append(supplier_record)
+                
+                _supplier['account']['transactions'].append(supplier_record)
+                task = BackgroundTask(update_supplier, data=_supplier)
                 await update_project(data=project)
+                
                 return HTMLResponse(f"""<div class="uk-alert-success" uk-alert>
                         <a href class="uk-alert-close" uk-close></a>
                         <p>Invoice {invoice.get("invoiceno")} from  {invoice.get('supplier').get('name')} was saved successfully!</p>
-                    </div>"""
+                    </div>""", background=task
                 )
     else:                
         project['account']['records']['invoices'].append(invoice) # Append to empty list        
@@ -1608,17 +1614,19 @@ async def save_invoice(request):
                     }
 
                 )
-        supplier['account']['transactions'].append(supplier_record)
         
+        _supplier['account']['transactions'].append(supplier_record)
+        task = BackgroundTask(update_supplier, data=_supplier)
+        #print(_supplier)
         try:
+            
             await update_project(data=project)
             return HTMLResponse(f"""<div class="uk-alert-success" uk-alert>
                             <a href class="uk-alert-close" uk-close></a>
                             <p>Invoice {invoice.get("invoiceno")} was saved successfully!</p>
-                        </div>"""
+                        </div>""", background=task
                     )
-        finally: 
-            await update_supplier(data=supplier)
+        finally:            
             reset_invoice_repo()
             
 
