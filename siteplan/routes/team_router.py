@@ -95,13 +95,24 @@ async def team_index(request):
     return StreamingResponse(team_index_generator(), media_type="text/html")
 
 
-@router.get('/team')
+@router.get('/team_console/{filter}')
 async def team(request:Request): 
-    workers:list = await all_workers()    
+    filter:str = request.path_params.get('filter')
+    employees_index:list = await all_workers() 
+    occupation_index:set = set()
+    for item in employees_index:        
+        occupation_index.add(item.get('value').get('occupation') )   
+    print(' occupation_index', occupation_index)
+    if filter == 'all':
+        workers:list =  employees_index 
+    else:
+        workers:list = [worker for worker in employees_index  if worker.get('value').get('occupation') == filter]   
     try:
         return TEMPLATES.TemplateResponse('/employee/employeesIndex.html', {
             "request": request,
-            "workers": workers
+            "workers": workers,
+            "filter": filter,
+            "occupation_index": list(occupation_index)
             })
     except:
         pass

@@ -1,0 +1,71 @@
+<div class="uk-container uk-container-large">
+    <div class="uk-card uk-card-large uk-card-default">
+    <div class="uk-card-header">
+        <div class="uk-grid-small uk-flex-middle" uk-grid>
+            <div class="uk-width-auto">
+                
+            </div>
+            <div class="uk-width-expand">
+                <h3 class="text-md uk-margin-remove-bottom">{{ supplier.get("name") }}</h3>
+                <p class="uk-text-meta uk-margin-remove-top">{{ supplier.get("address").get("town") }}| {{ supplier.get("address").get("city_parish") }}</p>
+                <p class="uk-text-meta uk-margin-remove-top">Tel: {{ supplier.get("contact").get("tel") }} | Mobile: {{ supplier.get("contact").get("mobile") }} | Email: {{ supplier.get("contact").get("email") }}</p>
+                
+            </div>
+            <div class="uk-width-auto">
+            Tax Id  <span class="uk-badge">{{ supplier.get("taxid", "") }}</span>
+            </div>
+        </div>
+    </div>
+    <div class="uk-card-body">
+        <ul uk-accordion>
+            <li>
+                <a class="text-sm uk-accordion-title" href>Banking Info</a>
+                <div class="uk-accordion-content">
+                    <ul>
+                    {% for key, value in supplier.account.bank.items() %}
+                        <li><strong>{{ key }}</strong><span class="mx-2">{{ value }} </span></li>
+                    {% endfor %}
+                    </ul>
+                   
+                </div>
+            </li>
+            <li>
+                <a class="text-sm uk-accordion-title" href>Transaction Records</a>
+                <div class="uk-accordion-content">
+      <div class="h-96 overflow-y-auto">           
+    <table class="uk-table uk-table-small uk-table-divider">
+    <caption>Purchasing Activity</caption>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Refference</th>
+            <th>Date</th>
+            <th>Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for t in supplier.get("account", {}).get("transactions", []) %}
+        <tr>
+            <td>{{ t.get("id") }}</td>
+            <td>{{ t.get("ref") }}</td>
+            <td>{{ t.get("date") }}</td>
+            <td>{{ t.get("amt", 0) |to_dollars }}</td>
+        </tr>
+        {% endfor %}
+    
+ <tr><td>Transactions Total</td><td></td><td></td><td>{{ total_transactions | to_dollars }} </td> </tr>
+
+</tbody></table></div>  
+                </div>
+            </li>
+    </ul>
+    </div>
+    <div class="uk-card-footer">
+        <a href="#" class="uk-button uk-button-text">More</a>
+        <p class="text-xs">Created {{ supplier.get("meta_data", {}).get("created") }}</p>
+        <p class="text-xs">Database  {{ supplier.get("meta_data", {}).get("database") }}</p>
+        
+    </div>
+    
+    </div>
+</div>

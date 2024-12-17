@@ -2458,6 +2458,17 @@ html:has(.modal-state:checked) {
   background-color: transparent;
 }
 
+.badge-flat-secondary,.badge-flat-success {
+  --tw-bg-opacity: 1;
+  --tw-text-opacity: 1;
+  border-style: none;
+}
+
+.badge-flat-success {
+  background-color: rgb(var(--green-4)/var(--tw-bg-opacity));
+  color: rgb(var(--green-11)/var(--tw-text-opacity));
+}
+
 .badge-xs {
   font-size: .65rem;
   padding: .25rem;

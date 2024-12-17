@@ -66,10 +66,22 @@ async def get_one_supplier(request ):
 
 @router.get('/supplier_html/{id}')
 async def get_supplier_html(request ):    
-    '''Returns a Html Component with Supplier' info  .GET '''   
-    id = request.path_params.get('id')  
-    generator = Supplier().supplier_html_generator(id=id)  
-    return StreamingResponse(generator, media_type="text/html")       
+    '''Returns a Html Component with Supplier' info  .GET '''    
+    supplier:dict = await get_supplier(id=request.path_params.get('id'))    
+    total_transactions = 0.0
+    if supplier["account"]["transactions"]:
+        for t in supplier.get("account", {}).get("transactions", []):
+            if t.get("amt", 0):
+                total_transactions += float(t.get("amt", 0))
+            else:
+                pass
+    else:
+        pass
+    return TEMPLATES.TemplateResponse('/supplier/supplierPage.html', {
+        'request': request,
+        'supplier': supplier,
+        'total_transactions': total_transactions
+        })       
 
 
 @router.get('/suppliers_index')
@@ -90,8 +102,7 @@ async def html_index(request):
             "request": request, 
             "filter": filter,
             "suppliers": suppliers,
-            "locations": locations,
-            
+            "locations": locations,            
         }  
     if filter:
         if filter == 'all' or filter == 'None':            
@@ -113,8 +124,7 @@ async def html_index_filtered(request):
             "request": request, 
             "filter": filter,
             "suppliers": suppliers,
-            "locations": locations,
-            
+            "locations": locations,            
         }  
     if filter:
         if filter == 'all' or filter == 'None':            

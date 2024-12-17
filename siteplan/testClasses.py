@@ -23,7 +23,7 @@ async def test_get_worker(id='JC53253'):
 
 async def test_all_workers():
     all_es = await all_workers()
-    try: print(all_es)
+    try: print(all_es[0])
     finally: del all_es
 
 
@@ -55,10 +55,10 @@ async def main():
     print(f'WARNING!  Data will Disappear in { interval } seconds intervals....')
     print()
 
-    rates = await all_rates()
-    rate:dict = rates[0]
+    #rates = await all_rates()
+    #rate:dict = rates[0]
     #del rate['_rev']
-    print('From all_rates', rates.__len__(), rate)
+    #print('From all_rates', rates.__len__(), rate)
     #await test_dropbox()
     #print(supplier_model())
     #make_invoice_repo()
@@ -76,9 +76,9 @@ async def main():
     #await asyncio.sleep(10)
     #os.system('clear')
 
-    #await test_workers() 
+    #await test_all_workers() 
     #await asyncio.sleep(5)
-    #s.system('clear')
+    #os.system('clear')
 
     #await test_employees()
     #await asyncio.sleep(5)
