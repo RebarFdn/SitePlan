@@ -1,0 +1,76 @@
+
+<nav class="uk-navbar-container">
+    <div class="uk-container">
+        <div uk-navbar>
+
+            <div class="uk-navbar-left">
+
+                <ul class="uk-navbar-nav">
+                    <li class="uk-active"><a href="#"><span class="bg-teal-200 py-2 px-4 rounded-md my-2">
+                        {{ project.name }} Inventory
+                        </span>
+                     </a></li>
+                    
+                </ul>
+
+            </div>
+
+            <div class="uk-navbar-right">
+
+                <ul class="uk-navbar-nav">
+                    <li class="uk-active"><a href="#">New Purchase Order</a></li>
+                    <li>
+                        <a href="#">Parent</a>
+                        <div class="uk-navbar-dropdown">
+                            <ul class="uk-nav uk-navbar-dropdown-nav">
+                                <li class="uk-active"><a href="#">Active</a></li>
+                                <li><a href="#">Item</a></li>
+                                <li><a href="#">Item</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li><a href="#">Item</a></li>
+                </ul>
+
+            </div>
+
+        </div>
+    </div>
+</nav>
+<div class="uk-child-width-expand@s" uk-grid>
+    <div class="uk-grid-item-match">
+        <div class="uk-card uk-card-default uk-card-body">
+            <h3>Materials Orders | Purchase Orders </h3>
+            {% if project.purchase_orders %}
+            <p>
+                {{project.purchase_orders }}
+            </p>
+            {% else %}
+            <p>You Havent created Any Purchase Orders as yet </p>
+            {% endif %}
+        </div>
+     </div>
+    <div>
+        <h3>Inventory Listing</h3>
+        <div class="text-xs text-center">
+            
+                {% for key, value in project.inventories.items() %}
+                <div class="bg-teal-200 py-2 px-4 rounded-md my-2">
+                    {{key}} 
+                </div>
+                    {% for item in value.get('items') %}
+                    <div class="bg-teal-200 py-2 px-4 rounded-md my-2">
+                    Amount    {{item.amt}} {{item.unit}} | stocking Date {{item.stocking_date}} | Supplier {{item.supplier.name}} 
+                    </div>
+                    {% endfor %}
+        
+                {% endfor %}
+                
+                <!--{% for item in project.invoices %}
+                <div class="bg-teal-200 py-2 px-4 rounded-md my-2">
+                    {{item}} 
+                </div>
+                {% endfor %} -->
+        </div>
+    </div>
+</div>

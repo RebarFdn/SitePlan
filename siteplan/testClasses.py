@@ -10,6 +10,7 @@ from datetime import date
 from box import Box
 from modules.supplier import supplier_model
 from modules.rate import all_rates, all_rates_ref
+from modules.purchase_order import PurchaseItem, PurchaseOrder
 
 from modules.dropbox import Dropbox
 
@@ -51,9 +52,24 @@ async def test_dropbox():
 
 
 async def main():   
-    interval = 30   
+    interval = 20   
     print(f'WARNING!  Data will Disappear in { interval } seconds intervals....')
-    print()
+    purchase1 = PurchaseItem(item_no=12, description='wire nails', quantity=10.5, unit='lb')
+    purchase2 = PurchaseItem(item_no=162, description='Concrete nails', quantity=30.5, unit='lb')
+    order = PurchaseOrder(
+        id='PO445',
+        title="Perliminary Materials List", 
+        site='D Daniels Dwelling', 
+        location='89 Atrium Housing Development, Bushy Pk. St Catherine.',
+        date=123495
+        
+        )
+    await order.add_item(purchase1)
+    print(order.model_dump())
+    order.close
+    await order.add_item(purchase2)
+    #order.items.append(purchase2)
+    print(order.items)
 
     #rates = await all_rates()
     #rate:dict = rates[0]
@@ -90,6 +106,7 @@ async def main():
     #await asyncio.sleep(10)
     #os.system('clear')
     #test_inventory()
+    
     await asyncio.sleep(interval)
     os.system('clear')
     

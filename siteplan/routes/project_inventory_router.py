@@ -35,14 +35,15 @@ async def get_project_inventory(request):
 
     try:
         await update_project(data=project)
-        return TEMPLATES.TemplateResponse('/project/projectInventory.html', 
+        return TEMPLATES.TemplateResponse('/project/inventory/projectInventory.html', 
             {
                 "request": request, 
                 "project": {
                     "_id": project.get("_id"),
                     "name": project.get("name"),
                     "inventories": inventory,
-                    "invoices": invoices
+                    "invoices": invoices,
+                    "purchase_orders": project.get('account').get('records').get('purchase_orders')
                                      
                     }
             })
