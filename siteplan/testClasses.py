@@ -64,10 +64,10 @@ async def main():
         date=123495
         
         )
-    await order.add_item(purchase1)
+    order.add_item(purchase1)
     print(order.model_dump())
     order.close
-    await order.add_item(purchase2)
+    order.add_item(purchase2)
     #order.items.append(purchase2)
     print(order.items)
 

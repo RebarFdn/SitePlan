@@ -1,9 +1,8 @@
 from pydantic import BaseModel
-from desktop_notifier import DesktopNotifier
+from flagman import Flagman
+
 from modules.utils import timestamp, generate_id
 from typing import List
-
-notifier = DesktopNotifier()
 
 class PurchaseItem(BaseModel):
     """Represents an item on a materials list or purchase order"""
@@ -22,7 +21,7 @@ class PurchaseOrder(BaseModel):
     __items: List[PurchaseItem] = []
     resolved: bool = False
 
-    async def add_item(self, item:PurchaseItem )->None:
+    def add_item(self, item:PurchaseItem )->None:
         """Add an item to the purchases list 
 
         Args:
@@ -31,7 +30,7 @@ class PurchaseOrder(BaseModel):
 
         """
         if self.resolved:
-            await notifier.send(title="Closed Order!", message="Sorry, The Purchase Order is Closed!")
+            Flagman(title='Closed Order', message='Sorry, The Purchase Order is Closed!').send
             print('Sorry, The Purchase Order is Closed!')
             return False
         else:
