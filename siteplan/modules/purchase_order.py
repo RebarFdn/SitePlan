@@ -1,9 +1,19 @@
-from pydantic import BaseModel
-from flagman import Flagman
-
-from modules.utils import timestamp, generate_id
 from typing import List
+from time import sleep
+from pydantic import BaseModel
+from tinydb import TinyDB, Query
+from flagman import Flagman
+from modules.utils import timestamp, generate_id
+from config import DATA_PATH
 
+# Database Config
+
+def purchase_order_database(db_name:str=None)->str:
+    return TinyDB(DATA_PATH / db_name)    
+
+database = purchase_order_database(db_name="purchase_order.json")
+
+# Models 
 class PurchaseItem(BaseModel):
     """Represents an item on a materials list or purchase order"""
     item_no: int
@@ -122,9 +132,71 @@ class PurchaseOrder(BaseModel):
     
     @property
     def __repr__(self):
-        data = self.model_dump()
+        data = self.model_dump()        
         try:
             data['items'] = self.items
             return data
         finally:
             del data
+
+    
+    @property
+    def __json__(self):
+        data = self.model_dump()        
+        try:
+            data['items'] = [ item.model_dump() for item in self.items ]
+            return data
+        finally:
+            del data
+
+
+# CRUD 
+
+
+
+def all_order(db:TinyDB=database):
+    return db.all()
+
+
+def save_order(data:dict=None, db:TinyDB=database):   
+    if data:
+        db.insert(data)        
+        return all_order()              
+    else: return all_order() 
+    
+    
+def get_order(id:str=None, db:TinyDB=database): 
+    order:Query = Query()
+    try:
+        payload = db.search(order.id == id)  
+        #payload = PurchaseOrder(**payload[0])
+        return payload[0]
+    except:
+        return {}
+    finally:
+        del(order)
+
+
+def delete_order(id:str=None, db:TinyDB=database): 
+    order:Query = Query()    
+    ids = [ item.doc_id for item in  db.search(order.id == id) ]
+    try:              
+        result = db.remove(doc_ids=ids)
+        return all_order() 
+    except:
+        return all_order() 
+    finally:
+        del(order)
+        del(ids)         
+
+
+
+       
+def update_order(data:dict=None, db:TinyDB=database):   
+    try:
+        delete_order(id=data.get('id'))
+        sleep(1)
+        save_order(data=data)
+        return all_order()             
+    except: 
+        return all_order() 
