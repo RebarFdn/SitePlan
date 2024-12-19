@@ -64,12 +64,26 @@ async def main():
         date=123495
         
         )
+    
     order.add_item(purchase1)
-    print(order.model_dump())
+    #print(order.model_dump())  
+    print('closing order') 
     order.close
+   # await asyncio.sleep(1)
+   # print(order.items)
+    order.open
+    #print('opening order') 
     order.add_item(purchase2)
     #order.items.append(purchase2)
-    print(order.items)
+    await asyncio.sleep(1)
+    #print('repr', order.__repr__())
+    order.close
+    
+    Item = order.get_item(2)
+    
+    #print('Order Item', order.get_item(2))
+    order.delete_item(2)
+    print('repr', order.__repr__)
 
     #rates = await all_rates()
     #rate:dict = rates[0]
