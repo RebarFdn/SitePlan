@@ -163,14 +163,29 @@ def save_order(data:dict=None, db:TinyDB=database):
         db.insert(data)        
         return all_order()              
     else: return all_order() 
-    
+
+def processOrder(purchase_order:dict)->PurchaseOrder:
+    __items = [PurchaseItem(**item) for item in purchase_order.get('items')]# convert items 
+    del purchase_order['items']
+    payload = PurchaseOrder(**purchase_order)
+    if payload.resolved:
+        payload.open
+        for item in __items:
+            payload.add_item(item)   
+        payload.close
+    else:
+        for item in __items:
+            payload.add_item(item)  
+
+    return payload
+
     
 def get_order(id:str=None, db:TinyDB=database): 
     order:Query = Query()
     try:
-        payload = db.search(order.id == id)  
-        #payload = PurchaseOrder(**payload[0])
-        return payload[0]
+        payload:list = db.search(order.id == id)  
+        payload:dict = payload[0]       
+        return processOrder(purchase_order=payload)
     except:
         return {}
     finally:

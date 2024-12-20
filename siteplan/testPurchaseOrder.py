@@ -55,7 +55,7 @@ def main():
     #print('closing order') 
     #order.close
    # sleep(1)
-    print(order)
+    order.add_item(purchase3) 
     #order.open
     #print('opening order') 
     #order.add_item(purchase2)
@@ -73,12 +73,16 @@ def main():
     #print('json', order.__json__)
     #test_all_orders()
     #test_get_order(id='PO445')
+    print(order.items)
+   
+
 
 
     
     #print(database)
     sleep(interval)
     os.system('clear')
+    
     
 
 
