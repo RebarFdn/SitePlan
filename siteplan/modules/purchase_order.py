@@ -3,7 +3,7 @@ from time import sleep
 from pydantic import BaseModel
 from tinydb import TinyDB, Query
 from flagman import Flagman
-from modules.utils import timestamp, generate_id
+from modules.utils import timestamp, generate_id 
 from config import DATA_PATH
 
 # Database Config
@@ -149,22 +149,11 @@ class PurchaseOrder(BaseModel):
         finally:
             del data
 
-
-# CRUD 
-
-
-
-def all_order(db:TinyDB=database):
-    return db.all()
-
-
-def save_order(data:dict=None, db:TinyDB=database):   
-    if data:
-        db.insert(data)        
-        return all_order()              
-    else: return all_order() 
-
+# Data Processors 
 def processOrder(purchase_order:dict)->PurchaseOrder:
+    """Converts a purchaseorder dictionary and its 
+        items to a PurchaseOrder Model Object 
+    """
     __items = [PurchaseItem(**item) for item in purchase_order.get('items')]# convert items 
     del purchase_order['items']
     payload = PurchaseOrder(**purchase_order)
@@ -175,9 +164,19 @@ def processOrder(purchase_order:dict)->PurchaseOrder:
         payload.close
     else:
         for item in __items:
-            payload.add_item(item)  
-
+            payload.add_item(item)
     return payload
+
+# CRUD 
+def all_order(db:TinyDB=database):
+    return db.all()
+
+
+def save_order(data:dict=None, db:TinyDB=database):   
+    if data:
+        db.insert(data)        
+        return all_order()              
+    else: return all_order() 
 
     
 def get_order(id:str=None, db:TinyDB=database): 

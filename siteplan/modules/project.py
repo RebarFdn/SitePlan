@@ -8,8 +8,10 @@ from functools import lru_cache
 from modules.utils import timestamp, filter_dates, generate_id, generate_docid, to_dollars, hash_data, load_metadata, set_metadata
 from database import Recouch, local_db
 from modules.employee import get_worker, add_pay, add_job_task
+from modules.purchase_order import PurchaseItem, PurchaseOrder, processOrder
 from config import DOCUMENT_PATH, IMAGES_PATH
 from config import SYSTEM_LOG_PATH as SYSTEM_LOG
+from flagman import Flagman
 
 
 databases = { # Project Databases
@@ -327,7 +329,6 @@ async def add_worker_salary(id:str=None, data:dict=None):
         del(withdraw)
         
 
-
 async def delete_worker_salary(id:str=None, data:dict=None):
         ## get the project
 
@@ -375,7 +376,7 @@ async def add_workers(id:str=None, data:list=None):
             return {"error": 501, "message": "You did not provide any data for processing."}
 
     # Depricated for external function
-    
+   
     
 async def process_workers(index:list=None) -> dict:
         try:
@@ -391,7 +392,6 @@ async def process_workers(index:list=None) -> dict:
         finally: 
             del(employees)
             
-
 
 async def create_new_paybill( id:str=None, data:dict=None):
     p = await get_project(id=id)
@@ -446,6 +446,98 @@ async def process_paybill_dayworker( bill_ref:str=None, worker:str=None, start_d
     finally:
         del(project)
         del(days)
+
+
+# Materials Order | Purchase Orders Management 
+async def save_purchase_order(id:str=None, purchase_order:PurchaseOrder=None):
+    """stores a purchase order in the project,s accounting records"
+
+    Args:
+        id (str, optional): the project id to update. Defaults to None.
+        purchase_order (PurchaseOrder, optional): order to be saved . Defaults to None.
+    """
+    project:dict = await get_project(id=id)
+    project['account']['records']["purchase_orders"].append(purchase_order.__json__)
+    try:
+        await update_project(data=project)
+    except Exception as e:
+        Flagman(title='Save Purchase Order', message=str(e)).send
+    finally:
+        del project
+
+
+async def get_purchase_order(id:str, order_id:str)-> PurchaseOrder:
+    """Retreive a single purchase order from the project's records
+
+    Args:
+        id (str): The project's id 
+        order_id (str): The Purchase Order to retreive id
+
+    Returns:
+        PurchaseOrder: _description_
+
+    Yields:
+        Iterator[PurchaseOrder]: _description_
+    """
+    project:dict = await get_project(id=id)
+    purchase_order = [item for item in project['account']['records']["purchase_orders"] if item.id == order_id][0]
+    try:
+        return processOrder(purchase_order)
+    except Exception as e:
+        Flagman(title='Get Purchase Order', message=str(e)).send
+    finally:
+        del project
+        del purchase_order
+
+
+async def change_purchase_order(id:str, order_id:str, data:dict)->PurchaseOrder:
+    """Update the purchase order
+
+    Args:
+        id (str): The project _id
+        order_id (str): The existing purchase order to be changed id
+
+    Returns:
+        PurchaseOrder: _description_
+
+    Yields:
+        Iterator[PurchaseOrder]: _description_
+    """
+
+
+async def delete_purchase_order(id:str, order_id:str)->None:
+    """Deletes a purchase order from Project records
+
+    Args:
+        id (str): The project _id 
+        order_id (str): The existing purchase order to be deleted
+
+    Returns:
+        List : list of purchase orders
+
+    Yields:
+        Iterator[PurchaseOrder]: _description_
+    """
+    project:dict = await get_project(id=id)
+    purchase_order = [item for item in project['account']['records']["purchase_orders"] if item.id == order_id][0]
+    try:
+        project['account']['records']["purchase_orders"].remove(purchase_order)
+    except Exception as e:
+        Flagman(title='Get Purchase Order', message=str(e)).send
+    finally:
+        del project
+        del purchase_order
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## Project Inventory Management 

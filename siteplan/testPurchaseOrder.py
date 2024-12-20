@@ -55,7 +55,7 @@ def main():
     #print('closing order') 
     #order.close
    # sleep(1)
-    order.add_item(purchase3) 
+    order.add_item(purchase3)  
     #order.open
     #print('opening order') 
     #order.add_item(purchase2)
