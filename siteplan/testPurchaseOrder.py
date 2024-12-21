@@ -1,13 +1,15 @@
 from time import sleep
-import os
+import os, asyncio
 #from pympler import asizeof
 from modules.utils import generate_id,timestamp
 from datetime import date
 from box import Box
 from modules.purchase_order import ( PurchaseItem, PurchaseOrder, database, 
     get_order, all_order,save_order, update_order, delete_order )
+from modules.project import save_purchase_order
 
-# Test Data 
+# Test Data
+test_project = 'AJ37804' 
 purchase1 = PurchaseItem(item_no=12, description='wire nails', quantity=10.5, unit='lb')
 purchase2 = PurchaseItem(item_no=162, description='Concrete nails', quantity=30.5, unit='lb')
 purchase3 = PurchaseItem(item_no=12, description='Portland Cement', quantity=50, unit='bag')
@@ -43,7 +45,7 @@ def test_all_orders():
     try: print(all_es)
     finally: del all_es
 
-
+    ...
 
 def main():   
     interval = 20   
@@ -75,7 +77,7 @@ def main():
     #test_get_order(id='PO445')
     print(order.items)
    
-
+    asyncio.run(save_purchase_order(id=test_project, purchase_order=order))
 
 
     

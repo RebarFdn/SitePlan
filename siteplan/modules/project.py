@@ -490,6 +490,27 @@ async def get_purchase_order(id:str, order_id:str)-> PurchaseOrder:
         del purchase_order
 
 
+async def get_all_purchase_orders(id:str)->dict:
+    """Retreive all purchase orders from a project's records.
+
+    Args:
+        id (str): The Project _id
+
+    Returns:
+        dict: The project dictionary with keys _id, name & orders
+    """
+    project:dict = await get_project(id=id)
+    purchase_orders = [processOrder(item) for item in project['account']['records']["purchase_orders"] ]
+    try:
+        return {'_id': project.get('_id'), 'name': project.get('name'), 'orders': purchase_orders} #project['account']['records']["purchase_orders"] #purchase_orders
+    except Exception as e:
+        Flagman(title='Get Purchase Order', message=str(e)).send
+    finally:
+        del project
+        #del purchase_orders
+
+
+
 async def change_purchase_order(id:str, order_id:str, data:dict)->PurchaseOrder:
     """Update the purchase order
 

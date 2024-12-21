@@ -28,6 +28,7 @@ from routes.supplier_router import router as supplier_router
 from routes.printer_router import router as printer_router
 from routes.estimator_router import router as estimate_router
 from routes.todo_router import router as todo_router
+from routes.purchase_order_router import router as purchase_order_router
 from api.team_api import router as employee_api
 from modules.platformuser import user_list
 from modules.decorator import admin_only
@@ -195,6 +196,7 @@ routes.extend([route for route in auth_routes])
 routes.extend([route for route in p_router])
 routes.extend([route for route in accounting_router])
 routes.extend([route for route in project_jobstask_router])
+routes.extend([route for route in purchase_order_router])
 routes.extend([route for route in team_router])
 routes.extend([route for route in base_router])
 routes.extend([route for route in supplier_router])
@@ -206,6 +208,7 @@ routes.extend([route for route in todo_router])
 routes.extend([route for route in dropbox_routes])
 
 
+
 def startApp():
     reset_invoice_repo()
     print('Checking for Documents Directory ...')
@@ -214,7 +217,12 @@ def startApp():
     else:
         print('Creating Documents Directory ...')
         DOCUMENT_PATH.mkdir()
+
     print('Starting SiteApp Servers ')
+    print()
+    print('Analysing Router tables....')    
+    print('Routes Statistics')
+    print('Routes', routes.__len__())
     
 
 def shutdownApp():

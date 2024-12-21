@@ -1,0 +1,97 @@
+
+<nav class="uk-navbar-container">
+    <div class="uk-container">
+        <div uk-navbar>
+
+            <div class="uk-navbar-left">
+
+                <ul class="uk-navbar-nav">
+                    <li class="uk-active"><a href="#"><span class="bg-teal-200 py-2 px-4 rounded-md my-2">
+                        {{ project.name }} Materials Order Index
+                        </span>
+                     </a></li>
+                    
+                </ul>
+
+            </div>
+
+            <div class="uk-navbar-right">
+
+                <ul class="uk-navbar-nav">
+                    <li class="uk-active"><a href="#">New Order</a></li>
+                    <li>
+                        <a href="#">Parent</a>
+                        <div class="uk-navbar-dropdown">
+                            <ul class="uk-nav uk-navbar-dropdown-nav">
+                                <li class="uk-active"><a href="#">Active</a></li>
+                                <li><a href="#">Item</a></li>
+                                
+                            </ul>
+                        </div>
+                    </li>
+                    <li><a href="#">Item</a></li>
+                </ul>
+
+            </div>
+
+        </div>
+    </div>
+</nav>
+<div class="uk-child-width-expand@s" uk-grid>
+    <div class="uk-grid-item-match">
+        <div>
+            
+            {% if project.orders %}
+            <div class="text-xs">
+                <table class="uk-table uk-table-small uk-table-striped uk-table-hover">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Title</th>
+                            <th>Completed</th>
+                            <th>manage</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in project.orders %}
+                        <tr>
+                            <td>{{ order.id }}</td>
+                            <td>{{ order.title }}</td>
+                            <td>{{ order.resolved }}</td>
+                            <td>
+                                <div class="uk-child-width-expand@s" uk-grid>
+                                    <div class="uk-grid-item-match">
+                                        <a href="#" uk-icon="icon: eye; ratio: .75" uk-tooltip="View this Purchase Order"
+                                        hx-get="/get_purchaseorder/{{project._id}}/{{order.id}}"
+                                        hx-target="#purchaseorder"></a>
+                                    </div>
+                                    <div class="uk-grid-item-match">
+                                        <a href="#" uk-icon="icon: trash; ratio: .75" uk-tooltip="Delete Purchase Order"></a>
+                                    </div>
+
+                                </div>
+                            </td>
+
+                           
+                        </tr>
+                        {% endfor %}
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+                
+            {% else %}
+            <p>You Havent created Any Purchase Orders as yet </p>
+            {% endif %}
+        </div>
+
+    </div>
+    <div id="purchaseorder"></div>
+</div>

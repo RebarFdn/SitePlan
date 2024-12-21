@@ -41,13 +41,12 @@
     <div class="uk-grid-item-match">
         <div class="uk-card uk-card-default uk-card-body">
             <h3>Materials Orders | Purchase Orders </h3>
-            {% if project.purchase_orders %}
-            <p>
-                {{project.purchase_orders }}
-            </p>
-            {% else %}
-            <p>You Havent created Any Purchase Orders as yet </p>
-            {% endif %}
+           <div id="purchase-orders"
+           hx-get="/purchaseorders/{{project._id}}"
+           hx-trigger="load"
+           >
+
+           </div>
         </div>
      </div>
     <div>
@@ -55,11 +54,11 @@
         <div class="text-xs text-center">
             
                 {% for key, value in project.inventories.items() %}
-                <div class="bg-teal-200 py-2 px-4 rounded-md my-2">
+                <div class="bg-blue-500 py-2 px-4 rounded-md my-2">
                     {{key}} 
                 </div>
                     {% for item in value.get('items') %}
-                    <div class="bg-teal-200 py-2 px-4 rounded-md my-2">
+                    <div class="bg-blue-200 py-2 px-4 rounded-md my-2">
                     Amount    {{item.amt}} {{item.unit}} | stocking Date {{item.stocking_date}} | Supplier {{item.supplier.name}} 
                     </div>
                     {% endfor %}

@@ -2,17 +2,16 @@
     <div class="border-b-2 border-gray-200 dark:border-gray-700 ml-5">
         <nav class="uk-navbar-container mb-0.5 flex space-x-5">
             <a 
-            class="py-4 px-1 inline-flex items-center gap-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600 fade-in" 
+            class="py-4 px-1 inline-flex items-center border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600 fade-in" 
             href="#"
             hx-get="/project_home/{{id}}"
             hx-target="#project_properties"
             hx-trigger="click"                
             >
-            <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-            Home
+           Home</span>
             </a>
             <a 
-            class="py-4 px-1 inline-flex items-center gap-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600" 
+            class="py-4 px-1 inline-flex items-center border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600" 
             href="#"
             hx-get="/project_account/{{id}}"
             hx-target="#project_properties"
@@ -21,60 +20,67 @@
             Account
             </a>
             <a 
-            class="py-4 px-1 inline-flex items-center gap-2 border-b-2 border-blue-500 text-sm font-medium whitespace-nowrap text-blue-600 focus:outline-none focus:text-blue-800" 
-            href="#" aria-current="page"
+            class="py-4 px-1 inline-flex items-center border-b-2 border-transparent text-sm font-medium whitespace-nowrap text-blue-600 focus:outline-none focus:text-blue-800" 
+            href="#" 
             hx-get="/project_workers/{{id}}/all"
             hx-target="#project_properties"
             hx-trigger="click"
             >
-            <span uk-icon="users"></span> Workers
+            <span uk-icon="icon: users; ratio: 1"></span> Workers
             </a>
             <a 
-            class="py-4 px-1 inline-flex items-center gap-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600"
+            class="py-4 px-1 inline-flex items-center border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600"
             href="#"
             hx-get="/project_jobs/{{id}}"
             hx-target="#project_properties"
             hx-trigger="click"
             >
-            <span uk-icon="cog"></span>Jobs
+            <span uk-icon="icon:cog; ratio: 1"></span>Jobs
             </a>
             <a 
-            class="py-4 px-1 inline-flex items-center gap-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600"
+            class="py-4 px-1 inline-flex items-center border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600"
             href="#"
             hx-get="/project_days/{{id}}"
             hx-target="#project_properties"
             hx-trigger="click"
             >Daywork</a>
             <a 
-            class="py-4 px-1 inline-flex items-center gap-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600"
+            class="py-4 px-1 inline-flex items-center border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600"
             href="#"
             hx-get="/project_rates/{{id}}"
             hx-target="#project_properties"
             hx-trigger="click"
             >Rates</a>
             <a 
-            class="py-4 px-1 inline-flex items-center gap-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600"
+            class="py-4 px-1 inline-flex items-center border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600"
             href="#"
             hx-get="/project_inventory/{{id}}"
             hx-target="#project_properties"
             hx-trigger="click"
             >Inventory</a>
             <a 
-            class="py-4 px-1 inline-flex items-center gap-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600"
+            class="py-4 px-1 inline-flex items-center border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600"
+            href="#"
+             hx-get="/purchaseorders/{{id}}"
+            hx-target="#project_properties"
+            hx-trigger="click"
+            ><span uk-icon="icon: menu; ratio: 1"></span>Purchase Order</a>
+            <a 
+            class="py-4 px-1 inline-flex items-center border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600"
             href="#"
             hx-get="/project_event/{{id}}"
             hx-target="#project_properties"
             hx-trigger="click"
-            ><span uk-icon="future"></span>Events</a>
+            ><span uk-icon="icon: calendar; ratio: 1"></span>Events</a>
             <a 
-            class="py-4 px-1 inline-flex items-center gap-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600"
+            class="py-4 px-1 inline-flex items-center border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600"
             href="#"
             hx-get="/project_state/{{id}}-state"
             hx-target="#project_properties"
             hx-trigger="click"
             >State</a>
             <a 
-            class="py-4 px-1 inline-flex items-center gap-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600"
+            class="py-4 px-1 inline-flex items-center border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600"
             href="#"
             hx-get="/project_activity/{{id}}"
             hx-target="#project_properties"
