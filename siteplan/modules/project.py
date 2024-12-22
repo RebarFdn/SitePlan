@@ -501,8 +501,14 @@ async def get_all_purchase_orders(id:str)->dict:
     """
     project:dict = await get_project(id=id)
     purchase_orders = [processOrder(item) for item in project['account']['records']["purchase_orders"] ]
+    location = project.get('address')
     try:
-        return {'_id': project.get('_id'), 'name': project.get('name'), 'orders': purchase_orders} #project['account']['records']["purchase_orders"] #purchase_orders
+        return {
+            '_id': project.get('_id'), 
+            'name': project.get('name'),
+            'location': tuple(location.values()) ,
+            'orders': purchase_orders
+            } 
     except Exception as e:
         Flagman(title='Get Purchase Order', message=str(e)).send
     finally:
