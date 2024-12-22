@@ -1,0 +1,84 @@
+<h1 class="text-md text-center font-semibold">{{ order.title }}</h1>
+<div class="flex flex-col text-xs text-left">
+<h3>Order Id {{ order.id }}</h3>
+<h3>Site: {{ order.site }}</h3>
+<h3>Location {{ order.location }}</h3>
+<h3>Order Date {{ order.date }}</h3>
+
+
+</div>
+<div id="order-items" class="text-xs">
+    <table class="uk-table uk-table-small uk-table-hover">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Description</th>
+                <th>Unit</th>
+                <th>Amount</th>
+                <td><a href="#add-orderitem" uk-icon="icon: plus-circle; ratio: .85" uk-tooltip="Add Item "
+                    uk-toggle
+                    ></a></td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in order.items %}
+            <tr>
+                <td>{{item.item_no}}</td>
+                <td>{{ item.description }}</td>
+                <td>{{ item.unit}} </td>
+                <td>{{ item.quantity }}</td>
+                <td><div class="flex flex-row space-x-2">
+                    <div class="uk-grid-item-match">
+                        <a href="#" uk-icon="icon: pencil; ratio: .65" uk-tooltip="Edit Item "
+                        hx-get="/edit_orderitem/{{project._id}}/{{order.id}}/{{item.item_no}}"
+                        hx-target="#order-items"></a>
+                    </div>
+                    <div class="uk-grid-item-match">
+                        <a href="#" uk-icon="icon: trash; ratio: .65" uk-tooltip="Delete Item {{item.item_no}}"
+                            hx-delete="/delete_orderitem/{{project._id}}/{{order.id}}/{{item.item_no}}"
+                            hx-confirm="Are you Shure you want to DELETE Item {{item.item_no}}?"
+                            hx-target="#order-items"
+                        ></a>
+                    </div>
+
+                </div></td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+</div>
+
+
+<div id="add-orderitem" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body rounded">
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <h2 class="text-sm text-center text-gray-800 font-semibold">Add item to Order {{order.id}}</h2>
+        <form>
+        <table class="uk-table uk-table-small">
+            <thead>
+                <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <input class="uk-input" type="text" name="description" placeholder="Description">
+                    </td>
+                    <td><input class="uk-input" type="text" name="unit" placeholder="Unit"></td>
+                    <td><input class="uk-input" type="number" step="0.01" name="quantity" placeholder="Amount"></td>
+                    <td><button class="btn btn-secondary btn-small" hx-post="/add_orderitem/{{project._id}}/{{order.id}}"
+                        hx-target="#order-items">Add</button></td>
+                </tr>
+
+            </tbody>
+        </table>
+        </form>
+        
+    </div>
+</div>

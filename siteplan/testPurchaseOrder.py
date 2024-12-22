@@ -17,16 +17,19 @@ purchase4 = PurchaseItem(item_no=162, description='2x4x16 WPP Lubmer', quantity=
 
 order = PurchaseOrder(
         id='PO445',
-        title="Perliminary Materials List", 
-        site='D Daniels Dwelling', 
-        location='89 Atrium Housing Development, Bushy Pk. St Catherine.',
-        date=123495
+        title="Preliminary Materials List", 
+        site='Althea Johnoson Residence', 
+        location='18 Manchester Rd. Mandeville. Manchester.',
+        date=timestamp()
         
         )
+order.add_item(purchase1)
+order.add_item(purchase2)
+ 
 order2 = PurchaseOrder(        
         title="Beltcourse and Roofing Materials List", 
-        site='D Daniels Dwelling', 
-        location='89 Atrium Housing Development, Bushy Pk. St Catherine.',        
+        site='Althea Johnoson Residence', 
+        location='18 Manchester Rd. Mandeville. Manchester.',        
         
         )
 order2.add_item(purchase3)
@@ -51,7 +54,7 @@ def main():
     interval = 20   
     print(f'WARNING!  Data will Disappear in { interval } seconds intervals....')
     #save_order(data=order2.__json__)
-    order = get_order(id='PO445')
+    #order = get_order(id='PO445')
     #order.add_item(purchase1)
     #print(order.model_dump())  
     #print('closing order') 
@@ -75,12 +78,17 @@ def main():
     #print('json', order.__json__)
     #test_all_orders()
     #test_get_order(id='PO445')
-    print(order.items)
-   
-    asyncio.run(save_purchase_order(id=test_project, purchase_order=order))
+    print(order.items)    
+
+    async def bulksave():
+        async with asyncio.create_task() as tg:
+            task1 = tg.create_task(save_purchase_order(id=test_project, purchase_order=order))
+            task2 = tg.create_task(save_purchase_order(id=test_project, purchase_order=order2))
+        print("Both tasks have completed now.")
 
 
-    
+
+    asyncio.run(bulksave())
     #print(database)
     sleep(interval)
     os.system('clear')

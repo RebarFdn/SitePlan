@@ -1,0 +1,46 @@
+<table class="uk-table uk-table-small uk-table-striped uk-table-hover">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Completed</th>
+            <th>manage</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in project.orders %}
+        <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.title }}</td>
+            <td>{{ order.resolved }}</td>
+            <td>
+                <div class="uk-child-width-expand@s" uk-grid>
+                    <div class="uk-grid-item-match">
+                        <a href="#" uk-icon="icon: eye; ratio: .75" uk-tooltip="View this Purchase Order"
+                        hx-get="/purchaseorder/{{project._id}}/{{order.id}}"
+                        hx-target="#purchaseorder"></a>
+                    </div>
+                    <div class="uk-grid-item-match">
+                        <a href="#" uk-icon="icon: trash; ratio: .75" uk-tooltip="Delete Purchase Order"
+                            hx-delete="/purchaseorder/{{project._id}}/{{order.id}}"
+                            hx-confirm="Are you Shure you want to DELETE Order {{order.id}}"
+                            hx-target="#orders-index"
+                        ></a>
+                    </div>
+
+                </div>
+            </td>
+
+           
+        </tr>
+        {% endfor %}
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+    </tbody>
+</table>

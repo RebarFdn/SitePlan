@@ -480,7 +480,7 @@ async def get_purchase_order(id:str, order_id:str)-> PurchaseOrder:
         Iterator[PurchaseOrder]: _description_
     """
     project:dict = await get_project(id=id)
-    purchase_order = [item for item in project['account']['records']["purchase_orders"] if item.id == order_id][0]
+    purchase_order = [item for item in project['account']['records']["purchase_orders"] if item.get('id') == order_id][0]
     try:
         return processOrder(purchase_order)
     except Exception as e:
@@ -540,11 +540,13 @@ async def delete_purchase_order(id:str, order_id:str)->None:
         Iterator[PurchaseOrder]: _description_
     """
     project:dict = await get_project(id=id)
-    purchase_order = [item for item in project['account']['records']["purchase_orders"] if item.id == order_id][0]
+    purchase_order = [item for item in project['account']['records']["purchase_orders"] if item.get('id') == order_id][0]
     try:
         project['account']['records']["purchase_orders"].remove(purchase_order)
+        await update_project(data=project)
+        Flagman(title='Network Delete Purchase Order', message=f"Purchase order {order_id} Was deleted from {project.get('name')}").send
     except Exception as e:
-        Flagman(title='Get Purchase Order', message=str(e)).send
+        Flagman(title='Network Delete Purchase Order', message=str(e)).send
     finally:
         del project
         del purchase_order

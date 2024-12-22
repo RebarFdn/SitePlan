@@ -6,7 +6,7 @@
             <div class="uk-navbar-left">
 
                 <ul class="uk-navbar-nav">
-                    <li class="uk-active"><a href="#"><span class="bg-teal-200 py-2 px-4 rounded-md my-2">
+                    <li class="uk-active"><a href="#"><span class="bg-gray-200 py-2 px-4 rounded-md my-2">
                         {{ project.name }} Materials Order Index
                         </span>
                      </a></li>
@@ -18,18 +18,8 @@
             <div class="uk-navbar-right">
 
                 <ul class="uk-navbar-nav">
-                    <li class="uk-active"><a href="#">New Order</a></li>
-                    <li>
-                        <a href="#">Parent</a>
-                        <div class="uk-navbar-dropdown">
-                            <ul class="uk-nav uk-navbar-dropdown-nav">
-                                <li class="uk-active"><a href="#">Active</a></li>
-                                <li><a href="#">Item</a></li>
-                                
-                            </ul>
-                        </div>
-                    </li>
-                    <li><a href="#">Item</a></li>
+                    <li class="uk-active"><a href="#new-order" uk-toggle>New Order</a></li>
+                   
                 </ul>
 
             </div>
@@ -42,56 +32,28 @@
         <div>
             
             {% if project.orders %}
-            <div class="text-xs">
-                <table class="uk-table uk-table-small uk-table-striped uk-table-hover">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Title</th>
-                            <th>Completed</th>
-                            <th>manage</th>
-                            
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for order in project.orders %}
-                        <tr>
-                            <td>{{ order.id }}</td>
-                            <td>{{ order.title }}</td>
-                            <td>{{ order.resolved }}</td>
-                            <td>
-                                <div class="uk-child-width-expand@s" uk-grid>
-                                    <div class="uk-grid-item-match">
-                                        <a href="#" uk-icon="icon: eye; ratio: .75" uk-tooltip="View this Purchase Order"
-                                        hx-get="/get_purchaseorder/{{project._id}}/{{order.id}}"
-                                        hx-target="#purchaseorder"></a>
-                                    </div>
-                                    <div class="uk-grid-item-match">
-                                        <a href="#" uk-icon="icon: trash; ratio: .75" uk-tooltip="Delete Purchase Order"></a>
-                                    </div>
-
-                                </div>
-                            </td>
-
-                           
-                        </tr>
-                        {% endfor %}
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-
-                    </tbody>
-                </table>
+            <div id="orders-index" class="text-xs">
+               {% include '/project/purchasing/ordersIndex.html' %}
             </div>
                 
             {% else %}
-            <p>You Havent created Any Purchase Orders as yet </p>
+            <p class="text-md text-center text-gray-500 font-fine">You Havent created Any Purchase Orders as yet </p>
             {% endif %}
         </div>
 
     </div>
     <div id="purchaseorder"></div>
+</div>
+
+<div id="new-order" class="uk-modal-full" uk-modal>
+    <div class="uk-modal-dialog">
+        <button class="uk-modal-close-full uk-close-large" type="button" uk-close></button>
+        <div class="uk-grid-collapse uk-child-width-1-2@s uk-flex-middle" uk-grid>
+            <div class="uk-background-cover" style="background-image: url('images/photo.jpg');" uk-height-viewport></div>
+            <div class="uk-padding-large">
+                <h1>Headline</h1>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            </div>
+        </div>
+    </div>
 </div>
