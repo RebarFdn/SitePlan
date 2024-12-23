@@ -149,23 +149,33 @@ class PurchaseOrder(BaseModel):
         finally:
             del data
 
+
 # Data Processors 
 def processOrder(purchase_order:dict)->PurchaseOrder:
     """Converts a purchaseorder dictionary and its 
         items to a PurchaseOrder Model Object 
     """
-    __items = [PurchaseItem(**item) for item in purchase_order.get('items')]# convert items 
-    del purchase_order['items']
-    payload = PurchaseOrder(**purchase_order)
-    if payload.resolved:
-        payload.open
-        for item in __items:
-            payload.add_item(item)   
-        payload.close
+    order_items:list = purchase_order.get('items')
+    #print('ORDER_ITEMS', order_items)
+    if order_items.__len__() > 0:
+        
+        __items = [PurchaseItem(**item) for item in order_items]# convert items 
+        del purchase_order['items']
+        payload = PurchaseOrder(**purchase_order)
+        if payload.resolved:
+            payload.open
+            for item in __items:
+                payload.add_item(item)   
+            payload.close
+        else:
+            for item in __items:
+                payload.add_item(item)
     else:
-        for item in __items:
-            payload.add_item(item)
+        del purchase_order['items']
+        payload = PurchaseOrder(**purchase_order)
+       
     return payload
+
 
 # CRUD 
 def all_order(db:TinyDB=database):

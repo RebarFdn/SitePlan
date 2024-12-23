@@ -50,8 +50,8 @@ async def new_project(request):
             "standard": form.get('standard'),
             "address": {
                 "lot": form.get('lot'), 
-                "street": form.get('standard'), 
-                "town": form.get('standard'),
+                "street": form.get('street'), 
+                "town": form.get('town'),
                 "city_parish": form.get('city_parish'),
                 "country": form.get('country', "Jamaica") 
             },

@@ -81,9 +81,9 @@ def main():
     print(order.items)    
 
     async def bulksave():
-        async with asyncio.create_task() as tg:
-            task1 = tg.create_task(save_purchase_order(id=test_project, purchase_order=order))
-            task2 = tg.create_task(save_purchase_order(id=test_project, purchase_order=order2))
+        await save_purchase_order(id=test_project, purchase_order=order)
+        await asyncio.sleep(1)
+        await save_purchase_order(id=test_project, purchase_order=order2)
         print("Both tasks have completed now.")
 
 

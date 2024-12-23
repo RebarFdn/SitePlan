@@ -456,8 +456,10 @@ async def save_purchase_order(id:str=None, purchase_order:PurchaseOrder=None):
         id (str, optional): the project id to update. Defaults to None.
         purchase_order (PurchaseOrder, optional): order to be saved . Defaults to None.
     """
+    _order = purchase_order.__json__
+    #_order['items'] = []
     project:dict = await get_project(id=id)
-    project['account']['records']["purchase_orders"].append(purchase_order.__json__)
+    project['account']['records']["purchase_orders"].append( _order )
     try:
         await update_project(data=project)
     except Exception as e:
@@ -500,7 +502,8 @@ async def get_all_purchase_orders(id:str)->dict:
         dict: The project dictionary with keys _id, name & orders
     """
     project:dict = await get_project(id=id)
-    purchase_orders = [processOrder(item) for item in project['account']['records']["purchase_orders"] ]
+    purchase_orders = [ item for item in project['account']['records']["purchase_orders"] ]#[processOrder(item) for item in project['account']['records']["purchase_orders"] ]
+    
     location = project.get('address')
     try:
         return {
