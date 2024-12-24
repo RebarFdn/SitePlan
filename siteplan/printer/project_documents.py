@@ -3,6 +3,7 @@ import json
 from pdfme import build_pdf
 from box import Box
 from pathlib import Path
+from modules.purchase_order import PurchaseOrder
 
 # Config
 BASEPATH = Path(__file__).parent.parent
@@ -371,6 +372,7 @@ def printImperialJobQueue(project_jobs:dict=None)-> dict:
             'url': f"/static/docs/{file_name}"
             }
 
+
 def print_project_rates(data:dict=None):
     project_rates:list=data.get('rates')
     project_name:str=data.get('name')
@@ -426,4 +428,31 @@ def print_project_rates(data:dict=None):
         }
         
 
-     
+def printPurchaseOrder(purchase_order:PurchaseOrder=None)-> dict:
+    if purchase_order:
+        po = purchase_order
+        document = doc_template()
+        section_1 = {}
+        document['sections'].append(section_1)
+        section_1['content'] = content_1 = []
+        content_1.append({
+                '.': f"{po.title}", 'style': 'title', 'label': 'title_1',
+                'outline': {'level': 1, 'text': f"{po.title}"}
+        })
+
+
+        content_1.append({'.': f"Order Id: {po.id}", 'style': 'sub_text'})
+        content_1.append({'.': f"Site: {po.site}", 'style': 'sub_text'})
+        content_1.append({'.': f"Location: {po.location}", 'style': 'sub_text'})        
+        content_1.append({
+            '.': f"Order Date: {datetime.datetime.now().strftime('%A %d. %B %Y')}", 'style': 'sub_text'})
+        
+        file_name = f"{po.title}.pdf"
+        file_path = Path.joinpath(DOC_PATH, file_name)
+        with open(file_path, 'wb') as f:
+            build_pdf(document, f)
+        return {
+            "file": file_name,
+            'handle': file_path,
+            'url': f"/static/docs/{file_name}"
+            }

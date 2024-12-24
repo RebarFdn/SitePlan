@@ -12,6 +12,7 @@ from modules.purchase_order import PurchaseItem, PurchaseOrder, processOrder
 from modules.utils import timestamp, exception_message
 from config import TEMPLATES
 from flagman import Flagman
+from printer.project_documents import printPurchaseOrder
 
 router = Router()
 
@@ -139,4 +140,25 @@ async def resolve_purchaseorder(request):
     finally:
         del project
         del purchase_order 
+
+
+# Printers
+@router.get("/print_purchaseorder/{project_id}/{order_id}")
+async def print_purchase_order(request):
+    project_id=request.path_params.get('project_id')
+    order_id=request.path_params.get('order_id')
+    project:dict = await get_project(id=project_id)
+    purchase_order = [item for item in project['account']['records']["purchase_orders"] if item.get('id') == order_id][0]
+    _order = processOrder(purchase_order)
+    try:
+        result = printPurchaseOrder(purchase_order=_order)
+        return HTMLResponse(f""" <a href="{result.get('url')}" target="_blank"><span class="text-xs text-blue-500 font-bold">{result.get('file')}</span></a>""")
+    except Exception as e:
+        Flagman(title='Network Print Purchaseorder', message=str(e)).send
+    finally:
+        del project
+        del purchase_order 
+        del _order 
+    
+
 

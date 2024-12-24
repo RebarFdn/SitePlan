@@ -1263,15 +1263,6 @@ html {
   outline-color: rgb(var(--secondary));
 }
 
-.btn-success {
-  --tw-bg-opacity: 1;
-  background-color: rgb(var(--success)/var(--tw-bg-opacity));
-}
-
-.btn-success:focus-visible {
-  outline-color: rgb(var(--success));
-}
-
 .btn-error {
   --tw-bg-opacity: 1;
   background-color: rgb(var(--error)/var(--tw-bg-opacity));
@@ -3707,10 +3698,6 @@ html:has(.modal-state:checked) {
   margin-top: 1.25rem;
 }
 
-.mr-2 {
-  margin-right: 0.5rem;
-}
-
 .block {
   display: block;
 }
@@ -4031,16 +4018,16 @@ html:has(.modal-state:checked) {
   margin-bottom: calc(0.375rem * var(--tw-space-y-reverse));
 }
 
-.space-y-4 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-y-reverse: 0;
-  margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
-  margin-bottom: calc(1rem * var(--tw-space-y-reverse));
-}
-
 .space-y-2 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
   margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
+}
+
+.space-y-4 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(1rem * var(--tw-space-y-reverse));
 }
 
 .divide-y > :not([hidden]) ~ :not([hidden]) {
