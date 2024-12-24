@@ -553,12 +553,29 @@ async def delete_purchase_order(id:str, order_id:str)->None:
     try:
         project['account']['records']["purchase_orders"].remove(purchase_order)
         await update_project(data=project)
-        Flagman(title='Network Delete Purchase Order', message=f"Purchase order {order_id} Was deleted from {project.get('name')}").send
+        Flagman(title='Project Delete Purchase Order', message=f"Purchase order {order_id} Was deleted from {project.get('name')}").send
     except Exception as e:
-        Flagman(title='Network Delete Purchase Order', message=str(e)).send
+        Flagman(title='Project Delete Purchase Order', message=str(e)).send
     finally:
         del project
         del purchase_order
+
+
+async def add_purchase_order_item(id:str, order_id:str, item:PurchaseItem)-> PurchaseOrder:
+    project:dict = await get_project(id=id)
+    order_data = [item for item in project['account']['records']["purchase_orders"] if item.get('id') == order_id][0]
+    item.item_no = order_data['items'].__len__() + 1   
+    try:
+        order_data['items'].append(item.model_dump())
+        await update_project(data=project)
+        return processOrder(order_data)
+    except Exception as e:
+        Flagman(title='Project Add Order Item', message=str(e)).send
+    finally:
+        del project
+        del order_data
+       
+
 
 
 

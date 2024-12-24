@@ -1,52 +1,59 @@
 <h1 class="text-md text-center font-semibold">{{ order.title }}</h1>
-<div class="flex flex-col text-xs text-left">
-<h3>Order Id {{ order.id }}</h3>
-<h3>Site: {{ order.site }}</h3>
-<h3>Location {{ order.location }}</h3>
-<h3>Order Date {{ order.date }}</h3>
+<div class="uk-text-center" uk-grid>
+    <div class="uk-width-expand@m">
+       
 
+            <div class="flex flex-col text-xs text-left">
+                <h3>Order Id {{ order.id }}</h3>
+                <h3>Site: {{ order.site }}</h3>
+                <h3>Location {{ order.location }}</h3>
+                <h3>Order Date {{ order.date }}</h3>
+            </div>
+            
+       
+    </div>
+    <div class="uk-width-auto@m">
+        <div class="flex flex-col space-y-2">
+            {% if order.resolved %}
+            <div class="flex flex-row text-xs">
+               
+                <form>
 
+                    <label>
+                        <span class="mx-2">Open order </span>
+                <input type="checkbox" class="uk-checkbox" name="resolve" 
+                    uk-tooltip="Open Purchase Order for editing "
+                    hx-post="/resolve_purchaseorder/{{project._id}}/{{order.id}}/open"
+                    hx-target="#purchaseorder"
+                    hx-trigger="change"
+                    />
+                    </label>
+                </form>
+            </div>
+            {% else %}
+            <div class="flex flex-row text-xs">
+                
+                <form>
+                    <label>
+                        <span class="mx-2">Close order</span>
+            <input type="checkbox"class="uk-checkbox" name="resolve" checked 
+                uk-tooltip="Resolve this Purchase Order"
+                hx-post="/resolve_purchaseorder/{{project._id}}/{{order.id}}/close"
+                hx-target="#purchaseorder"
+                hx-trigger="change"
+            /></label>
+            </form>
+            </div>
+            {% endif %}
+           
+            <a class="uk-link text-sm" href="#">Print Order</a>
+        </div>
+    </div>
+   
+    
 </div>
 <div id="order-items" class="text-xs">
-    <table class="uk-table uk-table-small uk-table-hover">
-        <thead>
-            <tr>
-                <th>Item</th>
-                <th>Description</th>
-                <th>Unit</th>
-                <th>Amount</th>
-                <td><a href="#add-orderitem" uk-icon="icon: plus-circle; ratio: .85" uk-tooltip="Add Item "
-                    uk-toggle
-                    ></a></td>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in order.items %}
-            <tr>
-                <td>{{item.item_no}}</td>
-                <td>{{ item.description }}</td>
-                <td>{{ item.unit}} </td>
-                <td>{{ item.quantity }}</td>
-                <td><div class="flex flex-row space-x-2">
-                    <div class="uk-grid-item-match">
-                        <a href="#" uk-icon="icon: pencil; ratio: .65" uk-tooltip="Edit Item "
-                        hx-get="/edit_orderitem/{{project._id}}/{{order.id}}/{{item.item_no}}"
-                        hx-target="#order-items"></a>
-                    </div>
-                    <div class="uk-grid-item-match">
-                        <a href="#" uk-icon="icon: trash; ratio: .65" uk-tooltip="Delete Item {{item.item_no}}"
-                            hx-delete="/delete_orderitem/{{project._id}}/{{order.id}}/{{item.item_no}}"
-                            hx-confirm="Are you Shure you want to DELETE Item {{item.item_no}}?"
-                            hx-target="#order-items"
-                        ></a>
-                    </div>
-
-                </div></td>
-
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+   {% include '/project/purchasing/orderItemsIndex.html' %}
     
 </div>
 

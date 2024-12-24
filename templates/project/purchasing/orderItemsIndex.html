@@ -1,0 +1,47 @@
+<table class="uk-table uk-table-small uk-table-hover">
+    <thead>
+        <tr>
+            <th>Item</th>
+            <th>Description</th>
+            <th>Unit</th>
+            <th>Amount</th>
+            <td>
+                {% if order.resolved %}
+                <a href="#" uk-icon="icon: minus-circle; ratio: .85" uk-tooltip="Order is Closed"
+                
+                ></a>
+                {% else %}
+                <a href="#add-orderitem" uk-icon="icon: plus-circle; ratio: .85" uk-tooltip="Add Item "
+                uk-toggle
+                ></a>
+                {% endif %}
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in order.items %}
+        <tr>
+            <td>{{item.item_no}}</td>
+            <td>{{ item.description }}</td>
+            <td>{{ item.unit}} </td>
+            <td>{{ item.quantity }}</td>
+            <td><div class="flex flex-row space-x-2">
+                <div class="uk-grid-item-match">
+                    <a href="#" uk-icon="icon: pencil; ratio: .65" uk-tooltip="Edit Item "
+                    hx-get="/edit_orderitem/{{project._id}}/{{order.id}}/{{item.item_no}}"
+                    hx-target="#order-items"></a>
+                </div>
+                <div class="uk-grid-item-match">
+                    <a href="#" uk-icon="icon: trash; ratio: .65" uk-tooltip="Delete Item {{item.item_no}}"
+                        hx-delete="/delete_orderitem/{{project._id}}/{{order.id}}/{{item.item_no}}"
+                        hx-confirm="Are you Shure you want to DELETE Item {{item.item_no}}?"
+                        hx-target="#order-items"
+                    ></a>
+                </div>
+
+            </div></td>
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

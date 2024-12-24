@@ -60,7 +60,7 @@
                 <input class="uk-input" type="text" name="site" placeholder="Site Name" value="{{ project.name}}" aria-label="50">
             </div>
             <div class="uk-width-1-1">
-                <input class="uk-input" type="text" name="location" placeholder="Site Location" value="{{ project.location}}">
+                <input class="uk-input" type="text" name="location" placeholder="Site Location" value="{{ project.location | replace('(', '') | replace(')', '')}}">
             </div>
             <div class="uk-width-1-2@s">
                 <input class="uk-input" type="date" name="date" placeholder="Order Date">
