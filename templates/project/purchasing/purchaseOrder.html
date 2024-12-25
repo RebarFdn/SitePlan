@@ -5,9 +5,9 @@
 
             <div class="flex flex-col text-xs text-left">
                 <h3>Order Id {{ order.id }}</h3>
-                <h3>Site: {{ order.site }}</h3>
+                <h3>Job Site: {{ order.site }}</h3>
                 <h3>Location {{ order.location }}</h3>
-                <h3>Order Date {{ order.date }}</h3>
+                <h3>Order Date {{ order.date | convert_time }}</h3>
             </div>
             
        
@@ -75,6 +75,7 @@
                 <th></th>
                 <th></th>
                 <th></th>
+                <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -84,6 +85,7 @@
                     </td>
                     <td><input class="uk-input" type="text" name="unit" placeholder="Unit"></td>
                     <td><input class="uk-input" type="number" step="0.01" name="quantity" placeholder="Amount"></td>
+                    <td><input class="uk-input" type="number" step="0.01" name="price" placeholder="Price"></td>
                     <td><button class="btn btn-secondary btn-small" hx-post="/add_orderitem/{{project._id}}/{{order.id}}"
                         hx-target="#order-items">Add</button></td>
                 </tr>

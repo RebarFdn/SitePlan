@@ -51,7 +51,8 @@ async def add_order_item(request):
             item_no= 1,
             description= form.get('description'),
             quantity= float(form.get('quantity')),
-            unit= form.get('unit')
+            unit= form.get('unit'),
+            price=form.get('price')
             )
     purchase_order:PurchaseOrder = await add_purchase_order_item(id=project_id, order_id=order_id, item=order_item)
     try:

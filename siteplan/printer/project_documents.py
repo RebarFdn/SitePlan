@@ -4,6 +4,7 @@ from pdfme import build_pdf
 from box import Box
 from pathlib import Path
 from modules.purchase_order import PurchaseOrder
+from modules.utils import converTime, convert_timestamp, timestamp
 
 # Config
 BASEPATH = Path(__file__).parent.parent
@@ -34,7 +35,7 @@ def doc_template(key:str=None):
             "formats": {
                 'url': {'c': 'blue', 'u': 1},
                 'title': {'b': 1, 's': 13},
-                'title_header': {'b': 1, 's': 16},
+                'title_header': {'b': 1, 's': 14, "text_align": "c"},
                 'sub_title': {'b': .5, 's': 11},
                 'sub_text': {'s': 9},
                 'line_title': {'b': .5, 's': 8},
@@ -435,6 +436,7 @@ def printPurchaseOrder(purchase_order:PurchaseOrder=None)-> dict:
         section_1 = {}
         document['sections'].append(section_1)
         section_1['content'] = content_1 = []
+        content_1.append({'.': f"Materials Order", 'style': 'title_header'})
         content_1.append({
                 '.': f"{po.title}", 'style': 'title', 'label': 'title_1',
                 'outline': {'level': 1, 'text': f"{po.title}"}
@@ -442,11 +444,38 @@ def printPurchaseOrder(purchase_order:PurchaseOrder=None)-> dict:
 
 
         content_1.append({'.': f"Order Id: {po.id}", 'style': 'sub_text'})
-        content_1.append({'.': f"Site: {po.site}", 'style': 'sub_text'})
+        content_1.append({'.': f"Job Site: {po.site}", 'style': 'sub_text'})
         content_1.append({'.': f"Location: {po.location}", 'style': 'sub_text'})        
         content_1.append({
-            '.': f"Order Date: {datetime.datetime.now().strftime('%A %d. %B %Y')}", 'style': 'sub_text'})
+            '.': f"Order Date: { converTime(timestamp=po.date)}", 'style': 'sub_text'})
         
+        table_def = {
+            'widths': [ 1.5, 3, 1.25, 1.5, 1.5, 1.5],
+            'style': {'border_width': 0, 'margin_left': 20, 'margin_right': 20, 'c': '#133E87', 's': 9},
+            
+            'fills': [{'pos': '1::2;:', 'color': 0.8}],
+            'borders': [{'pos': 'h0,1,-1;:', 'width': 0.5}],
+            'table': [
+                ['Item', 'Description', 'Unit', 'Amount', 'Price', 'Total'],
+               
+            ]
+        }
+        order_total:float = 0
+        for item in po.items:
+            data = [ 
+                    item.item_no,
+                    item.description,
+                    item.unit,
+                    item.quantity,
+                    to_dollars(amount= item.price),
+                    to_dollars(amount= item.total)
+                    ]
+            if item.total:
+                order_total += item.total            
+            table_def['table'].append(data)
+        totals:list[str,float] = ["Order Total","","","","", to_dollars(amount= order_total)]
+        table_def['table'].append(totals) 
+        content_1.append(table_def)
         file_name = f"{po.title}.pdf"
         file_path = Path.joinpath(DOC_PATH, file_name)
         with open(file_path, 'wb') as f:

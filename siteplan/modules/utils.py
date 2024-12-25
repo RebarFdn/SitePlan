@@ -1,6 +1,7 @@
 # SitePlan Platform Utilities 
 # Date Nov 26 2022
 # Author: Ian Alexander Moncrieffe
+import time
 import datetime
 import json
 import typing
@@ -39,9 +40,9 @@ def timestamp(date:str=None)->int:
     else:
         return  int((datetime.datetime.now().timestamp() * 1000))
 
-def converTime(timestamp:int=None):    
-    date = datetime.datetime.fromtimestamp(int(timestamp))
-    return date.strftime('%Y-%m-%d %H:%M:%S')
+def converTime(timestamp:int=None): 
+    """Converts a integer timestamp to a human readable format. """    
+    return time.ctime(float(timestamp/1000)) 
 
 def convert_timestamp(timestamp:int=None):    
     date = datetime.datetime.fromtimestamp(int(timestamp/1000))

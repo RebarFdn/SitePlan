@@ -213,7 +213,7 @@ def startApp():
     reset_invoice_repo()
     print('Checking for Documents Directory ...')
     if DOCUMENT_PATH.exists():
-        pass
+        pass # delete all files
     else:
         print('Creating Documents Directory ...')
         DOCUMENT_PATH.mkdir()

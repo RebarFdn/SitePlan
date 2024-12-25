@@ -20,6 +20,14 @@ class PurchaseItem(BaseModel):
     description:str
     quantity: float
     unit: str
+    price: float | None = None
+    
+    @property
+    def total(self)-> float | None:
+        if self.price:
+            return self.quantity * self.price
+        else:
+            return None
 
 
 class PurchaseOrder(BaseModel):
