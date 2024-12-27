@@ -13,6 +13,7 @@ from modules.employee import all_workers, get_worker, update_employee
 from modules.rate import all_rates, rate_categories, get_industry_rate
 from modules.utils import timestamp, exception_message
 from modules.unit_converter import convert_price_by_unit
+from modules.mapper import Mapper
 from printer.project_documents import printJobQueue, printMetricJobQueue, printImperialJobQueue
 from config import TEMPLATES
 
@@ -566,7 +567,7 @@ async def remove_worker_from_project(request):
     for job in employee.get('jobs'):
         if job == idd[0]:
             employee['jobs'].remove(job)
-    p['activity_log'].append(
+    project['activity_log'].append(
                     {
                         "id": timestamp(),
                         "title": "Remove Worker from Project",
@@ -673,4 +674,57 @@ async def filter_days_work(request):
             }
 
         })
+
+
+# Project Location and Maps
+@router.post('/project_coords/{project_id}')
+async def set_project_coords(request):
+    id = request.path_params.get('project_id')
+    project = await get_project(id=id)
+    async with request.form() as form:
+        coords = [float(form.get('lat')), float(form.get('lon'))]
+    try:
+        project['address']['coords'] = coords
+        await update_project(data=project)
+        return TEMPLATES.TemplateResponse('/project/addressLocation.html', {
+            'request': request, 
+            'project': {
+                '_id': id,
+                'address': project.get('address'),
+            }
+            
+        })
+    except:
+        pass
+
+
+async def save_map_to_img(handle:str, map:Mapper ):
+    map.save_map_image(handle=handle)
+    return None
+
+
+@router.get('/project_location_map/{id}')
+async def get_project_location_map(request):
+    id = request.path_params.get('id')    
+    project = await get_project(id=id)
+    coords = project.get('address').get('coords')
+    map:Mapper = Mapper(coords=coords)  
+    try:        
+       
+        map.save_map(id)
+        
+        #map.add_draw_tools(True)  
+        #map.add_minimap(True) 
+        task:BackgroundTask = BackgroundTask(save_map_to_img, id, map)  
+        
+        
+        return HTMLResponse(f""" <iframe src="/static/maps/{id}.html" width="100%" height="100%" style="border:none;">
+                            </iframe>
+                        """, background=task)
+    except Exception as e:
+        print(e)
+        
+    
+
+
 

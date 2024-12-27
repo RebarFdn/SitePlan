@@ -31,9 +31,10 @@ from routes.todo_router import router as todo_router
 from routes.purchase_order_router import router as purchase_order_router
 from api.team_api import router as employee_api
 from modules.platformuser import user_list
-from modules.decorator import admin_only
+from modules.app_decorator import admin_only
 from modules.invoice_processor import reset_invoice_repo
 from modules.utils import exception_message
+from modules.mapper import Mapper
 from routes.dropbox_routes import router as dropbox_routes
 from loadPrivateData import (load_rates, load_suppliers, load_workers)
 
@@ -217,7 +218,9 @@ def startApp():
     else:
         print('Creating Documents Directory ...')
         DOCUMENT_PATH.mkdir()
-
+    print()
+    print('clearing caches')
+    Mapper().clear_img_cache()
     print('Starting SiteApp Servers ')
     print()
     print('Analysing Router tables....')    

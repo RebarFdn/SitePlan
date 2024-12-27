@@ -70,15 +70,9 @@
                 <input type="checkbox" id="accordion-2" class="accordion-toggle" />
                 <label for="accordion-2" class="accordion-title">Project Address /Location</label>
                 <div class="accordion-content text-left">
-                    <div class="min-h-0">
-                        
-                        {% if project.address %}
-                        <ul class="uk-list uk-list-striped">
-                        {% for key, value in project.get('address', {}).items() %}
-                            <li><span class="text-sm font-semibold mx-3">{{ key }}</span>{{value}}</li>
-                        {% endfor %}
-                        </ul>
-                    {% endif %}
+                   
+                    <div id="project-address-location" class="min-h-0">
+                     {% include '/project/addressLocation.html' %}
                     </div>
                 </div>
             </div>
@@ -161,7 +155,18 @@
         </div>
     </div>
 </div>
-
+<div id="location-map">
+    {% if project.address.coords %}
+        <iframe src="/static/maps/{{project._id}}.html" width="100%" height="300" style="border:none;">
+        </iframe>
+    {% else %}
+    <div class="flex flex-col">
+        <span class="text-center text-lg text-gray-500 fornt-semibold ">Location Map Unavailable!</span>
+        <span class="text-center text-sm text-gray-500 fornt-semibold ">Please Provide The Location Coordinates for Your Project</span>
+    </div>
+    {% endif %}
+ 
+</div>
 
 <div class="bg-gray-300 p-5 border rounded text-xs">
     location project/projectHome.html

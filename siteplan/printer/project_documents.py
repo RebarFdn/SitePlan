@@ -40,6 +40,7 @@ def doc_template(key:str=None):
                 'sub_text': {'s': 9},
                 'line_title': {'b': .5, 's': 8},
                 'line_header': {'b': .5, 's': 10},
+                'img_title': {'s': 8, "text_align": "c"},
             },
             "running_sections": {
                 "header": {
@@ -429,7 +430,7 @@ def print_project_rates(data:dict=None):
         }
         
 
-def printPurchaseOrder(purchase_order:PurchaseOrder=None)-> dict:
+def printPurchaseOrder(project_id:str, purchase_order:PurchaseOrder=None)-> dict:
     if purchase_order:
         po = purchase_order
         document = doc_template()
@@ -476,6 +477,14 @@ def printPurchaseOrder(purchase_order:PurchaseOrder=None)-> dict:
         totals:list[str,float] = ["Order Total","","","","", to_dollars(amount= order_total)]
         table_def['table'].append(totals) 
         content_1.append(table_def)
+
+        content_1.append({
+            'image': STATIC_PATH / 'maps' / f'{project_id}.png',
+            'style': {'margin_left': 160, 'margin_right': 160}
+            
+        })
+        content_1.append({'.': f"Site Location Map", 'style': 'img_title'})
+
         file_name = f"{po.title}.pdf"
         file_path = Path.joinpath(DOC_PATH, file_name)
         with open(file_path, 'wb') as f:

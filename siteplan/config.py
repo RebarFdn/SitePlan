@@ -15,9 +15,10 @@ STATIC_PATH = Path.joinpath(BASE_PATH, 'static')
 TEMPLATE_PATH = Path.joinpath(BASE_PATH, 'templates')
 DOCUMENT_PATH = Path.joinpath(STATIC_PATH, 'docs')
 IMAGES_PATH = Path.joinpath(STATIC_PATH, 'imgs')
+MAPS_PATH = Path.joinpath(STATIC_PATH, 'maps')
+
 PROFILES_PATH = Path.joinpath(IMAGES_PATH, 'workers')
 DATA_PATH = Path.joinpath(PARENT_PATH, 'siteplanData')
-
 DROPBOX_PATH = DATA_PATH / 'dropbox'
 
 # File Paths

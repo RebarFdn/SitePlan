@@ -1,0 +1,39 @@
+   
+                        {% if project.address %}
+                        <ul class="uk-list uk-list-striped">
+                        {% for key, value in project.get('address', {}).items() %}
+                            <li><span class="text-sm font-semibold mx-3">{{ key }}</span>{{value}}</li>
+                        {% endfor %}
+                        <li> 
+                            {% if project.address.get('coords') %}
+                                <button hx-get="/project_location_map/{{project._id}}" hx-target="#location-map">Generate Location Map</button>
+                            {% else %}
+                            <form>
+                            
+
+                            <div class="uk-grid-small uk-child-width-expand@s uk-text-center" uk-grid>
+                                <div>
+                                    <div class="uk-margin">
+                                        <input class="uk-input uk-form-success uk-form-width-small uk-form-small" type="number" step="0.1" placeholder="Lat" name="lat" aria-label="Small">
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="uk-margin">
+                                        <input class="uk-input uk-form-success uk-form-width-small uk-form-small" type="number" step="0.1" placeholder="Lon" name="lon" aria-label="Small">
+                                    </div>
+                                </div>
+                                <div>
+                                    
+                                <div class="uk-margin">
+                                    
+                                    <button class="uk-button uk-button-primary uk-button-small rounded-md"
+                                    hx-post="/project_coords/{{project._id}}"
+                                    hx-target="#project-address-location">Submit</button>
+                                </div>
+                                </div>
+                            </div>
+                            </form>
+                            {% endif %}
+                        </li>
+                        </ul>
+                    {% endif %}

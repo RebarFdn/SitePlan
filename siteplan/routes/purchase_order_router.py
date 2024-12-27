@@ -152,7 +152,7 @@ async def print_purchase_order(request):
     purchase_order = [item for item in project['account']['records']["purchase_orders"] if item.get('id') == order_id][0]
     _order = processOrder(purchase_order)
     try:
-        result = printPurchaseOrder(purchase_order=_order)
+        result = printPurchaseOrder(project_id=project_id, purchase_order=_order)
         return HTMLResponse(f""" <a href="{result.get('url')}" target="_blank"><span class="text-xs text-blue-500 font-bold">{result.get('file')}</span></a>""")
     except Exception as e:
         Flagman(title='Network Print Purchaseorder', message=str(e)).send
