@@ -1,0 +1,17 @@
+<div class="bg-gray-200 py-2 px-4 my-2 rounded flex flex-row">
+    
+    <form hx-post="/update_location_map/{{project._id}}" hx-target="#mapper" hx-trigger="change">
+        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid text-xs">
+            <label><input class="uk-checkbox" type="checkbox" name="show_mouse" >show mouse location</label>
+            <label><input class="uk-checkbox" type="checkbox" name="add_marker">add add marker</label>
+            <label><input class="uk-checkbox" type="checkbox" name="add_circle">add circle marker</label>
+            <label><input class="uk-checkbox" type="checkbox" name="add_draw">add DrawTools</label>
+            <label><input class="uk-checkbox" type="checkbox" name="add_minimap">add MiniMap</label>
+            <label><input class="uk-checkbox" type="checkbox" name="add_measure">add MeasureTool</label>
+        </div>
+    </form>
+</div>
+<div id="mapper">
+    <iframe src="/static/maps/{{project._id}}.html" width="100%" height="400" style="border:none;">
+    </iframe>
+</div>

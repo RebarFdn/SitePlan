@@ -709,18 +709,48 @@ async def get_project_location_map(request):
     project = await get_project(id=id)
     coords = project.get('address').get('coords')
     map:Mapper = Mapper(coords=coords)  
-    try:        
-       
-        map.save_map(id)
-        
+    try:
+        map.save_map(id)        
         #map.add_draw_tools(True)  
         #map.add_minimap(True) 
-        task:BackgroundTask = BackgroundTask(save_map_to_img, id, map)  
+        task:BackgroundTask = BackgroundTask(save_map_to_img, id, map)        
+        return TEMPLATES.TemplateResponse('/project/locationMap.html', {'request': request, 'project': {"_id": id}}, background=task)
+    except Exception as e:
+        print(e)
         
-        
-        return HTMLResponse(f""" <iframe src="/static/maps/{id}.html" width="100%" height="100%" style="border:none;">
-                            </iframe>
-                        """, background=task)
+
+
+@router.post('/update_location_map/{id}')
+async def update_location_map(request):
+    id = request.path_params.get('id')    
+    project = await get_project(id=id)
+    coords = project.get('address').get('coords')
+    map:Mapper = Mapper(coords=coords)  
+    try:
+        async with request.form() as form:                        
+            if form.get('show_mouse') == 'on' :
+                print('adding Mouse position coordinates', map.coords) 
+                map.add_mouse_position(True)
+            if form.get('add_marker')== 'on' :
+                print('adding Place Marker ', map.coords) 
+                map.add_marker(True)
+            if form.get('add_circle')== 'on' :
+                print('adding circle Marker ', map.coords) 
+                map.circle_marker(True)
+            if form.get('add_draw')== 'on' :
+                print('adding draw Tools ', map.coords) 
+                map.add_draw_tools(True)
+            if form.get('add_mimimap')== 'on' :
+                print('adding mini map ', map.coords) 
+                map.add_minimap(True)
+            if form.get('add_measure')== 'on' :
+                print('adding measure controll ', map.coords) 
+                map.add_measure_controll(True)
+            
+            map.save_map(id)   
+                      
+        return HTMLResponse(f"""<iframe src="/static/maps/{id}.html" width="100%" height="400" style="border:none;">
+    </iframe>""")
     except Exception as e:
         print(e)
         

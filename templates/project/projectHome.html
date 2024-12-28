@@ -155,10 +155,11 @@
         </div>
     </div>
 </div>
-<div id="location-map">
+<div>
     {% if project.address.coords %}
-        <iframe src="/static/maps/{{project._id}}.html" width="100%" height="300" style="border:none;">
-        </iframe>
+        <div id="location-map">
+        {% include '/project/locationMap.html' %}
+        </div>
     {% else %}
     <div class="flex flex-col">
         <span class="text-center text-lg text-gray-500 fornt-semibold ">Location Map Unavailable!</span>
