@@ -1,59 +1,50 @@
-<div class="uk-card uk-card-default uk-width-2-3@m">
-    <div class="uk-card-header">
-        <a class="navbar-item"><p class="uk-text-meta uk-margin-remove-top"><span class="uk-badge">ID   {{ rate.get('_id')  }}</span> Category  {{ rate.get("category")  }}</p></a>
-              
-        <div class="navbar">
-            <div class="navbar-start">
-                <a class="navbar-item"> {{ rate.get("title")  }}</a>
-            </div>
-            <div class="navbar-end">
-                <a class="navbar-item btn btn-primary  btn-sm" type="button"  uk-toggle="target: #add-to-project">Add to Project</a>
-                <a class="navbar-item btn btn-secondary  btn-sm" type="button"  uk-toggle="target: #clone-rate">Clone</a>
-                <a 
-                class="navbar-item btn btn-error  btn-sm" 
-                type="button"  
+<div class="bg-gray-50 p-5 m-2 rounded-md shadow">
+    <p class="text-lg text-center font-semibold">Title: {{ rate.title }}</p>
+    <div class="uk-child-width-expand@s uk-text-center" uk-grid>
+        <div><span class="uk-badge">ID   {{ rate._id  }}</span></div>
+        <div><p class="uk-text-meta uk-margin-remove-top"> Category  {{ rate.category }}</p></div>
+        <div>
+            <div class="btn-group btn-group-rounded btn-group-scrollable">
+                <button class="btn btn-primary  btn-sm" type="button"  uk-toggle="target: #add-to-project">Add to Project</button>
+                <button class="btn btn-secondary  btn-sm" type="button"  uk-toggle="target: #clone-rate">Clone</button>               
+                <button class="btn btn-error  btn-sm" 
                 hx-delete="/industry_rate/{{rate._id}}" 
                 hx-target="#dash-content-pane" 
                 hx-confirm="Are you shure you want to DELETE RATE {{rate.title}}"
-                >Delete</a>
-                
-
+                >Delete</button>
             </div>
         </div>
-        
     </div>
-    <div class="uk-card-body">
-        <p> {{ rate.get("description")  }}</p>
-
-        <hr class="uk-divider-small" />
-
     <div class="uk-child-width-expand@s uk-text-center" uk-grid>
         <div>
-            <div class="uk-card uk-card-default uk-card-body">
-                {% include '/project/task/metricProperties.html' %}
-               
-            </div>
+            <p> Description:  {{ rate.get("description")  }}</p>
         </div>
+        <table class="uk-table uk-table-small">
+            <thead>
+                <tr>
+                    <th>property</th>
+                    <th>unit</th>
+                    <th>price</th>
+                </tr>
+                <tbody>
+                    <tr>
+                        <th>Metric </th>
+                        <td>{{rate.metric.unit}}</td>
+                        <td>{{rate.metric.price}}</td>
+                    </tr>
+                    <tr>
+                        <th>Imperial</th>
+                        <td>{{rate.imperial.unit}}</td>
+                        <td>{{rate.imperial.price}}</td>
+                    </tr>
+                </tbody>
+            </thead>
+        </table>
         <div>
-            <div class="uk-card uk-card-default uk-card-body">
-                {% include '/project/task/imperialProperties.html' %}
-                
-            </div>
+           
         </div>
-        
     </div>
-
-
-
 </div>
-
-
-<div class="uk-card-footer">
-<a href="#" class="uk-button uk-button-text">Read more</a>
- <p class="uk-text-meta uk-margin-remove-top">Created <time datetime="2016-04-01T19:00"> {{ rate.get("metadata", {} ).get('created')  }}</time></p>
-</div>
-</div>
-
 <!-- This is the modal -->
 <div id="add-to-project"  uk-modal>
     <div class="uk-modal-dialog uk-modal-body bg-yellow-300 rounded-lg">

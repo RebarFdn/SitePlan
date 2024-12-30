@@ -1272,6 +1272,16 @@ html {
   outline-color: rgb(var(--error));
 }
 
+.btn-xs {
+  border-radius: 7px;
+  font-size: .75rem;
+  height: 1.5rem;
+  line-height: 1rem;
+  min-height: 1.5rem;
+  padding-left: .5rem;
+  padding-right: .5rem;
+}
+
 .btn-sm {
   border-radius: .5rem;
   height: 2rem;
@@ -1913,6 +1923,26 @@ html {
   width: 23px;
 }
 
+.btn-group {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  max-width: -moz-fit-content;
+  max-width: fit-content;
+  width: 100%;
+}
+
+.btn-group-scrollable {
+  flex-wrap: nowrap;
+  overflow: auto;
+}
+
+.btn-group>:first-child {
+  border-radius: 0;
+  border-bottom-left-radius: .75rem;
+  border-top-left-radius: .75rem;
+}
+
 .btn-group>.btn:not(.btn-active):hover {
   --tw-bg-opacity: 1;
   background-color: rgb(var(--gray-4)/var(--tw-bg-opacity));
@@ -1923,9 +1953,57 @@ html {
   background-color: rgb(var(--gray-5)/var(--tw-bg-opacity));
 }
 
+.btn-group>:last-child {
+  border-radius: 0;
+  border-bottom-right-radius: .75rem;
+  border-top-right-radius: .75rem;
+}
+
+.btn-group>:not(:first-child):not(:last-child) {
+  border-radius: 0;
+}
+
+.btn-group>:only-child {
+  border-radius: .75rem;
+}
+
+.btn-group>input[type=radio] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.btn-group>input[type=radio]:after {
+  --tw-content: attr(data-content);
+  content: var(--tw-content);
+}
+
 .btn-group>.btn-active,.btn-group>input[type=radio]:checked.btn {
   --tw-bg-opacity: 1;
   background-color: rgb(var(--gray-5)/var(--tw-bg-opacity));
+}
+
+.btn-group-rounded>:first-child {
+  border-radius: 0;
+  border-bottom-left-radius: 9999px;
+  border-top-left-radius: 9999px;
+}
+
+.btn-group-rounded>:last-child {
+  border-radius: 0;
+  border-bottom-right-radius: 9999px;
+  border-top-right-radius: 9999px;
+}
+
+.btn-group-rounded.btn-group-vertical>:first-child {
+  border-radius: 0;
+  border-top-left-radius: 9999px;
+  border-top-right-radius: 9999px;
+}
+
+.btn-group-rounded.btn-group-vertical>:last-child {
+  border-radius: 0;
+  border-bottom-left-radius: 9999px;
+  border-bottom-right-radius: 9999px;
 }
 
 .dropdown {
@@ -2853,6 +2931,90 @@ html:has(.modal-state:checked) {
 .accordion.accordion-open .accordion-title .accordion-icon,.accordion.accordion-open~.accordion-icon,.accordion:focus .accordion-icon,.accordion:not(.accordion-open) .accordion-toggle:checked~.accordion-icon,.accordion:not(.accordion-open) .accordion-toggle:checked~.accordion-title .accordion-icon {
   --tw-rotate: -90deg;
   transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.tab {
+  --tw-text-opacity: 1;
+  color: rgb(var(--content2)/var(--tw-text-opacity));
+  font-size: .875rem;
+  line-height: 1.25rem;
+  line-height: 2;
+  min-height: 2rem;
+  padding-left: .75rem;
+  padding-right: .75rem;
+  cursor: pointer;
+  display: flex;
+}
+
+.tab:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.tab:not(.tab-active):hover {
+  --tw-text-opacity: 1;
+  color: rgb(var(--content1)/var(--tw-text-opacity));
+}
+
+.tabs:has(.tab-underline) .tab {
+  padding-bottom: .5rem;
+}
+
+.tabs-boxed .tab {
+  border-radius: .75rem;
+  line-height: 1.25rem;
+  padding-bottom: .5rem;
+  padding-top: .5rem;
+}
+
+.tabs-boxed .tab:not(.tab-active):hover {
+  --tw-bg-opacity: 1;
+  --tw-text-opacity: 1;
+  background-color: rgb(var(--gray-4)/var(--tw-bg-opacity));
+  color: rgb(var(--content1)/var(--tw-text-opacity));
+}
+
+.tabs-boxed .tab.tab-active,.tabs-boxed .tab:not(.tab-active):active {
+  --tw-bg-opacity: 1;
+  background-color: rgb(var(--gray-5)/var(--tw-bg-opacity));
+}
+
+.tabs-boxed .tab.tab-active {
+  --tw-text-opacity: 1;
+  color: rgb(var(--content1)/var(--tw-text-opacity));
+}
+
+.tab-toggle:checked+.tab {
+  --tw-border-opacity: 1;
+  --tw-text-opacity: 1;
+  border-bottom-color: rgb(var(--primary)/var(--tw-border-opacity));
+  color: rgb(var(--primary)/var(--tw-text-opacity));
+}
+
+.tabs-underline .tab-toggle+.tab {
+  padding-bottom: .5rem;
+  position: relative;
+}
+
+.tabs-underline .tab-toggle:checked+.tab:before {
+  --tw-bg-opacity: 1;
+  --tw-content: "";
+  background-color: rgb(var(--primary)/var(--tw-bg-opacity));
+  bottom: 0;
+  content: var(--tw-content);
+  height: .125rem;
+  left: 0;
+  position: absolute;
+  transition: transform .3s ease;
+  width: 100%;
+  z-index: 10;
+}
+
+.tab-toggle:checked+.tab.tab-pill,.tabs-boxed .tab-toggle:checked+.tab {
+  --tw-bg-opacity: 1;
+  --tw-text-opacity: 1;
+  background-color: rgb(var(--gray-5)/var(--tw-bg-opacity));
+  color: rgb(var(--content1)/var(--tw-text-opacity));
 }
 
 .pagination .btn {

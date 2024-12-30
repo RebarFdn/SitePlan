@@ -5,7 +5,7 @@ from starlette.staticfiles import StaticFiles
 from starlette.middleware import Middleware
 from starlette.middleware.sessions import SessionMiddleware
 from starlette.middleware.cors import CORSMiddleware
-from starlette.responses import HTMLResponse, StreamingResponse, RedirectResponse
+from starlette.responses import HTMLResponse, StreamingResponse, RedirectResponse, JSONResponse
 from starlette_htmx.middleware import HtmxMiddleware
 from starlette_login.backends import SessionAuthBackend
 from starlette_login.login_manager import LoginManager
@@ -175,6 +175,19 @@ async def load_employee_database(request):
 async def settings(request):
     return TEMPLATES.TemplateResponse('/settings.html', {'request': request})
 
+
+async def handshake(request):
+    """search the local network for connected devices
+
+    Args:
+        request (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
+    return JSONResponse({ "handshake": True})
+
+
 routes =[
     Route('/', endpoint=home), 
     Route('/admin', adminPage, name='admin'),
@@ -185,12 +198,14 @@ routes =[
     Route('/logs', endpoint=get_logs),  
     Route('/user/{name}', endpoint=get_user),  
     Route('/zen', endpoint=zenNow), 
+    Route('/handshake', endpoint=handshake),
     Route('/load_suppliers_database', endpoint=load_suppliers_database), 
     Route('/load_rate_database', endpoint=load_rate_database), 
     Route('/load_workers_database', endpoint=load_employee_database), 
     Route('/settings', endpoint=settings), 
     Mount('/static', StaticFiles(directory='static')),
     Mount('/drop_box', StaticFiles(directory=DROPBOX_PATH))
+
 ]
 
 routes.extend([route for route in auth_routes])
