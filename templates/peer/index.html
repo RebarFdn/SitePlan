@@ -1,0 +1,28 @@
+{% extends 'temp/general_template.html' %}
+
+{% block content %}
+
+<p class="text-lg font-semibold text-center">Site Plan Peer Client </p>
+<div class="flex flex-row bg-blue-400">
+    <div class="flex flex-col">
+        <form class="uk-form-horizontal">
+            <div>
+                <label class="uk-form-label">Message Request: </label>
+                <div class="uk-form-controls">
+                    <input type="text" name="message" class="uk-input">
+                    <button class="uk-button uk-button-primary uk-button-small rounded"
+                    hx-post="/peer"
+                    hx-target="#peer"
+                    >Connect</button>
+                </div>
+            </div>
+           
+        </form>
+    </div>
+    <div id="peer" class="flex flex-col"></div>
+    
+
+
+</div>
+ 
+{% endblock content %}

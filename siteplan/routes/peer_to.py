@@ -1,9 +1,15 @@
 from starlette.websockets import WebSocket, WebSocketDisconnect
+from starlette.requests import Request
+from starlette.responses import HTMLResponse, RedirectResponse
+from decoRouter import Router
 from modules.project import get_project
 from modules.employee import get_worker, get_worker_by_name
 from modules.rate import get_industry_rate
 from modules.supplier import get_supplier
 from modules.accumulator import accumulate
+from config import TEMPLATES
+from comms import peer_client
+
 
 def get_files()->list:
     return []
@@ -61,4 +67,25 @@ async def peer_to_peer(ws: WebSocket):
             
     except WebSocketDisconnect:
         pass
+
+
+peer_router = Router()
+
+@peer_router.get('/peer')
+@peer_router.post('/peer')
+async def peer_to_peer_client(request:Request):
+    if request.method == 'POST':
+        async with request.form() as form:
+            message = form.get('message')
+            print(message)
+        json_data = await peer_client(message)
+        return HTMLResponse(f"""<div>{json_data}</div>""" )
+    data:dict = {"protocol": "Peer Connection"}
+    return TEMPLATES.TemplateResponse(
+            '/peer/index.html',
+            {"request": request, "data": data}
+    )
+
+
+
     
