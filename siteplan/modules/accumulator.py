@@ -1,10 +1,32 @@
 
 from dataclasses import dataclass
-try:
-    from modules.project import get_project
-except ImportError:   
-    from project import get_project
+from collections import ChainMap
+from modules.project import get_project
+from modules.project import all_projects
+from modules.employee import all_workers
+from modules.rate import all_rates
+from flagman import Flagman
 
+def ListToDict(lst:list)->dict:
+    res_dct = {lst[i].get("id") : lst[i] for i in range(0, len(lst))}
+    return res_dct
+
+def RateListToDict(lst:list)->dict:
+    res_dct = {lst[i].get("_id") : lst[i] for i in range(0, len(lst))}
+    return res_dct
+
+
+async def accumulate():
+    projects = await all_projects()
+    workers = await all_workers()
+    rates = await all_rates()
+    accumulated:ChainMap = ChainMap(ListToDict(workers), ListToDict(projects), RateListToDict(rates))
+    try:
+        return accumulated
+        
+    except Exception as ex:   
+        Flagman(title='Data Acculator', message=str(ex))
+        
 
 @dataclass
 class ProjectDataAccumulator:

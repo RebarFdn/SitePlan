@@ -5,7 +5,7 @@ from modules.utils import generate_id, generate_docid
 
 from modules.rate import all_rates, rate_categories,  get_industry_rate, delete_rate, all_rates_ref
 from modules.mapper import Mapper
-
+from modules.accumulator import accumulate
 
 async def test_get_industry_rate(id='ST29346'):
     rate = await get_industry_rate(id=id)
@@ -32,15 +32,18 @@ async def test_rates_api():
         print(data)
     finally: del data
 
-
+def has_numbers(inputString):
+    return any(char.isdigit() for char in inputString)
 
 async def main():      
     print('WARNING!  Data will Disappear in 15 seconds intervals....')
     print()
-
+    #search = await accumulate()
+    #print(list(search.keys())) 
     #await test_all_rates() 
     #await asyncio.sleep(10)
     #os.system('clear')
+    print(has_numbers('DRuyt'))
 
    
 
@@ -60,10 +63,10 @@ async def main():
     #print(rate_categories())    
     #print(generate_docid())
 
-    map = Mapper(coords=[18.03, -77.32])
-    map.clear_img_cache()
+    #map = Mapper(coords=[18.03, -77.32])
+    #map.clear_img_cache()
    
-    await asyncio.sleep(5)
+    await asyncio.sleep(25)
     os.system('clear')
     
 

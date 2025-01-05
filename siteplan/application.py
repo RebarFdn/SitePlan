@@ -1,6 +1,6 @@
 import asyncio
 from starlette.applications import Starlette
-from starlette.routing import Route, Mount
+from starlette.routing import Route, Mount,WebSocketRoute
 from starlette.staticfiles import StaticFiles
 from starlette.middleware import Middleware
 from starlette.middleware.sessions import SessionMiddleware
@@ -29,6 +29,7 @@ from routes.printer_router import router as printer_router
 from routes.estimator_router import router as estimate_router
 from routes.todo_router import router as todo_router
 from routes.purchase_order_router import router as purchase_order_router
+from routes.peer_to import peer_to_peer
 from api.team_api import router as employee_api
 from modules.platformuser import user_list
 from modules.app_decorator import admin_only
@@ -203,6 +204,7 @@ routes =[
     Route('/load_rate_database', endpoint=load_rate_database), 
     Route('/load_workers_database', endpoint=load_employee_database), 
     Route('/settings', endpoint=settings), 
+    WebSocketRoute("/peer", peer_to_peer),
     Mount('/static', StaticFiles(directory='static')),
     Mount('/drop_box', StaticFiles(directory=DROPBOX_PATH))
 
@@ -284,7 +286,7 @@ app.state.STORE_ROOM = {"admin": "Ian Moncrieffe"}
 
 @app.websocket_route('/ws')
 async def websocket_endpoint(websocket):
-    await websocket.accept()
+    await websocket.accept(subprotocol=None, headers=None)
     
     try:
         while True:
