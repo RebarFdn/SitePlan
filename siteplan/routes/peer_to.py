@@ -8,7 +8,7 @@ from modules.rate import get_industry_rate
 from modules.supplier import get_supplier
 from modules.accumulator import accumulate
 from config import TEMPLATES
-from comms import peer_client, ConnectedDevices
+from comms import peer_client, ConnectedDevices, get_saved_ip_list
 
 
 def get_files()->list:
@@ -86,7 +86,9 @@ async def peer_to_peer_client(request:Request):
             {
                 "request": request, 
                 "data": data, 
-                "device_list":ConnectedDevices().generate_ips(24) 
+                "device_list": get_saved_ip_list()
+
+ 
             }
     )
 

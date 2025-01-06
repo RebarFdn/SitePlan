@@ -35,9 +35,6 @@ def get_saved_ip_list(db:TinyDB=database)->list:
     return ips
 
 
-print('saved ip addresses' , get_saved_ip_list())
-
- 
 
 class ConnectedDevices:
     def __init__(self):
