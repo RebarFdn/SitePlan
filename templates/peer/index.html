@@ -18,6 +18,14 @@
             </div>
            
         </form>
+        <div>
+            <p class="text-md text-center">Connected Hosts</p>
+            <ul>
+                {% for ip in device_list %}
+                <li> {{ip}}</li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
     <div id="peer" class="flex flex-col"></div>
     

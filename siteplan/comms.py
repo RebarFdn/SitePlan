@@ -1,15 +1,14 @@
 import asyncio
 import os
 import platform
+import httpx
 from websocket import create_connection, WebSocketException
-import httpx 
-
+from config import PORT
 
 
 class ConnectedDevices:
     def __init__(self):
         self.ips:list = []
-
 
     @property
     def get_win_ips(self) -> list:
@@ -54,10 +53,10 @@ class ConnectedDevices:
 
 
 async def get_connect(ip:str)->str:  
-    url = f"http://{ip}:8004/handshake"
+    url = f"http://{ip}:{PORT}/handshake"
     try:
         res = httpx.get(url, timeout=0.5)
-        return f"ws://{ip}:8004/peer"
+        return f"ws://{ip}:{PORT}/peer"
     except Exception:
         return None
         
@@ -67,7 +66,7 @@ async def peer_connection():
         by a network wide search 
     defaults to localhost 
     """
-    #uri = f"ws://{ip}:8004/peer"
+    
     ips:list = ConnectedDevices().get_ip_addresses    
     for ip in ips:       
         res = await get_connect(ip)        

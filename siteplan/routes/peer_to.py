@@ -8,7 +8,7 @@ from modules.rate import get_industry_rate
 from modules.supplier import get_supplier
 from modules.accumulator import accumulate
 from config import TEMPLATES
-from comms import peer_client
+from comms import peer_client, ConnectedDevices
 
 
 def get_files()->list:
@@ -83,7 +83,11 @@ async def peer_to_peer_client(request:Request):
     data:dict = {"protocol": "Peer Connection"}
     return TEMPLATES.TemplateResponse(
             '/peer/index.html',
-            {"request": request, "data": data}
+            {
+                "request": request, 
+                "data": data, 
+                "device_list":ConnectedDevices().get_ip_addresses
+            }
     )
 
 
