@@ -18,7 +18,10 @@ def save_ip_list(ip_lst:list):
         "title": "Connected Peer Device List",
         "peers": ip_lst 
         }
-    database.insert(data)  
+    database.truncate()
+    database.insert(data) 
+
+ 
 
 class ConnectedDevices:
     def __init__(self):
