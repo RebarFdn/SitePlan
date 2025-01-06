@@ -137,17 +137,19 @@ def coms(uri, args:str=None):
     finally:
         ws.close()
     
-async def peer_client(args):
-    uri = await peer_connection()
+async def peer_client(args, uri:str=None):
+    
     if uri:
         json_data = coms(uri=uri, args=args) 
         print(json_data)  
         return json_data
     else:
         return {"no_protocol": 'Failed to establish a peer connection'} 
+    
 
 if __name__ == "__main__":
-    asyncio.run(peer_client('worker Delroy Lewis'))
+    #asyncio.run(peer_client('worker Delroy Lewis'))
+    print()
     
     
     

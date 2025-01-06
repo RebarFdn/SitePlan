@@ -3,21 +3,8 @@
 {% block content %}
 
 <p class="text-lg font-semibold text-center">Site Plan Peer Client </p>
-<div class="flex flex-row bg-blue-400">
-    <div class="flex flex-col">
-        <form class="uk-form-horizontal">
-            <div>
-                <label class="uk-form-label">Message Request: </label>
-                <div class="uk-form-controls">
-                    <input type="text" name="message" class="uk-input">
-                    <button class="uk-button uk-button-primary uk-button-small rounded"
-                    hx-post="/peer"
-                    hx-target="#peer"
-                    >Connect</button>
-                </div>
-            </div>
-           
-        </form>
+<div class="uk-child-width-expand@s bg-blue-200" uk-grid>
+    <div class="uk-grid-item-match">
         <div>
             <p class="text-md text-center">Connected Hosts</p>
             <ul>
@@ -33,6 +20,20 @@
                         <span>{{device[0]}}</span> 
                         Peer Connection ......... 
                         <span>{{ device[1]}}</span>
+                        <form class="uk-form-horizontal">
+                            <div>
+                                <label class="uk-form-label">Message Request: 
+                                <div class="uk-form-controls">
+                                    <input type="text" name="message" class="uk-input">
+                                    <button class="uk-button uk-button-primary uk-button-small rounded"
+                                    hx-post="/peer/{{device[1]}}"
+                                    hx-target="#peer"
+                                    >Connect</button>
+                                </label>
+                                </div>
+                            </div>
+                           
+                        </form>
                     </li>
 
                     {% endfor %}
@@ -41,9 +42,15 @@
                 {% endfor %}
             </ul>
         </div>
+   
+     </div>
+    <div>
+        <p class="text-md text-center">Data Exchange</p>
+        <div id="peer"></div>
     </div>
-    <div id="peer" class="flex flex-col"></div>
-    
+</div>
+
+
 
 
 </div>
