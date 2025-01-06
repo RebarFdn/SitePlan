@@ -257,7 +257,7 @@ def startApp():
     print('Routes', routes.__len__())
     print()
     print('Checking network for Peer Devices ....')
-    #asyncio.run(process_network_peers())
+    asyncio.run(process_network_peers())
     
     
 
