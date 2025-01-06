@@ -22,7 +22,22 @@
             <p class="text-md text-center">Connected Hosts</p>
             <ul>
                 {% for ip in device_list %}
-                <li> {{ip}}</li>
+
+                <li><p class="text-md text-center">{{ip.title}}</p></li>
+                <li><p class="text-xs text-left">Last searh date: {{ip.id | convert_timestamp}}</p></li>
+                <li>
+                    <ul>
+                    {% for device in ip.peers %}
+                    <li>
+                        <span class="uk-badge mx-2">Device Ip.</span> 
+                        <span>{{device[0]}}</span> 
+                        Peer Connection ......... 
+                        <span>{{ device[1]}}</span>
+                    </li>
+
+                    {% endfor %}
+                    </ul>
+
                 {% endfor %}
             </ul>
         </div>
