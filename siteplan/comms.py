@@ -64,10 +64,9 @@ async def get_connect(ip:str)->str:
     url = f"http://{ip}:{PORT}/handshake"
     try:
         res = httpx.get(url, timeout=0.5)
-        return f"ws://{ip}:{PORT}/peer"
+        return True
     except Exception:
-        return None
-        
+        return False        
  
 async def peer_connection():
     """Seeks to establish a peer connection 
@@ -77,10 +76,9 @@ async def peer_connection():
     
     ips:list = ConnectedDevices().generate_ips(24)   
     for ip in ips:       
-        res = await get_connect(ip)        
-        continue
-    print(res) 
-    return res          
+        if await get_connect(ip):
+            
+            return f"ws://{ip}:{PORT}/peer"     
             
 
 
