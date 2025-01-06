@@ -38,7 +38,7 @@ from modules.utils import exception_message
 from modules.mapper import Mapper
 from routes.dropbox_routes import router as dropbox_routes
 from loadPrivateData import (load_rates, load_suppliers, load_workers)
-
+from comms import peer_connection
 
 
 login_manager = LoginManager(redirect_to='login', secret_key=SECRET_KEY)
@@ -227,7 +227,17 @@ routes.extend([route for route in todo_router])
 routes.extend([route for route in dropbox_routes])
 routes.extend([route for route in peer_router])
 
-
+async def process_network_peers():
+    devs = await peer_connection()
+    if devs:
+        print('Peer devices Found ... ')
+        print('saving devices list..')
+        print('the following devices has been saved ..')
+        for ip in devs:
+            print(f"Device ... {ip}")
+    else:
+        print("No Peer Devices Found on The Local Network...")
+        print()
 
 def startApp():
     reset_invoice_repo()
@@ -245,6 +255,10 @@ def startApp():
     print('Analysing Router tables....')    
     print('Routes Statistics')
     print('Routes', routes.__len__())
+    print()
+    print('Checking network for Peer Devices ....')
+    #asyncio.run(process_network_peers())
+    
     
 
 def shutdownApp():

@@ -3,8 +3,22 @@ import os
 import platform
 import httpx
 from websocket import create_connection, WebSocketException
-from config import PORT
+from tinydb import TinyDB, Query
+from config import DATA_PATH, PORT
+from modules.utils import  timestamp
 
+# Database Operations
+def ip_database(db_name:str=None)->str:
+    return TinyDB(DATA_PATH / db_name)
+database = ip_database(db_name="ip.json")
+
+def save_ip_list(ip_lst:list):
+    data = {
+        "id": timestamp(),
+        "title": "Connected Peer Device List",
+        "peers": ip_lst 
+        }
+    database.insert(data)  
 
 class ConnectedDevices:
     def __init__(self):
@@ -60,7 +74,8 @@ class ConnectedDevices:
         return ips
 
 
-async def get_connect(ip:str)->str:  
+async def get_connect(ip:str)->bool: 
+    """Verify if the ip address is a peer connection""" 
     url = f"http://{ip}:{PORT}/handshake"
     try:
         res = httpx.get(url, timeout=0.5)
@@ -68,17 +83,20 @@ async def get_connect(ip:str)->str:
     except Exception:
         return False        
  
-async def peer_connection():
-    """Seeks to establish a peer connection 
-        by a network wide search 
-    defaults to localhost 
-    """
-    
+async def peer_connection()->list:
+    """Search the local network for connected peer devices  
+         
+    Returns a list of ip address and websocket path tuple
+    """  
+    peer_ips:list = []  
     ips:list = ConnectedDevices().generate_ips(24)   
     for ip in ips:       
         if await get_connect(ip):
-            
-            return f"ws://{ip}:{PORT}/peer"     
+            peer_ips.append((ip , f"ws://{ip}:{PORT}/peer" ))  
+    # save peer list
+    if peer_ips:
+       save_ip_list(peer_ips)         
+    return peer_ips    
             
 
 
