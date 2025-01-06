@@ -50,6 +50,14 @@ class ConnectedDevices:
             return self.get_win_ips
         else:
             return []
+        
+    
+    def generate_ips(self, range_max:int=55):
+        ips:list = []
+        for i in range(0, range_max):
+            ips.append(f"192.168.0.{i + 1}")
+        del ips[0]
+        return ips
 
 
 async def get_connect(ip:str)->str:  
@@ -67,7 +75,7 @@ async def peer_connection():
     defaults to localhost 
     """
     
-    ips:list = ConnectedDevices().get_ip_addresses    
+    ips:list = ConnectedDevices().generate_ips(24)   
     for ip in ips:       
         res = await get_connect(ip)        
         continue
@@ -98,6 +106,7 @@ async def peer_client(args):
 
 if __name__ == "__main__":
     asyncio.run(peer_client('worker Delroy Lewis'))
+    
     
     
     

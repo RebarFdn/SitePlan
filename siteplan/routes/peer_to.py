@@ -86,7 +86,7 @@ async def peer_to_peer_client(request:Request):
             {
                 "request": request, 
                 "data": data, 
-                "device_list":ConnectedDevices().get_ip_addresses
+                "device_list":ConnectedDevices().generate_ips(24) 
             }
     )
 
