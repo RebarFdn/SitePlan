@@ -10,16 +10,32 @@ from modules.utils import  timestamp
 # Database Operations
 def ip_database(db_name:str=None)->str:
     return TinyDB(DATA_PATH / db_name)
+
 database = ip_database(db_name="ip.json")
 
-def save_ip_list(ip_lst:list):
+
+def save_ip_list(ip_lst:list, db:TinyDB=database)->None:
+    """Stores a list of connected peer devices
+    also clears the peer record  database
+
+    Args:
+        ip_lst (list): list of connected peer device ip address
+    """
     data = {
         "id": timestamp(),
         "title": "Connected Peer Device List",
         "peers": ip_lst 
         }
-    database.truncate()
-    database.insert(data) 
+    db.truncate()
+    db.insert(data) 
+
+
+def get_saved_ip_list(db:TinyDB=database)->list:
+    ips = db.all()
+    return ips
+
+
+print('saved ip addresses' , get_saved_ip_list())
 
  
 
@@ -29,11 +45,12 @@ class ConnectedDevices:
 
     @property
     def get_win_ips(self) -> list:
-        """_summary_
+        """Find  Devices connected to the local network
+        using Windows Os
 
         Returns:
-            list: _description_
-        """        
+            list: list of IP addresses of connected devices
+        """          
         out = os.popen('arp -a').read().splitlines()
         for i, line in enumerate(out, start=1):
             if i == 0:
@@ -48,6 +65,7 @@ class ConnectedDevices:
     @property
     def get_unix_ips(self)->list:
         """Find  Devices connected to the local network
+        using Linux or Unix Os
 
         Returns:
             list: list of IP addresses of connected devices
@@ -59,7 +77,7 @@ class ConnectedDevices:
         return self.ips
 
     @property
-    def get_ip_addresses(self):
+    def get_ip_addresses(self)->list:
         addr = platform.uname()
         if addr.system == 'Linux':
             return self.get_unix_ips
@@ -69,11 +87,19 @@ class ConnectedDevices:
             return []
         
     
-    def generate_ips(self, range_max:int=55):
+    def generate_ips(self, range_max:int=55)->list:
+        """Auto generat a list of ip addresses
+
+        Args:
+            range_max (int, optional): Highest number in ip range. Defaults to 55.
+
+        Returns:
+            list: list of ip address within max_range
+        """
         ips:list = []
         for i in range(0, range_max):
             ips.append(f"192.168.0.{i + 1}")
-        del ips[0]
+        del ips[0]        
         return ips
 
 
