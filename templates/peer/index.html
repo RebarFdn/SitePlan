@@ -25,8 +25,9 @@
                                 <label class="uk-form-label">Message Request: 
                                 <div class="uk-form-controls">
                                     <input type="text" name="message" class="uk-input">
+                                    <input type="text" name="peer" value="{{device[1]}}" class="hidden">
                                     <button class="uk-button uk-button-primary uk-button-small rounded"
-                                    hx-post="/peer/{{device[1]}}"
+                                    hx-post="/peer"
                                     hx-target="#peer"
                                     >Connect</button>
                                 </label>

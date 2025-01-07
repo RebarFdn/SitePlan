@@ -141,7 +141,7 @@ async def peer_client(args, uri:str=None):
     
     if uri:
         json_data = coms(uri=uri, args=args) 
-        print(json_data)  
+        #print(json_data)  
         return json_data
     else:
         return {"no_protocol": 'Failed to establish a peer connection'} 
@@ -152,6 +152,4 @@ if __name__ == "__main__":
     print()
     
     
-    
-    
-    #coms(uri , 'worker Anuk Moncrieffe')    
+   

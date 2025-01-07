@@ -61,7 +61,7 @@ async def peer_to_peer(ws: WebSocket):
                     
             else:
                 await ws.send_text(msg)          
-            print(msg)
+            
         ws._raise_on_disconnect(msg)
         await ws.close()
             
@@ -72,13 +72,12 @@ async def peer_to_peer(ws: WebSocket):
 peer_router = Router()
 
 @peer_router.get('/peer')
-@peer_router.post('/peer/{peer}')
+@peer_router.post('/peer')
 async def peer_to_peer_client(request:Request):
-    if request.method == 'POST':
-        peer = request.path_params.get('peer')
+    if request.method == 'POST':        
         async with request.form() as form:
             message = form.get('message')
-            print(message)
+            peer = form.get('peer')
         json_data = await peer_client(message, uri=peer)
         return HTMLResponse(f"""<div>{json_data}</div>""" )
     data:dict = {"protocol": "Peer Connection"}
