@@ -97,9 +97,10 @@ async def peer_to_peer_client(request:Request):
 # Data Share Interface
 share_router = Router()
 
-@share_router.get('/share/{docid}/{name}/{desc}/{user}')
+@share_router.get('/share/{proto}/{docid}/{name}/{desc}/{user}')
 async def get_share_request(request:Request):
     psd:PeerShareData = PeerShareData(
+        protocol=request.path_params.get('proto'),
         docid=request.path_params.get('docid'),
         name=request.path_params.get('name'),
         description=request.path_params.get('desc'),

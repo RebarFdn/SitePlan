@@ -1,5 +1,16 @@
 <div class="bg-gray-50 p-5 m-2 rounded-md shadow">
-    <p class="text-lg text-center font-semibold">Title: {{ rate.title }}</p>
+    <div class="flex flex-row">
+        <span 
+                class="pointer" 
+                uk-icon="icon: social; ratio: .75" 
+                uk-tooltip="Share with Peers across the Network!"
+                hx-get="/share/rate/{{rate._id}}/{{rate.title}}/construction {{rate.category}} rate/{{request.user.username}}"
+                hx-swap="outerHTML"
+                hx-trigger="click"
+
+                ></span>
+        <p class="text-lg text-center font-semibold mx-2">Title: {{ rate.title }}</p>
+    </div>
     <div class="uk-child-width-expand@s uk-text-center" uk-grid>
         <div><span class="uk-badge">ID   {{ rate._id  }}</span></div>
         <div><p class="uk-text-meta uk-margin-remove-top"> Category  {{ rate.category }}</p></div>

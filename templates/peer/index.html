@@ -4,14 +4,13 @@
 
 <p class="text-lg font-semibold text-center">Site Plan Peer Client </p>
 <div class="uk-child-width-expand@s bg-blue-200 " uk-grid>
-    <div class="uk-grid-item-match mx-5">
+    <div class="uk-grid-item-match mx-5 ">
         <div>
             <ul class="uk-subnav uk-subnav-pill" uk-switcher>
                 <li><a href="#">Connected Peers</a></li>
                 <li><a href="#">Sharing</a></li>
                 
-            </ul>
-            
+            </ul>            
             <div class="uk-switcher uk-margin">
                 <div>
                     <ul>
@@ -57,11 +56,57 @@
                     
                 </div>
                 <div>
-                    <div>Sharing {{peer_share}}</div>
+                    <p class="text-base text-center font-semibold">Peer Shared Data</p>
+                    {% if peer_share %}
+                   
+                        <div id="peer-shared" class="text-xs flex w-full overflow-y-auto">
+                            <table class="uk-table uk-table-small uk-table-divider uk-table-hover uk-table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Time</th>
+                                        <th>Protocol</th>
+                                        <th>Id</th>
+                                        <th>Name</th>
+                                        <th>About</th>
+                                        <th>Owner</th>
+                                        <th>Peers</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for doc in peer_share%}
+                                    <tr>
+                                        <td>{{ doc.timestamp | convert_timestamp }}</td>
+                                        <td>{{ doc.protocol}}</td>
+                                        <td>{{doc.docid}}</td>
+                                        <td>{{doc.name}}</td>
+                                        <td>{{doc.description}}</td>
+                                        <td>{{doc.user}}</td>
+                                        <td>{{doc.peers | length}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    <tr>
+                                        <th></th>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        
+                                    </tr>
+                                    
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                    <p class="text-xl text-center text-gray-500 font-semibold"> You Havent Shared Anything Yet!</p>
+                    {% endif %}
+
                 </div>
                
             </div>
-            <p class="text-md text-center">Connected Hosts</p>
+            
            
         </div>
    

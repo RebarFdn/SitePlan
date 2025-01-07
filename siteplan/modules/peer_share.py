@@ -14,9 +14,10 @@ database = peer_share_database(db_name="peer_share_db.json")
 
 class PeerShareData(BaseModel):
     timestamp:int = timestamp() # share creation Date time stamp 
+    protocol:str # The main share directive handle 
     docid:str # id of the document being shared
     name:str # name or title of the document ....
-    description:str # breif description of the document ...
+    description:str # brief description of the document ...
     user:str # the owner of the authorised user sharing the document
     peers: list = [] # consumenrs or peer users using the shared document
     
@@ -32,10 +33,10 @@ def save_peer_share(data:dict=None, db:TinyDB=database):
     else: return all_peer_share() 
     
     
-def get_peer_share(id:str=None, db:TinyDB=database): 
+def get_peer_share(docid:str=None, db:TinyDB=database): 
     peer_share:Query = Query()
     try:
-        return db.search(peer_share.id == id)  
+        return db.search(peer_share.docid == docid)  
     except:
         return {}
     finally:
