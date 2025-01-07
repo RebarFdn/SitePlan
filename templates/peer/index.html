@@ -22,18 +22,18 @@
                         <span class="uk-badge mx-2">Peer to </span> 
                         <span id="device-peer" class="font-bold">{{ device[1]}}</span>
                         </p>
-                        <form class="uk-form-horizontal">
-                            <div>
-                                <label class="uk-form-label">Request</label>
+                        <form class="uk-form-horizontal uk-margin-small">
+                            <div class="uk-margin">
+                                <label class="uk-form-label" for="form-horizontal-text">Request</label>
                                 <div class="uk-form-controls">
                                     <input type="text" name="message" class="uk-input uk-form-width-medium uk-form-small rounded">
                                     <input type="text" name="peer" value="{{device[1]}}" class="hidden">
-                                                                    
-                                </div>
-                                <button class="uk-button uk-button-primary uk-button-small rounded"
+                                    <button class="uk-button uk-button-primary uk-button-small rounded"
                                     hx-post="/peer"
                                     hx-target="#peer"
-                                    >Connect</button>
+                                    >Connect</button>                            
+                                </div>
+                               
                             </div>
                            
                         </form>
