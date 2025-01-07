@@ -1,8 +1,18 @@
 <div class="bg-gray-100 p-5 border rounded">
     <div class="uk-child-width-expand@s uk-text-center" uk-grid>
-        <div class="uk-text-left"><span class="text-sm font-semibold mx-3">Project</span>{{ project.name }} </div>
-        <div><span class="text-sm font-semibold mx-3">Category</span>{{ project.category }}</div>        
-        <div>
+        <div class="uk-text-left uk-width-1-2@s">
+            <span 
+                class="pointer" 
+                uk-icon="icon: social; ratio: .75" 
+                uk-tooltip="Share with Peers across the Network!"
+                hx-get="/share/{{project._id}}/{{project.name}}/{{ project.category }} construction project/{{request.user.username}}"
+                hx-swap="outerHTML"
+                hx-trigger="click"
+
+                ></span>
+            <span class="text-sm font-semibold mx-1">Project</span>{{ project.name }} </div>
+        <div class="uk-width-1-4@s"><span class="text-sm font-semibold mx-3">Category</span>{{ project.category }}</div>        
+        <div class="uk-width-1-4@s">
              <form action="">
                     <div class="flex flex-row space-x-2">
                         <label class="font-semibold">Standard</label> 
@@ -23,7 +33,9 @@
                        
                     </div>
                 </form> 
+                
         </div>
+       
     </div>
               
 </div>

@@ -29,7 +29,7 @@ from routes.printer_router import router as printer_router
 from routes.estimator_router import router as estimate_router
 from routes.todo_router import router as todo_router
 from routes.purchase_order_router import router as purchase_order_router
-from routes.peer_to import peer_to_peer, peer_router
+from routes.peer_to import peer_to_peer, peer_router, share_router
 from api.team_api import router as employee_api
 from modules.platformuser import user_list
 from modules.app_decorator import admin_only
@@ -226,6 +226,7 @@ routes.extend([route for route in inventory_router])
 routes.extend([route for route in todo_router])
 routes.extend([route for route in dropbox_routes])
 routes.extend([route for route in peer_router])
+routes.extend([route for route in share_router])
 
 async def process_network_peers():
     devs = await peer_connection()

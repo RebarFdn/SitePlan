@@ -7,6 +7,7 @@ from modules.employee import get_worker, get_worker_by_name
 from modules.rate import get_industry_rate
 from modules.supplier import get_supplier
 from modules.accumulator import accumulate
+from modules.peer_share import PeerShareData, all_peer_share, get_peer_share, save_peer_share, delete_peer_share
 from config import TEMPLATES
 from comms import peer_client, ConnectedDevices, get_saved_ip_list
 
@@ -68,7 +69,7 @@ async def peer_to_peer(ws: WebSocket):
     except WebSocketDisconnect:
         pass
 
-
+# Peer Interface
 peer_router = Router()
 
 @peer_router.get('/peer')
@@ -86,11 +87,26 @@ async def peer_to_peer_client(request:Request):
             {
                 "request": request, 
                 "data": data, 
-                "device_list": get_saved_ip_list()
+                "device_list": get_saved_ip_list(),
+                "peer_share": all_peer_share()
 
  
             }
     )
+
+# Data Share Interface
+share_router = Router()
+
+@share_router.get('/share/{docid}/{name}/{desc}/{user}')
+async def get_share_request(request:Request):
+    psd:PeerShareData = PeerShareData(
+        docid=request.path_params.get('docid'),
+        name=request.path_params.get('name'),
+        description=request.path_params.get('desc'),
+        user=request.path_params.get('user')
+    )
+    save_peer_share(data=psd.model_dump())
+    return HTMLResponse('<span uk-icon="icon: link-external; ratio: .75"  uk-tooltip="This Item is being Shared with Peers!"></span>')
 
 
 
