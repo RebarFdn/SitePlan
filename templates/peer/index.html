@@ -13,7 +13,7 @@
                 <li><p class="text-md text-center">{{ip.title}}</p></li>
                 <li><p class="text-xs text-left">Last searh date: {{ip.id | convert_timestamp}}</p></li>
                 <li>
-                    <ul>
+                    <ul class="text-xs text-left">
                     {% for device in ip.peers %}
                     <li>
                         <span class="uk-badge mx-2">Device Ip.</span> 
@@ -22,7 +22,7 @@
                         <span>{{ device[1]}}</span>
                         <form class="uk-form-horizontal">
                             <div>
-                                <label class="uk-form-label">Message Request: 
+                                <label class="uk-form-label">Message Request: </label>
                                 <div class="uk-form-controls">
                                     <input type="text" name="message" class="uk-input">
                                     <input type="text" name="peer" value="{{device[1]}}" class="hidden">
@@ -30,7 +30,7 @@
                                     hx-post="/peer"
                                     hx-target="#peer"
                                     >Connect</button>
-                                </label>
+                                
                                 </div>
                             </div>
                            
