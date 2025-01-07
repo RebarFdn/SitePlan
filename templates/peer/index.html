@@ -24,14 +24,14 @@
                         </p>
                         <form class="uk-form-horizontal uk-margin-small">
                             <div class="uk-margin">
-                                <label class="uk-form-label" for="form-horizontal-text">Request</label>
+                                <button class="uk-button uk-button-primary uk-button-small rounded"
+                                    hx-post="/peer"
+                                    hx-target="#peer"
+                                    >Request</button>  
                                 <div class="uk-form-controls">
                                     <input type="text" name="message" class="uk-input uk-form-width-large uk-form-small rounded">
                                     <input type="text" name="peer" value="{{device[1]}}" class="hidden">
-                                    <button class="uk-button uk-button-primary uk-button-small rounded"
-                                    hx-post="/peer"
-                                    hx-target="#peer"
-                                    >Connect</button>                            
+                                                              
                                 </div>
                                
                             </div>
