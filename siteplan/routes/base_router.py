@@ -5,6 +5,7 @@ from decoRouter import Router
 from modules.rate import all_rates, get_industry_rate, rate_categories, rate_model, delete_rate, rate_index_generator, save_rate
 from modules.project import update_project, all_projects, get_project
 from modules.utils import timestamp
+from modules.peer_share import is_sharing
 from config import TEMPLATES
 
 router = Router()
@@ -124,7 +125,8 @@ async def get_rate(request):
             "rate": rate, 
             "task": rate,
             "projects": projects,
-            "rate_categories": list(r_categories.keys())
+            "rate_categories": list(r_categories.keys()),
+            "shared": is_sharing(id)
             } )
     except Exception as e:
         return HTMLResponse(f"""

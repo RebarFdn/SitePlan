@@ -5,6 +5,7 @@ from starlette_login.decorator import login_required
 from decoRouter import Router
 from modules.project import get_project
 from modules.supplier import Supplier, supplier_model, all_suppliers, get_supplier, supplier_name_index, supplier_invoice_id_index, save_supplier
+from modules.peer_share import is_sharing
 from config import TEMPLATES
 
 router = Router()
@@ -66,8 +67,9 @@ async def get_one_supplier(request ):
 
 @router.get('/supplier_html/{id}')
 async def get_supplier_html(request ):    
-    '''Returns a Html Component with Supplier' info  .GET '''    
-    supplier:dict = await get_supplier(id=request.path_params.get('id'))    
+    '''Returns a Html Component with Supplier' info  .GET '''   
+    id=request.path_params.get('id') 
+    supplier:dict = await get_supplier(id=id)    
     total_transactions = 0.0
     if supplier["account"]["transactions"]:
         for t in supplier.get("account", {}).get("transactions", []):
@@ -80,7 +82,8 @@ async def get_supplier_html(request ):
     return TEMPLATES.TemplateResponse('/supplier/supplierPage.html', {
         'request': request,
         'supplier': supplier,
-        'total_transactions': total_transactions
+        'total_transactions': total_transactions,
+        'shared': is_sharing(id)
         })       
 
 

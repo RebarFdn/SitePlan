@@ -27,13 +27,17 @@ async def search_employee(protocols:list)->dict:
 
 
 async def peer_to_peer(ws: WebSocket):
-    await ws.accept(subprotocol=None, headers=None)
+    await ws.accept()#subprotocol=None, headers=None)
+    print(ws.url)
+    print(ws.headers)
+    print(ws['path'])
     search = await accumulate()  
     validator:list = list(search.keys())  
     files:list = get_files()
     try:
         while True: 
             msg = await ws.receive_text()
+            print('message', msg)
             if msg in validator:
                 json_data = search.get(msg) 
                 await ws.send_json(json_data)

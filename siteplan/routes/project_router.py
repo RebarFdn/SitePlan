@@ -14,6 +14,7 @@ from modules.rate import all_rates, rate_categories, get_industry_rate
 from modules.utils import timestamp, exception_message
 from modules.unit_converter import convert_price_by_unit
 from modules.mapper import Mapper
+from modules.peer_share import is_sharing
 from printer.project_documents import printJobQueue, printMetricJobQueue, printImperialJobQueue
 from config import TEMPLATES
 
@@ -122,7 +123,8 @@ async def get_one_project(request):
                     "owner": project.get("owner"),
                     "address": project.get("address"),
                     "admin": project.get("admin"),
-                    "meta_data": project.get("meta_data"),}
+                    "meta_data": project.get("meta_data"),},
+                    "shared": is_sharing(id)
             })
     except Exception as e:
         return HTMLResponse(exception_message(message=str(e)))

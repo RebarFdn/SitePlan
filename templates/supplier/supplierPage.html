@@ -3,6 +3,10 @@
     <div class="uk-card-header">
         <div class="uk-grid-small uk-flex-middle" uk-grid>
             <div class="uk-width-auto">
+                {% if shared %}
+                <span uk-icon="icon: link-external; ratio: .75"  uk-tooltip="This Item is being Shared with Peers!"></span>
+                {% else %}
+                  
                 <span 
                 class="pointer" 
                 uk-icon="icon: social; ratio: .75" 
@@ -12,6 +16,7 @@
                 hx-trigger="click"
 
                 ></span>
+                {% endif %}
             </div>
             <div class="uk-width-expand">
                 <h3 class="text-md uk-margin-remove-bottom">{{ supplier.get("name") }}</h3>

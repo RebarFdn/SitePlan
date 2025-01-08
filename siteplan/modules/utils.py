@@ -492,6 +492,22 @@ def exception_message(message:str=None, level:str=None):
     else: return levels.get('info')
 
 
+def has_numbers(inputString:str)->bool:
+    """Check if a string is alphanumeric
+
+    Args:
+        inputString (str): string of characters 
+
+    Returns:
+        bool: True if string is aphanumeric False if not
+        
+    Usage:
+        >>> has_numbers("DD77895")
+        ... True
+        >>> has_numbers("The hungry dog is hungry")
+        ... False
+    """
+    return any(char.isdigit() for char in inputString)
 
 # test
 def test_secure_safe_compare(s1, s2):

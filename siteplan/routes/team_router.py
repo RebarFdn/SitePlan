@@ -11,6 +11,7 @@ from io import BytesIO
 from modules.project import get_project
 from modules.employee import ( save_employee, all_workers, get_worker, 
     get_worker_by_name, get_worker_name_index, get_worker_info, team_index_generator)
+from modules.peer_share import is_sharing
 from config import TEMPLATES, PROFILES_PATH
     
 
@@ -166,7 +167,8 @@ async def team_member(request:Request):
         {
             "request": request, 
             "id": id,
-            "employee": await get_worker_info(id=id) 
+            "employee": await get_worker_info(id=id),
+            "shared": is_sharing(id)
         })
 
 

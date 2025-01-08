@@ -6,6 +6,8 @@ from modules.utils import generate_id, generate_docid
 from modules.rate import all_rates, rate_categories,  get_industry_rate, delete_rate, all_rates_ref
 from modules.mapper import Mapper
 from modules.accumulator import accumulate
+from modules.peer_share import get_peer_share, delete_peer_share, is_sharing,  add_consumer
+
 
 async def test_get_industry_rate(id='ST29346'):
     rate = await get_industry_rate(id=id)
@@ -43,9 +45,12 @@ async def main():
     #await test_all_rates() 
     #await asyncio.sleep(10)
     #os.system('clear')
-    print(has_numbers('DRuyt'))
+    #print(has_numbers('The hungry dog is hungry x 2'))
+    #print(get_peer_share('JR42706'))
+    print( is_sharing('AG37282'))
+    #print(delete_peer_share('JR42706'))
 
-   
+    print(add_consumer('AG37282', consumer={"id":None, "share_point":"ws://", "consumer":{}}))
 
     #await test_rates_api() 
     #await asyncio.sleep(15)

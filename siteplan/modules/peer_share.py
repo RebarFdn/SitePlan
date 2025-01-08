@@ -18,8 +18,8 @@ class PeerShareData(BaseModel):
     docid:str # id of the document being shared
     name:str # name or title of the document ....
     description:str # brief description of the document ...
-    user:str # the owner of the authorised user sharing the document
-    peers: list = [] # consumenrs or peer users using the shared document
+    user:str # the owner or the authorised user sharing the document
+    peers: list = [] # consumers or peer users using the shared document
     
 
 def all_peer_share(db:TinyDB=database):
@@ -45,7 +45,7 @@ def get_peer_share(docid:str=None, db:TinyDB=database):
 
 def delete_peer_share(id:str=None, db:TinyDB=database): 
     peer_share:Query = Query()    
-    ids = [ item.doc_id for item in  db.search(peer_share.id == id) ]
+    ids = [ item.doc_id for item in  db.search(peer_share.docid == id) ]
     try:              
         db.remove(doc_ids=ids)
         return all_peer_share() 
@@ -53,5 +53,21 @@ def delete_peer_share(id:str=None, db:TinyDB=database):
         return all_peer_share() 
     finally:
         del(peer_share)
-        del(ids)         
+        del(ids)    
+
+def is_sharing(id:str=None)->bool:
+    if get_peer_share(docid=id):
+        return True
+    else:
+        return False      
+    
+
+def add_consumer(id:str, consumer:dict=None, db:TinyDB=database ):
+    document = get_peer_share(docid=id)[0]
+    peers = document.get('peers')
+    peers.append(consumer)
+    peer_share:Query = Query() 
+    db.update({'peers': peers}, peer_share.docid == id )
+    return document
+    
 

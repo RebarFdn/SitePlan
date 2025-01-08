@@ -3,15 +3,19 @@
     <nav class="uk-navbar-container">
         <div class="uk-container">
             <div>
-                <span 
-                class="pointer" 
-                uk-icon="icon: social; ratio: .75" 
-                uk-tooltip="Share with Peers across the Network!"
-                hx-get="/share/worker/{{employee._id}}/{{employee.name}}/construction employee as level {% if employee.rating %}{{employee.rating}}{% else %}0{%endif%} {{ employee.occupation }}/{{request.user.username}}"
-                hx-swap="outerHTML"
-                hx-trigger="click"
+                {% if shared %}
+                <span uk-icon="icon: link-external; ratio: .75"  uk-tooltip="This Item is being Shared with Peers!"></span>
+                {% else %}
+                    <span 
+                    class="pointer" 
+                    uk-icon="icon: social; ratio: .75" 
+                    uk-tooltip="Share with Peers across the Network!"
+                    hx-get="/share/worker/{{employee._id}}/{{employee.name}}/construction employee as level {% if employee.rating %}{{employee.rating}}{% else %}0{%endif%} {{ employee.occupation }}/{{request.user.username}}"
+                    hx-swap="outerHTML"
+                    hx-trigger="click"
 
-                ></span>
+                    ></span>
+                {% endif %}
                 <ul class="uk-child-width-expand" uk-tab>
                     <li class="uk-active"><a href="#" hx-get="/employee_info/{{employee._id}}" hx-target="#employee-home">Home</a></li>
                     <li>

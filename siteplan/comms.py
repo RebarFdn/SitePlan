@@ -109,6 +109,7 @@ async def get_connect(ip:str)->bool:
     except Exception:
         return False        
  
+ 
 async def peer_connection()->list:
     """Search the local network for connected peer devices  
          

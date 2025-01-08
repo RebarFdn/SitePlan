@@ -1,5 +1,9 @@
 <div class="bg-gray-50 p-5 m-2 rounded-md shadow">
     <div class="flex flex-row">
+        {% if shared %}
+                <span uk-icon="icon: link-external; ratio: .75"  uk-tooltip="This Item is being Shared with Peers!"></span>
+                {% else %}
+                  
         <span 
                 class="pointer" 
                 uk-icon="icon: social; ratio: .75" 
@@ -9,6 +13,7 @@
                 hx-trigger="click"
 
                 ></span>
+                {% endif %}
         <p class="text-lg text-center font-semibold mx-2">Title: {{ rate.title }}</p>
     </div>
     <div class="uk-child-width-expand@s uk-text-center" uk-grid>
